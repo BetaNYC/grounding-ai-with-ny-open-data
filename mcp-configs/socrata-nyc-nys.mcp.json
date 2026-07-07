@@ -1,0 +1,19 @@
+{
+  "_comment": "Dual Socrata MCP aliases — one for NYC Open Data, one for NYS Open Data. Copy the two entries below into your own .mcp.json. Both are npx-based (no local build, no absolute paths — portable across machines). No API key is required; add SOCRATA_APP_TOKEN to either entry's env block to raise anonymous rate limits.",
+  "mcpServers": {
+    "socrata-nyc": {
+      "command": "npx",
+      "args": ["-y", "socrata-mcp-server", "--stdio"],
+      "env": {
+        "DATA_PORTAL_URL": "https://data.cityofnewyork.us"
+      }
+    },
+    "socrata-nys": {
+      "command": "npx",
+      "args": ["-y", "socrata-mcp-server", "--stdio"],
+      "env": {
+        "DATA_PORTAL_URL": "https://data.ny.gov"
+      }
+    }
+  }
+}

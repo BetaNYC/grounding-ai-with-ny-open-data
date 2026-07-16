@@ -65,6 +65,14 @@ grounding-ai-with-ny-open-data/
 
 ---
 
+## AI use in this project
+
+BetaNYC uses AI tools openly and with human accountability. This resource — a guide to grounding AI agents in authentic government open data — was itself developed with AI assistance (Anthropic's Claude) under the direction and review of BetaNYC staff. The guides and portal directory are a first pass under active review (see the DRAFT status at the top), drafted with AI and human-checked rather than published as finished machine output.
+
+Fittingly for a repo about grounding: the portal directory points to **real, official** NYC and NYS open data sources, so anyone following these guides connects their agent to the actual public record — not a language model's memory of it.
+
+Questions about our approach: hello@beta.nyc.
+
 ## Licensing
 
 This repository is documentation and reference material, not software. It is released under **[Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/)** — see [`LICENSE`](LICENSE). You are free to share and adapt this material for any purpose, including commercially, as long as you give appropriate credit and license your own contributions under the same terms.

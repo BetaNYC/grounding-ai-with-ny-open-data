@@ -32,9 +32,13 @@ Start with a single source so the room sees a crisp, verifiable result.
 **Prompt:**
 > "What were the top 311 complaint types in Manhattan Community District 1 over the last 30 days?"
 
-**What to say while it runs:** "This is live 311 data through BetaNYC's 311 MCP — the same system behind the complaints residents file every day."
+**What to say while it runs:** "This is live 311 data — the same complaints residents file every day — read straight from NYC Open Data."
 
 **The reveal:** pull up the number against 311 open data if you have the tab ready. "That's the real record, not a guess."
+
+> **Presenter notes (verified 2026-07-16):**
+> - This aggregate is served by the **NYC Open Data 311 dataset** (`erm2-nwe9`) through the Socrata MCP — *not* the `nyc-311-mcp` server, which handles single service-request lookups, the city-service calendar, and status alerts (not "top complaint type" roll-ups). A well-configured agent picks the right one; just don't announce "the 311 MCP" for this particular question.
+> - Expected shape on a dry run: **Vendor Enforcement** was #1 by a wide margin (~640 in 30 days), then Illegal Parking (~380), then Noise (~130), out of ~2,800 total requests. Very Lower-Manhattan — street-vendor enforcement near the Seaport and FiDi. Numbers drift daily; treat these as the ballpark, not a script.
 
 ---
 
@@ -57,6 +61,10 @@ Now show the agent reasoning across *two* sources — the thing no single portal
 > "Find the largest NYC Council discretionary (Schedule C) award in Council District 1 in the most recent fiscal year. Then check NYC Checkbook for any city spending or contracts with that same organization."
 
 **What to say:** "It just moved from the budget system — where the money is *allocated* — to Checkbook, where it's actually *spent*. That 'follow the money' move is what a reporter does by hand over an afternoon. Here it's one question."
+
+> **Presenter notes (verified 2026-07-16):**
+> - **Budget half is solid.** District 1's largest FY2026 Schedule C award was **$167,000 to the Association of Community Employment Programs for the Homeless (ACE)** under the NYC Cleanup initiative (via DYCD), sponsored by Council Member Marte. The `nyc-budget-mcp` filters by sponsoring member *surname*, so the agent resolves "District 1 → Marte" first — a nice thing to narrate.
+> - **Checkbook half is flaky right now.** On the dry run, `nyc-checkbook-mcp` could not complete a vendor lookup (the live checkbooknyc.com endpoint is WAF-protected and was returning errors). **Do not make the spending lookup the climax.** Land the point on the budget result — a real org, a real dollar figure, a real sponsor — and treat Checkbook as "and we can chase where that was actually spent" rather than a guaranteed live pull. If it's down, pivot to Act 4 or say you'll follow up with the Checkbook link.
 
 ---
 

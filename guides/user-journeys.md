@@ -42,10 +42,11 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 
 **User story:** *As a resident, I want to see what my neighbors are actually complaining about, so that I can bring evidence — not anecdotes — to my community board.*
 
-- "What were the top 311 complaint types in Manhattan Community District 1 over the last 30 days?"
-- "Show me all noise complaints filed near the Financial District this month, grouped by day."
 - "Is alternate-side parking suspended tomorrow? What's on the city-service calendar this week?"
 - "Look up the status of 311 service request number [SR number] and tell me whether it's been closed."
+- "Pull the details for these service request numbers and tell me which are still open." *(bulk lookup)*
+
+> **Routing note (verified 2026-07-16):** the `nyc-311-mcp` server covers the **city-service calendar, status/emergency alerts, and individual/bulk service-request lookup by SR number** — not aggregate roll-ups. For "top complaint types in a district over the last 30 days" or "all noise complaints grouped by day," the agent should query the **NYC Open Data 311 dataset** (`erm2-nwe9`, "311 Service Requests from 2020 to Present") via the Socrata MCP (source #8 below). Both are "311," but aggregation lives in Open Data.
 
 ### 2. NYC Council — `nyc-council-mcp`
 

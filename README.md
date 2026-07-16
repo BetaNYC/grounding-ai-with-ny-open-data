@@ -28,6 +28,8 @@ This repo is one piece of a larger effort to make government data usable — see
 | [`mcp-configs/socrata-nyc-nys.mcp.json`](mcp-configs/socrata-nyc-nys.mcp.json) | Drop-in MCP config for switching between the NYC and NYS open data portals |
 | [`guides/when-to-use-which-portal.md`](guides/when-to-use-which-portal.md) | What each portal (and each BetaNYC MCP) actually covers — a decision guide |
 | [`guides/query-patterns.md`](guides/query-patterns.md) | Copy-paste SoQL query patterns: catalog search, dataset fetch, cross-portal lookups |
+| [`guides/user-journeys.md`](guides/user-journeys.md) | User stories + sample prompts for each MCP, plus cross-source "crosswalk" journeys |
+| [`guides/demo-community-board.md`](guides/demo-community-board.md) | Run-it-live demo script for a community board or civic audience (10–15 min) |
 | [`guides/grounding-ai-agents.md`](guides/grounding-ai-agents.md) | Why grounding matters, and prompt/verification patterns for agent builders |
 | [`guides/training-resources.md`](guides/training-resources.md) | BetaNYC and partner training — Intro to Open Data, Open Data Ambassadors, and more |
 | [`resources/ny-open-data-portals.md`](resources/ny-open-data-portals.md) | Directory of open data portals run by NY counties and municipalities, with API and platform notes |
@@ -56,6 +58,8 @@ grounding-ai-with-ny-open-data/
 ├── guides/
 │   ├── when-to-use-which-portal.md            ← DRAFT — dataset coverage + decision guide
 │   ├── query-patterns.md                      ← DRAFT — SoQL examples
+│   ├── user-journeys.md                       ← DRAFT — user stories, sample prompts, crosswalks
+│   ├── demo-community-board.md                ← DRAFT — run-it-live civic demo script
 │   ├── grounding-ai-agents.md                  ← DRAFT — grounding rationale + prompt patterns
 │   └── training-resources.md                  ← DRAFT — classes and programs
 └── resources/

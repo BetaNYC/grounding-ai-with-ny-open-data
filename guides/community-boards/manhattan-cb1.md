@@ -2,11 +2,13 @@
 status: DRAFT
 ---
 
-# Demo script — Community Board walkthrough
+# Demo script — Manhattan Community Board 1
 
-> **DRAFT.** First pass, 2026-07-16. A short, run-it-live script for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to a community board or similar civic audience. Written with **Manhattan Community Board 1** (Financial District, Tribeca, Battery Park City, South Street Seaport, Civic Center) as the running example — swap the district to reuse it anywhere.
+> **DRAFT.** First pass, 2026-07-16. A short, run-it-live script for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to **Manhattan Community Board 1** — the board covering the Financial District, Tribeca, Battery Park City, South Street Seaport, and Civic Center (plus Governors, Ellis, and Liberty Islands). Every prompt below is pre-filled for this district, so it's ready to read straight off the page.
 
-This is the meeting-ready companion to [`user-journeys.md`](user-journeys.md). That file is the full catalog; this one is a **tight, ordered sequence** you can run in ten to fifteen minutes and land the point.
+This is the meeting-ready companion to the general [`user-journeys.md`](../user-journeys.md) catalog. That file is the full set of prompts; this one is a **tight, ordered sequence** tuned for MCB1 that you can run in ten to fifteen minutes and land the point.
+
+> **Reusing this for another board?** Don't edit this file — copy it. See [`README.md`](README.md) in this folder for the naming convention (`[borough]-cb[N].md`) and the customization checklist.
 
 **The point:** an AI agent connected to real government data can answer a community board's actual questions from the public record — not from a language model's guesswork. Same question, grounded vs. ungrounded, is a night-and-day difference.
 
@@ -15,7 +17,7 @@ This is the meeting-ready companion to [`user-journeys.md`](user-journeys.md). T
 ## Before you start (2 min)
 
 - Have the agent open with the MCPs connected.
-- Substitute your district where you see **Community District 1** / **Council District 1**.
+- The prompts already reference **Manhattan Community District 1** and **Council District 1** — no substitution needed.
 - Optional but powerful: keep one official portal tab open ([NYC Open Data](https://data.cityofnewyork.us), [Checkbook NYC](https://www.checkbooknyc.com), or [Legistar](https://legistar.council.nyc.gov)) so you can show a number is real.
 
 **Opening line for the room:**
@@ -60,7 +62,7 @@ Now show the agent reasoning across *two* sources — the thing no single portal
 
 ## Act 4 — Their issue, sourced (4 min)
 
-Close on something the board is *actually* working on. Ask the room for a live topic, or use this waterfront example.
+Close on something MCB1 is *actually* working on. Ask the room for a live topic, or use this Lower Manhattan waterfront / streetscape example.
 
 **Prompt:**
 > "For Manhattan Community District 1: find recent 311 complaints about street or sidewalk conditions, search the City Record for any open procurement related to that, and check whether the Council has upcoming hearings touching it. Give me a short brief I could read into the minutes."
@@ -75,7 +77,7 @@ Close on something the board is *actually* working on. Ask the room for a live t
 
 **Leave-behind links:**
 - This repo: [`grounding-ai-with-ny-open-data`](https://github.com/BetaNYC/grounding-ai-with-ny-open-data)
-- Full prompt catalog: [`guides/user-journeys.md`](user-journeys.md)
+- Full prompt catalog: [`guides/user-journeys.md`](../user-journeys.md)
 - BetaNYC: [beta.nyc](https://beta.nyc)
 
 ---

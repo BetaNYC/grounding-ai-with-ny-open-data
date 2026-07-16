@@ -1,0 +1,81 @@
+---
+status: DRAFT
+---
+
+# Demo script — Council District [NN] ([MEMBER NAME])
+
+> **TEMPLATE.** Copy this file to `district-[NN].md` and fill every `[BRACKETED]` placeholder. A run-it-live script for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to Council Member **[MEMBER NAME]** and staff. District [NN] covers **[NEIGHBORHOODS]**.
+
+Companion to the general [`../user-journeys.md`](../user-journeys.md) catalog, framed for a Council audience: their district's data, their own legislation, their discretionary funding, their oversight.
+
+---
+
+## Before you start (2 min)
+
+- Have the agent open with the MCPs connected.
+- Confirm the member's district number is **[NN]** and note the overlapping community district(s): **[COMMUNITY DISTRICT(S)]**.
+- Optional but powerful: keep one official portal tab open ([Legistar](https://legistar.council.nyc.gov), [Checkbook NYC](https://www.checkbooknyc.com), or [NYC Open Data](https://data.cityofnewyork.us)) so you can show a number is real.
+
+**Opening line:**
+> "I'm going to ask an AI the questions your office fields every week — but this one is wired into the actual city and state record. Watch where the numbers come from."
+
+---
+
+## Act 1 — Your district, right now (3 min)
+
+**Prompt:**
+> "What were the top 311 complaint types in Council District [NN] over the last 30 days?"
+
+**What to say:** "Live 311 data through BetaNYC's 311 MCP — the same complaints your constituents file every day, summarized in one question."
+
+---
+
+## Act 2 — Grounded vs. ungrounded (2 min)
+
+**Prompt:**
+> "What legislation has Council Member [MEMBER NAME] introduced in the last year, and where is each bill in the process?"
+
+**What to say:** "An ordinary chatbot will invent bill numbers or give you last term's list. This one reads the Council's own Legistar system — current sponsors, current status, real Intro numbers you can cite."
+
+---
+
+## Act 3 — Your legislation meets your funding (4 min)
+
+The act a Council audience cares about most. Make it about *them*.
+
+**Prompt:**
+> "Show the NYC Council discretionary (Schedule C) awards in District [NN] for the most recent fiscal year, then check NYC Checkbook for city spending or contracts with the largest recipient organization."
+
+**What to say:** "It just moved from where the money is *allocated* — the discretionary budget — to where it's actually *spent*, in Checkbook. That's the reconciliation your office does by hand, in one question."
+
+---
+
+## Act 4 — An issue you're working on, sourced (4 min)
+
+Ask the office for a live priority, or pre-fill one here.
+
+**Prompt:**
+> "For Council District [NN] and the issue of [ISSUE]: pull recent 311 data that quantifies it, find any related NYC Council legislation and upcoming hearings, and check NYS Open Legislation for a state bill on the same topic. Give me a short, sourced brief."
+
+**What to say:** "Every line traces to an official source — city data, the Council's own system, and Albany's. If staff challenges a number, the agent shows where it came from. Grounded, not improvised."
+
+---
+
+## Closing (1 min)
+
+> "BetaNYC built these connectors and guides in the open. Any office can point its own AI at the real city and state record instead of trusting it to remember. If there's a question your team asks constantly, that's exactly the kind of user journey we want to add."
+
+**Leave-behind links:**
+- This repo: [`grounding-ai-with-ny-open-data`](https://github.com/BetaNYC/grounding-ai-with-ny-open-data)
+- Full prompt catalog: [`../user-journeys.md`](../user-journeys.md)
+- BetaNYC: [beta.nyc](https://beta.nyc)
+
+---
+
+## Backup prompts (if one falls flat)
+
+- "Is alternate-side parking suspended this week? What's on the city-service calendar?" *(311 — always returns something)*
+- "Who represents Council District [NN], and which committees do they sit on?" *(Council — clean, verifiable)*
+- "What does the City Charter say about the Council's oversight powers?" *(Charter — resonates with this audience)*
+
+**If asked "can it be wrong?"** — Yes, and that's the honest answer: the agent can misread, or a dataset can be stale. The safeguard is that every answer is *traceable* to a source you can check, which an ungrounded chatbot can't offer. Grounding doesn't make it infallible; it makes it accountable.

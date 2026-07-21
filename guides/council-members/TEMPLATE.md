@@ -94,6 +94,20 @@ Several servers accept parameters that are not in their schema, ignore them, and
 | Schedule C awards by member | `council_member="[SURNAME]"` (surname substring) | `council_district`, `sponsor` |
 | Checkbook payments to an org | `payee_name="[ORG NAME]"` | `vendor` |
 | Socrata aggregate query | separate `select` / `where` / `group` / `order` / `limit` | a single `soql` blob |
+| 311 by council district | `council_district='04'` — **zero-padded string** | `'4'` (returns zero rows silently) |
+
+### ⚠️ Two more silent traps, both verified 2026-07-21
+
+**Zero-padding.** In the 311 dataset (`erm2-nwe9`), council districts are zero-padded strings. `council_district='4'` returns **zero rows with no error**; `'04'` returns thousands. **This affects districts 1–9 only** — a two-digit district will never reveal the bug, so a script that worked for District 10 will fail silently for District 4.
+
+**Surname substring collisions.** `council_member` matches as a substring and will return the **wrong member**. `council_member="Powers"` returns Selvena **Brooks-Powers'** District 31 awards. Check the surname in the returned rows before reading any figure aloud, and check your member's surname for collisions before the meeting.
+
+### Also verified — do not misread these as findings
+
+- **`get_voting_record` returns `[]` for every member tested**, including multi-term incumbents. An empty result is a tool limitation, not a statement about your member. Never present it as "correctly shows no votes."
+- **`search_legislation` matches bill titles, not subject matter.** A reasonable single keyword can return `[]` simply because the word isn't in any title (`"encampment"` finds nothing). Try a synonym before concluding no legislation exists.
+- **`get_upcoming_hearings` is extremely verbose** — land-use items can run to hundreds of block-and-lot references. Ask for a summary or cap the limit.
+- **A newly seated member's first Schedule C is the fiscal year after they took office.** Querying the current FY by their surname correctly returns nothing. Don't read it as a tool failure — and don't build Act 3 on the wrong year.
 
 ### Carried-forward gotchas — confirm these still hold on your dry run
 

@@ -14,8 +14,11 @@ These are the district-specific companions to the general prompt catalog in [`..
 
 | District | Member | File |
 |---|---|---|
+| 4 | Virginia Maloney | [`district-04.md`](district-04.md) |
 | 10 | Carmen N. De La Rosa | [`district-10.md`](district-10.md) |
 | _(template)_ | — | [`TEMPLATE.md`](TEMPLATE.md) |
+
+**Demoing to a newly seated member?** [`district-04.md`](district-04.md) is the worked example. The standard Act 2 ("what have you introduced?") returns nothing for a member in their first year, and the script turns that into the strongest moment in the meeting rather than routing around it. Their first discretionary budget is the fiscal year *after* they took office.
 
 _Add rows as district demos are drafted._
 

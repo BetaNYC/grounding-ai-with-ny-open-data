@@ -43,10 +43,17 @@ Companion to the general [`../user-journeys.md`](../user-journeys.md) catalog, f
 
 The act a Council audience cares about most. Make it about *them*.
 
-**Prompt:**
-> "Show the NYC Council discretionary (Schedule C) awards in District [NN] for the most recent fiscal year, then check NYC Checkbook for city spending or contracts with the largest recipient organization."
+**Prompt (step one — the allocation):**
+> "Show the FY[YYYY] NYC Council discretionary (Schedule C) awards sponsored by council member [SURNAME]."
+
+**Prompt (step two — the check):**
+> "Now check NYC Checkbook for FY[YYYY] spending paid to [LARGEST RECIPIENT ORG]."
 
 **What to say:** "It just moved from where the money is *allocated* — the discretionary budget — to where it's actually *spent*, in Checkbook. That's the reconciliation your office does by hand, in one question."
+
+**Look for a `Tax Levy Elected Officials` budget code** in the Checkbook results. That is discretionary money appearing as an actual disbursement, and calling it out by name is the strongest moment available in this act.
+
+> ⚠️ **Ask by sponsoring member surname, never by district number.** The Schedule C data keys on the sponsoring member, and the budget tool has **no district filter**. A district-shaped question does not fail loudly — it silently returns *citywide* awards that an agent will summarize as the district's funding. See the parameter table in the presenter-notes section below.
 
 ---
 
@@ -69,6 +76,41 @@ Ask the office for a live priority, or pre-fill one here.
 - This repo: [`grounding-ai-with-ny-open-data`](https://github.com/BetaNYC/grounding-ai-with-ny-open-data)
 - Full prompt catalog: [`../user-journeys.md`](../user-journeys.md)
 - BetaNYC: [beta.nyc](https://beta.nyc)
+
+---
+
+## Presenter notes (verified [YYYY-MM-DD])
+
+**Dry-run every prompt above against the live MCPs before the meeting, and record what actually happened here.** A script without verified notes is a draft, not a demo. Delete this instruction line once you've filled the section in.
+
+### ⚠️ Carried forward — these MCPs silently drop unknown parameters
+
+Several servers accept parameters that are not in their schema, ignore them, and return **unfiltered** results with no error. An agent that guesses a plausible parameter name gets plausible garbage, and nothing in the response reveals it.
+
+**Verified-correct parameter names (2026-07-21):**
+
+| Task | Correct parameter | Do **not** use |
+|---|---|---|
+| Schedule C awards by member | `council_member="[SURNAME]"` (surname substring) | `council_district`, `sponsor` |
+| Checkbook payments to an org | `payee_name="[ORG NAME]"` | `vendor` |
+| Socrata aggregate query | separate `select` / `where` / `group` / `order` / `limit` | a single `soql` blob |
+
+### Carried-forward gotchas — confirm these still hold on your dry run
+
+- **311 aggregates come from Socrata (`erm2-nwe9`), not `nyc-311-mcp`.** That server does single lookups, the service calendar, and alerts — not "top complaint type" roll-ups. Don't announce the wrong server. The district field is `council_district`, as a string. **Check `is_sample` in the response** — if `true`, you got a raw row sample, not an aggregate, and the numbers are meaningless.
+- **⚠️ Always bound a Socrata catalog search with `limit`** — unbounded searches have returned 581 KB by inlining polygon geometry.
+- **⚠️ Council legislation search matches keywords, not concepts.** Multi-word conceptual phrases return `[]`. If a search is empty on stage, *shorten* it rather than rephrasing.
+- **Checkbook `smart_search` is blocked** by an Incapsula WAF challenge — don't demo it. `search_contracts` has no vendor-name filter; use `search_spending` with `payee_name`. `search_spending` requires `fiscal_year` or `issue_date_from`.
+
+### Figures and their provenance
+
+Record every number you plan to say out loud, and how you got it:
+
+| Claim | How verified |
+|---|---|
+| [figure] | [tool + parameters] |
+
+**Also record what you did _not_ verify.** If you are unsure of the district's neighborhood composition, say so here rather than reciting a list to a room that knows the district better than you do.
 
 ---
 

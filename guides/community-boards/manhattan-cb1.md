@@ -64,7 +64,10 @@ Now show the agent reasoning across *two* sources — the thing no single portal
 
 > **Presenter notes (verified 2026-07-16):**
 > - **Budget half is solid.** District 1's largest FY2026 Schedule C award was **$167,000 to the Association of Community Employment Programs for the Homeless (ACE)** under the NYC Cleanup initiative (via DYCD), sponsored by Council Member Marte. The `nyc-budget-mcp` filters by sponsoring member *surname*, so the agent resolves "District 1 → Marte" first — a nice thing to narrate.
-> - **Checkbook half is flaky right now.** On the dry run, `nyc-checkbook-mcp` could not complete a vendor lookup (the live checkbooknyc.com endpoint is WAF-protected and was returning errors). **Do not make the spending lookup the climax.** Land the point on the budget result — a real org, a real dollar figure, a real sponsor — and treat Checkbook as "and we can chase where that was actually spent" rather than a guaranteed live pull. If it's down, pivot to Act 4 or say you'll follow up with the Checkbook link.
+> - **Checkbook half — corrected and upgraded 2026-07-21.** The original note here said the Checkbook lookup was "flaky" because the endpoint was WAF-protected. That is half right, and the distinction matters: `smart_search` **is** blocked by an Incapsula WAF JavaScript challenge and should not be demoed. But the *structured* tool works fine — the catch is the parameter name. Use `search_spending` with **`payee_name`** (not `vendor`, which is silently ignored and returns millions of unrelated rows). `search_contracts` has no vendor-name filter at all. So the Checkbook half **can** be the climax now.
+> - **Make the payoff the budget code.** Checkbook results carry a `budget_code`, and discretionary money shows up as **`3625 (Tax Levy Elected Officials)`**. Pointing at that line — "that's Council member money, as an actual check" — is the strongest moment in this act.
+
+> **Re-verified 2026-07-21:** the $167,000 Marte → ACE figure and the surname-filtering behavior above both reproduce exactly via `search_awards(council_member="Marte", fiscal_year=2026)`. The 2026-07-16 note was correct.
 
 ---
 

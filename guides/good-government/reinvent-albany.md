@@ -162,7 +162,7 @@ From `list_available_fiscal_years`:
 | Task | Correct parameter | Do **not** use |
 |---|---|---|
 | Schedule C by member | `council_member="[SURNAME]"` | `council_district`, `sponsor` |
-| Checkbook payments | `payee_name="[ORG]"` | `vendor` |
+| Checkbook payments | `payee_name="[ORG]"` | `vendor` (undeclared — silently dropped) |
 | Socrata aggregate | discrete `select`/`where`/`group`/`order`/`limit` | a single `soql` blob |
 | 311 by district | `council_district='04'` — zero-padded | `'4'` |
 
@@ -172,9 +172,10 @@ From `list_available_fiscal_years`:
 
 ### Tool behavior
 
-- **Checkbook `smart_search` is blocked** by an Incapsula WAF challenge. Use the structured tools. `search_contracts` has **no vendor-name filter** at all; `search_spending` requires `fiscal_year` or `issue_date_from`.
+- **Checkbook `smart_search` is blocked** by an Incapsula WAF challenge. Use the structured tools; `search_spending` requires `fiscal_year` or `issue_date_from`.
+- **`search_contracts` genuinely cannot filter by vendor name** — the Checkbook contracts API filters vendors only by `vendor_code` and offers no name→code lookup. Credit where due: passing the *declared* `vendor_name` parameter returns an explicit error naming the limitation and listing the three supported alternatives, rather than silently returning unrelated contracts. That is the right behavior and worth showing this audience as an example of a tool that refuses rather than guesses.
 - **`search_legislation` matches bill titles, not subject matter.** Single keywords work; multi-word conceptual phrases return `[]`. A sensible keyword can miss entirely — `"encampment"` finds nothing.
-- **`get_voting_record` returns `[]` for every member tested.** Do not use it, and do not present an empty result as a finding.
+- **`get_voting_record` returns `[]` for every member.** The local corpus's `votes` table has 0 rows — the indexer prepares an insert and never calls it ([nyc-council-mcp#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). Do not use it, and do not present an empty result as a finding. Worth knowing for this audience specifically: the underlying archive carries 159,666 roll-call **attendance** entries (Present/Absent/Excused) spanning 1999–2026 that are currently discarded — but it does **not** appear to carry aye/nay vote positions, which would need the live Legistar API.
 - **`get_open_solicitations` and Socrata catalog searches are very verbose** — City Record notices embed raw HTML; catalog searches inline geometry (581 KB unbounded on the NYC portal, ~83 KB even at `limit: 5` on the state portal). Always bound them.
 - **Socrata catalog search is federated** and does not honor `domain` as a restriction. Check returned dataset IDs before saying which portal you're in.
 - **Check `is_sample` on every Socrata query.** If `true`, you got a raw row sample rather than an aggregate.

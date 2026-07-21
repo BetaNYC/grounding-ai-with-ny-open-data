@@ -145,7 +145,7 @@ This was found the hard way on 2026-07-21: `search_awards(council_district=10)` 
 | Task | Correct parameter | Do **not** use |
 |---|---|---|
 | Schedule C awards by member | `council_member="De La Rosa"` (surname substring) | `council_district`, `sponsor` |
-| Checkbook payments to an org | `payee_name="COMMUNITY LEAGUE OF THE HEIGHTS"` | `vendor` |
+| Checkbook payments to an org | `payee_name="COMMUNITY LEAGUE OF THE HEIGHTS"` | `vendor` (undeclared — silently dropped) |
 | Socrata aggregate query | separate `select` / `where` / `group` / `order` / `limit` | a single `soql` blob |
 
 There is **no district filter** on the budget tool, by design — Schedule C keys on sponsoring member, not district. The agent must map district → surname first. That is worth narrating out loud as a feature: the money follows the member.
@@ -157,7 +157,7 @@ There is **no district filter** on the budget tool, by design — Schedule C key
 - **⚠️ Always bound a Socrata catalog search with `limit`.** An unbounded `socrata search` returned **581 KB** on one query — it inlines full polygon geometry for any dataset with a `the_geom` column. This is the most likely way to stall the room.
 - **⚠️ Council legislation search matches keywords, not concepts.** `"broadband digital equity"` returned **zero results**; `"broadband"` alone returned six real bills including Int 1122-2024. If a search comes back empty on stage, *shorten* it rather than rephrasing. `search_legislation` and `search_bills` returned identical results — don't present them as two capabilities.
 - **Checkbook `smart_search` is blocked** by an Incapsula WAF JavaScript challenge. Its error message helpfully names the working alternatives. Use the structured tools; don't demo smart_search.
-- **`search_contracts` has no vendor-name filter at all** — only `vendor_code` / `agency_code`. For "what did the city pay this org," use `search_spending` with `payee_name`. Act 3 step two uses the working path.
+- **`search_contracts` cannot filter by vendor name** — the Checkbook API offers only `vendor_code` / `agency_code`, with no name→code lookup. Passing its declared `vendor_name` parameter returns an explicit error saying so and listing alternatives, which is correct behavior. For "what did the city pay this org," use `search_spending` with `payee_name`. Act 3 step two uses the working path.
 - **`search_spending` requires `fiscal_year` or `issue_date_from`** and errors properly without one. That is a *good* error — note the contrast with the silent-drop behavior above.
 
 ### Figures and their provenance

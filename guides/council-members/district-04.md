@@ -65,7 +65,7 @@ status: DRAFT
 **Then the second half, which is the actual sales point:**
 > "The failure mode isn't that AI is wrong. It's that it's wrong *fluently*, and the more senior the person reading the output, the less likely anyone is to check. What you're watching here is a system that would rather return nothing than fill a gap. Everything else it tells you is worth more because of that."
 
-> **Presenter warning — do not overclaim this.** `get_voting_record` returns an empty list for **every** member we tested, including four-year incumbents. So an empty result here is **not** evidence about Council Member Maloney specifically; the tool appears non-functional. Frame Act 2 around the *newness of the member* (which is true and verifiable), not around "look, the tool correctly shows no votes" (which the tool would show regardless). If a staffer asks directly, say the voting-record lookup isn't currently returning data for anyone.
+> **Presenter warning — do not overclaim this.** `get_voting_record` returns an empty list for **every** member, including four-year incumbents. Root cause confirmed 2026-07-21: the local corpus's `votes` table contains **0 rows** — the indexer prepares an insert statement and never calls it ([nyc-council-mcp#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). So an empty result here is **not** evidence about Council Member Maloney specifically. Frame Act 2 around the *newness of the member* (true and verifiable from her Legistar record and her FY2027-only budget), **not** around "look, the tool correctly shows no votes" — it would show that for anyone. If a staffer asks directly, say the voting-record lookup isn't currently returning data for any member and there's an open issue on it.
 
 ---
 
@@ -96,12 +96,16 @@ Representative:
 >
 > | Amount | Recipient | Program |
 > |---|---|---|
-> | $20,000 | **Fund for the City of New York** | **AI Training Program** |
+> | $20,000 | **Fund for the City of New York** | **AI Training Program** — *this is BetaNYC* |
 > | $20,000 | Older Adults Technology Services (OATS) | Older Adults Digital Literacy |
 > | $20,000 | Simon Wiesenthal Center | Digital Equity Program |
 > | $20,000 | WNET | Arts Broadcasting |
 >
 > A newly seated member put real money into AI training and digital literacy in her first budget. That is the conversation, and it is her own choice rather than something being pitched to her.
+>
+> **The $20,000 Fund for the City of New York line is BetaNYC's own AI Training Program** — FCNY is our fiscal sponsor (EIN 13-2612524), so our awards appear under its name. Confirmed 2026-07-21.
+>
+> Handle this with some care. The strongest version is *not* leading with "you already fund us." It is running the demo straight, letting the agent surface the award from the public record alongside the other three, and only then noting that one of those lines is us. The tool finding your own funding in the same query that found everyone else's is far more persuasive than saying so up front — and it keeps the meeting about her office's data rather than about an ask.
 
 **A genuine data subtlety worth showing, if the room is engaged:** Fund for the City of New York is a **fiscal sponsor** — a passthrough carrying dozens of distinct programs under one EIN (13-2612524). So "Fund for the City of New York" in the recipient column is not the actual grantee; the `[AI Training Program]` bracket is. Filtering by organization alone would silently merge unrelated grantees. Say this out loud: it is exactly the kind of thing that makes a naive spreadsheet analysis wrong, and the tool documents the trap in its own description.
 
@@ -139,7 +143,7 @@ Representative:
 
 ### Other verified behavior
 
-- **`get_voting_record` returns `[]` for everyone**, including De La Rosa. Do not interpret an empty result as a statement about any member. See the warning in Act 2.
+- **`get_voting_record` returns `[]` for everyone**, including De La Rosa. The `votes` table in the local corpus has 0 rows against 228,385 event_items and 136,066 sponsors — the indexer never writes it ([nyc-council-mcp#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). Do not interpret an empty result as a statement about any member. See the warning in Act 2.
 - **`get_council_member(name="Powers")`** returns only Brooks-Powers. The member lookup has the same substring behavior as the budget tool.
 - **`search_legislation` can return `[]` even for a reasonable single keyword** — `"encampment"` finds nothing, because the term doesn't appear in bill titles. It matches titles, not subject matter. Try a synonym before concluding no legislation exists.
 - **`get_upcoming_hearings` is extremely verbose** — full agenda item text, including land-use applications that run to hundreds of block-and-lot references. Ask for a summary rather than raw output, or cap the limit low.
@@ -159,7 +163,7 @@ Representative:
 - **Her committee assignments.** Not checked. Do not name one.
 - **That the $1,148,000 is her complete FY2027 total.** The query was capped at 40 results and returned exactly 40, so it is very likely truncated. Say "at least," or re-run with a higher limit before the meeting.
 - **District 4's exact boundaries.** The neighborhood list above is inferred from award recipients (Carnegie Hill Neighbors, Friends of the Upper East Side Historic Districts, Murray Hill Committee, STPCV Tenants Association) rather than from a districting source. It is well supported but not authoritative — don't recite it to the people who represent it.
-- **Whether the FCNY "AI Training Program" award is BetaNYC's own program.** FCNY is a fiscal sponsor for many organizations. **Check this before the meeting** — the answer changes how you raise it, and getting it wrong in either direction would be awkward.
+- ~~Whether the FCNY "AI Training Program" award is BetaNYC's own program.~~ **Resolved 2026-07-21: it is BetaNYC**, via our fiscal sponsor Fund for the City of New York. See the note in Act 3 on how to raise it.
 
 ---
 

@@ -92,7 +92,7 @@ Several servers accept parameters that are not in their schema, ignore them, and
 | Task | Correct parameter | Do **not** use |
 |---|---|---|
 | Schedule C awards by member | `council_member="[SURNAME]"` (surname substring) | `council_district`, `sponsor` |
-| Checkbook payments to an org | `payee_name="[ORG NAME]"` | `vendor` |
+| Checkbook payments to an org | `payee_name="[ORG NAME]"` | `vendor` (undeclared — silently dropped) |
 | Socrata aggregate query | separate `select` / `where` / `group` / `order` / `limit` | a single `soql` blob |
 | 311 by council district | `council_district='04'` — **zero-padded string** | `'4'` (returns zero rows silently) |
 
@@ -104,7 +104,7 @@ Several servers accept parameters that are not in their schema, ignore them, and
 
 ### Also verified — do not misread these as findings
 
-- **`get_voting_record` returns `[]` for every member tested**, including multi-term incumbents. An empty result is a tool limitation, not a statement about your member. Never present it as "correctly shows no votes."
+- **`get_voting_record` returns `[]` for every member**, including multi-term incumbents. Root cause found 2026-07-21: the local corpus's `votes` table has **0 rows** because the indexer never populates it ([nyc-council-mcp#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). An empty result is a tool limitation, not a statement about your member. Never present it as "correctly shows no votes." The same applies to `vote_breakdown` and `get_votes`.
 - **`search_legislation` matches bill titles, not subject matter.** A reasonable single keyword can return `[]` simply because the word isn't in any title (`"encampment"` finds nothing). Try a synonym before concluding no legislation exists.
 - **`get_upcoming_hearings` is extremely verbose** — land-use items can run to hundreds of block-and-lot references. Ask for a summary or cap the limit.
 - **A newly seated member's first Schedule C is the fiscal year after they took office.** Querying the current FY by their surname correctly returns nothing. Don't read it as a tool failure — and don't build Act 3 on the wrong year.
@@ -114,7 +114,8 @@ Several servers accept parameters that are not in their schema, ignore them, and
 - **311 aggregates come from Socrata (`erm2-nwe9`), not `nyc-311-mcp`.** That server does single lookups, the service calendar, and alerts — not "top complaint type" roll-ups. Don't announce the wrong server. The district field is `council_district`, as a string. **Check `is_sample` in the response** — if `true`, you got a raw row sample, not an aggregate, and the numbers are meaningless.
 - **⚠️ Always bound a Socrata catalog search with `limit`** — unbounded searches have returned 581 KB by inlining polygon geometry.
 - **⚠️ Council legislation search matches keywords, not concepts.** Multi-word conceptual phrases return `[]`. If a search is empty on stage, *shorten* it rather than rephrasing.
-- **Checkbook `smart_search` is blocked** by an Incapsula WAF challenge — don't demo it. `search_contracts` has no vendor-name filter; use `search_spending` with `payee_name`. `search_spending` requires `fiscal_year` or `issue_date_from`.
+- **Checkbook `smart_search` is blocked** by an Incapsula WAF challenge — don't demo it. `search_spending` requires `fiscal_year` or `issue_date_from`.
+- **`search_contracts` cannot filter by vendor name** (the API offers only `vendor_code`, with no name→code lookup). Its declared `vendor_name` parameter returns an explicit error explaining this and listing alternatives — good behavior, not a failure. For "what did the city pay this org," use `search_spending` with `payee_name`.
 
 ### Figures and their provenance
 

@@ -14,7 +14,11 @@ These are the district-specific companions to the general prompt catalog in [`..
 
 | District | Member | File |
 |---|---|---|
+| 4 | Virginia Maloney | [`district-04.md`](district-04.md) |
+| 10 | Carmen N. De La Rosa | [`district-10.md`](district-10.md) |
 | _(template)_ | — | [`TEMPLATE.md`](TEMPLATE.md) |
+
+**Demoing to a newly seated member?** [`district-04.md`](district-04.md) is the worked example. The standard Act 2 ("what have you introduced?") returns nothing for a member in their first year, and the script turns that into the strongest moment in the meeting rather than routing around it. Their first discretionary budget is the fiscal year *after* they took office.
 
 _Add rows as district demos are drafted._
 
@@ -32,8 +36,9 @@ Optional thematic demos (a committee or role rather than one district) use a `th
 
 1. **Copy** [`TEMPLATE.md`](TEMPLATE.md) to `district-[NN].md`.
 2. Fill the placeholders: `[NN]` district number, `[MEMBER NAME]`, `[NEIGHBORHOODS]`, and the overlapping community district(s).
-3. **Tailor Act 3 (their legislation + funding)** — this is the act a Council audience cares about most. Pull the member's actual recent bills and their district's discretionary awards so the demo is about *them*, not a generic district.
-4. Add a row to the "Available demos" table above.
+3. **Tailor Act 3 (their legislation + funding)** — this is the act a Council audience cares about most. Pull the member's actual recent bills and their discretionary awards so the demo is about *them*, not a generic district. **Query Schedule C by sponsoring member surname, not by district number** — there is no district filter, and asking by district silently returns citywide awards. See the parameter table in the template's presenter-notes section.
+4. **Dry-run every prompt against the live MCPs** and fill in the "Presenter notes (verified YYYY-MM-DD)" section with what actually happened, including the figures you plan to say out loud and how you got each one. This is not optional polish — several of these tools fail silently, returning real-looking data for the wrong question.
+5. Add a row to the "Available demos" table above.
 
 Keep the four-act arc. Only the district and member specifics change.
 

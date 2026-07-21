@@ -140,6 +140,8 @@ Several of these servers accept parameters that are not in their schema, ignore 
 
 This was found the hard way on 2026-07-21: `search_awards(council_district=10)` returns $47.5M of **citywide** awards, which an agent will happily summarize as District 10's funding. It is exactly the failure this whole repo warns about, occurring inside our own tooling.
 
+> **Being fixed — but not yet published, so this still applies to your demo.** PRs are open against all seven BetaNYC MCP servers ([budget #40](https://github.com/BetaNYC/New-York-City-Budget/pull/40) covers `search_awards`) to reject an unknown parameter with an error naming the right one. **None have merged or published.** `npx -y` still resolves `nyc-budget-mcp` 1.2.0, which drops silently. Treat this section as live until you have run `/mcp-update` and confirmed a newer version.
+
 **The correct parameter names, all verified working:**
 
 | Task | Correct parameter | Do **not** use |

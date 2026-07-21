@@ -87,6 +87,8 @@ Ask the office for a live priority, or pre-fill one here.
 
 Several servers accept parameters that are not in their schema, ignore them, and return **unfiltered** results with no error. An agent that guesses a plausible parameter name gets plausible garbage, and nothing in the response reveals it.
 
+> **Being fixed — but not yet published, so this section still applies to your demo.** As of 2026-07-21, PRs are open against all seven BetaNYC MCP servers to reject unknown parameters with an error that names the correct one. **None of them have merged or published.** The versions `npx -y` resolves today — `nyc-budget-mcp` 1.2.0, `nyc-council-mcp` 2.3.0, `nyc-checkbook-mcp` 1.3.1, `nyc-record-mcp` 1.0.2, `nyc-311-mcp` 1.0.1, `nyc-charter-laws-rules` 0.1.3, `nys-openlegislation-mcp` 2.1.1 — all still drop silently. **Everything below holds until you have run `/mcp-update` and confirmed a newer version.** After the fix ships, a wrong parameter name fails loudly instead, and the correct-parameter column below becomes a convenience rather than a safety requirement.
+
 **Verified-correct parameter names (2026-07-21):**
 
 | Task | Correct parameter | Do **not** use |
@@ -104,7 +106,7 @@ Several servers accept parameters that are not in their schema, ignore them, and
 
 ### Also verified — do not misread these as findings
 
-- **`get_voting_record` returns `[]` for every member**, including multi-term incumbents. Root cause found 2026-07-21: the local corpus's `votes` table has **0 rows** because the indexer never populates it ([nyc-council-mcp#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). An empty result is a tool limitation, not a statement about your member. Never present it as "correctly shows no votes." The same applies to `vote_breakdown` and `get_votes`.
+- **`get_voting_record` returns `[]` for every member**, including multi-term incumbents. Root cause found 2026-07-21: the local corpus's `votes` table has **0 rows** because the indexer never populates it ([nyc-council-mcp#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). An empty result is a tool limitation, not a statement about your member. Never present it as "correctly shows no votes." **`vote_breakdown` behaves the same way. `get_votes` does not** — corrected 2026-07-21: it calls the live Legistar API rather than the local table, so it is unaffected by this and does return real per-member positions given a valid `EventItemId`. A fix is open ([PR #24](https://github.com/BetaNYC/nyc-council-mcp/pull/24), unmerged) to make the two table-backed tools raise a named error instead of returning `[]`; until it publishes, the empty array is what you will see.
 - **`search_legislation` matches bill titles, not subject matter.** A reasonable single keyword can return `[]` simply because the word isn't in any title (`"encampment"` finds nothing). Try a synonym before concluding no legislation exists.
 - **`get_upcoming_hearings` is extremely verbose** — land-use items can run to hundreds of block-and-lot references. Ask for a summary or cap the limit.
 - **A newly seated member's first Schedule C is the fiscal year after they took office.** Querying the current FY by their surname correctly returns nothing. Don't read it as a tool failure — and don't build Act 3 on the wrong year.

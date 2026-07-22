@@ -10,7 +10,9 @@ status: DRAFT
 
 This audience is different from every other script in this repo, and the difference should shape the whole meeting.
 
-**They are not the constituency. They are the oversight.** A council member wants to see their own district; a watchdog wants to see the thing nobody has assembled yet. So this script is not district-scoped, and it does not try to impress with a clean lookup. It goes straight at the three questions this audience actually lives on: **where did the money go, what got taken back, and what was supposed to be published but wasn't.**
+**They are not the constituency. They are the oversight.** A council member wants to see their own district; a watchdog wants to see the thing nobody has assembled yet. So this script is not district-scoped, and it does not try to impress with a clean lookup. It goes straight at the questions this audience actually lives on: **where did the money go, what got taken back, what was supposed to be published but wasn't, and what is published but cannot be reached.**
+
+That last one is Act 6, and it is the only act in this repo that demonstrates a failure rather than a capability. For this room it is the strongest material in the script.
 
 They also already know this domain better than you do. Do not explain Schedule C to Reinvent Albany. The pitch is not "here is discretionary funding" — it is "here is discretionary funding, queryable in seconds, by an agent that cites its source and refuses to guess."
 
@@ -19,7 +21,8 @@ They also already know this domain better than you do. Do not explain Schedule C
 ## Before you start (2 min)
 
 - No district to pre-fill. This script runs citywide.
-- Have [Checkbook NYC](https://www.checkbooknyc.com) and [NYC Open Data](https://data.cityofnewyork.us) open.
+- Have [Checkbook NYC](https://www.checkbooknyc.com) and [NYC Open Data](https://data.cityofnewyork.us) open. **You will need the Checkbook tab.** As of 2026-07-21 its API returns HTTP 403 to automated requests, so any Checkbook step has to be done by hand. Act 6 turns that into the material; Act 2 needs it as a fallback.
+- Runs about 25 minutes with Act 6, 22 without. Act 5 is already marked optional. **If you are short on time, cut Act 5 rather than Act 6** — Act 6 is the one written for this audience.
 - Expect to be interrupted with hard questions about provenance and coverage. **That is the good outcome.** The presenter notes below are written so you can answer them.
 
 **Opening line:**
@@ -148,9 +151,52 @@ The act that speaks their language most directly.
 
 ---
 
+## Act 6 — The thing we cannot show you (3 min)
+
+**This is the act for this audience specifically.** Every other act demonstrates something working. This one demonstrates a wall, and the wall is the point. Run it only if the room is engaged; it is the strongest close available here but it needs three minutes of real attention.
+
+### Part one: show the block, live
+
+**Prompt:**
+> "Check NYC Checkbook for FY2026 spending paid to Community League of the Heights."
+
+**What comes back:** nothing. As of 2026-07-21 the Checkbook API returns HTTP 403 to every automated request.
+
+**What to say:**
+> "The site is up. I can pull this record by hand in a browser right now, and I will if you want. What I cannot do is reach it programmatically. There is a bot-protection layer in front of checkbooknyc.com, and as of this week it covers the documented XML API, not just the search box."
+
+**Then the part that belongs to this room:**
+> "Notice the shape of the failure. The tool returns a record count of zero, an empty result set, and an error field, all in the same response. If you read the count and not the error, the honest answer 'we could not reach Checkbook' becomes the false answer 'this organization received no city money.' That is a public-data outage that reads as a finding."
+
+We filed that as a bug against our own connector rather than shipping around it: [nyc-checkbook-mcp#21](https://github.com/BetaNYC/nyc-checkbook-mcp/issues/21).
+
+### Part two: the Late-Contracts Dashboard
+
+**This is the substantive ask, and it is squarely their beat.**
+
+On July 8 the Comptroller launched a [Late-Contracts Dashboard](https://www.checkbooknyc.com/late-contracts) tracking vendor contracting and payment delays. It is real accountability work and worth saying so.
+
+**What to say:**
+> "Two things that dashboard is built on do not appear to be reachable through the public API. The 'average days late' number needs a prime-expense registration date that is not exposed as a filter or a response column. The non-profit vendor filter is backed by a classification we cannot find published anywhere, in the API or on the open data portal. So the dashboard's own numbers are not independently reproducible by anyone outside the office."
+
+> "That is not an accusation. It is the ordinary result of building a dashboard against internal data. But it means the accountability analysis stops at the dashboard's edge. You cannot extend it, cross it against anything, or check it."
+
+**The honest framing, and do not skip it:** this is our audit's finding, from July 9, and it is checkable. We could be wrong. The docs are public and so is our reasoning.
+
+### Part three: what we are actually doing about it
+
+> "We have a letter going to the Comptroller's office asking for three things: restore programmatic access, confirm the Checkbook 2.0 migration dropped no documented fields, and expose the data behind the Late-Contracts Dashboard through the public API. We are asking rather than working around it. We have not spoofed headers or tried to defeat the bot protection, and we are not going to. The route to public data access is the front door, and we would rather be able to say that."
+
+**Then the hook, which is the reason this act exists:**
+> "You have more standing on this than we do. If a request like that carries more weight with your name next to it, we would welcome that."
+
+> **Presenter note:** do not promise anything about the letter's status. As of 2026-07-21 it is drafted and unsent. If asked, say exactly that. And if someone in the room asks to see it, that is the best outcome this act can produce.
+
+---
+
 ## Closing (1 min)
 
-> "All of this is open. The connectors are public repos, the guides are CC BY-SA, and none of it requires an API key. We'd rather you fork it and find the things we got wrong than take our word for any of it. And if there's a query your team runs constantly by hand, that's exactly the user journey we want to add."
+> "All of this is open. The connectors are public repos, the guides are CC BY-SA, and almost none of it requires an API key — Checkbook is the exception we just talked about, and we would like to fix that in public. We'd rather you fork it and find the things we got wrong than take our word for any of it. And if there's a query your team runs constantly by hand, that's exactly the user journey we want to add."
 
 **Leave-behind links:**
 - This repo: [`grounding-ai-with-ny-open-data`](https://github.com/BetaNYC/grounding-ai-with-ny-open-data)
@@ -221,6 +267,8 @@ From `list_available_fiscal_years`:
 
 **Not independently verified this session:**
 - **Whether the Local Law 174 CTE report was actually produced** and simply not published as open data. Only the portal's contents were checked. State the narrow claim.
+- **Act 6's Late-Contracts claims are OUR audit's finding, dated 2026-07-09, not an established fact.** We found no documented public API behind the dashboard, and no published source for the non-profit vendor classification. That is an absence we searched for, which is weaker evidence than a presence we found. Say "we could not find it published" and not "it is not published." If the office produces a source, that is a good outcome and we update the audit. Basis: `team/engineering/2026-07-09-checkbook-2.0-api-audit.md` and [nyc-checkbook-mcp#11](https://github.com/BetaNYC/nyc-checkbook-mcp/issues/11).
+- **The letter in Act 6 part three is DRAFTED AND UNSENT as of 2026-07-21.** Do not describe it as sent, delivered, or pending a response. If asked where it stands, say it is drafted and we have not sent it yet. Check before the meeting — this is the single fastest fact in the script to go stale.
 - **Whether the missing member attribution on the unattributed rescissions is a data-extraction artifact or genuinely absent from the source document.** Do not assert it is a transparency failure. If asked, offer to check the source resolution PDF via the Legistar crosswalk. Note this applies to **several** rows, not just the −$213,000 one — at least five carry no member.
 - **The complete FY2026 rescission count and total.** Not established. The only query run hit its row limit. Run it at `limit: 500` before quoting any aggregate.
 - **That $6,455,750 is ACE's complete FY2026 total** — the query returned 54 rows against a limit of 60, so it is very likely complete, but re-run with a higher limit before publishing the figure.

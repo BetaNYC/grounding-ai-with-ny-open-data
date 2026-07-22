@@ -147,7 +147,7 @@ Ask the office for a live priority. If they don't offer one, Water System compla
 
 ---
 
-## Presenter notes (figures verified 2026-07-21 · MCP behavior re-verified 2026-07-21)
+## Presenter notes (verified 2026-07-21)
 
 **Read this section before presenting.** Every item below was found by dry-running the prompts live. Several are silent failures — the tool returns confident, real-looking, wrong-question data with no error.
 

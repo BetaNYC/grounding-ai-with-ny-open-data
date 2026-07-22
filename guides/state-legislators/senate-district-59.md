@@ -107,7 +107,7 @@ Start on home ground.
 
 ---
 
-## Presenter notes (figures verified 2026-07-21 · MCP behavior re-verified 2026-07-21)
+## Presenter notes (verified 2026-07-21)
 
 ### NYS Open Legislation — required params that fail loudly (this is good)
 

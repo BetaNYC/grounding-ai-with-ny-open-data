@@ -152,7 +152,7 @@ The act that speaks their language most directly.
 
 ---
 
-## Presenter notes (figures verified 2026-07-21 · MCP behavior re-verified 2026-07-21)
+## Presenter notes (verified 2026-07-21)
 
 **This audience will interrogate provenance.** Answer precisely or concede. A hedge you can defend beats a figure you can't.
 

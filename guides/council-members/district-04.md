@@ -141,7 +141,7 @@ Representative:
 
 ---
 
-## Presenter notes (figures verified 2026-07-21 · MCP behavior re-verified 2026-07-21)
+## Presenter notes (verified 2026-07-21)
 
 ### ⚠️ Two traps that will silently break this specific demo
 

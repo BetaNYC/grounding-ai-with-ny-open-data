@@ -4,9 +4,9 @@ status: DRAFT
 
 # Demo script — NYS Senate District 59 (Sen. Kristen Gonzalez)
 
-> **DRAFT.** First pass, 2026-07-21. A run-it-live script for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to **State Senator Kristen Gonzalez** and staff. Senator Gonzalez chairs the Senate Committee on **Internet and Technology**, which makes this the most subject-matter-aligned audience in this repo.
+> **DRAFT.** First pass 2026-07-21; every prompt re-run live 2026-07-22. A run-it-live script for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to **State Senator Kristen Gonzalez** and staff. Senator Gonzalez chairs the Senate Committee on **Internet and Technology**, which makes this the most subject-matter-aligned audience in this repo.
 >
-> **Every fact below was pulled live on 2026-07-21 and is reproduced in the presenter notes.** If a live call disagrees, trust the live call and say so.
+> **Every fact below was pulled live and is reproduced in the presenter notes.** All four acts and all four backup prompts reproduced exactly on the 2026-07-22 re-run. If a live call disagrees, trust the live call and say so.
 
 Companion to the general [`../user-journeys.md`](../user-journeys.md) catalog. Unlike the [`../council-members/`](../council-members/) scripts, the spine here is **NYS Open Legislation**, not Legistar — plus the city datasets that happen to be cut by state district.
 
@@ -35,6 +35,21 @@ Start on home ground.
 > "Enacts the 'New York artificial intelligence consumer protection act', in relation to preventing the use of artificial intelligence algorithms to discriminate against protected classes."
 
 **What to say:** "That's your bill, your committee, current status — read out of Albany's own system rather than remembered. An ungrounded chatbot asked this will produce a real-looking bill number that belongs to something else entirely."
+
+### If a staffer asks how it knows *which* Gonzalez — take the question
+
+This is a good beat, not an interruption. Searching the Senate roster for "Gonzalez" returns two people:
+
+| Full name | Chamber | District |
+|---|---|---|
+| **Kristen Gonzalez** | Senate | 59 |
+| **Jessica Gonzalez-Rojas** | **Assembly** | 34 |
+
+**What to say:** "Two matches, and the second one is in the *other chamber*. The right move here isn't to rank them and pick one — it's to stop and ask which person you meant. That's a rule we wrote down after finding this exact collision while preparing for this meeting."
+
+**Why it lands with this audience:** District 34 is also a real *Senate* district. An agent that quietly picked the top hit would hand you a correctly formatted, confidently stated, wrong legislator — and nothing in the answer would look wrong. Same failure shape as Act 3, caught at the identity layer instead of the data layer.
+
+> ⚠️ **Presenter:** do **not** run `search_members` alone on stage to produce this table — as of v2.3.0 its rows carry no full name and no chamber, and the `chamber` filter does not work (see presenter notes). Show the table as prepared above, or resolve each `memberId` with `get_member`. Tracked in [nys-openlegislation-mcp#17](https://github.com/BetaNYC/nys-openlegislation-mcp/issues/17).
 
 ---
 
@@ -69,7 +84,7 @@ Start on home ground.
 **Then run the diagnostic:**
 > "What senate districts are actually in that dataset, and when was it created?"
 
-**The verified answer:** 26 rows, covering **Senate Districts 10 through 34, plus 36**. Every row created **2020-06-19**. There is no District 59.
+**The verified answer:** 26 rows, covering **Senate Districts 10 through 34, plus 36**. Every row created **2020-06-19** (the dataset itself was published December 2019 — if a staffer pulls up the portal page and sees that date, both are right; see presenter notes). There is no District 59.
 
 **What to say — slowly:**
 > "This is New York City's flagship broadband-equity dataset, from the Internet Master Plan. It is cut by state senate district — which is exactly the right unit for your office. And your district is not in it. The file predates the district."
@@ -109,11 +124,15 @@ Start on home ground.
 
 ## Presenter notes (verified 2026-07-21)
 
-### NYS Open Legislation — required params that fail loudly (this is good)
+### NYS Open Legislation — `chamber` is required but not enforced ⚠️
 
-These error clearly rather than silently misbehaving. Know them so you aren't debugging on stage:
+**Corrected 2026-07-22.** An earlier version of these notes described these parameters as "failing loudly, and this is good." That is only half true, and the wrong half is the dangerous one: they fail loudly when **omitted** and do nothing when **supplied**.
 
-- `get_member`, `get_committee`, `search_members` **all require `chamber`** (`"senate"` or `"assembly"`, **lowercase** — `"SENATE"` fails enum validation).
+- `get_member`, `get_committee`, `search_members` **all require `chamber`** (`"senate"` or `"assembly"`, **lowercase** — `"SENATE"` fails enum validation). That much is real.
+- **But `chamber` does not filter.** `search_members(term="Gonzalez", chamber="senate")` and `chamber="assembly"` return byte-identical results. `get_member(member_id=1468, chamber="senate")` returns Jessica Gonzalez-Rojas with `"chamber": "ASSEMBLY"` and no error.
+- **`search_members` rows carry neither `fullName` nor `chamber`** — only `shortName`, `districtCode`, `memberId`. You cannot tell who you found from the search result alone. Resolve each `memberId` with `get_member` to get a real name.
+- **Two causes, worth keeping straight** so nobody re-files it wrong: on `search_members` the server *does* forward `chamber` and the NYS API upstream ignores it. On `get_member` the local corpus lookup is correctly chamber-scoped, and an unscoped API fallback silently overrides it. Only the second is BetaNYC's bug. Both tracked in [nys-openlegislation-mcp#17](https://github.com/BetaNYC/nys-openlegislation-mcp/issues/17).
+- **No API key? Name search is dead.** `search_members` is a pure live call, so in the local-only mode added in 2.3.0 it throws rather than degrading. `get_member` still works from the corpus.
 - `get_committee` takes **`committee_name`**, not `name`.
 - **⚠️ One field-syntax query returned zero — use plain terms on stage.** `sponsor:GONZALEZ AND (data OR privacy)` returned **zero results**. Plain terms work: `"artificial intelligence"` returned the relevant bills including S1962. If a search is empty on stage, simplify it.
 
@@ -134,18 +153,28 @@ Three modes, and the startup banner on stderr tells you which you are in: **hybr
 - **⚠️ Always bound a catalog search with `limit`.** Even `limit: 5` against `data.ny.gov` returned **82,816 characters** — worse than the NYC portal, which returned 581 KB unbounded. These searches inline geometry and full column lists.
 - **⚠️ Catalog search is federated and does not honor `domain` as a restriction.** Searching with `domain: "data.ny.gov"` returned results from `data.cityofnewyork.us`. Socrata's catalog API searches globally by default. **Do not say "now I'm searching the state portal"** — you may not be. Check the returned dataset IDs.
 - **Use discrete `select` / `where` / `group` / `order` / `limit` parameters.** There is no `soql` parameter; passing one is silently ignored and you get an unfiltered row sample.
-- **Always check `is_sample` in the response.** If `true`, you got raw rows rather than the aggregate you asked for, and any number you read off them is meaningless.
+- **⚠️ `is_sample: true` does NOT mean the number is wrong — corrected 2026-07-22.** An earlier version of this note said `true` meant you got raw rows instead of your aggregate and "any number you read off them is meaningless." That is not what it tracks, and following it on stage would make you publicly disclaim a correct figure.
+
+  Tested against the Manhattan 311 backup: the aggregate returns `is_sample: true` with **identical** top-5 counts at `limit: 5` and `limit: 300`, all 151 complaint types returned, and still reports `has_more: true, next_offset: 151` pointing at nothing. The flag appears to compare `total_rows` (59,106 — the *ungrouped* count of rows matching the filter) against rows returned, so it is `true` on essentially any aggregate over a large filter.
+
+  **What to actually do:** confirm the shape of what came back. If you asked for `count(*)` grouped by something and you got labelled counts, you got your aggregate. Re-run once at a higher `limit` and check the top rows are unchanged. Ignore `has_more` on grouped queries. Reserve real suspicion for the case where you asked for an aggregate and got back raw detail rows — that is the failure the flag was meant to describe.
+
+- **`>` and `<` in a `where` clause can arrive HTML-escaped** and SoQL rejects them (`soql.parser.unexpected-character: "&"`). This one fails loudly, so it costs you a retry rather than a wrong answer. `between 'A' and 'B'` sidesteps it entirely and is the safer stage formulation for date windows.
 
 ### Figures and their provenance
 
+All figures below re-verified 2026-07-22 against a corpus synced `2026-07-22T10:30:05`.
+
 | Claim | How verified |
 |---|---|
-| Gonzalez = SD 59, memberId 1513 | `search_members(term="Gonzalez", chamber="senate")`, `get_member` |
+| Gonzalez = SD 59, memberId 1513 | `search_members(term="Gonzalez")` to get candidate IDs, then **`get_member(1513)` for the authoritative name, chamber, and district**. Do not read chamber off the search result — it isn't there, and the search filter doesn't work. |
+| Gonzalez-Rojas = Assembly, AD 34, memberId 1468 | `get_member(1468)` — returns `"chamber": "ASSEMBLY"`. This is the collision the Act 1 aside is built on. |
 | Chairs Internet and Technology; 7 members; Mondays 10:30, Rm 123 CAP | `get_committee(committee_name="Internet and Technology", chamber="senate", session_year=2025)` — her entry carries `title: "CHAIR_PERSON"` |
 | S1962-2025, her bill, in Internet and Technology | `search_bills(term="artificial intelligence", session_year=2025)` |
 | A768-2025 companion, Bores AD 73 | same call |
 | Int 1122-2024 enacted 2025-11-08 | `nyc-council-mcp search_legislation("broadband")` |
-| Dataset covers SD 10–34 + 36, 26 rows, created 2020-06-19, no SD 59 | Socrata `9bjg-n96a`, `is_sample: false` |
+| Dataset covers SD 10–34 + 36, 26 rows, no SD 59 | Socrata `9bjg-n96a`, `is_sample: false`, `total_rows: 0` for SD 59 |
+| Every **row** created 2020-06-19 | Socrata `:created_at`, min = max. **Note the distinction:** the dataset *asset* was created and published **2019-12-26**; 2020-06-19 is when the rows were written (`rowsUpdatedAt`). A staffer who opens the portal page sees Dec 2019 — say "the rows date to June 2020, the dataset was published in December 2019," and neither number contradicts you. |
 | Avg home broadband 0.70 (0.58–0.85) | Socrata `9bjg-n96a` aggregate over the 26 covered districts |
 
 **Not independently verified this session:**
@@ -156,7 +185,7 @@ Three modes, and the startup banner on stderr tells you which you are in: **hybr
 
 ## Backup prompts (if one falls flat)
 
-- "What NYS bills this session mention 'open data'?" *(plain keyword, on-theme, reliable)*
+- "What NYS bills this session mention 'open data'?" *(plain keyword, reliable — but know what it returns: the matches are the **Open Water Data Act** family, S1211A / A5254A / S9280 / A10199, sponsored by Sen. May and AM Kelles. It matches on the substring, not on open-data policy. Still a usable beat, since A5254A passed both houses and was **vetoed 2025-12-05** — a complete legislative arc in one query. Don't introduce it as "your open data bills.")*
 - "What does the NYC Administrative Code say about agency open data coordinators?" *(returns § 23-507 — short, and lands with an oversight-minded audience)*
 - "Show me NYC Council legislation with the keyword 'algorithm'." *(single keyword; pairs naturally with her AI bill)*
 - "What were the top 311 complaint types in Manhattan over the last 30 days?" *(reliable fallback; note it's served by Socrata `erm2-nwe9`, not the 311 MCP)*

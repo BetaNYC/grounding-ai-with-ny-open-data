@@ -77,7 +77,7 @@ Not one district. The whole map.
 **Prompt:**
 > "Show FY2026 NYC Council transparency resolution rescissions — discretionary money that was de-designated after adoption."
 
-**Verified — FY2026 Resolution 1, adopted 2025-08-14:**
+**A PARTIAL sample from FY2026 Resolution 1, adopted 2025-08-14** — each row verified live 2026-07-22, but this is **not** the full set. See the correction below the table before you present it:
 
 | Amount | Member | Recipient |
 |---|---|---|
@@ -93,7 +93,16 @@ Not one district. The whole map.
 **What to say:**
 > "Adopted budgets get amended all year by transparency resolution, and rescissions carry negative amounts. This is money that was announced, then quietly withdrawn. A transfer shows up as a rescind and a designate on the same EIN — so the tool can distinguish 'moved' from 'taken away,' which is precisely the distinction a press release will not make."
 
-**The −$213,000 row is the one to point at.** It has **no council member attached** and hits Adult Literacy Forward. Ask the room what they'd want to know next. That is the demo doing its job — not answering the question, but getting them to the question in ten seconds instead of a week.
+> ⚠️ **Corrected 2026-07-22 — read this before presenting the table above.** That table is **not** the complete FY2026 rescission set. It came from a query that hit its 50-row limit and truncated part-way through the alphabet, at "Cultural After-School Adventure." Every row shown verifies individually, but **there are substantially more, including larger ones.**
+>
+> Two specific corrections, both of which this audience will find if you don't say them first:
+>
+> - **−$213,000 is not the largest.** `Louis → Department of Cultural Affairs` is **−$480,000** (CASA).
+> - **−$213,000 is not uniquely unattributed.** At least four other rows carry no council member, including **−$200,000** (Staten Island Chamber of Commerce Foundation), **−$200,000** (DYCD, Citywide Young Adult Entrepreneurship), **−$160,000** (DCLA, Coalition Theaters of Color), and **−$99,986** (HPD).
+>
+> **Run this live with an explicit high limit** — `search_transparency_resolutions(action="rescind", fiscal_year=2026, limit=500)` — and read the real total off the result rather than the table above. Presenting a truncated list as complete, to the organization whose job is catching exactly that, is the one unforced error available in this act.
+
+**The unattributed rescissions are the thing to point at**, and there are several. −$213,000 to Adult Literacy Forward is a good one to open on: no council member attached, and a program whose name tells you who it serves. Then note it is not alone, and not the biggest. Ask the room what they'd want to know next. That is the demo doing its job — not answering the question, but getting them to the question in ten seconds instead of a week.
 
 > **Say the coverage caveat out loud before they ask it.** Transparency resolutions are parsed for FY2010–FY2024 and FY2026 — **FY2025 is not in this dataset.** And for FY2010–FY2013 the organization and member *text* is low-confidence (garbled PDF text layer); the financial columns are reliable, so **join on EIN, not on name** for those years. Volunteering this is worth more with this audience than any figure you could show them.
 
@@ -195,14 +204,15 @@ From `list_available_fiscal_years`:
 | Open data statutory chain | `nyc-charter-laws-rules search("open data")`; `nyc-council-mcp search_legislation("open data")` |
 | ACE: 54 FY2026 awards, $6,455,750 | `search_awards(organization="Association of Community Employment", fiscal_year=2026, limit=60)` |
 | CLOTH $30,000 De La Rosa; 32 Checkbook records; Tax Levy Elected Officials | `search_awards(...)`; `search_spending(payee_name=…, fiscal_year=2026)` |
-| FY2026 rescissions, Reso 1 of 2025-08-14 | `search_transparency_resolutions(action="rescind", fiscal_year=2026)` |
+| FY2026 rescissions, Reso 1 of 2025-08-14 — **partial sample, 8 rows shown** | `search_transparency_resolutions(action="rescind", fiscal_year=2026, limit=500)`. The original run used the default limit, returned 50, and truncated mid-alphabet. Each shown row re-verified live 2026-07-22; **the set is larger and the total is not stated anywhere in this script** |
 | CTE datasets stop at 2019-2020 | Socrata catalog, two independent search terms |
 | Broadband dataset covers SD 10–34 + 36 only | Socrata `9bjg-n96a` |
 | Open solicitations | `nyc-record-mcp get_open_solicitations` |
 
 **Not independently verified this session:**
 - **Whether the Local Law 174 CTE report was actually produced** and simply not published as open data. Only the portal's contents were checked. State the narrow claim.
-- **Whether the −$213,000 rescission's missing member attribution is a data-extraction artifact or genuinely absent from the source document.** Do not assert it is a transparency failure. If asked, offer to check the source resolution PDF via the Legistar crosswalk.
+- **Whether the missing member attribution on the unattributed rescissions is a data-extraction artifact or genuinely absent from the source document.** Do not assert it is a transparency failure. If asked, offer to check the source resolution PDF via the Legistar crosswalk. Note this applies to **several** rows, not just the −$213,000 one — at least five carry no member.
+- **The complete FY2026 rescission count and total.** Not established. The only query run hit its row limit. Run it at `limit: 500` before quoting any aggregate.
 - **That $6,455,750 is ACE's complete FY2026 total** — the query returned 54 rows against a limit of 60, so it is very likely complete, but re-run with a higher limit before publishing the figure.
 
 ---

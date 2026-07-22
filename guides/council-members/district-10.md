@@ -69,7 +69,15 @@ The act a Council audience cares about most, and the strongest one in this scrip
 **Prompt:**
 > "Show the FY2026 NYC Council discretionary (Schedule C) awards sponsored by council member De La Rosa."
 
-**The verified answer:** **12 awards, $960,000 total.** The largest and most characteristic:
+**The verified answer, re-verified live 2026-07-22: 105 awards, $2,165,000 total.**
+
+> ⚠️ **Corrected — this was wrong by $1.2 million.** This script previously said "12 awards, $960,000." Re-running `search_awards(council_member="De La Rosa", fiscal_year=2026, limit=500)` returns **105 awards, $2,165,000**.
+>
+> Unlike the District 4 error, this one is **not** limit truncation — 12 is below any default limit. The underlying data has not changed since 2026-07-19 and the query code was never touched, so the original figure was wrong when it was written. **The same wrong figure is published in [New-York-City-Budget#37](https://github.com/BetaNYC/New-York-City-Budget/issues/37)**, where it was used as the example of the *correct* parameter working properly.
+>
+> The table below was internally inconsistent with it: the first five rows alone total $742,000.
+
+The largest and most characteristic:
 
 | Amount | Recipient | Purpose |
 |---|---|---|
@@ -171,7 +179,7 @@ There is **no district filter** on the budget tool, by design — Schedule C key
 | Claim | How verified |
 |---|---|
 | De La Rosa = District 10, PersonId 7806 | `get_council_member`, Legistar record |
-| 12 FY2026 awards, $960,000 | `search_awards(council_member="De La Rosa", fiscal_year=2026)` |
+| **105 FY2026 awards, $2,165,000** | `search_awards(council_member="De La Rosa", fiscal_year=2026, limit=500)` — re-verified live 2026-07-22; returned 105 against a limit of 500, so complete. **Supersedes "12 awards, $960,000," which was wrong** |
 | CLOTH Checkbook payments incl. Tax Levy Elected Officials | `search_spending(payee_name=…, fiscal_year=2026)`, 32 records |
 | Int 1122-2024 enacted 2025-11-08, De La Rosa a sponsor | `search_legislation("broadband")` |
 | 311 top complaints, 10,357 total | Socrata `erm2-nwe9`, `is_sample: false` |

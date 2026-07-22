@@ -80,7 +80,9 @@ Her legislative record is thin. **Her budget is not**, and it is entirely hers.
 **Prompt:**
 > "Show the FY2027 NYC Council discretionary (Schedule C) awards sponsored by council member Maloney."
 
-**Verified 2026-07-21:** at least **40 awards totaling $1,148,000** (the query was capped at 40 — the real total may be higher; raise the limit live if asked).
+**Re-verified live 2026-07-22: 77 awards totaling $1,538,000.**
+
+> ⚠️ **Corrected.** This script previously read "at least 40 awards totaling $1,148,000," from a query capped at `limit: 40` that returned exactly 40 rows. It understated her budget by **$390,000 and 37 awards**. The `limit` truncates the total as well as the list, so a capped query reports a capped sum with no indication it is partial. **Always pass `limit: 200` or higher for a member-year query, and check that the returned count is below the limit.**
 
 Representative:
 
@@ -143,7 +145,13 @@ Representative:
 
 **1. Council districts are zero-padded strings in 311 data.** `council_district='4'` returns **zero rows**. `council_district='04'` returns 4,767. No error either way. This affects **districts 1–9 only**, which is why the District 10 script never hit it. Verified by querying `IN ('4','04','10')` — only `'04'` and `'10'` come back.
 
-**2. `council_member` matches as a substring, and will return the wrong member.** Searching `council_member="Powers"` returns **Selvena Brooks-Powers'** District 31 awards, because "Powers" is a substring of "Brooks-Powers". Keith Powers, District 4's previous member, does not appear at all. Check the surname in the returned rows before reading any figure aloud. Ambiguous surnames in the current Council are worth checking in advance.
+**2. `council_member` matches as a substring, and will silently MERGE two members.** Corrected 2026-07-22 — the earlier version of this note had the failure backwards.
+
+`search_awards(council_member="Powers", fiscal_year=2026)` returns **156 awards totaling $3,405,000**, which is **Selvena Brooks-Powers (District 31) and Keith Powers (District 4) summed together**, because "Powers" is a substring of "Brooks-Powers".
+
+> The old note said Keith Powers "does not appear at all." That is false — he appears extensively, including $200,000 to ACE for District 4. **The hazard is not a missing member, it is a combined total for two members across two districts, presented as one number.** A presenter warned about the wrong failure mode would read $3.4M aloud as one district's funding.
+
+**Check the sponsor column in the returned rows before reading any figure aloud**, and check your member's surname for collisions before the meeting. This is unfixed — [New-York-City-Budget#38](https://github.com/BetaNYC/New-York-City-Budget/issues/38) is open. The strict-parameter fix does **not** catch it: `council_member` is a valid parameter receiving a valid value, so there is nothing for a schema to reject.
 
 ### Other verified behavior
 
@@ -159,13 +167,13 @@ Representative:
 |---|---|
 | Maloney = District 4, PersonId 7894 | `get_council_member(name="Maloney")`; record last modified 2025-11-06 |
 | 4,767 complaints; top types | Socrata `erm2-nwe9`, `council_district='04'`, `is_sample: false` |
-| 40 awards, $1,148,000, FY2027 | `search_awards(council_member="Maloney", fiscal_year=2027, limit=40)` |
+| **77 awards, $1,538,000, FY2027** | `search_awards(council_member="Maloney", fiscal_year=2027, limit=200)` — re-verified live 2026-07-22; returned 77 against a limit of 200, so complete |
 | $20,000 FCNY "AI Training Program" | `search_awards(organization="Fund for the City of New York", program="AI Training")` — exactly one match |
 | Upcoming hearings and agendas | `get_upcoming_hearings` |
 
 **Not independently verified this session:**
 - **Her committee assignments.** Not checked. Do not name one.
-- **That the $1,148,000 is her complete FY2027 total.** The query was capped at 40 results and returned exactly 40, so it is very likely truncated. Say "at least," or re-run with a higher limit before the meeting.
+- ~~**That the $1,148,000 is her complete FY2027 total.**~~ **Resolved 2026-07-22 — it was not.** Re-run at `limit: 200`: **77 awards, $1,538,000**. The original caveat was correct and the figure shipped anyway. Treat "returned exactly N against a limit of N" as a truncation until proven otherwise.
 - **District 4's exact boundaries.** The neighborhood list above is inferred from award recipients (Carnegie Hill Neighbors, Friends of the Upper East Side Historic Districts, Murray Hill Committee, STPCV Tenants Association) rather than from a districting source. It is well supported but not authoritative — don't recite it to the people who represent it.
 - ~~Whether the FCNY "AI Training Program" award is BetaNYC's own program.~~ **Resolved 2026-07-21: it is BetaNYC**, via our fiscal sponsor Fund for the City of New York. See the note in Act 3 on how to raise it.
 

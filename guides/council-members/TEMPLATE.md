@@ -112,6 +112,21 @@ Ask the office for a live priority, or pre-fill one here.
 | Socrata aggregate query | separate `select` / `where` / `group` / `order` / `limit` | a single `soql` blob | ⚠️ **still silently ignored** — third-party |
 | 311 by council district | `council_district='04'` — **zero-padded string** | `'4'` | ⚠️ **still returns zero rows silently** — this is a data-value trap, not a parameter one, so the fix does not catch it |
 
+### ⚠️ `limit` truncates the TOTAL, not just the list — verified the hard way 2026-07-22
+
+**This produced two wrong dollar figures that reached finished demo scripts.** `search_awards` reports a summary total computed over the rows it returned. Cap the query and you cap the sum, with nothing in the output marking it partial.
+
+- District 4 shipped "40 awards, $1,148,000" from `limit: 40`. The real figure is **77 awards, $1,538,000** — understated by $390,000.
+- District 10 shipped "12 awards, $960,000." The real figure is **105 awards, $2,165,000** — understated by $1.2 million. That one was not even a truncation; it was simply wrong, and it also reached a public GitHub issue.
+
+**The rule:** pass `limit: 200` or higher on any member-year query, and treat *returned count == limit* as truncated until you re-run higher. **A returned count that equals the limit is not a result, it is a warning.** The same applies to `search_transparency_resolutions`, where the default 50 silently truncated a rescission table mid-alphabet.
+
+Note the strict-parameter fix does **not** help here. `limit` is a valid parameter receiving a valid value; there is nothing for a schema to reject. Schema strictness catches wrong *names*, never wrong *numbers*.
+
+### ⚠️ 311 counts are a moving 30-day window
+
+Any "N complaints in the last 30 days" figure is perishable by construction and will not reproduce on a later date. That is not an error — it is the query. **Re-run it the morning of the meeting** and read the fresh number, rather than reciting a figure verified weeks earlier.
+
 ### ⚠️ Two more silent traps, both verified 2026-07-21
 
 **Zero-padding.** In the 311 dataset (`erm2-nwe9`), council districts are zero-padded strings. `council_district='4'` returns **zero rows with no error**; `'04'` returns thousands. **This affects districts 1–9 only** — a two-digit district will never reveal the bug, so a script that worked for District 10 will fail silently for District 4.

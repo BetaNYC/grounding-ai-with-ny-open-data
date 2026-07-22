@@ -15,7 +15,7 @@ AI agents are only as trustworthy as what they're grounded in. This repo documen
 This repo is one piece of a larger effort to make government data usable — see it alongside our related work:
 
 - **[BetaNYC/New-York-City-Budget](https://github.com/BetaNYC/New-York-City-Budget)** — reconciled, structured NYC Council budget data (Schedule C, Terms & Conditions, Section 254), extracted deterministically from official PDFs.
-- **BetaNYC's six public MCP servers** — [nyc-council-mcp](https://github.com/BetaNYC/nyc-council-mcp), [nyc-record-mcp](https://github.com/BetaNYC/nyc-record-mcp), [nyc-checkbook-mcp](https://github.com/BetaNYC/nyc-checkbook-mcp), [nyc-311-mcp](https://github.com/BetaNYC/nyc-311-mcp), [nyc-charter-laws-rules](https://github.com/BetaNYC/nyc-charter-laws-rules), [nys-openlegislation-mcp](https://github.com/BetaNYC/nys-openlegislation-mcp) — purpose-built agent tools for specific NYC/NYS government data domains.
+- **BetaNYC's seven public MCP servers** — [nyc-council-mcp](https://github.com/BetaNYC/nyc-council-mcp), [nyc-record-mcp](https://github.com/BetaNYC/nyc-record-mcp), [nyc-checkbook-mcp](https://github.com/BetaNYC/nyc-checkbook-mcp), [nyc-311-mcp](https://github.com/BetaNYC/nyc-311-mcp), [nyc-charter-laws-rules](https://github.com/BetaNYC/nyc-charter-laws-rules), [nys-openlegislation-mcp](https://github.com/BetaNYC/nys-openlegislation-mcp), and `@betanyc/nyc-budget-mcp` (published from the [New-York-City-Budget](https://github.com/BetaNYC/New-York-City-Budget) repo above) — purpose-built agent tools for specific NYC/NYS government data domains.
 
 **Support open civic data:** [beta.nyc](https://beta.nyc) · [donate](https://beta.nyc/donate) · [newsletter](https://beta.nyc)
 
@@ -33,7 +33,7 @@ This repo is one piece of a larger effort to make government data usable — see
 | [`guides/council-members/`](guides/council-members/) | Run-it-live demo scripts tuned per Council district, with a copy-me template |
 | [`guides/educators/`](guides/educators/) | Run-it-live demo scripts for faculty and curriculum staff, framed around what the material teaches |
 | [`guides/state-legislators/`](guides/state-legislators/) | Run-it-live demo scripts per NYS Senate/Assembly district, built on NYS Open Legislation |
-| [`guides/good-government/`](guides/good-government/) | Run-it-live demo scripts for watchdogs and newsrooms — citywide, oversight-shaped |
+| [`guides/good-government/`](guides/good-government/) | Watchdog and newsroom material — run-it-live demo scripts, plus a FOIL contract-research methodology and its worked example |
 | [`guides/grounding-ai-agents.md`](guides/grounding-ai-agents.md) | Why grounding matters, and prompt/verification patterns for agent builders |
 | [`guides/training-resources.md`](guides/training-resources.md) | BetaNYC and partner training — Intro to Open Data, Open Data Ambassadors, and more |
 | [`resources/ny-open-data-portals.md`](resources/ny-open-data-portals.md) | Directory of open data portals run by NY counties and municipalities, with API and platform notes |
@@ -67,7 +67,7 @@ grounding-ai-with-ny-open-data/
 │   ├── council-members/                        ← DRAFT — per-district demo scripts + TEMPLATE.md
 │   ├── educators/                              ← DRAFT — faculty / curriculum demo scripts
 │   ├── state-legislators/                      ← DRAFT — per-district state demos + TEMPLATE.md
-│   ├── good-government/                        ← DRAFT — watchdog / newsroom demo scripts
+│   ├── good-government/                        ← DRAFT — watchdog / newsroom demo scripts + FOIL methodology
 │   ├── grounding-ai-agents.md                  ← DRAFT — grounding rationale + prompt patterns
 │   └── training-resources.md                  ← DRAFT — classes and programs
 └── resources/

@@ -59,6 +59,8 @@ status: DRAFT
 
 **What comes back: essentially nothing.** She was seated in January 2026.
 
+> **You can source this rather than infer it.** Legistar's own person record carries `PersonUsedSponsorFlag: 0` — the system's flag for "has never been used as a bill sponsor." If a staffer asks whether the empty result is a tool failure, that flag is the answer: the absence is recorded in the source system, not merely unfound by a query. Verified 2026-07-21 via `get_council_member(name="Maloney")`.
+
 **What to say:**
 > "That's the correct answer, and I want to sit on it for a second. You know you don't have a two-year sponsorship record. But an ungrounded chatbot asked this question will *give you one*. It will produce Intro numbers, committee names, and vote tallies that read perfectly and are entirely fabricated — often by blending in your predecessor's record, or a different Maloney's."
 
@@ -172,7 +174,9 @@ Representative:
 
 | Claim | How verified |
 |---|---|
-| Maloney = District 4, PersonId 7894 | `get_council_member(name="Maloney")`; record last modified 2025-11-06 |
+| **First name "Virginia"** | `get_council_member(name="Maloney")` → `PersonFirstName: "Virginia"`, `PersonLastName: "Maloney"`. Verified 2026-07-21. Previously used throughout the script with no provenance row |
+| Maloney = District 4, PersonId 7894 | same call → `PersonId: 7894`, `PersonActiveFlag: 1`, `PersonEmail: District4@council.nyc.gov`, `PersonWWW: council.nyc.gov/district-4/`; record last modified 2025-11-06 |
+| **No sponsorship record** (Act 2) | same call → **`PersonUsedSponsorFlag: 0`**. Legistar's own flag, not an inference from an empty search result. Stronger evidence for Act 2 than "the query came back empty," and worth citing if a staffer pushes |
 | 4,767 complaints; top types | Socrata `erm2-nwe9`, `council_district='04'`, `is_sample: false` |
 | **77 awards, $1,538,000, FY2027** | `search_awards(council_member="Maloney", fiscal_year=2027, limit=200)` — re-verified live 2026-07-21; returned 77 against a limit of 200, so complete |
 | $20,000 FCNY "AI Training Program" | `search_awards(organization="Fund for the City of New York", program="AI Training")` — exactly one match |

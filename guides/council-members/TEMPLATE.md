@@ -83,11 +83,11 @@ Ask the office for a live priority, or pre-fill one here.
 
 **Dry-run every prompt above against the live MCPs before the meeting, and record what actually happened here.** A script without verified notes is a draft, not a demo. Delete this instruction line once you've filled the section in.
 
-### ✅ Fixed 2026-07-22 — the BetaNYC MCPs now reject unknown parameters
+### ✅ Fixed 2026-07-21 — the BetaNYC MCPs now reject unknown parameters
 
 **This used to be the most dangerous thing in this document.** All seven servers accepted parameters that were not in their schema, silently dropped them, and returned **unfiltered** results with no error — real, correctly formatted data answering a different question. A guessed parameter name produced plausible garbage and nothing in the response revealed it.
 
-> **Now shipped.** As of **2026-07-22** every BetaNYC server rejects an undeclared parameter and names the ones it does accept. Minimum versions carrying the fix:
+> **Now shipped.** As of **2026-07-21** every BetaNYC server rejects an undeclared parameter, and **six of the seven also name the parameters they do accept.** (`nyc-checkbook-mcp` is the exception: outside `search_contracts` it returns zod's bare "Unrecognized key(s)" JSON with no accepted-parameter list. If you demo a refusal deliberately, use the budget or charter server.) Minimum versions carrying the fix:
 >
 > `nyc-budget-mcp` **1.3.0** · `nyc-council-mcp` **2.5.0** · `nyc-checkbook-mcp` **1.4.0** · `nyc-record-mcp` **1.1.0** · `nyc-311-mcp` **1.1.0** · `nyc-charter-laws-rules` **0.2.0** · `nys-openlegislation-mcp` **2.3.0**
 >
@@ -103,7 +103,7 @@ Ask the office for a live priority, or pre-fill one here.
 
 **This is worth demoing deliberately.** Asking for something the tool cannot do, and having it refuse by name, is a stronger trust argument than any successful query. **Socrata is a third-party server and is NOT covered** — its rows below still drop silently.
 
-**Verified-correct parameter names (re-verified 2026-07-22):**
+**Verified-correct parameter names (re-verified 2026-07-21):**
 
 | Task | Correct parameter | Do **not** use | If you get it wrong |
 |---|---|---|---|
@@ -112,7 +112,7 @@ Ask the office for a live priority, or pre-fill one here.
 | Socrata aggregate query | separate `select` / `where` / `group` / `order` / `limit` | a single `soql` blob | ⚠️ **still silently ignored** — third-party |
 | 311 by council district | `council_district='04'` — **zero-padded string** | `'4'` | ⚠️ **still returns zero rows silently** — this is a data-value trap, not a parameter one, so the fix does not catch it |
 
-### ⚠️ `limit` truncates the TOTAL, not just the list — verified the hard way 2026-07-22
+### ⚠️ `limit` truncates the TOTAL, not just the list — verified the hard way 2026-07-21
 
 **This produced two wrong dollar figures that reached finished demo scripts.** `search_awards` reports a summary total computed over the rows it returned. Cap the query and you cap the sum, with nothing in the output marking it partial.
 
@@ -131,11 +131,13 @@ Any "N complaints in the last 30 days" figure is perishable by construction and 
 
 **Zero-padding.** In the 311 dataset (`erm2-nwe9`), council districts are zero-padded strings. `council_district='4'` returns **zero rows with no error**; `'04'` returns thousands. **This affects districts 1–9 only** — a two-digit district will never reveal the bug, so a script that worked for District 10 will fail silently for District 4.
 
-**Surname substring collisions.** `council_member` matches as a substring and will return the **wrong member**. `council_member="Powers"` returns Selvena **Brooks-Powers'** District 31 awards. Check the surname in the returned rows before reading any figure aloud, and check your member's surname for collisions before the meeting.
+**Surname substring collisions — and the fiscal year decides how bad it is.** `council_member` matches as a substring, so a surname contained in another member's returns **both, summed into one total**. `council_member="Powers", fiscal_year=2026` returns 156 awards, $3,405,000 — Selvena Brooks-Powers (D31) and Keith Powers (D4) combined. The same query at `fiscal_year=2027` returns only Brooks-Powers, because Keith Powers no longer serves.
+
+A merged two-member total looks entirely reasonable, and the sponsor column is the only tell. **Check your member's surname for collisions before the meeting, state the fiscal year, and read the sponsor column before quoting any figure.** Unfixed — [New-York-City-Budget#38](https://github.com/BetaNYC/New-York-City-Budget/issues/38).
 
 ### Also verified — do not misread these as findings
 
-- **✅ `get_voting_record` no longer returns `[]` — as of `nyc-council-mcp` 2.5.0 it raises a named error.** It used to return an empty array for every member including multi-term incumbents, which is indistinguishable from "this member cast no votes" ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). Verified live 2026-07-22, this is what now appears:
+- **✅ `get_voting_record` no longer returns `[]` — as of `nyc-council-mcp` 2.5.0 it raises a named error.** It used to return an empty array for every member including multi-term incumbents, which is indistinguishable from "this member cast no votes" ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). Verified live 2026-07-21, this is what now appears:
 
   > Vote data is not indexed in the local corpus: the 'votes' table is empty, so `vote_breakdown` and `get_voting_record` have nothing to read. They stop here rather than return an empty list, which is indistinguishable from a member who cast no votes. Note that per-member aye/nay positions are not in the source archive at all — it records roll-call attendance (Present, Absent, Excused, Medical, Conflict) with no Affirmative/Negative value — so they would have to come from the live Legistar API. Options: (1) `get_votes` with an EventItemId returns per-member positions from the live API (requires `LEGISTAR_TOKEN`); (2) `get_bill_history` returns a bill's recorded actions and status changes; (3) `co_sponsors` and `search_bills` cover sponsorship, which is fully indexed.
 

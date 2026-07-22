@@ -69,7 +69,7 @@ The act a Council audience cares about most, and the strongest one in this scrip
 **Prompt:**
 > "Show the FY2026 NYC Council discretionary (Schedule C) awards sponsored by council member De La Rosa."
 
-**The verified answer, re-verified live 2026-07-22: 105 awards, $2,165,000 total.**
+**The verified answer, re-verified live 2026-07-21: 105 awards, $2,165,000 total.**
 
 > ⚠️ **Corrected — this was wrong by $1.2 million.** This script previously said "12 awards, $960,000." Re-running `search_awards(council_member="De La Rosa", fiscal_year=2026, limit=500)` returns **105 awards, $2,165,000**.
 >
@@ -92,7 +92,16 @@ The largest and most characteristic:
 
 **What to say:** "That is your office's Schedule C, by organization, by dollar, by agency — the list your budget director keeps in a spreadsheet."
 
-> **The BetaNYC-relevant beat, if you want it.** The last two awards — Friends of WHEELS and NYC First — are both under the **Digital Inclusion and Literacy Initiative**. $50,000 of District 10 discretionary money is going to youth robotics, STEM, and college-career pathways. That is digital equity funded at the district level, and it is the natural bridge to what BetaNYC does.
+> **The BetaNYC-relevant beat, if you want it.** **Four** FY2026 awards sit under the **Digital Inclusion and Literacy Initiative**, **$90,000** in total (re-verified live 2026-07-21):
+>
+> | Amount | Recipient | Program |
+> |---|---|---|
+> | $25,000 | Friends of WHEELS | College & Career Pathways |
+> | $25,000 | NYC First | Youth Robotics Leagues & STEM |
+> | $20,000 | Business Outreach Center Network | Women's Digital Cooperative for Economic Empowerment |
+> | $20,000 | Renaissance Technical Institute | Workforce Training |
+>
+> That is digital equity funded at the district level, and it is the natural bridge to what BetaNYC does. **Corrected:** this previously read "the last two awards... $50,000." The other two sat below the truncation line described above, so the error understated her digital-equity commitment by $40,000 — in the direction least favorable to the member, in her own office.
 
 ### Step two — the check
 
@@ -138,23 +147,23 @@ Ask the office for a live priority. If they don't offer one, Water System compla
 
 ---
 
-## Presenter notes (figures verified 2026-07-21 · MCP behavior re-verified 2026-07-22)
+## Presenter notes (figures verified 2026-07-21 · MCP behavior re-verified 2026-07-21)
 
 **Read this section before presenting.** Every item below was found by dry-running the prompts live. Several are silent failures — the tool returns confident, real-looking, wrong-question data with no error.
 
-### ✅ Fixed 2026-07-22 — the thing that used to bite you here
+### ✅ Fixed 2026-07-21 — the thing that used to bite you here
 
 These servers used to accept parameters that were not in their schema, ignore them, and return **unfiltered** results with no error. An agent that guessed a plausible parameter name got plausible garbage.
 
 This was found the hard way on 2026-07-21, in this very script: `search_awards(council_district=10)` returned $47.5M of **citywide** awards, which an agent would happily summarize as District 10's funding. It was exactly the failure this repo warns about, occurring inside our own tooling.
 
-> **Now fixed and published.** `nyc-budget-mcp` **1.3.0** ([PR #40](https://github.com/BetaNYC/New-York-City-Budget/pull/40)) rejects `council_district` and points at `council_member`. All seven servers got the same treatment on 2026-07-22 — minimum versions: budget 1.3.0, council 2.5.0, checkbook 1.4.0, record 1.1.0, 311 1.1.0, charter 0.2.0, nys 2.3.0. Verified live against the published packages.
+> **Now fixed and published.** `nyc-budget-mcp` **1.3.0** ([PR #40](https://github.com/BetaNYC/New-York-City-Budget/pull/40)) rejects `council_district` and points at `council_member`. All seven servers got the same treatment on 2026-07-21 — minimum versions: budget 1.3.0, council 2.5.0, checkbook 1.4.0, record 1.1.0, 311 1.1.0, charter 0.2.0, nys 2.3.0. Verified live against the published packages.
 >
 > **Run `/mcp-update` and confirm your versions before presenting.** These load via `npx -y`, so a stale cache can still serve an old build — and on an old build the $47.5M answer comes back with no warning.
 
 **Worth doing on purpose in the room.** Asking for District 10's awards *by district* and having the tool refuse and name `council_member` is a better trust argument than any successful query. It is the whole thesis of this repo, demonstrated on our own software.
 
-**The correct parameter names, re-verified 2026-07-22:**
+**The correct parameter names, re-verified 2026-07-21:**
 
 | Task | Correct parameter | Do **not** use | If you get it wrong |
 |---|---|---|---|
@@ -179,7 +188,7 @@ There is **no district filter** on the budget tool, by design — Schedule C key
 | Claim | How verified |
 |---|---|
 | De La Rosa = District 10, PersonId 7806 | `get_council_member`, Legistar record |
-| **105 FY2026 awards, $2,165,000** | `search_awards(council_member="De La Rosa", fiscal_year=2026, limit=500)` — re-verified live 2026-07-22; returned 105 against a limit of 500, so complete. **Supersedes "12 awards, $960,000," which was wrong** |
+| **105 FY2026 awards, $2,165,000** | `search_awards(council_member="De La Rosa", fiscal_year=2026, limit=500)` — re-verified live 2026-07-21; returned 105 against a limit of 500, so complete. **Supersedes "12 awards, $960,000," which was wrong** |
 | CLOTH Checkbook payments incl. Tax Levy Elected Officials | `search_spending(payee_name=…, fiscal_year=2026)`, 32 records |
 | Int 1122-2024 enacted 2025-11-08, De La Rosa a sponsor | `search_legislation("broadband")` |
 | 311 top complaints, 10,357 total | Socrata `erm2-nwe9`, `is_sample: false` |

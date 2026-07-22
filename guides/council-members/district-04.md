@@ -65,7 +65,7 @@ status: DRAFT
 **Then the second half, which is the actual sales point:**
 > "The failure mode isn't that AI is wrong. It's that it's wrong *fluently*, and the more senior the person reading the output, the less likely anyone is to check. What you're watching here is a system that would rather return nothing than fill a gap. Everything else it tells you is worth more because of that."
 
-> **✅ Changed 2026-07-22 — this act got stronger, but what appears on screen is different.** `get_voting_record` no longer returns an empty list. As of `nyc-council-mcp` **2.5.0** it raises a named error explaining that the `votes` table is not indexed, that the source archive holds roll-call *attendance* rather than aye/nay positions, and listing three tools that do work ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19), [PR #24](https://github.com/BetaNYC/nyc-council-mcp/pull/24)). Verified live against the published package.
+> **✅ Changed 2026-07-21 — this act got stronger, but what appears on screen is different.** `get_voting_record` no longer returns an empty list. As of `nyc-council-mcp` **2.5.0** it raises a named error explaining that the `votes` table is not indexed, that the source archive holds roll-call *attendance* rather than aye/nay positions, and listing three tools that do work ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19), [PR #24](https://github.com/BetaNYC/nyc-council-mcp/pull/24)). Verified live against the published package.
 >
 > **What this means for Act 2.** The old script leaned on an empty result and warned you not to overclaim it. That risk is gone — the tool now says why it cannot answer. **Read the refusal aloud.** It is a cleaner version of the point you were already making: the system declines rather than fills the gap, and it tells you where to go instead.
 >
@@ -80,7 +80,7 @@ Her legislative record is thin. **Her budget is not**, and it is entirely hers.
 **Prompt:**
 > "Show the FY2027 NYC Council discretionary (Schedule C) awards sponsored by council member Maloney."
 
-**Re-verified live 2026-07-22: 77 awards totaling $1,538,000.**
+**Re-verified live 2026-07-21: 77 awards totaling $1,538,000.**
 
 > ⚠️ **Corrected.** This script previously read "at least 40 awards totaling $1,148,000," from a query capped at `limit: 40` that returned exactly 40 rows. It understated her budget by **$390,000 and 37 awards**. The `limit` truncates the total as well as the list, so a capped query reports a capped sum with no indication it is partial. **Always pass `limit: 200` or higher for a member-year query, and check that the returned count is below the limit.**
 
@@ -107,7 +107,9 @@ Representative:
 > | $20,000 | Simon Wiesenthal Center | Digital Equity Program |
 > | $20,000 | WNET | Arts Broadcasting |
 >
-> A newly seated member put real money into AI training and digital literacy in her first budget. That is the conversation, and it is her own choice rather than something being pitched to her.
+> A newly seated member put real money into AI training and digital literacy in her first budget. That is the conversation.
+>
+> **Do not characterize how that decision was made.** An earlier draft said it was "her own choice rather than something being pitched to her." Nothing in the data supports a claim about her office's internal process, and BetaNYC is the grantee of the line in question. Say what the record shows and stop there.
 >
 > **The $20,000 Fund for the City of New York line is BetaNYC's own AI Training Program** — FCNY is our fiscal sponsor (EIN 13-2612524), so our awards appear under its name. Confirmed 2026-07-21.
 >
@@ -139,23 +141,28 @@ Representative:
 
 ---
 
-## Presenter notes (figures verified 2026-07-21 · MCP behavior re-verified 2026-07-22)
+## Presenter notes (figures verified 2026-07-21 · MCP behavior re-verified 2026-07-21)
 
 ### ⚠️ Two traps that will silently break this specific demo
 
 **1. Council districts are zero-padded strings in 311 data.** `council_district='4'` returns **zero rows**. `council_district='04'` returns 4,767. No error either way. This affects **districts 1–9 only**, which is why the District 10 script never hit it. Verified by querying `IN ('4','04','10')` — only `'04'` and `'10'` come back.
 
-**2. `council_member` matches as a substring, and will silently MERGE two members.** Corrected 2026-07-22 — the earlier version of this note had the failure backwards.
+**2. `council_member` matches as a substring, and the result depends on the fiscal year.** Clarified 2026-07-21 — neither this note's earlier wording nor its first correction stated the fiscal year, and **the fiscal year is the whole answer.**
 
-`search_awards(council_member="Powers", fiscal_year=2026)` returns **156 awards totaling $3,405,000**, which is **Selvena Brooks-Powers (District 31) and Keith Powers (District 4) summed together**, because "Powers" is a substring of "Brooks-Powers".
+| Query | Returns |
+|---|---|
+| `council_member="Powers", fiscal_year=2027` | **80 awards, $1,797,000 — Brooks-Powers (D31) only.** Keith Powers is correctly absent: District 4's FY2027 member is Maloney |
+| `council_member="Powers", fiscal_year=2026` | **156 awards, $3,405,000 — BOTH members summed.** Keith Powers held District 4 through FY2026, his last adopted budget |
 
-> The old note said Keith Powers "does not appear at all." That is false — he appears extensively, including $200,000 to ACE for District 4. **The hazard is not a missing member, it is a combined total for two members across two districts, presented as one number.** A presenter warned about the wrong failure mode would read $3.4M aloud as one district's funding.
+**For this script, which runs on FY2027, the collision does not bite.** Searching "Powers" returns only Brooks-Powers, and District 4 is Maloney's. Keith Powers is archival here.
 
-**Check the sponsor column in the returned rows before reading any figure aloud**, and check your member's surname for collisions before the meeting. This is unfixed — [New-York-City-Budget#38](https://github.com/BetaNYC/New-York-City-Budget/issues/38) is open. The strict-parameter fix does **not** catch it: `council_member` is a valid parameter receiving a valid value, so there is nothing for a schema to reject.
+**It bites any historical query.** In FY2020–FY2026 a "Powers" search silently sums two members across two districts into one total, with the sponsor column the only tell. That is worse than returning the wrong member, because the number looks reasonable.
+
+**Check the sponsor column before reading any figure aloud, and state the fiscal year when you do.** Unfixed — [New-York-City-Budget#38](https://github.com/BetaNYC/New-York-City-Budget/issues/38) is open. The strict-parameter fix does **not** catch it: `council_member` is a valid parameter receiving a valid value, so there is nothing for a schema to reject.
 
 ### Other verified behavior
 
-- **✅ `get_voting_record` now raises a named error instead of `[]`** (`nyc-council-mcp` 2.5.0, verified 2026-07-22). The `votes` table still has 0 rows against 228,385 event_items and 136,066 sponsors — that has not changed — but the tool now says so and names three working alternatives rather than returning an empty list ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). See Act 2 for how to use it. `vote_breakdown` behaves identically; **`get_votes` does not** — it reads the live Legistar API, not the local table.
+- **✅ `get_voting_record` now raises a named error instead of `[]`** (`nyc-council-mcp` 2.5.0, verified 2026-07-21). The `votes` table still has 0 rows against 228,385 event_items and 136,066 sponsors — that has not changed — but the tool now says so and names three working alternatives rather than returning an empty list ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). See Act 2 for how to use it. `vote_breakdown` behaves identically; **`get_votes` does not** — it reads the live Legistar API, not the local table.
 - **`get_council_member(name="Powers")`** returns only Brooks-Powers. The member lookup has the same substring behavior as the budget tool.
 - **`search_legislation` can return `[]` even for a reasonable single keyword** — `"encampment"` finds nothing, because the term doesn't appear in bill titles. It matches titles, not subject matter. Try a synonym before concluding no legislation exists.
 - **`get_upcoming_hearings` is extremely verbose** — full agenda item text, including land-use applications that run to hundreds of block-and-lot references. Ask for a summary rather than raw output, or cap the limit low.
@@ -167,13 +174,13 @@ Representative:
 |---|---|
 | Maloney = District 4, PersonId 7894 | `get_council_member(name="Maloney")`; record last modified 2025-11-06 |
 | 4,767 complaints; top types | Socrata `erm2-nwe9`, `council_district='04'`, `is_sample: false` |
-| **77 awards, $1,538,000, FY2027** | `search_awards(council_member="Maloney", fiscal_year=2027, limit=200)` — re-verified live 2026-07-22; returned 77 against a limit of 200, so complete |
+| **77 awards, $1,538,000, FY2027** | `search_awards(council_member="Maloney", fiscal_year=2027, limit=200)` — re-verified live 2026-07-21; returned 77 against a limit of 200, so complete |
 | $20,000 FCNY "AI Training Program" | `search_awards(organization="Fund for the City of New York", program="AI Training")` — exactly one match |
 | Upcoming hearings and agendas | `get_upcoming_hearings` |
 
 **Not independently verified this session:**
 - **Her committee assignments.** Not checked. Do not name one.
-- ~~**That the $1,148,000 is her complete FY2027 total.**~~ **Resolved 2026-07-22 — it was not.** Re-run at `limit: 200`: **77 awards, $1,538,000**. The original caveat was correct and the figure shipped anyway. Treat "returned exactly N against a limit of N" as a truncation until proven otherwise.
+- ~~**That the $1,148,000 is her complete FY2027 total.**~~ **Resolved 2026-07-21 — it was not.** Re-run at `limit: 200`: **77 awards, $1,538,000**. The original caveat was correct and the figure shipped anyway. Treat "returned exactly N against a limit of N" as a truncation until proven otherwise.
 - **District 4's exact boundaries.** The neighborhood list above is inferred from award recipients (Carnegie Hill Neighbors, Friends of the Upper East Side Historic Districts, Murray Hill Committee, STPCV Tenants Association) rather than from a districting source. It is well supported but not authoritative — don't recite it to the people who represent it.
 - ~~Whether the FCNY "AI Training Program" award is BetaNYC's own program.~~ **Resolved 2026-07-21: it is BetaNYC**, via our fiscal sponsor Fund for the City of New York. See the note in Act 3 on how to raise it.
 

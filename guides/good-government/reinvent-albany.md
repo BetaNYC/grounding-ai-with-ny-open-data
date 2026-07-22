@@ -55,10 +55,10 @@ Not one district. The whole map.
 **Prompt:**
 > "Show every FY2026 Council discretionary award to the Association of Community Employment Programs for the Homeless, then check NYC Checkbook for what the city actually paid them."
 
-**Verified:** **54 Schedule C awards totaling $6,455,750** in FY2026 — the same organization funded separately by roughly three dozen council members, district by district, nearly all under the **NYC Cleanup** initiative via DYCD. Individual awards range from **$7,750 to $280,000**.
+**Verified live 2026-07-21:** **54 Schedule C awards totaling $6,455,750** in FY2026 — the same organization funded separately by **41 distinct council members**, district by district, nearly all under the **NYC Cleanup** initiative via DYCD. Individual awards range from **$7,750 to $280,000**. Re-run at `limit: 500`; 54 against a limit of 500, so complete.
 
 **What to say:**
-> "One vendor, three dozen separate discretionary decisions, six and a half million dollars, and no single line item anywhere that says so. Assembling this by hand means reading the Schedule C PDF end to end. That's the afternoon this replaces."
+> "One vendor, 54 separate discretionary decisions by 41 different council members, six and a half million dollars, and no single line item anywhere that says so. Assembling this by hand means reading the Schedule C PDF end to end. That's the afternoon this replaces."
 
 **Then the reconciliation, on a smaller organization so the numbers stay legible:**
 
@@ -77,7 +77,7 @@ Not one district. The whole map.
 **Prompt:**
 > "Show FY2026 NYC Council transparency resolution rescissions — discretionary money that was de-designated after adoption."
 
-**A PARTIAL sample from FY2026 Resolution 1, adopted 2025-08-14** — each row verified live 2026-07-22, but this is **not** the full set. See the correction below the table before you present it:
+**A PARTIAL sample from FY2026 Resolution 1, adopted 2025-08-14** — each row verified live 2026-07-21, but this is **not** the full set. See the correction below the table before you present it:
 
 | Amount | Member | Recipient |
 |---|---|---|
@@ -93,7 +93,7 @@ Not one district. The whole map.
 **What to say:**
 > "Adopted budgets get amended all year by transparency resolution, and rescissions carry negative amounts. This is money that was announced, then quietly withdrawn. A transfer shows up as a rescind and a designate on the same EIN — so the tool can distinguish 'moved' from 'taken away,' which is precisely the distinction a press release will not make."
 
-> ⚠️ **Corrected 2026-07-22 — read this before presenting the table above.** That table is **not** the complete FY2026 rescission set. It came from a query that hit its 50-row limit and truncated part-way through the alphabet, at "Cultural After-School Adventure." Every row shown verifies individually, but **there are substantially more, including larger ones.**
+> ⚠️ **Corrected 2026-07-21 — read this before presenting the table above.** That table is **not** the complete FY2026 rescission set. It came from a query that hit its 50-row limit and truncated part-way through the alphabet, at "Cultural After-School Adventure." Every row shown verifies individually, but **there are substantially more, including larger ones.**
 >
 > Two specific corrections, both of which this audience will find if you don't say them first:
 >
@@ -152,7 +152,7 @@ The act that speaks their language most directly.
 
 ---
 
-## Presenter notes (figures verified 2026-07-21 · MCP behavior re-verified 2026-07-22)
+## Presenter notes (figures verified 2026-07-21 · MCP behavior re-verified 2026-07-21)
 
 **This audience will interrogate provenance.** Answer precisely or concede. A hedge you can defend beats a figure you can't.
 
@@ -168,9 +168,11 @@ From `list_available_fiscal_years`:
 
 ### Parameter traps (all silent — no error, real-looking wrong output)
 
-> **✅ Fixed and published 2026-07-22 — volunteer this to this audience.** All seven BetaNYC servers now reject an undeclared parameter and name the ones they accept. Minimum versions: budget **1.3.0**, council **2.5.0**, checkbook **1.4.0**, record **1.1.0**, 311 **1.1.0**, charter **0.2.0**, nys **2.3.0**. Verified live against the published packages.
+> **✅ Fixed and published 2026-07-21 — volunteer this to this audience.** All seven BetaNYC servers now reject an undeclared parameter and name the ones they accept. Minimum versions: budget **1.3.0**, council **2.5.0**, checkbook **1.4.0**, record **1.1.0**, 311 **1.1.0**, charter **0.2.0**, nys **2.3.0**. Verified live against the published packages.
 >
-> **The honest framing, which this room will respect more than a clean demo:** we found this in our own tooling on 2026-07-21 while rehearsing these very scripts, filed it publicly across seven repos, and shipped the fix the next day. The bug was that a guessed parameter produced *real, correctly sourced data answering a different question* — the exact failure mode this session is about. Being able to say "we caught it in ourselves and here is the commit" is the strongest provenance argument available.
+> **The honest framing, which this room will respect more than a clean demo:** we found this in our own tooling midday on **2026-07-21** while rehearsing these very scripts, filed **seven public issues**, and shipped, merged, and published all seven fixes **the same evening** — merges at 20:52–20:54, npm publishes at 21:06. The bug was that a guessed parameter produced *real, correctly sourced data answering a different question* — the exact failure mode this session is about. Being able to say "we caught it in ourselves, here are the issues, here are the commits" is a stronger provenance argument than a clean demo.
+>
+> **One carve-out, and volunteer it rather than being caught on it:** six of the seven servers name the accepted parameters in the refusal. **`nyc-checkbook-mcp` does not** — outside `search_contracts` it returns zod's bare "Unrecognized key(s) in object" as a raw JSON validation dump, with no accepted-parameter list and no pointer. If you demo the refusal deliberately, **demo it on the budget or charter server**, not Checkbook.
 >
 > **The Socrata rows below are a third-party server and are NOT covered.** They still drop silently. Do not let the fix be described as fleet-wide when part of the fleet is not ours.
 
@@ -181,16 +183,16 @@ From `list_available_fiscal_years`:
 | Socrata aggregate | discrete `select`/`where`/`group`/`order`/`limit` | a single `soql` blob | ⚠️ **still silently ignored** — third-party |
 | 311 by district | `council_district='04'` — zero-padded | `'4'` | ⚠️ **still zero rows, silently** — a data-value trap, not a parameter one, so schema strictness cannot catch it |
 
-- **There is no district filter on Schedule C**, by design — it keys on sponsoring member. Asking by district now returns an error naming `council_member` ([#37](https://github.com/BetaNYC/New-York-City-Budget/issues/37), fixed in 1.3.0). **Before 2026-07-22 it returned citywide awards with no warning** — worth stating plainly to this audience, since the near-miss is the point.
-- **`council_member` matches as a substring** and will return the wrong member — `"Powers"` returns Selvena **Brooks-Powers**.
+- **There is no district filter on Schedule C**, by design — it keys on sponsoring member. Asking by district now returns an error naming `council_member` ([#37](https://github.com/BetaNYC/New-York-City-Budget/issues/37), fixed in 1.3.0). **Before 2026-07-21 it returned citywide awards with no warning** — worth stating plainly to this audience, since the near-miss is the point.
+- **`council_member` matches as a substring and can silently MERGE two members.** In fiscal years where both served, `council_member="Powers"` returns Selvena **Brooks-Powers** (D31) and Keith **Powers** (D4) summed into one total — FY2026: 156 awards, $3,405,000. In FY2027 only Brooks-Powers remains, so the same query is clean. **The fiscal year determines whether this bites.** Read the sponsor column; a merged total looks entirely reasonable. Unfixed — [#38](https://github.com/BetaNYC/New-York-City-Budget/issues/38).
 - **Fiscal sponsors merge grantees.** EIN 13-2612524 (Fund for the City of New York) is a passthrough for dozens of programs. Filter by `program` as well as `organization`/`ein`, or you will silently aggregate unrelated recipients. This is a real analytical hazard for this audience, and worth mentioning to them as such.
 
 ### Tool behavior
 
 - **Checkbook `smart_search` is blocked** by an Incapsula WAF challenge. Use the structured tools; `search_spending` requires `fiscal_year` or `issue_date_from`.
-- **`search_contracts` genuinely cannot filter by vendor name** — the Checkbook contracts API filters vendors only by `vendor_code` and offers no name→code lookup. Credit where due: passing the *declared* `vendor_name` parameter returns an explicit error naming the limitation and listing the three supported alternatives, rather than silently returning unrelated contracts. That is the right behavior and worth showing this audience as an example of a tool that refuses rather than guesses. **The sharp edge, and the better version of the story:** until 2026-07-22 that careful guard was defeated by a one-word typo — the undeclared `vendor` bypassed it entirely and returned millions of unrelated rows. Checkbook **1.4.0** closes it: `vendor` is now rejected and the message points at `vendor_name`. A guard that only fires on the spelling you anticipated is precisely why schema strictness matters more than any individual check, and this server is now the worked example of both halves.
+- **`search_contracts` genuinely cannot filter by vendor name** — the Checkbook contracts API filters vendors only by `vendor_code` and offers no name→code lookup. Credit where due: passing the *declared* `vendor_name` parameter returns an explicit error naming the limitation and listing the three supported alternatives, rather than silently returning unrelated contracts. That is the right behavior and worth showing this audience as an example of a tool that refuses rather than guesses. **The sharp edge, and the better version of the story:** until 2026-07-21 that careful guard was defeated by a one-word typo — the undeclared `vendor` bypassed it entirely and returned millions of unrelated rows. Checkbook **1.4.0** closes it: `vendor` is now rejected and the message points at `vendor_name`. A guard that only fires on the spelling you anticipated is precisely why schema strictness matters more than any individual check, and this server is now the worked example of both halves.
 - **`search_legislation` matches bill titles, not subject matter.** Single keywords work; multi-word conceptual phrases return `[]`. A sensible keyword can miss entirely — `"encampment"` finds nothing.
-- **✅ `get_voting_record` now refuses instead of returning `[]`** (council **2.5.0**, verified live 2026-07-22). The `votes` table still has 0 rows — that is unchanged — but the tool now says so, explains that the source archive holds attendance rather than aye/nay, and names three working alternatives ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). **Read it aloud if it comes up:** for this audience, a tool that declines and explains itself is the demo. `vote_breakdown` is the same; **`get_votes` is not** — it reads the live Legistar API rather than the local table and was never affected.
+- **✅ `get_voting_record` now refuses instead of returning `[]`** (council **2.5.0**, verified live 2026-07-21). The `votes` table still has 0 rows — that is unchanged — but the tool now says so, explains that the source archive holds attendance rather than aye/nay, and names three working alternatives ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). **Read it aloud if it comes up:** for this audience, a tool that declines and explains itself is the demo. `vote_breakdown` is the same; **`get_votes` is not** — it reads the live Legistar API rather than the local table and was never affected.
 
   Worth knowing for this audience specifically: the underlying archive carries 159,666 roll-call **attendance** entries (Present/Absent/Excused/Medical/Conflict/…) spanning 1999–2026 that are currently discarded — but it does **not** carry aye/nay vote positions anywhere, which would need the live Legistar API. Indexing that attendance data has been **deliberately deferred** rather than rushed, because storing attendance in a table named `votes` behind a tool named `get_voting_record` would bake the confusion in permanently. The naming gets decided first. That is a defensible answer if this audience asks why the fix is partial, and an honest example of the distinction between "no data" and "different data than the name implies."
 - **`get_open_solicitations` and Socrata catalog searches are very verbose** — City Record notices embed raw HTML; catalog searches inline geometry (581 KB unbounded on the NYC portal, ~83 KB even at `limit: 5` on the state portal). Always bound them.
@@ -204,7 +206,7 @@ From `list_available_fiscal_years`:
 | Open data statutory chain | `nyc-charter-laws-rules search("open data")`; `nyc-council-mcp search_legislation("open data")` |
 | ACE: 54 FY2026 awards, $6,455,750 | `search_awards(organization="Association of Community Employment", fiscal_year=2026, limit=60)` |
 | CLOTH $30,000 De La Rosa; 32 Checkbook records; Tax Levy Elected Officials | `search_awards(...)`; `search_spending(payee_name=…, fiscal_year=2026)` |
-| FY2026 rescissions, Reso 1 of 2025-08-14 — **partial sample, 8 rows shown** | `search_transparency_resolutions(action="rescind", fiscal_year=2026, limit=500)`. The original run used the default limit, returned 50, and truncated mid-alphabet. Each shown row re-verified live 2026-07-22; **the set is larger and the total is not stated anywhere in this script** |
+| FY2026 rescissions, Reso 1 of 2025-08-14 — **partial sample, 8 rows shown** | `search_transparency_resolutions(action="rescind", fiscal_year=2026, limit=500)`. The original run used the default limit, returned 50, and truncated mid-alphabet. Each shown row re-verified live 2026-07-21; **the set is larger and the total is not stated anywhere in this script** |
 | CTE datasets stop at 2019-2020 | Socrata catalog, two independent search terms |
 | Broadband dataset covers SD 10–34 + 36 only | Socrata `9bjg-n96a` |
 | Open solicitations | `nyc-record-mcp get_open_solicitations` |

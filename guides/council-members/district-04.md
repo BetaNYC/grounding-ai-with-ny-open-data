@@ -65,7 +65,11 @@ status: DRAFT
 **Then the second half, which is the actual sales point:**
 > "The failure mode isn't that AI is wrong. It's that it's wrong *fluently*, and the more senior the person reading the output, the less likely anyone is to check. What you're watching here is a system that would rather return nothing than fill a gap. Everything else it tells you is worth more because of that."
 
-> **Presenter warning — do not overclaim this.** `get_voting_record` returns an empty list for **every** member, including four-year incumbents. Root cause confirmed 2026-07-21: the local corpus's `votes` table contains **0 rows** — the indexer prepares an insert statement and never calls it ([nyc-council-mcp#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). So an empty result here is **not** evidence about Council Member Maloney specifically. Frame Act 2 around the *newness of the member* (true and verifiable from her Legistar record and her FY2027-only budget), **not** around "look, the tool correctly shows no votes" — it would show that for anyone. If a staffer asks directly, say the voting-record lookup isn't currently returning data for any member and there's an open issue on it. (A fix is open — [PR #24](https://github.com/BetaNYC/nyc-council-mcp/pull/24) — making it raise a named error rather than an empty list. Unmerged and unpublished as of 2026-07-21, so `[]` is still what you will see on stage.)
+> **✅ Changed 2026-07-22 — this act got stronger, but what appears on screen is different.** `get_voting_record` no longer returns an empty list. As of `nyc-council-mcp` **2.5.0** it raises a named error explaining that the `votes` table is not indexed, that the source archive holds roll-call *attendance* rather than aye/nay positions, and listing three tools that do work ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19), [PR #24](https://github.com/BetaNYC/nyc-council-mcp/pull/24)). Verified live against the published package.
+>
+> **What this means for Act 2.** The old script leaned on an empty result and warned you not to overclaim it. That risk is gone — the tool now says why it cannot answer. **Read the refusal aloud.** It is a cleaner version of the point you were already making: the system declines rather than fills the gap, and it tells you where to go instead.
+>
+> **Still do not overclaim.** The refusal is about the *corpus*, not about Council Member Maloney. It appears identically for a four-term incumbent. Keep Act 2 framed on the *newness of the member* — verifiable from her Legistar record and her FY2027-only budget — and use the refusal as evidence about the tool's honesty, never as evidence about her record.
 
 ---
 
@@ -133,7 +137,7 @@ Representative:
 
 ---
 
-## Presenter notes (verified 2026-07-21)
+## Presenter notes (figures verified 2026-07-21 · MCP behavior re-verified 2026-07-22)
 
 ### ⚠️ Two traps that will silently break this specific demo
 
@@ -143,7 +147,7 @@ Representative:
 
 ### Other verified behavior
 
-- **`get_voting_record` returns `[]` for everyone**, including De La Rosa. The `votes` table in the local corpus has 0 rows against 228,385 event_items and 136,066 sponsors — the indexer never writes it ([nyc-council-mcp#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). Do not interpret an empty result as a statement about any member. See the warning in Act 2. `vote_breakdown` shares the fault; **`get_votes` does not** — it reads the live Legistar API, not the local table (corrected 2026-07-21).
+- **✅ `get_voting_record` now raises a named error instead of `[]`** (`nyc-council-mcp` 2.5.0, verified 2026-07-22). The `votes` table still has 0 rows against 228,385 event_items and 136,066 sponsors — that has not changed — but the tool now says so and names three working alternatives rather than returning an empty list ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). See Act 2 for how to use it. `vote_breakdown` behaves identically; **`get_votes` does not** — it reads the live Legistar API, not the local table.
 - **`get_council_member(name="Powers")`** returns only Brooks-Powers. The member lookup has the same substring behavior as the budget tool.
 - **`search_legislation` can return `[]` even for a reasonable single keyword** — `"encampment"` finds nothing, because the term doesn't appear in bill titles. It matches titles, not subject matter. Try a synonym before concluding no legislation exists.
 - **`get_upcoming_hearings` is extremely verbose** — full agenda item text, including land-use applications that run to hundreds of block-and-lot references. Ask for a summary rather than raw output, or cap the limit low.

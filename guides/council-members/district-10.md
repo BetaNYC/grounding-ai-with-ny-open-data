@@ -130,25 +130,29 @@ Ask the office for a live priority. If they don't offer one, Water System compla
 
 ---
 
-## Presenter notes (verified 2026-07-21)
+## Presenter notes (figures verified 2026-07-21 · MCP behavior re-verified 2026-07-22)
 
 **Read this section before presenting.** Every item below was found by dry-running the prompts live. Several are silent failures — the tool returns confident, real-looking, wrong-question data with no error.
 
-### ⚠️ The thing that will bite you: these MCPs silently drop unknown parameters
+### ✅ Fixed 2026-07-22 — the thing that used to bite you here
 
-Several of these servers accept parameters that are not in their schema, ignore them, and return **unfiltered** results. No error, no warning. An agent that guesses a plausible parameter name gets plausible garbage.
+These servers used to accept parameters that were not in their schema, ignore them, and return **unfiltered** results with no error. An agent that guessed a plausible parameter name got plausible garbage.
 
-This was found the hard way on 2026-07-21: `search_awards(council_district=10)` returns $47.5M of **citywide** awards, which an agent will happily summarize as District 10's funding. It is exactly the failure this whole repo warns about, occurring inside our own tooling.
+This was found the hard way on 2026-07-21, in this very script: `search_awards(council_district=10)` returned $47.5M of **citywide** awards, which an agent would happily summarize as District 10's funding. It was exactly the failure this repo warns about, occurring inside our own tooling.
 
-> **Being fixed — but not yet published, so this still applies to your demo.** PRs are open against all seven BetaNYC MCP servers ([budget #40](https://github.com/BetaNYC/New-York-City-Budget/pull/40) covers `search_awards`) to reject an unknown parameter with an error naming the right one. **None have merged or published.** `npx -y` still resolves `nyc-budget-mcp` 1.2.0, which drops silently. Treat this section as live until you have run `/mcp-update` and confirmed a newer version.
+> **Now fixed and published.** `nyc-budget-mcp` **1.3.0** ([PR #40](https://github.com/BetaNYC/New-York-City-Budget/pull/40)) rejects `council_district` and points at `council_member`. All seven servers got the same treatment on 2026-07-22 — minimum versions: budget 1.3.0, council 2.5.0, checkbook 1.4.0, record 1.1.0, 311 1.1.0, charter 0.2.0, nys 2.3.0. Verified live against the published packages.
+>
+> **Run `/mcp-update` and confirm your versions before presenting.** These load via `npx -y`, so a stale cache can still serve an old build — and on an old build the $47.5M answer comes back with no warning.
 
-**The correct parameter names, all verified working:**
+**Worth doing on purpose in the room.** Asking for District 10's awards *by district* and having the tool refuse and name `council_member` is a better trust argument than any successful query. It is the whole thesis of this repo, demonstrated on our own software.
 
-| Task | Correct parameter | Do **not** use |
-|---|---|---|
-| Schedule C awards by member | `council_member="De La Rosa"` (surname substring) | `council_district`, `sponsor` |
-| Checkbook payments to an org | `payee_name="COMMUNITY LEAGUE OF THE HEIGHTS"` | `vendor` (undeclared — silently dropped) |
-| Socrata aggregate query | separate `select` / `where` / `group` / `order` / `limit` | a single `soql` blob |
+**The correct parameter names, re-verified 2026-07-22:**
+
+| Task | Correct parameter | Do **not** use | If you get it wrong |
+|---|---|---|---|
+| Schedule C awards by member | `council_member="De La Rosa"` (surname substring) | `council_district`, `sponsor` | **rejected by name** (fixed) |
+| Checkbook payments to an org | `payee_name="COMMUNITY LEAGUE OF THE HEIGHTS"` | `vendor` | **rejected by name** (fixed) |
+| Socrata aggregate query | separate `select` / `where` / `group` / `order` / `limit` | a single `soql` blob | ⚠️ **still silently ignored** — third-party server |
 
 There is **no district filter** on the budget tool, by design — Schedule C keys on sponsoring member, not district. The agent must map district → surname first. That is worth narrating out loud as a feature: the money follows the member.
 

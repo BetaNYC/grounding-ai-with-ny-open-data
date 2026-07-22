@@ -143,7 +143,7 @@ The act that speaks their language most directly.
 
 ---
 
-## Presenter notes (verified 2026-07-21)
+## Presenter notes (figures verified 2026-07-21 · MCP behavior re-verified 2026-07-22)
 
 **This audience will interrogate provenance.** Answer precisely or concede. A hedge you can defend beats a figure you can't.
 
@@ -159,25 +159,29 @@ From `list_available_fiscal_years`:
 
 ### Parameter traps (all silent — no error, real-looking wrong output)
 
-> **Being fixed — unpublished as of 2026-07-21, so this section still applies.** PRs are open against all seven BetaNYC MCP servers to reject unknown parameters with an error naming the correct one. None have merged or published; `npx -y` still resolves the permissive versions. This audience will appreciate the distinction, and it is worth volunteering: the tools currently answer a *different* question rather than refusing, and that is being closed. The Socrata rows below are a third-party server and are **not** covered by that work — they will still drop silently afterward.
+> **✅ Fixed and published 2026-07-22 — volunteer this to this audience.** All seven BetaNYC servers now reject an undeclared parameter and name the ones they accept. Minimum versions: budget **1.3.0**, council **2.5.0**, checkbook **1.4.0**, record **1.1.0**, 311 **1.1.0**, charter **0.2.0**, nys **2.3.0**. Verified live against the published packages.
+>
+> **The honest framing, which this room will respect more than a clean demo:** we found this in our own tooling on 2026-07-21 while rehearsing these very scripts, filed it publicly across seven repos, and shipped the fix the next day. The bug was that a guessed parameter produced *real, correctly sourced data answering a different question* — the exact failure mode this session is about. Being able to say "we caught it in ourselves and here is the commit" is the strongest provenance argument available.
+>
+> **The Socrata rows below are a third-party server and are NOT covered.** They still drop silently. Do not let the fix be described as fleet-wide when part of the fleet is not ours.
 
-| Task | Correct parameter | Do **not** use |
-|---|---|---|
-| Schedule C by member | `council_member="[SURNAME]"` | `council_district`, `sponsor` |
-| Checkbook payments | `payee_name="[ORG]"` | `vendor` (undeclared — silently dropped) |
-| Socrata aggregate | discrete `select`/`where`/`group`/`order`/`limit` | a single `soql` blob |
-| 311 by district | `council_district='04'` — zero-padded | `'4'` |
+| Task | Correct parameter | Do **not** use | If you get it wrong |
+|---|---|---|---|
+| Schedule C by member | `council_member="[SURNAME]"` | `council_district`, `sponsor` | **rejected by name** (fixed) |
+| Checkbook payments | `payee_name="[ORG]"` | `vendor` | **rejected by name** (fixed) |
+| Socrata aggregate | discrete `select`/`where`/`group`/`order`/`limit` | a single `soql` blob | ⚠️ **still silently ignored** — third-party |
+| 311 by district | `council_district='04'` — zero-padded | `'4'` | ⚠️ **still zero rows, silently** — a data-value trap, not a parameter one, so schema strictness cannot catch it |
 
-- **There is no district filter on Schedule C**, by design — it keys on sponsoring member. Asking by district returns **citywide** awards with no warning. ([Issue filed.](https://github.com/BetaNYC/New-York-City-Budget/issues/37))
+- **There is no district filter on Schedule C**, by design — it keys on sponsoring member. Asking by district now returns an error naming `council_member` ([#37](https://github.com/BetaNYC/New-York-City-Budget/issues/37), fixed in 1.3.0). **Before 2026-07-22 it returned citywide awards with no warning** — worth stating plainly to this audience, since the near-miss is the point.
 - **`council_member` matches as a substring** and will return the wrong member — `"Powers"` returns Selvena **Brooks-Powers**.
 - **Fiscal sponsors merge grantees.** EIN 13-2612524 (Fund for the City of New York) is a passthrough for dozens of programs. Filter by `program` as well as `organization`/`ein`, or you will silently aggregate unrelated recipients. This is a real analytical hazard for this audience, and worth mentioning to them as such.
 
 ### Tool behavior
 
 - **Checkbook `smart_search` is blocked** by an Incapsula WAF challenge. Use the structured tools; `search_spending` requires `fiscal_year` or `issue_date_from`.
-- **`search_contracts` genuinely cannot filter by vendor name** — the Checkbook contracts API filters vendors only by `vendor_code` and offers no name→code lookup. Credit where due: passing the *declared* `vendor_name` parameter returns an explicit error naming the limitation and listing the three supported alternatives, rather than silently returning unrelated contracts. That is the right behavior and worth showing this audience as an example of a tool that refuses rather than guesses. **The sharp edge, worth naming if you use this as the example:** that careful guard is currently defeated by a one-word typo — the undeclared `vendor` bypasses it entirely and returns millions of unrelated rows. [PR #20](https://github.com/BetaNYC/nyc-checkbook-mcp/pull/20) closes that, unmerged as of 2026-07-21. A guard that only fires on the spelling you anticipated is a good illustration of why schema strictness matters more than any individual check.
+- **`search_contracts` genuinely cannot filter by vendor name** — the Checkbook contracts API filters vendors only by `vendor_code` and offers no name→code lookup. Credit where due: passing the *declared* `vendor_name` parameter returns an explicit error naming the limitation and listing the three supported alternatives, rather than silently returning unrelated contracts. That is the right behavior and worth showing this audience as an example of a tool that refuses rather than guesses. **The sharp edge, and the better version of the story:** until 2026-07-22 that careful guard was defeated by a one-word typo — the undeclared `vendor` bypassed it entirely and returned millions of unrelated rows. Checkbook **1.4.0** closes it: `vendor` is now rejected and the message points at `vendor_name`. A guard that only fires on the spelling you anticipated is precisely why schema strictness matters more than any individual check, and this server is now the worked example of both halves.
 - **`search_legislation` matches bill titles, not subject matter.** Single keywords work; multi-word conceptual phrases return `[]`. A sensible keyword can miss entirely — `"encampment"` finds nothing.
-- **`get_voting_record` returns `[]` for every member.** The local corpus's `votes` table has 0 rows — the indexer prepares an insert and never calls it ([nyc-council-mcp#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). Do not use it, and do not present an empty result as a finding. `vote_breakdown` is the same; **`get_votes` is not** — corrected 2026-07-21, it reads the live Legistar API rather than the local table and is unaffected. [PR #24](https://github.com/BetaNYC/nyc-council-mcp/pull/24) makes the two table-backed tools raise a named error instead of `[]`; unmerged as of 2026-07-21.
+- **✅ `get_voting_record` now refuses instead of returning `[]`** (council **2.5.0**, verified live 2026-07-22). The `votes` table still has 0 rows — that is unchanged — but the tool now says so, explains that the source archive holds attendance rather than aye/nay, and names three working alternatives ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). **Read it aloud if it comes up:** for this audience, a tool that declines and explains itself is the demo. `vote_breakdown` is the same; **`get_votes` is not** — it reads the live Legistar API rather than the local table and was never affected.
 
   Worth knowing for this audience specifically: the underlying archive carries 159,666 roll-call **attendance** entries (Present/Absent/Excused/Medical/Conflict/…) spanning 1999–2026 that are currently discarded — but it does **not** carry aye/nay vote positions anywhere, which would need the live Legistar API. Indexing that attendance data has been **deliberately deferred** rather than rushed, because storing attendance in a table named `votes` behind a tool named `get_voting_record` would bake the confusion in permanently. The naming gets decided first. That is a defensible answer if this audience asks why the fix is partial, and an honest example of the distinction between "no data" and "different data than the name implies."
 - **`get_open_solicitations` and Socrata catalog searches are very verbose** — City Record notices embed raw HTML; catalog searches inline geometry (581 KB unbounded on the NYC portal, ~83 KB even at `limit: 5` on the state portal). Always bound them.

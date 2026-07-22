@@ -107,7 +107,7 @@ Start on home ground.
 
 ---
 
-## Presenter notes (verified 2026-07-21)
+## Presenter notes (figures verified 2026-07-21 · MCP behavior re-verified 2026-07-22)
 
 ### NYS Open Legislation — required params that fail loudly (this is good)
 
@@ -120,6 +120,12 @@ These error clearly rather than silently misbehaving. Know them so you aren't de
 ### Data freshness
 
 The `nys-openlegislation-mcp` responses carry `"source": "local corpus (synced 2026-07-21T10:30:07)"`. **This is a hybrid server reading a local corpus, not a live API call.** It was synced the morning this script was written. Before a demo, run `/mcp-refresh-data` — and if a staffer asks whether it's live, the honest answer is "it's a synced local copy, last refreshed [date]," not "it's live."
+
+**New in 2.3.0 (2026-07-22) — matters if you present on a machine without the API key.** The server used to **exit at startup** with no API key, so the tools simply vanished. It now runs in local-only mode and serves the corpus, adding a `freshness` field to every locally-served payload:
+
+> No `NYS_LEGISLATION_API_KEY` is set, so this is snapshot data and may be out of date. For current results, set `NYS_LEGISLATION_API_KEY` (free: https://legislation.nysenate.gov/register) and re-run the sync (`npm run sync`).
+
+Three modes, and the startup banner on stderr tells you which you are in: **hybrid** (key + corpus), **live-only** (key, no corpus), **local-only** (no key). On Noel's machine this is hybrid, so you will *not* see the `freshness` note — its absence is not a sign the data is fresh. Check the `source` date either way.
 
 ### Socrata — the failure modes that don't announce themselves
 

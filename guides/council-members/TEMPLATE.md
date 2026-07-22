@@ -83,20 +83,34 @@ Ask the office for a live priority, or pre-fill one here.
 
 **Dry-run every prompt above against the live MCPs before the meeting, and record what actually happened here.** A script without verified notes is a draft, not a demo. Delete this instruction line once you've filled the section in.
 
-### ⚠️ Carried forward — these MCPs silently drop unknown parameters
+### ✅ Fixed 2026-07-22 — the BetaNYC MCPs now reject unknown parameters
 
-Several servers accept parameters that are not in their schema, ignore them, and return **unfiltered** results with no error. An agent that guesses a plausible parameter name gets plausible garbage, and nothing in the response reveals it.
+**This used to be the most dangerous thing in this document.** All seven servers accepted parameters that were not in their schema, silently dropped them, and returned **unfiltered** results with no error — real, correctly formatted data answering a different question. A guessed parameter name produced plausible garbage and nothing in the response revealed it.
 
-> **Being fixed — but not yet published, so this section still applies to your demo.** As of 2026-07-21, PRs are open against all seven BetaNYC MCP servers to reject unknown parameters with an error that names the correct one. **None of them have merged or published.** The versions `npx -y` resolves today — `nyc-budget-mcp` 1.2.0, `nyc-council-mcp` 2.3.0, `nyc-checkbook-mcp` 1.3.1, `nyc-record-mcp` 1.0.2, `nyc-311-mcp` 1.0.1, `nyc-charter-laws-rules` 0.1.3, `nys-openlegislation-mcp` 2.1.1 — all still drop silently. **Everything below holds until you have run `/mcp-update` and confirmed a newer version.** After the fix ships, a wrong parameter name fails loudly instead, and the correct-parameter column below becomes a convenience rather than a safety requirement.
+> **Now shipped.** As of **2026-07-22** every BetaNYC server rejects an undeclared parameter and names the ones it does accept. Minimum versions carrying the fix:
+>
+> `nyc-budget-mcp` **1.3.0** · `nyc-council-mcp` **2.5.0** · `nyc-checkbook-mcp` **1.4.0** · `nyc-record-mcp` **1.1.0** · `nyc-311-mcp` **1.1.0** · `nyc-charter-laws-rules` **0.2.0** · `nys-openlegislation-mcp` **2.3.0**
+>
+> Verified live against the published packages. A wrong parameter name now produces, e.g.:
+>
+> ```
+> search does not accept 'council_district'. Accepted parameters: query, corpus, limit.
+> Unrecognized parameters are rejected rather than ignored: dropping one would return
+> real, correctly formatted results for a different question.
+> ```
+>
+> **Confirm your versions before presenting** — run `/mcp-update`, and remember these are consumed via `npx -y`, so a stale npx cache can still serve an old build. If you are on an older version, the silent-drop behavior above is still live and the table below is a safety requirement rather than a convenience.
 
-**Verified-correct parameter names (2026-07-21):**
+**This is worth demoing deliberately.** Asking for something the tool cannot do, and having it refuse by name, is a stronger trust argument than any successful query. **Socrata is a third-party server and is NOT covered** — its rows below still drop silently.
 
-| Task | Correct parameter | Do **not** use |
-|---|---|---|
-| Schedule C awards by member | `council_member="[SURNAME]"` (surname substring) | `council_district`, `sponsor` |
-| Checkbook payments to an org | `payee_name="[ORG NAME]"` | `vendor` (undeclared — silently dropped) |
-| Socrata aggregate query | separate `select` / `where` / `group` / `order` / `limit` | a single `soql` blob |
-| 311 by council district | `council_district='04'` — **zero-padded string** | `'4'` (returns zero rows silently) |
+**Verified-correct parameter names (re-verified 2026-07-22):**
+
+| Task | Correct parameter | Do **not** use | If you get it wrong |
+|---|---|---|---|
+| Schedule C awards by member | `council_member="[SURNAME]"` (surname substring) | `council_district`, `sponsor` | **rejected by name** (fixed) |
+| Checkbook payments to an org | `payee_name="[ORG NAME]"` | `vendor` | **rejected by name** (fixed) |
+| Socrata aggregate query | separate `select` / `where` / `group` / `order` / `limit` | a single `soql` blob | ⚠️ **still silently ignored** — third-party |
+| 311 by council district | `council_district='04'` — **zero-padded string** | `'4'` | ⚠️ **still returns zero rows silently** — this is a data-value trap, not a parameter one, so the fix does not catch it |
 
 ### ⚠️ Two more silent traps, both verified 2026-07-21
 
@@ -106,7 +120,11 @@ Several servers accept parameters that are not in their schema, ignore them, and
 
 ### Also verified — do not misread these as findings
 
-- **`get_voting_record` returns `[]` for every member**, including multi-term incumbents. Root cause found 2026-07-21: the local corpus's `votes` table has **0 rows** because the indexer never populates it ([nyc-council-mcp#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). An empty result is a tool limitation, not a statement about your member. Never present it as "correctly shows no votes." **`vote_breakdown` behaves the same way. `get_votes` does not** — corrected 2026-07-21: it calls the live Legistar API rather than the local table, so it is unaffected by this and does return real per-member positions given a valid `EventItemId`. A fix is open ([PR #24](https://github.com/BetaNYC/nyc-council-mcp/pull/24), unmerged) to make the two table-backed tools raise a named error instead of returning `[]`; until it publishes, the empty array is what you will see.
+- **✅ `get_voting_record` no longer returns `[]` — as of `nyc-council-mcp` 2.5.0 it raises a named error.** It used to return an empty array for every member including multi-term incumbents, which is indistinguishable from "this member cast no votes" ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). Verified live 2026-07-22, this is what now appears:
+
+  > Vote data is not indexed in the local corpus: the 'votes' table is empty, so `vote_breakdown` and `get_voting_record` have nothing to read. They stop here rather than return an empty list, which is indistinguishable from a member who cast no votes. Note that per-member aye/nay positions are not in the source archive at all — it records roll-call attendance (Present, Absent, Excused, Medical, Conflict) with no Affirmative/Negative value — so they would have to come from the live Legistar API. Options: (1) `get_votes` with an EventItemId returns per-member positions from the live API (requires `LEGISTAR_TOKEN`); (2) `get_bill_history` returns a bill's recorded actions and status changes; (3) `co_sponsors` and `search_bills` cover sponsorship, which is fully indexed.
+
+  **This is a better demo moment than the old empty list, not a worse one** — the tool states its own limit and hands you three working alternatives. If it comes up, read it aloud. `vote_breakdown` behaves identically. **`get_votes` does not** — it calls the live Legistar API rather than the local table and was never affected.
 - **`search_legislation` matches bill titles, not subject matter.** A reasonable single keyword can return `[]` simply because the word isn't in any title (`"encampment"` finds nothing). Try a synonym before concluding no legislation exists.
 - **`get_upcoming_hearings` is extremely verbose** — land-use items can run to hundreds of block-and-lot references. Ask for a summary or cap the limit.
 - **A newly seated member's first Schedule C is the fiscal year after they took office.** Querying the current FY by their surname correctly returns nothing. Don't read it as a tool failure — and don't build Act 3 on the wrong year.

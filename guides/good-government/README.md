@@ -36,6 +36,8 @@ Build any script in this folder around these:
 2. **What got taken back?** Rescissions and mid-year amendments are the least visible money in the system, and the tooling reaches them directly.
 3. **What was supposed to be published and wasn't?** Any reporting mandate in the Administrative Code can be checked against the open data portal. This is a reproducible method, not a one-off finding — which is what makes it worth showing.
 
+A fourth question sits just underneath these three, and it is often the most productive: **what is published but cannot be joined to anything?** Data can be complete, current, and still unusable for oversight because it carries no key to the unit governance actually uses. [`../user-journeys.md`](../user-journeys.md) Crosswalk F is the worked example — New York's campaign finance disclosures are 18.3 million rows, refreshed daily, and attributable to a legislative district on 0.16% of them.
+
 ## The rule that matters most in this folder
 
 **Report a negative at exactly the width you tested.**
@@ -48,4 +50,4 @@ Every script here should model that distinction out loud, in front of the room. 
 
 - [`../council-members/`](../council-members/) and [`../state-legislators/`](../state-legislators/) — the constituency-facing scripts.
 - [`../educators/`](../educators/) — framed around what the material teaches.
-- [`../user-journeys.md`](../user-journeys.md) — the full prompt catalog, including the "follow the discretionary dollar" and "full contract lifecycle" crosswalks this folder builds on.
+- [`../user-journeys.md`](../user-journeys.md) — the full prompt catalog, including the "follow the discretionary dollar" and "full contract lifecycle" crosswalks this folder builds on, plus **Crosswalk F, "Who funded this seat?"** — a campaign finance journey whose honest answer is that the join does not exist.

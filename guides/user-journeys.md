@@ -162,6 +162,40 @@ This is the payoff. A single dataset answers a single question; a grounded agent
 
 **Why it lands:** it turns three disconnected public sources into a single, citable argument — and every figure traces back to an official record, which is the whole grounding thesis.
 
+### Crosswalk F — "Who funded this seat?" 🗳️
+**NY Open Data (campaign finance) → NYS Open Legislation → the join that isn't there**
+
+**User story:** *As a watchdog or reporter, I want to see who funded the campaigns in a particular legislative district, so that I can connect money to the votes cast by the person who holds that seat.*
+
+> "Using New York State's campaign finance disclosure data on data.ny.gov, show me the contributions to State Senate campaigns in Senate District 59. Then tell me who currently holds that seat. If the data can't be cut that way, say so and show me what it *can* be cut by."
+
+**Why it lands:** this is the rare journey where the honest answer is *you can't get there*, and finding that out in thirty seconds is the product. The agent should come back with a coverage finding rather than a donor list — and an ungrounded model will happily invent the donor list instead.
+
+**What the data actually supports** (verified 2026-07-22, sources refreshed the same morning at 09:57 UTC):
+
+| Dataset | ID | Rows |
+|---|---|---|
+| Disclosure reports, all schedules, since July 1999 | [`e9ss-239a`](https://data.ny.gov/d/e9ss-239a) | 18,345,122 |
+| Contributions | [`4j2b-6a2j`](https://data.ny.gov/d/4j2b-6a2j) | 12,915,078 |
+| Expenditures | [`ajsb-8pni`](https://data.ny.gov/d/ajsb-8pni) | 4,229,292 |
+
+All three are New York State Board of Elections data, posted daily, with `org_amt` carrying the transaction amount. Contributions and expenditures are cuts of the parent schema split by filing schedule, so the three share a column vocabulary and join on `filer_id` and `trans_number`.
+
+> **The finding, stated at the width we tested.** In `e9ss-239a`, the `district` column is populated on **28,520 of 18,345,122 rows — 0.16%**. Narrow to rows where `office_desc` is `State Senator` and **13,014** carry a district. Of those, **94% belong to just two districts** — SD 21 (6,864 rows) and SD 59 (5,403 rows) — and they come from **11 committees between them**. The column holds **57 distinct district values** across those 13,014 rows, so six of New York's 63 senate districts do not appear at all — and the 55 districts other than SD 21 and SD 59 share roughly 750 rows between them.
+>
+> **What that supports:** you cannot use this dataset to ask who funded campaigns in a given senate district. **What it does not support:** any claim that New York does not publish district-attributable campaign finance anywhere. We tested three Socrata datasets, not the Board of Elections' own reporting portal at [publicreporting.elections.ny.gov](https://publicreporting.elections.ny.gov). Say the first; do not say the second.
+>
+> We also did not establish *why* the field is sparse. Eleven committees accounting for 94% of district-tagged senate rows is consistent with filer-level practice rather than dataset coverage, but that is an inference. Offer to check rather than assert it.
+
+**Two supporting details worth having in the room:**
+
+- **The published dictionary doesn't match the data.** The data dictionary marks `DISTRICT` as a Schedule R field. In practice, of the 28,520 district-populated rows, 19,396 are Schedule A (monetary contributions received) and 7,611 are Schedule R. The documentation describes a narrower field than the one that exists.
+- **`office_desc` is an uncontrolled vocabulary.** "City Council" (987), "Member Of The City Council" (762), "Council Member" (319), and "Councilman" (317) are four spellings of one office. Also "Town Council" vs "Town Board," "Mayor" vs "City Mayor," "Legislator" vs "County Legislator." Any count by office requires normalizing first, and a naive `GROUP BY` undercounts every one of them.
+
+**End on what's working, not only what isn't.** The public campaign finance program's fields are real and filling in: `r_claim`, `r_in_district`, `r_lobbyist`, `r_vendor`, and `r_is_qualified_expense`. **872,265** rows carry a match-claim flag, concentrated from 2022 onward, and 2026 is already the largest year at **455,513** with half the year still to run. That is new transparency infrastructure doing its job, and a room that only hears about gaps will discount the ones you found.
+
+> ⚠️ **Do not profile a sitting member with this.** Every figure above is structural and required looking up no individual. If you are demonstrating to a legislator, running their own donor list in their own office reads as a threat display regardless of how neutrally you narrate it — and it converts a credibility demo into something else. If a staffer asks to see their filings, that is their invitation to extend. It is not yours to open.
+
 ---
 
 ## How to run these

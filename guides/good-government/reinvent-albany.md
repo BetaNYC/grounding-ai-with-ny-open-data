@@ -62,7 +62,9 @@ Not one district. The whole map.
 
 **Then the reconciliation, on a smaller organization so the numbers stay legible:**
 
-> 🚨 **Checkbook is returning HTTP 403 as of 2026-07-21 21:00 — this half of Act 2 will fail live.** Not the known `smart_search` WAF block: the *structured* `search_spending` endpoint is blocked too, verified with and without a payee filter. The figures below are from 2026-07-16 and could not be re-verified.
+> 🚨 **Checkbook is returning HTTP 403 as of 2026-07-21 21:00 — this half of Act 2 will fail live.** Not the known `smart_search` block: the *structured* `/api` endpoint is blocked too. **Diagnosed:** the homepage 403s to `curl` from the same machine where it loads fine in a browser, and a Chrome User-Agent does not help — Incapsula's JavaScript challenge, which a browser passes and an API client cannot. Site-wide, not `/api`-specific, and **we will not work around it.** The figures below are from 2026-07-16 and could not be re-verified.
+>
+> **For this room specifically, the cause is more interesting than the outage.** A public-data site that a human can read but a program cannot is a live, checkable example of the access gap this audience campaigns on. The data is not secret — it is published, and it is machine-hostile. That is a better Act 2 than the reconciliation, and it is true.
 >
 > **This audience will ask what happens when a source is unavailable — so make that the answer.** The tool returns `total_records: 0` with `records: []` **and** an `error: "HTTP 403"` field in the same payload. That is worth showing them deliberately: a count of zero sitting next to an error is exactly how a "no records found" claim gets manufactured from an outage. It is a live example of the thesis, and more useful to this room than the reconciliation would have been. Filed for fixing.
 >

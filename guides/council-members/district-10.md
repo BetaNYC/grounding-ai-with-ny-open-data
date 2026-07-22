@@ -112,7 +112,11 @@ The largest and most characteristic:
 >
 > **The response shape is the dangerous part.** It returns `total_records: 0`, `records: []`, `has_more: false` **alongside** an `error: "HTTP 403"` field. An agent that reads the count and not the error will report **"no city payments to this organization"** — a false negative, in the member's office, about her own district's funding.
 >
-> **Before this meeting:** re-run the call. If it 403s, **cut step two and end Act 3 on the allocation**, which is solid and fully verified. Do not improvise around it and do not read the cached figures below as live. If it succeeds, re-verify the numbers first.
+> **Diagnosed 2026-07-21: this is bot protection, not an outage.** `checkbooknyc.com` loads normally in a browser while `curl` gets 403 from the same machine — the homepage, not just `/api`, and a Chrome User-Agent does not help. Incapsula's JavaScript challenge: a browser passes it, an API client cannot. **Assume it stays broken.** It is not something we will work around.
+>
+> **The fallback is good, so use it deliberately.** The data is public and reachable — just in a browser, not through the tool. Keep [checkbooknyc.com](https://www.checkbooknyc.com) open in a tab, run step one for the allocation, then **pull up the payment in the browser yourself**. Narrate the split honestly: "the allocation side is queryable; for the disbursement side the city's own site blocks automated access, so here it is by hand." In a room that just watched an agent refuse to guess, showing where the automation stops is on-message rather than an apology.
+>
+> If you would rather not switch surfaces, **end Act 3 on the allocation** — it is fully verified and lands on its own.
 
 **The answer as of 2026-07-16 — NOT re-verified, see the warning above:** **32 payment records in FY2026**, including:
 

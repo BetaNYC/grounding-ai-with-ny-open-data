@@ -4,13 +4,20 @@ status: DRAFT
 
 # Good-government / watchdog demo scripts
 
-Run-it-live demo scripts for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to **watchdog organizations, transparency advocates, and investigative newsrooms**.
+Material for **watchdog organizations, transparency advocates, and investigative newsrooms** working with BetaNYC's grounded AI + NYC/NYS open data MCPs. Two genres live here: **run-it-live demo scripts** for showing the tooling to a room, and **methodology guides** someone can run on their own afterward.
 
-## Available demos
+## Demo scripts
 
 | Audience | File |
 |---|---|
 | Reinvent Albany (reusable for Citizens Union, CBC, NYPIRG, newsrooms) | [`reinvent-albany.md`](reinvent-albany.md) |
+
+## Methodology
+
+| Guide | File |
+|---|---|
+| From a government URL to a filed FOIL request, for contract research | [`foil-research-methodology.md`](foil-research-methodology.md) |
+| The worked example behind it: NYC's social media archive | [`archivesocial-worked-example.md`](archivesocial-worked-example.md) |
 
 ## How this audience differs
 

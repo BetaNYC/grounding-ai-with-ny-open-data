@@ -62,6 +62,12 @@ Not one district. The whole map.
 
 **Then the reconciliation, on a smaller organization so the numbers stay legible:**
 
+> 🚨 **Checkbook is returning HTTP 403 as of 2026-07-21 21:00 — this half of Act 2 will fail live.** Not the known `smart_search` WAF block: the *structured* `search_spending` endpoint is blocked too, verified with and without a payee filter. The figures below are from 2026-07-16 and could not be re-verified.
+>
+> **This audience will ask what happens when a source is unavailable — so make that the answer.** The tool returns `total_records: 0` with `records: []` **and** an `error: "HTTP 403"` field in the same payload. That is worth showing them deliberately: a count of zero sitting next to an error is exactly how a "no records found" claim gets manufactured from an outage. It is a live example of the thesis, and more useful to this room than the reconciliation would have been. Filed for fixing.
+>
+> If Checkbook is back by the meeting, re-verify before quoting:
+
 > "Community League of the Heights received $30,000 from Council Member De La Rosa in FY2026. In Checkbook, the same organization shows 32 FY2026 payment records — including **$107,244.16 and $33,000 under budget code `3625 (Tax Levy Elected Officials)`**."
 
 **The line to land:** "That budget code is the join. It's discretionary money appearing as an actual disbursement. Allocation in one system, check in another, connected in two questions."

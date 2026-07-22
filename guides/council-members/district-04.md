@@ -59,7 +59,9 @@ status: DRAFT
 
 **What comes back: essentially nothing.** She was seated in January 2026.
 
-> **You can source this rather than infer it.** Legistar's own person record carries `PersonUsedSponsorFlag: 0` — the system's flag for "has never been used as a bill sponsor." If a staffer asks whether the empty result is a tool failure, that flag is the answer: the absence is recorded in the source system, not merely unfound by a query. Verified 2026-07-21 via `get_council_member(name="Maloney")`.
+> ⚠️ **Do NOT cite `PersonUsedSponsorFlag`.** A draft of this note claimed that flag reading `0` on Maloney's Legistar record meant "has never been used as a bill sponsor," and offered it as proof the empty result is real. **That is wrong.** Carmen De La Rosa — a multi-term member who is one of 28 sponsors on Int 1122-2024 — also carries `PersonUsedSponsorFlag: 0`. Whatever the field means, it is not "has sponsored legislation," and it cannot distinguish a new member from a veteran.
+>
+> The honest support for Act 2 is what it always was: she was seated in January 2026, her first Schedule C is FY2027, and the legislation search returns nothing. Say that. **Do not reach for a field whose meaning you have not established** — that is the exact failure this act is about.
 
 **What to say:**
 > "That's the correct answer, and I want to sit on it for a second. You know you don't have a two-year sponsorship record. But an ungrounded chatbot asked this question will *give you one*. It will produce Intro numbers, committee names, and vote tallies that read perfectly and are entirely fabricated — often by blending in your predecessor's record, or a different Maloney's."
@@ -176,7 +178,7 @@ Representative:
 |---|---|
 | **First name "Virginia"** | `get_council_member(name="Maloney")` → `PersonFirstName: "Virginia"`, `PersonLastName: "Maloney"`. Verified 2026-07-21. Previously used throughout the script with no provenance row |
 | Maloney = District 4, PersonId 7894 | same call → `PersonId: 7894`, `PersonActiveFlag: 1`, `PersonEmail: District4@council.nyc.gov`, `PersonWWW: council.nyc.gov/district-4/`; record last modified 2025-11-06 |
-| **No sponsorship record** (Act 2) | same call → **`PersonUsedSponsorFlag: 0`**. Legistar's own flag, not an inference from an empty search result. Stronger evidence for Act 2 than "the query came back empty," and worth citing if a staffer pushes |
+| ~~No sponsorship record via `PersonUsedSponsorFlag`~~ | **Retracted 2026-07-21.** The flag reads `0` for De La Rosa too, and she is one of 28 sponsors on Int 1122-2024. It does not mean what its name suggests. Act 2 rests on the seating date and the empty search, not on this field |
 | 4,767 complaints; top types | Socrata `erm2-nwe9`, `council_district='04'`, `is_sample: false` |
 | **77 awards, $1,538,000, FY2027** | `search_awards(council_member="Maloney", fiscal_year=2027, limit=200)` — re-verified live 2026-07-21; returned 77 against a limit of 200, so complete |
 | $20,000 FCNY "AI Training Program" | `search_awards(organization="Fund for the City of New York", program="AI Training")` — exactly one match |

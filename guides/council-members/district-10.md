@@ -108,7 +108,13 @@ The largest and most characteristic:
 **Prompt:**
 > "Now check NYC Checkbook for FY2026 spending paid to Community League of the Heights."
 
-**The verified answer:** **32 payment records in FY2026**, including:
+> 🚨 **CHECKBOOK IS RETURNING HTTP 403 AS OF 2026-07-21 21:00. THIS STEP WILL FAIL LIVE.** Verified three times: `search_spending(payee_name=…, fiscal_year=2026)`, and also with no payee filter at all (`fiscal_year` + `agency_code` only). It is not payee-specific and not the previously-known `smart_search` WAF block — **the structured spending endpoint itself is blocked.** The figures below could not be re-verified today and are carried forward from 2026-07-16.
+>
+> **The response shape is the dangerous part.** It returns `total_records: 0`, `records: []`, `has_more: false` **alongside** an `error: "HTTP 403"` field. An agent that reads the count and not the error will report **"no city payments to this organization"** — a false negative, in the member's office, about her own district's funding.
+>
+> **Before this meeting:** re-run the call. If it 403s, **cut step two and end Act 3 on the allocation**, which is solid and fully verified. Do not improvise around it and do not read the cached figures below as live. If it succeeds, re-verify the numbers first.
+
+**The answer as of 2026-07-16 — NOT re-verified, see the warning above:** **32 payment records in FY2026**, including:
 
 | Amount | Agency | Budget code |
 |---|---|---|

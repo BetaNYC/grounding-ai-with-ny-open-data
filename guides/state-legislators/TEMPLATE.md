@@ -110,6 +110,8 @@ Companion to the general [`../user-journeys.md`](../user-journeys.md) catalog. T
 
 `nys-openlegislation-mcp` responses carry a `"source"` field. It has been observed serving from a **local corpus**, not a live API — e.g. `"local corpus (synced 2026-07-21T10:30:07)"`. Run `/mcp-refresh-data` before a demo, and if asked whether it's live, say "a synced local copy, last refreshed [date]."
 
+**As of 2.3.0 (2026-07-21)** the server no longer exits when `NYS_LEGISLATION_API_KEY` is absent — it serves the corpus in local-only mode and attaches a `freshness` note saying the data is a snapshot and how to get current results. Three modes, named in the stderr startup banner: **hybrid** (key + corpus), **live-only** (key, no corpus), **local-only** (no key). With a key you will not see the `freshness` note; its absence does not mean the data is fresh. Read the `source` date regardless.
+
 ### Carried forward — Socrata failure modes that don't announce themselves
 
 - **⚠️ Always bound a catalog search with `limit`.** Unbounded searches have returned 581 KB; even `limit: 5` against `data.ny.gov` returned ~83 KB. They inline geometry and full column lists.

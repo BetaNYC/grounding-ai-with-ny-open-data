@@ -60,20 +60,22 @@ These five, used by hand, carry most of the contract-discovery steps.
 
 ### Tier 2 — BetaNYC's MCP servers
 
-These put the same public sources behind a grounded agent, so it queries the record instead of recalling it. All are published npm packages. Config: [`../../mcp-configs/`](../../mcp-configs/).
+These put the same public sources behind a grounded agent, so it queries the record instead of recalling it. All are published npm packages, installable with `npx`, and each repo's README carries its own config block. [`../../mcp-configs/`](../../mcp-configs/) currently holds only the Socrata portal-switching config, not these seven.
 
 | Server | Minimum version | Use in this method |
 |---|---|---|
 | [`@betanyc/nyc-checkbook-mcp`](https://github.com/BetaNYC/nyc-checkbook-mcp) | 1.4.0 | Phase 3 — contracts, spending, vendor lookup |
 | [`@betanyc/nyc-record-mcp`](https://github.com/BetaNYC/nyc-record-mcp) | 1.1.0 | Phase 3 — solicitations, award and hearing notices |
-| [`@betanyc/nyc-budget-mcp`](https://github.com/BetaNYC/nyc-budget-mcp) | 1.3.0 | Phase 4 — discretionary awards to the same vendor |
+| [`@betanyc/nyc-budget-mcp`](https://github.com/BetaNYC/New-York-City-Budget) | 1.3.0 | Phase 4 — discretionary awards to the same vendor |
 | [`@betanyc/nyc-council-mcp`](https://github.com/BetaNYC/nyc-council-mcp) | 2.5.0 | Phase 4 — Council oversight of the agency or contract |
-| [`@betanyc/nyc-charter-laws-rules`](https://github.com/BetaNYC/nyc-charter-laws-rules) | 0.2.0 | Phase 5 — the statutory text a request cites |
-| [`@betanyc/nys-openlegislation-mcp`](https://github.com/BetaNYC/nys-openlegislation-mcp) | 2.3.0 | State-level context when the city buys through a state vehicle |
+| [`@betanyc/nyc-charter-laws-rules`](https://github.com/BetaNYC/nyc-charter-laws-rules) | 0.2.0 | Phases 4–5 — the city's own procurement and records rules. **Not** the FOIL statute, which is state law |
+| [`@betanyc/nys-openlegislation-mcp`](https://github.com/BetaNYC/nys-openlegislation-mcp) | 2.3.0 | Phase 5 — Public Officers Law Article 6, the statute a FOIL request cites, plus any pending bills that would change it |
 | [`@betanyc/nyc-311-mcp`](https://github.com/BetaNYC/nyc-311-mcp) | 1.1.0 | Service-quality context on the system under contract |
 | `socrata` (third-party) | — | The general NYC and NYS open data catalog |
 
-> **Version floors matter.** Below the versions above, these servers accepted parameters that were not in their schema, silently dropped them, and returned unfiltered results that looked correct. Check your versions before relying on a filtered answer. The `socrata` server is third-party and still behaves this way, so confirm any filter it claims to have applied.
+> **Version floors matter.** Below the versions above, these servers accepted parameters that were not in their schema, silently dropped them, and returned unfiltered results that looked correct. Check your versions before relying on a filtered answer.
+>
+> The same discipline applies to the `socrata` row, which is a third-party server we do not maintain. Testing it on **2026-07-21 and 2026-07-22**, we found that a `domain` argument did not restrict a catalog search to that portal, and that an undeclared argument produced no error. We did not audit it beyond those observations, and we have not tested every version. Confirm any filter it reports having applied by checking the returned records, rather than trusting the request.
 
 ### Tier 3 — additional sources
 
@@ -347,6 +349,6 @@ For the full source-routing map, see [`../when-to-use-which-portal.md`](../when-
 - Five contracts surfaced under a smart search for the **product** name after searches for the **vendor** name returned nothing
 - The contracting agency is OTI, formerly DoITT; the end-user agency is the Department of Records and Information Services
 - Purchases ran through resellers rather than directly from the maker
-- Annual spend is not established. The three most recent delivery orders list `$0` in Checkbook; the two earlier standalone contracts were $68,980 and $99,170
+- Annual spend is not established. The three most recent delivery orders list `$0` in Checkbook; the two earlier standalone contracts were $68.98K and $99.17K
 
 That last line is the method working correctly. Two numbers are known, three are not, and the FOIL request exists to close the gap rather than to confirm a guess.

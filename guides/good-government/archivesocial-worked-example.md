@@ -61,7 +61,7 @@ ArchiveSocial *consumes* social platform APIs to ingest content. It does not app
 | PASSPort Public | "civicplus" | No results |
 | Open Book NY | "CivicPlus" | Not completed. The interface requires JavaScript interaction, and this remains an open gap someone could close |
 
-**The finding that generalizes:** four searches under the software maker's name returned nothing. One search under the *product* name returned the entire procurement history. If the maker's name comes back empty, the search is not finished.
+**The finding that generalizes:** every search under the software maker's name returned nothing. One search under the *product* name returned the entire procurement history. If the maker's name comes back empty, the search is not finished.
 
 ### Contracts found
 
@@ -69,8 +69,8 @@ Source: [Checkbook NYC smart search for "ArchiveSocial"](https://www.checkbookny
 
 | Contract ID | Vendor of record | Amount | Period | Purpose |
 |---|---|---|---|---|
-| CT185820171418335 | Portland Williams LLC | $68,980 | Mar 2017 – Mar 2018 | "ArchiveSocial hosted social media archiving" |
-| CT185820201424467 | Portland Williams LLC | $99,170 | Mar 2020 – Mar 2021 | "ARCHIVESOCIAL" |
+| CT185820171418335 | Portland Williams LLC | $68.98K | Mar 2017 – Mar 2018 | "ArchiveSocial hosted social media archiving" |
+| CT185820201424467 | Portland Williams LLC | $99.17K | Mar 2020 – Mar 2021 | "ARCHIVESOCIAL" |
 | DO185820232009181 | SHI International Corp | `$0` listed | — | "DORIS – Year 2 ArchiveSocial PO" |
 | DO185820242008371 | SHI International Corp | `$0` listed | — | "Annual ArchiveSocial Order for DORIS (Year 3)" |
 | DO185820252009241 | SHI International Corp | `$0` listed | — | "Annual ArchiveSocial Order for DORIS (Year 4)" |
@@ -79,13 +79,13 @@ Source: [Checkbook NYC smart search for "ArchiveSocial"](https://www.checkbookny
 
 ### What the records show
 
-**Contracting agency: OTI, formerly DoITT.** All five contracts sit with the city's technology agency rather than with the agency using the platform.
+**Contracting agency: OTI, formerly DoITT.** All five records carry the technology agency in Checkbook's own **Agency** field, rather than the agency using the platform. Read it from that field. Do not infer it from the contract identifier, for the reason given in the methodology guide.
 
 **End-user agency: the Department of Records and Information Services (DORIS).** The delivery order descriptions name DORIS directly. This is consistent with DORIS being the city's records management agency, which would own social media retention compliance.
 
 **Purchased through resellers.** Portland Williams LLC from 2017 to 2021, under award methods recorded as "Small Purchase IT $25K–$100K" and "M/WBE Small Purchase." SHI International Corp from 2022 onward, as delivery orders against a master contract, PIN `85818O0028001`.
 
-**The `$0` delivery orders are not evidence of zero spending.** Delivery orders frequently carry no amount in Checkbook when payment is tracked against the master contract. **Annual spend is not established.** The two standalone contracts were $68,980 and $99,170; the three delivery orders are unknown. Do not extrapolate the first two across the later years, which is exactly what the FOIL request below is for.
+**The `$0` delivery orders are not evidence of zero spending.** Delivery orders frequently carry no amount in Checkbook when payment is tracked against the master contract. **Annual spend is not established.** The two standalone contracts were $68.98K and $99.17K; the three delivery orders are unknown. Do not extrapolate the first two across the later years, which is exactly what the FOIL request below is for.
 
 **Year numbering** appears to run Year 2 at roughly FY2023 through Year 4 at roughly FY2025, inferred from the order dates.
 

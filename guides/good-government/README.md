@@ -2,7 +2,7 @@
 status: DRAFT
 ---
 
-# Good-government / watchdog demo scripts
+# Good-government / watchdog material
 
 Material for **watchdog organizations, transparency advocates, and investigative newsrooms** working with BetaNYC's grounded AI + NYC/NYS open data MCPs. Two genres live here: **run-it-live demo scripts** for showing the tooling to a room, and **methodology guides** someone can run on their own afterward.
 
@@ -37,7 +37,7 @@ Every other folder in this repo demos to someone who wants to see **their own** 
 
 ## The three questions this audience lives on
 
-Build any script in this folder around these:
+Build anything in this folder around these, script or methodology:
 
 1. **Where did the money go?** Allocation → disbursement, across systems. The interesting output is the **mismatch**, not the match.
 2. **What got taken back?** Rescissions and mid-year amendments are the least visible money in the system, and the tooling reaches them directly.
@@ -51,7 +51,7 @@ A fourth question sits just underneath these three, and it is often the most pro
 
 "This dataset is not on the portal" and "the city stopped producing this report" are different claims with different remedies, and only the first is supported by a catalog search. An audience that does oversight for a living will notice the difference immediately, and overstating once costs more than the finding was worth.
 
-Every script here should model that distinction out loud, in front of the room. It is not a disclaimer — it is the product demonstrating what it's for.
+Every demo script here should model that distinction out loud in front of the room, and every methodology guide should teach it. It is not a disclaimer — it is the product demonstrating what it's for.
 
 ## See also
 

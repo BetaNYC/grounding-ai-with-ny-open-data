@@ -1,0 +1,31 @@
+# Node
+node_modules/
+dist/
+*.js.map
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# Secrets — never committed
+.env
+*.env
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS / temp
+Thumbs.db
+*.tmp

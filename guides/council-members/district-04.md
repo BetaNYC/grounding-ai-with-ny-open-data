@@ -4,23 +4,81 @@ status: DRAFT
 
 # Demo script — Council District 4 (Virginia Maloney)
 
-> **DRAFT.** First pass, 2026-07-21. A run-it-live script for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to Council Member **Virginia Maloney** and staff. District 4 covers the East Side of Manhattan — Midtown East, the Upper East Side south, Murray Hill, and Stuyvesant Town/Peter Cooper Village.
+> **DRAFT.** Revised 2026-07-27. A run-it-live script for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to Council Member **Virginia Maloney** and staff. District 4 covers the East Side of Manhattan — Midtown East, the Upper East Side south, Murray Hill, and Stuyvesant Town/Peter Cooper Village.
 >
-> **Every figure below was pulled live on 2026-07-21** with provenance in the presenter notes.
+> **Slide companion:** [`district-04-deck.html`](district-04-deck.html). Same structure, same figures. The deck carries every warning below in its presenter notes (press `N`), so you can run the meeting from either one. **This file stays the source of truth for figures and provenance.**
 
-> ⚠️ **This script is deliberately structured differently from [`district-10.md`](district-10.md), because Council Member Maloney took office in January 2026.** A newly seated member has no legislative record to show, and the standard Act 2 ("what have you introduced?") will come back empty. That is not a failure to work around — handled honestly, it is the most persuasive two minutes in the demo. See Act 2.
+> ⚠️ **Structure changed 2026-07-27.** Every act is now a **side-by-side**: the same question run through a real web search, then through the connector. The searches were run live on 2026-07-27 and are reproduced verbatim in the deck. This replaced the earlier "newly seated member has no record" framing, which is **no longer accurate** — see the retraction under Act 2.
 
 ---
 
 ## Before you start (2 min)
 
 - District is **4**. Sponsoring-member surname in budget data is **Maloney**.
-- ⚠️ **In 311 queries the district is the string `'04'`, zero-padded.** Querying `'4'` returns **zero rows, with no error**. This will make you look broken in the member's own office. See presenter notes.
-- Her first discretionary budget is **FY2027**, not FY2026. FY2026 was adopted before she was seated.
-- Keep [Legistar](https://legistar.council.nyc.gov) or [NYC Open Data](https://data.cityofnewyork.us) open to show a number resolves.
+- ⚠️ **In 311 queries the district is the string `'04'`, zero-padded.** Querying `'4'` returns **zero rows, with no error**. Affects districts 1–9 only.
+- Her first discretionary budget is **FY2027**, not FY2026. FY2026 was adopted before she was seated, so querying it by her surname correctly returns nothing.
+- ⚠️ **Re-run the web searches before the meeting.** Ranking drifts. If a flagged result has moved, update the slide or drop the flag rather than reading a stale one aloud.
+- ⚠️ **Re-pull the 311 figures.** They are from 2026-07-21 and were not refreshed for the 2026-07-27 revision.
 
 **Opening line:**
-> "You're seven months in, so I'm not going to pretend there's a long record to search. What I'll show you instead is what the public record *does* say about your district right now — and what it honestly says it doesn't know."
+> "Rather than tell you what this does, I'm going to ask it five questions your office actually gets, and show you what a web search returns for the same question."
+
+---
+
+## Opening — what we plugged in (90 sec)
+
+Seven connectors, counts verified 2026-07-27:
+
+| Source | What it holds | Scale |
+|---|---|---|
+| Council legislation | Bills, hearings, sponsors, votes | 21,467 bills · 17,314 events |
+| Charter, Code & Rules | Full text by section | 22,131 sections |
+| City budget | Schedule C, capital, terms | 33,638 awards · FY2015–FY2027 |
+| 311 | Service requests, status, calendar | live |
+| The City Record | Procurement and public notices | live |
+| NY State legislation | Bills, laws, members | 231,107 bills |
+| Open data catalog | Any dataset on the portal | SoQL |
+
+Then the four things a web search structurally cannot do: reach **inside a portal's search form** (crawlers see the search box, not the results), **join** four of these in one question, hand you a **citation** you can put in a letter, or tell you **when the answer last changed**.
+
+> ⚠️ **Citywide spending (Checkbook NYC) is deliberately off this list.** Imperva bot protection has fronted the site including its documented XML API since around 2026-07-16. **Do not promise contract or spending data.** If asked, say it plainly: it's built, the city is currently blocking it, and we're asking. Note the MCP returns `total_records: 0` alongside its error field during an outage, so a naive caller reports "no records exist."
+
+---
+
+## Profile — who is the member? (2 min)
+
+**Start with the question a search engine handles well.** Conceding the easy case is what makes the room believe you on the next five.
+
+**Prompt:**
+> "Who is Council Member Virginia Maloney?"
+
+**The web search (run 2026-07-27) does this one well.** It returns her council staff directory, a Murray Hill Neighborhood Association profile, Ballotpedia, LinkedIn and Wikipedia — and assembles phone, district email, office hours and a committee from across them.
+
+**What to say:**
+> "I'm going to start with the one question a search engine handles well, so you know I'm not selling you something. Now watch what happens when we ask what she's *done*."
+
+**The connector, verified 2026-07-27:**
+
+| Field | Value |
+|---|---|
+| PersonId | **7894** — the key that joins to 46 votes and 77 budget awards |
+| Committee | Committee on Economic Development — **listed contact**, 7 members |
+| Contact | District4@council.nyc.gov · 212-818-0580 |
+| Legistar | `PersonDetail.aspx?ID=329370` |
+| Record last modified | **2025-11-06** — *before she took office* |
+
+> ✅ **Committee assignment is now verified — the earlier "do not name one" warning is lifted (2026-07-27).** `get_committee("Committee on Economic Development")` returns `BodyContactNameId: 7894`, `BodyContactFullName: "Virginia Maloney"`, `BodyNumberOfMembers: 7`. The web independently reports her as **Chair** of that committee.
+>
+> ⚠️ **Say "listed contact," not "Chair," when citing our data.** The Legistar field is `BodyContactNameId`, which for council committees is conventionally the chair but does not literally say so. Two independent sources agreeing is good; overstating what our field says is exactly the failure this demo is about.
+
+> ⚠️ **The two sources disagree on the district office address, and this is worth telling her staff.**
+>
+> | Source | Address |
+> |---|---|
+> | Legistar (`PersonAddress1`) | 211 East 43rd Street, Suite 1205 |
+> | Web search | 420 Lexington Avenue, Suite 650 |
+>
+> The Legistar record was last modified **2025-11-06**, before she was seated, which points to Legistar being the stale one. **Do not assert which is correct.** Show the disagreement, note the date, and let her office tell you. It reads as a service, not a gotcha — and it demonstrates the "when did this last change" point better than any argument.
 
 ---
 
@@ -28,6 +86,11 @@ status: DRAFT
 
 **Prompt:**
 > "What were the top 311 complaint types in Council District 4 over the last 30 days?"
+
+**The web search returns nine links to portals and tools. Not one number.** Notable: documentation for a database product (MotherDuck), and the 311 page for filing a complaint *about* a council member, which matched on the words.
+
+**What to say:**
+> "Nine results, and every one of them is a door. Not one of them walked through it."
 
 **Verified 2026-07-21** — 4,767 service requests in the window:
 
@@ -42,53 +105,67 @@ status: DRAFT
 | Traffic Signal Condition | 181 |
 | For Hire Vehicle Complaint | 148 |
 
-**What to say:** "Live 311, your district, last thirty days."
-
-**Where to linger — this is the real content of Act 1.** Encampment and Homeless Person Assistance sitting at #2 and #3 is a distinctive signature. Compare it to District 10 uptown, where the top five are noise, water, and parking with no homelessness category at all. Same city, same 30 days, completely different constituent pressure.
+**Where to linger.** Encampment and Homeless Person Assistance at #2 and #3 is a distinctive signature. District 10 uptown has no homelessness category in its top five at all. Same city, same 30 days, completely different constituent pressure.
 
 > Don't editorialize past the data. What the numbers show is *what residents called 311 about*, which is a measure of complaint behavior as much as of underlying conditions. Say that out loud if the room starts drawing policy conclusions — it is the kind of caveat that earns trust rather than spending it.
 
+**Also in these connectors:** `get_calendar` (alternate-side parking and collection) · `get_service_request` (one request by number) · `get_status` (agency status) · `socrata` (any dataset on the portal).
+
 ---
 
-## Act 2 — The honest empty result (3 min)
+## Act 2 — Your roll call (4 min)
 
-**The act that matters most in this particular meeting.**
+> ✅ **REWRITTEN 2026-07-27. The previous version of this act is retracted.**
+>
+> This act previously said `get_voting_record` raises a named error because the `votes` table has zero rows, and built the whole act around an honest refusal. **That is no longer true.** Votes shipped over the weekend of 2026-07-25/26. Verified live 2026-07-27: `get_voting_record(member_name="Maloney")` returns **46 distinct matters**.
+>
+> The refusal framing is gone. Do not use it, and do not read the old text aloud.
 
 **Prompt:**
-> "What legislation has Council Member Virginia Maloney introduced, and how has she voted?"
+> "How has Council Member Maloney voted?"
 
-**What comes back: essentially nothing.** She was seated in January 2026.
-
-> ⚠️ **Do NOT cite `PersonUsedSponsorFlag`.** A draft of this note claimed that flag reading `0` on Maloney's Legistar record meant "has never been used as a bill sponsor," and offered it as proof the empty result is real. **That is wrong.** Carmen De La Rosa — a multi-term member who is one of 28 sponsors on Int 1122-2024 — also carries `PersonUsedSponsorFlag: 0`. Whatever the field means, it is not "has sponsored legislation," and it cannot distinguish a new member from a veteran.
->
-> The honest support for Act 2 is what it always was: she was seated in January 2026, her first Schedule C is FY2027, and the legislation search returns nothing. Say that. **Do not reach for a field whose meaning you have not established** — that is the exact failure this act is about.
+**The web search returns nine pages about a person and zero votes.** Two of the nine are not her: **Carolyn Maloney**, who served in Congress, and a **Cornell graduate student assembly** "Voting Members" roster. Both rank because the words match.
 
 **What to say:**
-> "That's the correct answer, and I want to sit on it for a second. You know you don't have a two-year sponsorship record. But an ungrounded chatbot asked this question will *give you one*. It will produce Intro numbers, committee names, and vote tallies that read perfectly and are entirely fabricated — often by blending in your predecessor's record, or a different Maloney's."
+> "Nine results, not one of them a vote, and two aren't even about you. It isn't lying to you. It has no idea it missed."
 
-**Then the second half, which is the actual sales point:**
-> "The failure mode isn't that AI is wrong. It's that it's wrong *fluently*, and the more senior the person reading the output, the less likely anyone is to check. What you're watching here is a system that would rather return nothing than fill a gap. Everything else it tells you is worth more because of that."
+**The connector, verified 2026-07-27:** 46 matters from the 2026-06-30 and 2026-07-16 sessions, each with a file number and date.
 
-> **✅ Changed 2026-07-21 — this act got stronger, but what appears on screen is different.** `get_voting_record` no longer returns an empty list. As of `nyc-council-mcp` **2.5.0** it raises a named error explaining that the `votes` table is not indexed, that the source archive holds roll-call *attendance* rather than aye/nay positions, and listing three tools that do work ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19), [PR #24](https://github.com/BetaNYC/nyc-council-mcp/pull/24)). Verified live against the published package.
->
-> **What this means for Act 2.** The old script leaned on an empty result and warned you not to overclaim it. That risk is gone — the tool now says why it cannot answer. **Read the refusal aloud.** It is a cleaner version of the point you were already making: the system declines rather than fills the gap, and it tells you where to go instead.
->
-> **Still do not overclaim.** The refusal is about the *corpus*, not about Council Member Maloney. It appears identically for a four-term incumbent. Keep Act 2 framed on the *newness of the member* — verifiable from her Legistar record and her FY2027-only budget — and use the refusal as evidence about the tool's honesty, never as evidence about her record.
+| Matter | Position | Note |
+|---|---|---|
+| Res 0551-2026 | Affirmative | Expense budget designations — **the resolution behind Act 3** |
+| Res 0546-2026 | Affirmative | FY2027 tax levy |
+| LU 0112-2026 | Affirmative | East Harlem/El Barrio Article XI |
+| Int 0972-2026 | Affirmative | Unincorporated business tax credit · intro.nyc/0972-2026 |
+
+**The drill-down.** `vote_breakdown("Int 0983-2026")` returns the full split: **51 recorded, 42 affirmative, 6 negative, 1 abstain**, plus the committee stage (7 recorded, 5-1). Named negatives (Carr, Morano, Vernikov, Ariola, Wong, Zhuang), a named abstention (Menin), named absences (Mealy, Paladino).
+
+**What to say:**
+> "Forty-six matters, every one with a file number and a date you can hand to anyone. And on any single one of them I can show you how all fifty-one members voted."
+
+> ⚠️ **Int 0983-2026 is the elected-official compensation bill.** It is public record and she voted Affirmative, but leading with "here's your vote on your own pay" in her own office reads as a gotcha. **Use Res 0551-2026 or Int 0972-2026 as the drill-down unless she asks.** Judgment call, not a rule.
+
+> ⚠️ **All 46 came back Affirmative.** That is a real record, not an artifact — the table discriminates, and the same session shows six named negatives from other members. But it covers **two sessions only**. Do not characterize it as a voting philosophy.
+
+> ⚠️ **`get_voting_record` returns duplicate rows** — 50 rows for 46 distinct matters, because some items are recorded at both committee and full council. **Dedupe by `file_number` before you say a count out loud.** Worth an upstream issue.
+
+> ⚠️ **Do NOT cite `PersonUsedSponsorFlag`.** *(Retained from 2026-07-21.)* The flag reads `0` for De La Rosa too, a multi-term member who is one of 28 sponsors on Int 1122-2024. It does not mean what its name suggests.
+
+**Also in this connector:** `co_sponsors` (who signed on, and who didn't) · `get_bill_history` (every action, in order) · `get_bill_hearings` (where a bill was heard) · `aggregate_bills` (counts by sponsor and session).
 
 ---
 
 ## Act 3 — Your first budget (5 min)
 
-Her legislative record is thin. **Her budget is not**, and it is entirely hers.
-
 **Prompt:**
 > "Show the FY2027 NYC Council discretionary (Schedule C) awards sponsored by council member Maloney."
 
-**Re-verified live 2026-07-21: 77 awards totaling $1,538,000.**
+**The web search is at its worst here.** It returns the *rules* for discretionary funding — the FY2027 Policies and Procedures PDF — and then **two other members' pages**: Oswald Feliz (D15) and Alexa Avilés (D38). Zero of her 77 awards.
 
-> ⚠️ **Corrected.** This script previously read "at least 40 awards totaling $1,148,000," from a query capped at `limit: 40` that returned exactly 40 rows. It understated her budget by **$390,000 and 37 awards**. The `limit` truncates the total as well as the list, so a capped query reports a capped sum with no indication it is partial. **Always pass `limit: 200` or higher for a member-year query, and check that the returned count is below the limit.**
+**What to say:**
+> "It found the policy manual and two of your colleagues. Not one of your seventy-seven awards."
 
-Representative:
+**Re-verified live 2026-07-27: 77 awards totaling $1,538,000.** 77 returned against a limit of 200, so the total is complete.
 
 | Amount | Recipient | Initiative |
 |---|---|---|
@@ -97,46 +174,126 @@ Representative:
 | $50,000 | STPCV Tenants Association Foundation | Speaker's Initiative |
 | $40,000 | Justice Innovation, Inc. | Community Safety and Victim Services |
 | $35,000 | City Parks Foundation | Parks Equity |
+| $33,000 | Metropolitan New York Coordinating Council on Jewish Poverty | Domestic Violence and Empowerment |
 | $30,000 | Carnegie Hill Neighbors | Neighborhood Development Grant |
-| $25,000 | CEC Stuyvesant Cove | A Greener NYC — Clean Energy Workforce |
 
-**What to say:** "This is the thing that *is* yours after seven months, and it's a million dollars of it. Forty-plus organizations, by name, by initiative, by agency."
+**What to say:** "This is the thing that *is* yours after seven months, and it's a million and a half of it. Seventy-seven organizations, by name, by initiative, by agency."
 
-> **The digital-equity thread — this is BetaNYC's opening.** Four FY2027 awards sit under the **Digital Inclusion and Literacy Initiative**, $80,000 in total:
->
-> | Amount | Recipient | Program |
-> |---|---|---|
-> | $20,000 | **Fund for the City of New York** | **AI Training Program** — *this is BetaNYC* |
-> | $20,000 | Older Adults Technology Services (OATS) | Older Adults Digital Literacy |
-> | $20,000 | Simon Wiesenthal Center | Digital Equity Program |
-> | $20,000 | WNET | Arts Broadcasting |
->
-> A newly seated member put real money into AI training and digital literacy in her first budget. That is the conversation.
->
+> ⚠️ **Always pass `limit: 200` or higher.** This script previously read "at least 40 awards totaling $1,148,000," from a query capped at `limit: 40` that returned exactly 40 rows. It understated her budget by **$390,000 and 37 awards**. The `limit` truncates the total as well as the list. **Treat "returned exactly N against a limit of N" as truncation until proven otherwise.**
+
+> ⚠️ **`council_member` matches as a substring, and the result depends on the fiscal year.** FY2027 is safe: searching "Powers" returns only Brooks-Powers, and District 4 is Maloney's. **It bites any historical query** — in FY2020–FY2026 a "Powers" search silently sums Keith Powers and Brooks-Powers across two districts into one total, with the sponsor column the only tell. Check the sponsor column before reading any figure aloud, and state the fiscal year when you do. Unfixed — [New-York-City-Budget#38](https://github.com/BetaNYC/New-York-City-Budget/issues/38).
+
+**Query Schedule C by sponsoring member surname, not by district number** — there is no district filter, and asking by district silently returns citywide awards.
+
+**Also in this connector:** `search_capital_projects` (§254 capital) · `get_awards_by_ein` (one org across all members) · `get_terms_conditions` (the strings attached) · `get_legistar_link` (back to the adopting resolution).
+
+### The digital-equity thread — this is BetaNYC's opening
+
+Four FY2027 awards sit under the **Digital Inclusion and Literacy Initiative**, $80,000 in total, all administered by DYCD:
+
+| Amount | Recipient | Program |
+|---|---|---|
+| $20,000 | **Fund for the City of New York** | **AI Training Program** — *this is BetaNYC* |
+| $20,000 | Older Adults Technology Services (OATS) | Older Adults Digital Literacy |
+| $20,000 | Simon Wiesenthal Center | Digital Equity Program |
+| $20,000 | WNET | Arts Broadcasting |
+
+A newly seated member put real money into AI training and digital literacy in her first budget. That is the conversation.
+
 > **Do not characterize how that decision was made.** An earlier draft said it was "her own choice rather than something being pitched to her." Nothing in the data supports a claim about her office's internal process, and BetaNYC is the grantee of the line in question. Say what the record shows and stop there.
 >
-> **The $20,000 Fund for the City of New York line is BetaNYC's own AI Training Program** — FCNY is our fiscal sponsor (EIN 13-2612524), so our awards appear under its name. Confirmed 2026-07-21.
+> **The $20,000 Fund for the City of New York line is BetaNYC's own AI Training Program** — FCNY is our fiscal sponsor (EIN 13-2612524), so our awards appear under its name. Confirmed 2026-07-21, re-confirmed 2026-07-27.
 >
-> Handle this with some care. The strongest version is *not* leading with "you already fund us." It is running the demo straight, letting the agent surface the award from the public record alongside the other three, and only then noting that one of those lines is us. The tool finding your own funding in the same query that found everyone else's is far more persuasive than saying so up front — and it keeps the meeting about her office's data rather than about an ask.
+> Handle this with care. The strongest version is *not* leading with "you already fund us." It is running the demo straight, letting the agent surface the award from the public record alongside the other three, and only then noting that one of those lines is us. The tool finding your own funding in the same query that found everyone else's is far more persuasive than saying so up front — and it keeps the meeting about her office's data rather than about an ask.
 
-**A genuine data subtlety worth showing, if the room is engaged:** Fund for the City of New York is a **fiscal sponsor** — a passthrough carrying dozens of distinct programs under one EIN (13-2612524). So "Fund for the City of New York" in the recipient column is not the actual grantee; the `[AI Training Program]` bracket is. Filtering by organization alone would silently merge unrelated grantees. Say this out loud: it is exactly the kind of thing that makes a naive spreadsheet analysis wrong, and the tool documents the trap in its own description.
+**A genuine data subtlety worth showing, if the room is engaged:** Fund for the City of New York is a **fiscal sponsor** — a passthrough carrying dozens of distinct programs under one EIN. So "Fund for the City of New York" in the recipient column is not the actual grantee; the `[AI Training Program]` bracket is. Filtering by organization alone would silently merge unrelated grantees. Say this out loud: it is exactly the kind of thing that makes a naive spreadsheet analysis wrong, and the tool documents the trap in its own description.
 
 ---
 
-## Act 4 — What's in front of the Council this week (3 min)
+## Act 4 — Looking at NYC's Laws (4 min)
+
+> **NEW 2026-07-27.** This act did not exist in the previous version. **It is the sharpest contrast in the demo. Don't cut it.**
+
+**Prompt:**
+> "How long can a sidewalk shed stay up?"
+
+**This is the subtle one, and the strongest, because the web search gets the headline roughly right.** 90 days, $6,000 cap — correct. Resist the urge to say it failed. It didn't. It is *unciteable*, and it is imprecise in a way that costs you.
+
+**Where the nine results come from:** a Mayor's Office press release, NBC New York, CityLand, and three marketing blogs belonging to companies that sell permit expediting and engineering services (`permitexpertsnyc.com`, `skybriz.com`, `randpc.com`).
+
+**What to say:**
+> "It got the number right. Now look at where it got it: a press release, a TV station, and three blogs belonging to companies that sell permit expediting. You cannot put any of those in a letter to DOB."
+
+**The connector, verified live 2026-07-27:**
+
+> **§ 28-105.8.1 Duration of permit**
+> "Permits may be issued for a period of up to 2 years unless otherwise limited by law. **Exception: Sidewalk shed permits shall be issued for a period of 90 days** and may not be renewed until department penalties for sidewalk sheds in the public right-of-way are paid."
+> *(Am. L.L. 2025/048, 4/17/2025, eff. 1/12/2026)*
+
+> **§ 28-220.1 Department penalty for sidewalk sheds occupying the public right-of-way for an extended period**
+> Beginning with the **second renewal**, and only **where work is not in progress**: $10 per linear foot per month (shed under 3 years), $100 (3 to 4 years), $200 (4 years or more), **capped at $6,000 per month**.
+> **Exception: one- and two-family homes**, and sheds installed for new building, enlargement, or demolition work.
+
+### The precision point — this is the kill shot
+
+The web summary says penalties apply to sheds "standing longer than **180 days**." **The statute says something different.** Penalties begin at the **second renewal** and only **where work is not in progress**, tiered by how long the shed has existed. Roughly 180 days is a blog's paraphrase of a rule whose actual test is *the work*, not the clock.
+
+**What to say:**
+> "Close enough to sound right in a meeting. Wrong enough to lose the argument when the owner's lawyer shows up."
+
+**And the exemption.** One- and two-family homes are exempt, as are sheds up for new building, enlargement, or demolition. That appears in the statute and in **none** of the blogs. It is exactly the detail a constituent letter has to get right.
+
+> ⚠️ **Charter search is keyword matching, not semantic.** `sidewalk shed` returns nine results. `noise nighttime construction` and `heat season residential temperature` both return **zero**. **Rehearse your queries.** Improvising a phrasing in the room will demo an empty result set. Verified 2026-07-27.
+
+> ⚠️ **Read the legal disclaimer if anyone treats this as advice.** It is research material, not legal advice. The corpus is current through **Local Law 2026/116** (enacted 2026-07-11) and rules effective 2026-07-23 — not necessarily through today.
+
+**Also in this connector:** `get_section` (any citation, exact) · `list_titles` (browse the Code by title) · `get_version` (what the corpus is current through) · Rules as well as Charter and Administrative Code.
+
+---
+
+## Act 5 — What's in front of the Council (3 min)
 
 **Prompt:**
 > "What Council hearings are coming up, and what land use applications are on their agendas?"
 
-**Verified 2026-07-21:** returns real scheduled events with full agendas — e.g. the Subcommittee on Zoning and Franchises, 2026-07-21 at 11:00 AM, 250 Broadway Hearing Room 3, carrying LU 0115-2026 through LU 0119-2026 with the full application text and affected council districts.
+**The web search returns portals, a raw Legistar `View.ashx` file link, and a stale CBS story about a SoHo rezoning hearing.** No agenda for the current week.
 
-**What to say:** "Agendas, matter numbers, hearing rooms, and which districts each application touches — before the meeting, not after the minutes post. For a new member's office still building its calendar muscle, this is the least glamorous and most immediately useful thing in the demo."
+**The connector, verified 2026-07-27:**
+
+| Date | Body | Location | Agenda |
+|---|---|---|---|
+| 2026-08-04 | Subcommittee on Landmarks, Public Sitings, Resiliency and Dispositions | 250 Broadway, 8th Fl, Rm 1 | **Final** |
+| 2026-08-04 | Subcommittee on Zoning and Franchises | 250 Broadway, 8th Fl, Rm 1 | **Final** |
+| 2026-08-04 | Committee on Land Use | 250 Broadway, 8th Fl, Rm 1 | **Deferred** |
+
+**The honest detail is the third row.** Land Use shows `Deferred`, not `Final`. The tool distinguishes a settled agenda from an unsettled one.
+
+**What to say:**
+> "Two of these you can plan around. The third one it's telling you not to trust yet. That distinction is the difference between a calendar and a guess."
+>
+> "Agendas, matter numbers, hearing rooms, and which districts each application touches — before the meeting, not after the minutes post. For a new member's office still building its calendar muscle, this is the least glamorous and most immediately useful thing in the demo."
+
+> ⚠️ **`get_upcoming_hearings` is extremely verbose** — full agenda item text, including land-use applications that run to hundreds of block-and-lot references. Use `upcoming_events` for the overview, as above, and only drill into a single event's agenda on request.
+
+> ⚠️ **Re-run before the meeting.** These are 2026-08-04 events. If you present after that date the table is simply wrong.
+
+**Also in this connector:** `get_event_bills` (what's on a given agenda) · `get_upcoming_hearings` (full agenda text) · `search_events` (past meetings) · `nyc-record-mcp` (public hearing notices citywide).
 
 ---
 
 ## Closing (1 min)
 
+> "Six days ago the voting question came back empty and we would have shown you a graceful failure. It shipped over the weekend. That is what building in the open looks like."
+>
 > "BetaNYC built these connectors and guides in the open. Any office can point its own AI at the real city and state record instead of trusting it to remember. And as your record grows, the same questions that came back empty today start coming back full — with citations."
+
+**Then ask, and write the answers down:**
+
+1. What is the constituent question that takes your office the longest to answer? *(The product specification.)*
+2. Where do you go now, and what breaks? *(Usually: email the agency and wait.)*
+3. What would you need to show the member for this to be worth ten minutes of your day? *(The adoption bar.)*
+
+**Log every question they type when you hand them the keyboard, verbatim, whether or not it worked.** The failures are worth more than the successes. This is the evaluation set.
 
 **Leave-behind links:**
 - This repo: [`grounding-ai-with-ny-open-data`](https://github.com/BetaNYC/grounding-ai-with-ny-open-data)
@@ -145,50 +302,66 @@ Representative:
 
 ---
 
-## Presenter notes (verified 2026-07-21)
+## Presenter notes
 
-### ⚠️ Two traps that will silently break this specific demo
+### Runtime
+
+About **20 minutes** for the full arc. To land in 12, cut **Act 5** and the **digital-equity thread**. Never cut the **profile** (conceding the easy case is what makes the rest credible) or **Act 4** (the sharpest contrast).
+
+### ⚠️ Traps that will silently break this specific demo
 
 **1. Council districts are zero-padded strings in 311 data.** `council_district='4'` returns **zero rows**. `council_district='04'` returns 4,767. No error either way. This affects **districts 1–9 only**, which is why the District 10 script never hit it. Verified by querying `IN ('4','04','10')` — only `'04'` and `'10'` come back.
 
-**2. `council_member` matches as a substring, and the result depends on the fiscal year.** Clarified 2026-07-21 — neither this note's earlier wording nor its first correction stated the fiscal year, and **the fiscal year is the whole answer.**
+**2. `council_member` matches as a substring, and the result depends on the fiscal year.**
 
 | Query | Returns |
 |---|---|
-| `council_member="Powers", fiscal_year=2027` | **80 awards, $1,797,000 — Brooks-Powers (D31) only.** Keith Powers is correctly absent: District 4's FY2027 member is Maloney |
-| `council_member="Powers", fiscal_year=2026` | **156 awards, $3,405,000 — BOTH members summed.** Keith Powers held District 4 through FY2026, his last adopted budget |
+| `council_member="Powers", fiscal_year=2027` | **80 awards, $1,797,000 — Brooks-Powers (D31) only.** Keith Powers correctly absent |
+| `council_member="Powers", fiscal_year=2026` | **156 awards, $3,405,000 — BOTH members summed.** Keith Powers held District 4 through FY2026 |
 
-**For this script, which runs on FY2027, the collision does not bite.** Searching "Powers" returns only Brooks-Powers, and District 4 is Maloney's. Keith Powers is archival here.
+The strict-parameter fix does **not** catch this: `council_member` is a valid parameter receiving a valid value, so there is nothing for a schema to reject.
 
-**It bites any historical query.** In FY2020–FY2026 a "Powers" search silently sums two members across two districts into one total, with the sponsor column the only tell. That is worse than returning the wrong member, because the number looks reasonable.
+**3. Charter search is keyword, not semantic.** Rehearse the queries. See Act 4.
 
-**Check the sponsor column before reading any figure aloud, and state the fiscal year when you do.** Unfixed — [New-York-City-Budget#38](https://github.com/BetaNYC/New-York-City-Budget/issues/38) is open. The strict-parameter fix does **not** catch it: `council_member` is a valid parameter receiving a valid value, so there is nothing for a schema to reject.
+**4. `get_voting_record` returns duplicates.** 50 rows, 46 distinct matters. Dedupe by `file_number`.
 
 ### Other verified behavior
 
-- **✅ `get_voting_record` now raises a named error instead of `[]`** (`nyc-council-mcp` 2.5.0, verified 2026-07-21). The `votes` table still has 0 rows against 228,385 event_items and 136,066 sponsors — that has not changed — but the tool now says so and names three working alternatives rather than returning an empty list ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). See Act 2 for how to use it. `vote_breakdown` behaves identically; **`get_votes` does not** — it reads the live Legistar API, not the local table.
+- **`search_legislation` matches bill *titles*, not subject matter.** `"encampment"` finds nothing, because the term doesn't appear in bill titles. Try a synonym before concluding no legislation exists, and say so if it comes up empty in the room.
 - **`get_council_member(name="Powers")`** returns only Brooks-Powers. The member lookup has the same substring behavior as the budget tool.
-- **`search_legislation` can return `[]` even for a reasonable single keyword** — `"encampment"` finds nothing, because the term doesn't appear in bill titles. It matches titles, not subject matter. Try a synonym before concluding no legislation exists.
-- **`get_upcoming_hearings` is extremely verbose** — full agenda item text, including land-use applications that run to hundreds of block-and-lot references. Ask for a summary rather than raw output, or cap the limit low.
-- **FY2026 has no Maloney awards.** Her first Schedule C is FY2027. Querying FY2026 by her surname returns nothing, correctly — the FY2026 budget was adopted before she took office. Don't let this read as a tool failure.
+- **FY2026 has no Maloney awards.** Her first Schedule C is FY2027. Querying FY2026 by her surname returns nothing, correctly. Don't let this read as a tool failure.
 
 ### Figures and their provenance
 
 | Claim | How verified |
 |---|---|
-| **First name "Virginia"** | `get_council_member(name="Maloney")` → `PersonFirstName: "Virginia"`, `PersonLastName: "Maloney"`. Verified 2026-07-21. Previously used throughout the script with no provenance row |
-| Maloney = District 4, PersonId 7894 | same call → `PersonId: 7894`, `PersonActiveFlag: 1`, `PersonEmail: District4@council.nyc.gov`, `PersonWWW: council.nyc.gov/district-4/`; record last modified 2025-11-06 |
-| ~~No sponsorship record via `PersonUsedSponsorFlag`~~ | **Retracted 2026-07-21.** The flag reads `0` for De La Rosa too, and she is one of 28 sponsors on Int 1122-2024. It does not mean what its name suggests. Act 2 rests on the seating date and the empty search, not on this field |
-| 4,767 complaints; top types | Socrata `erm2-nwe9`, `council_district='04'`, `is_sample: false` |
-| **77 awards, $1,538,000, FY2027** | `search_awards(council_member="Maloney", fiscal_year=2027, limit=200)` — re-verified live 2026-07-21; returned 77 against a limit of 200, so complete |
-| $20,000 FCNY "AI Training Program" | `search_awards(organization="Fund for the City of New York", program="AI Training")` — exactly one match |
-| Upcoming hearings and agendas | `get_upcoming_hearings` |
+| First name "Virginia", District 4, PersonId 7894 | `get_council_member(name="Maloney")` → `PersonFirstName: "Virginia"`, `PersonId: 7894`, `PersonActiveFlag: 1`, `PersonEmail: District4@council.nyc.gov`. Verified 2026-07-21, re-verified 2026-07-27 |
+| **Committee on Economic Development, 7 members** | `get_committee("Committee on Economic Development")` → `BodyContactNameId: 7894`, `BodyNumberOfMembers: 7`. **Verified 2026-07-27** |
+| **46 distinct matters, all Affirmative** | `get_voting_record(member_name="Maloney")` → 50 rows, 46 distinct `file_number`. **Verified 2026-07-27** |
+| **Int 0983-2026 split 42-6-1** | `vote_breakdown("Int 0983-2026")` → full council `recorded: 51`. **Verified 2026-07-27** |
+| **77 awards, $1,538,000, FY2027** | `search_awards(council_member="Maloney", fiscal_year=2027, limit=200)` → 77 against a limit of 200, so complete. Re-verified live **2026-07-27** |
+| $20,000 FCNY "AI Training Program" | Present in the same `search_awards` result. Re-confirmed 2026-07-27 |
+| **§ 28-105.8.1 and § 28-220.1 full text** | `get_section(citation="28-105.8.1")` and `get_section(citation="28-220.1")`. **Verified 2026-07-27** |
+| **Upcoming events 2026-08-04** | `upcoming_events(limit=6)` → 3 events, one `Deferred`. **Verified 2026-07-27** |
+| Corpus counts (21,467 / 17,314 / 22,131 / 33,638 / 231,107 / 73 bodies) | `list_committees`, index rebuild output, and `/mcp-refresh-data` run **2026-07-27** |
+| 4,767 complaints; top types | Socrata `erm2-nwe9`, `council_district='04'`, `is_sample: false`. **2026-07-21 — NOT re-pulled** |
+| Web search results, all six queries | Run live **2026-07-27**, reproduced verbatim in the deck |
 
-**Not independently verified this session:**
-- **Her committee assignments.** Not checked. Do not name one.
-- ~~**That the $1,148,000 is her complete FY2027 total.**~~ **Resolved 2026-07-21 — it was not.** Re-run at `limit: 200`: **77 awards, $1,538,000**. The original caveat was correct and the figure shipped anyway. Treat "returned exactly N against a limit of N" as a truncation until proven otherwise.
-- **District 4's exact boundaries.** The neighborhood list above is inferred from award recipients (Carnegie Hill Neighbors, Friends of the Upper East Side Historic Districts, Murray Hill Committee, STPCV Tenants Association) rather than from a districting source. It is well supported but not authoritative — don't recite it to the people who represent it.
-- ~~Whether the FCNY "AI Training Program" award is BetaNYC's own program.~~ **Resolved 2026-07-21: it is BetaNYC**, via our fiscal sponsor Fund for the City of New York. See the note in Act 3 on how to raise it.
+### Retracted claims — do not reuse
+
+| Claim | Status |
+|---|---|
+| ~~`get_voting_record` raises a named error; the `votes` table has zero rows~~ | **Retracted 2026-07-27.** Votes shipped 2026-07-25/26. Returns 46 matters |
+| ~~"She has essentially no legislative record" / the honest-empty-result act~~ | **Retracted 2026-07-27.** Superseded by the roll call in Act 2 |
+| ~~No sponsorship record via `PersonUsedSponsorFlag`~~ | **Retracted 2026-07-21.** The flag reads `0` for De La Rosa too. It does not mean what its name suggests |
+| ~~"At least 40 awards totaling $1,148,000"~~ | **Retracted 2026-07-21.** A `limit: 40` truncation. Actual: 77 awards, $1,538,000 |
+| ~~"Do not name her committee assignments"~~ | **Lifted 2026-07-27.** Now verified via `get_committee`. Say "listed contact," not "Chair" |
+
+### Still not independently verified
+
+- **District 4's exact boundaries.** The neighborhood list in the header is inferred from award recipients (Carnegie Hill Neighbors, Friends of the Upper East Side Historic Districts, Murray Hill Committee, STPCV Tenants Association) rather than from a districting source. Well supported but not authoritative — don't recite it to the people who represent it.
+- **Which district office address is current.** Legistar and the web disagree. See the profile section.
+- **The date of the CBS SoHo rezoning story** surfaced in the Act 5 search. Described only as "stale" for that reason.
 
 ---
 

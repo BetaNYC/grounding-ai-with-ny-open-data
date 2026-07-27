@@ -1,0 +1,613 @@
+<!doctype html>
+<!--
+  Demo deck — good-government / watchdog audience (Reinvent Albany)
+  Companion to reinvent-albany.md. Presentation medium, same material.
+
+  STRUCTURE: every act is a side-by-side, but the LEFT panel is "by hand" — the
+  manual assembly cost — not a web search. This audience can already find the
+  data; what costs them is the assembly. Acts 5 and 6 invert it: the failure IS
+  the content.
+
+  VERIFICATION DATES
+    Rescissions $212.6M / 1,291   read from budget.db 2026-07-27 — NOT from the
+                                  tool, which caps at 500 and reports $122.3M.
+                                  See New-York-City-Budget#42.
+    ACE 54 awards / $6,455,750    re-verified live 2026-07-27
+    Sec 23-507 text               verified live 2026-07-27
+    CTE portal datasets           2026-07-21, NOT re-pulled
+    Checkbook 403                 as of 2026-07-21
+
+  ⚠️ reinvent-albany.md Act 3 quotes a rescission table that is truncated, and
+     its own correction ("re-run at limit 500") is ALSO truncated. Act 6 of this
+     deck is that story. Fix the script before reusing it.
+
+  Press N for presenter notes. Runtime ~20 min; see the closing note for what to cut.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BetaNYC · for Reinvent Albany</title>
+<style>
+  :root{
+    --blue:#2359a8; --blue-2:#B8D6FF; --bg-blue:#EEF4FF; --bg-blue-lt:#F9FAFF;
+    --gray:#414141; --gray-lt:#F1F1F1; --border:#949494; --ink:#1b1b1b; --flag:#c2410c;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--sans);color:var(--gray);background:var(--bg-blue-lt);overflow:hidden;-webkit-font-smoothing:antialiased}
+
+  .deck{position:relative;height:100vh;width:100vw}
+  .slide{
+    position:absolute;inset:0;display:none;
+    padding:clamp(20px,3.4vw,52px) clamp(24px,4.6vw,84px) 56px;
+    flex-direction:column;justify-content:center;
+    opacity:0;transform:translateY(12px);
+    transition:opacity .4s var(--ease),transform .4s var(--ease);
+  }
+  .slide.is-active{display:flex;opacity:1;transform:none}
+
+  .eyebrow{font-size:clamp(9.5px,.95vw,12.5px);font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:.7em;display:flex;align-items:center;flex-wrap:wrap;gap:.6em}
+  .eyebrow .act{background:var(--blue);color:#fff;border-radius:99px;padding:.3em .9em;letter-spacing:.08em}
+  h1{font-size:clamp(30px,4.6vw,64px);line-height:1.05;color:var(--blue);font-weight:800;letter-spacing:-.02em}
+  h2{font-size:clamp(21px,2.9vw,40px);line-height:1.12;color:var(--blue);font-weight:800;letter-spacing:-.015em}
+  .lede{font-size:clamp(15px,1.7vw,24px);line-height:1.5;max-width:24em;margin-top:.75em}
+  .sub{font-size:clamp(12px,1.15vw,16px);line-height:1.55;color:var(--gray);opacity:.85;max-width:40em;margin-top:.95em}
+  strong{color:var(--blue)} em{font-style:italic}
+
+  [data-reveal]{opacity:0;transform:translateY(14px)}
+  .is-active [data-reveal]{animation:rise .55s var(--ease) forwards;animation-delay:calc(var(--i,0) * 150ms + 100ms)}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  .query{
+    background:#12233c;border-radius:10px;padding:clamp(10px,1.15vw,17px) clamp(13px,1.5vw,21px);
+    font-family:var(--mono);font-size:clamp(11px,1.2vw,17px);color:#eaf1fb;
+    display:flex;align-items:baseline;gap:.65em;box-shadow:0 8px 26px rgba(18,35,60,.2);
+  }
+  .query .caret{color:var(--blue-2);font-weight:700;flex:none}
+  .typed::after{content:"";display:inline-block;width:.58em;height:1.05em;background:var(--blue-2);margin-left:.12em;vertical-align:-.16em;animation:blink 1.05s steps(1,end) infinite}
+  .typed.done::after{animation:none;opacity:0}
+  @keyframes blink{50%{opacity:0}}
+
+  /* the recurring split */
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:clamp(9px,1.2vw,18px);margin-top:clamp(9px,1.15vw,16px);align-items:stretch;min-height:0}
+  .panel{
+    background:#fff;border:1px solid var(--border);border-radius:10px;
+    padding:clamp(11px,1.3vw,19px);display:flex;flex-direction:column;min-width:0;
+    box-shadow:0 5px 20px rgba(35,89,168,.09);
+    opacity:0;transform:translateY(16px);
+  }
+  .panel.in{animation:rise .46s var(--ease) forwards}
+  .panel.bad{background:var(--gray-lt);border-style:dashed;box-shadow:none}
+  .panel h3{font-size:clamp(9px,.94vw,12px);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.65em;color:var(--gray);display:flex;align-items:center;flex-wrap:wrap;gap:.5em}
+  .panel.good h3{color:var(--blue)}
+
+  .pill{background:var(--bg-blue);color:var(--blue);border-radius:99px;padding:.22em .7em;font-size:.86em;font-weight:700;letter-spacing:.03em;white-space:nowrap}
+  .pill.warn{background:#fdf1d8;color:#7a5104}
+  .pill.live{background:#e4f6ec;color:#186a3b}
+  .pill.old{background:#e2e2e2;color:#5a5a5a}
+
+  ul.serp{list-style:none;font-size:clamp(9.5px,.98vw,13.5px);line-height:1.38}
+  ul.serp li{padding:.28em 0;border-bottom:1px solid rgba(0,0,0,.06)}
+  ul.serp li:last-child{border-bottom:0}
+  ul.serp .dom{font-family:var(--mono);font-size:.84em;opacity:.6;display:block}
+  ul.serp li.flag{color:var(--flag);font-weight:700}
+  ul.serp li.flag .tag{font-weight:400;font-style:italic;opacity:.9}
+  ul.serp li.flag .dom{opacity:.75}
+
+  .verdict{margin-top:auto;padding-top:.75em;font-weight:700;font-size:clamp(9.5px,1vw,13.5px);line-height:1.4}
+  .panel.bad .verdict{color:#8a2b2b}
+  .panel.good .verdict{color:#186a3b}
+
+  /* compact bars inside a panel */
+  .bars{display:flex;flex-direction:column;gap:clamp(3px,.42vw,7px)}
+  .bar{display:grid;grid-template-columns:minmax(78px,9.5em) 1fr auto;align-items:center;gap:.6em}
+  .bar .name{font-size:clamp(9px,.94vw,12.5px);text-align:right;line-height:1.2}
+  .bar .track{background:#e6e6e6;border-radius:4px;height:clamp(11px,1.15vw,17px);overflow:hidden}
+  .panel .bar .track{background:var(--gray-lt)}
+  .bar .fill{background:var(--blue);height:100%;width:0;border-radius:4px;transition:width .8s var(--ease)}
+  .panel.in .bar .fill{width:var(--pct);transition-delay:calc(var(--n,0) * 75ms + 180ms)}
+  .bar .val{font-family:var(--mono);font-size:clamp(9px,.92vw,12.5px);font-weight:700;color:var(--blue);min-width:2.4em;text-align:right}
+  .bar.hot .fill{background:var(--flag)}
+  .bar.hot .val,.bar.hot .name{color:var(--flag);font-weight:700}
+
+  /* money inside a panel */
+  .fig{font-size:clamp(26px,3.4vw,50px);font-weight:800;color:var(--blue);line-height:1;letter-spacing:-.025em}
+  .figrow{display:flex;align-items:baseline;gap:clamp(10px,1.6vw,26px);flex-wrap:wrap;margin-bottom:.5em}
+  .figrow .cap{font-size:clamp(8.5px,.9vw,11.5px);text-transform:uppercase;letter-spacing:.08em;opacity:.85;line-height:1.3}
+
+  table.awards{border-collapse:collapse;width:100%;font-size:clamp(9.5px,.98vw,13.5px)}
+  table.awards td{padding:.3em .45em;border-bottom:1px solid var(--gray-lt);line-height:1.3}
+  table.awards td.amt{font-family:var(--mono);font-weight:700;color:var(--blue);white-space:nowrap;text-align:right;width:1%}
+  table.awards tr.us td{background:var(--bg-blue)}
+  table.awards tr.us td.org{font-weight:700;color:var(--blue)}
+  table.awards td.init{opacity:.7;font-size:.88em}
+
+  /* statute quote */
+  .statute{border-left:3px solid var(--blue-2);padding-left:.8em;font-size:clamp(10px,1.05vw,14.5px);line-height:1.48;color:var(--ink);margin-bottom:.55em}
+  .statute .k{font-family:var(--mono);font-weight:700;color:var(--blue);display:block;font-size:.92em;margin-bottom:.2em}
+
+  /* calendar rows */
+  ul.cal{list-style:none;font-size:clamp(9.5px,.98vw,13.5px);line-height:1.35}
+  ul.cal li{padding:.34em 0;border-bottom:1px solid var(--gray-lt)}
+  ul.cal li:last-child{border-bottom:0}
+  ul.cal .when{font-family:var(--mono);font-weight:700;color:var(--blue)}
+  ul.cal .where{display:block;opacity:.65;font-size:.86em}
+  .tagf{background:#e4f6ec;color:#186a3b;border-radius:3px;padding:.06em .4em;font-size:.8em;font-weight:700}
+  .tagd{background:#fdf1d8;color:#7a5104;border-radius:3px;padding:.06em .4em;font-size:.8em;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:clamp(8px,1.05vw,16px);margin-top:clamp(10px,1.3vw,20px)}
+  .stat{background:#fff;border:1px solid var(--border);border-radius:9px;padding:clamp(9px,1.15vw,16px)}
+  .stat .n{font-size:clamp(19px,2.5vw,36px);font-weight:800;color:var(--blue);line-height:1;letter-spacing:-.02em}
+  .stat .l{font-size:clamp(8.5px,.88vw,11.5px);text-transform:uppercase;letter-spacing:.07em;margin-top:.35em;opacity:.85;line-height:1.3}
+
+  .caps{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(7px,.9vw,14px);margin-top:clamp(10px,1.3vw,18px)}
+  .cap-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:clamp(8px,1vw,14px);font-size:clamp(9.5px,.98vw,13.5px);line-height:1.35}
+  .cap-item .t{font-family:var(--mono);font-weight:700;color:var(--blue);font-size:.94em;display:block;margin-bottom:.15em}
+
+  /* per-act "what else this connector does" strip */
+  .also{
+    margin-top:clamp(7px,.9vw,13px);padding:clamp(7px,.85vw,12px) clamp(10px,1.2vw,17px);
+    background:var(--bg-blue);border-radius:8px;
+    font-size:clamp(9px,.92vw,12.5px);line-height:1.45;color:var(--gray);
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:.4em 1.1em;
+  }
+  .also .lbl{font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);font-size:.85em;flex:none}
+  .also code{font-family:var(--mono);color:var(--blue);font-weight:700;font-size:.95em}
+
+  /* slide 2 reach grid */
+  .reach{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(7px,.9vw,13px);margin-top:clamp(9px,1.1vw,16px)}
+  .reach-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:clamp(8px,1vw,14px);font-size:clamp(9.5px,.96vw,13px);line-height:1.35}
+  .reach-item .t{font-weight:800;color:var(--blue);display:block;margin-bottom:.15em;font-size:1.02em}
+  .reach-item .n{font-family:var(--mono);opacity:.7;font-size:.9em}
+  .cant{margin-top:clamp(9px,1.1vw,16px)}
+  .cant li{list-style:none;font-size:clamp(10.5px,1.08vw,15px);line-height:1.45;padding:.24em 0 .24em 1.35em;position:relative}
+  .cant li::before{content:"\00d7";position:absolute;left:0;color:#8a2b2b;font-weight:800;font-size:1.15em}
+
+  ol.asks{list-style:none;counter-reset:a;margin-top:clamp(10px,1.3vw,20px)}
+  ol.asks li{counter-increment:a;position:relative;padding-left:2.2em;margin-bottom:.6em;font-size:clamp(13px,1.45vw,21px);line-height:1.4}
+  ol.asks li::before{content:counter(a);position:absolute;left:0;top:.05em;width:1.5em;height:1.5em;background:var(--blue);color:#fff;border-radius:99px;display:grid;place-items:center;font-size:.7em;font-weight:800}
+  ol.asks li span{display:block;font-size:.68em;opacity:.7;margin-top:.15em}
+
+  .disclaimer{margin-top:auto;padding-top:clamp(8px,1vw,15px);font-size:clamp(8.5px,.82vw,11px);line-height:1.5;opacity:.66;max-width:58em}
+
+  .notes{display:none;position:fixed;left:0;right:0;bottom:0;max-height:50vh;overflow:auto;background:#12233c;color:#e8eef8;padding:clamp(12px,1.5vw,22px) clamp(18px,2.8vw,40px) 54px;font-size:clamp(11px,1.06vw,14.5px);line-height:1.55;z-index:20;box-shadow:0 -12px 40px rgba(0,0,0,.3)}
+  body.notes-on .notes.on{display:block}
+  .notes h4{font-size:.82em;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-2);margin-bottom:.65em}
+  .notes p{margin-bottom:.55em;max-width:64em}
+  .notes .say{border-left:3px solid var(--blue-2);padding-left:.8em;font-style:italic;color:#fff}
+  .notes .trap{border-left:3px solid #f0a92c;padding-left:.8em;color:#ffdfa6}
+  .notes code{font-family:var(--mono);background:rgba(255,255,255,.12);padding:.08em .32em;border-radius:3px;font-size:.92em}
+
+  .bar-ui{position:fixed;left:0;right:0;bottom:0;height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(12px,2.4vw,32px);font-size:11px;opacity:.6;pointer-events:none;z-index:30}
+  .dots{display:flex;gap:5px;pointer-events:auto}
+  .dot{width:6.5px;height:6.5px;border-radius:99px;background:var(--border);opacity:.5;border:0;padding:0;cursor:pointer}
+  .dot.on{background:var(--blue);opacity:1;transform:scale(1.3)}
+  body.notes-on .bar-ui{color:#e8eef8;opacity:.8}
+  body.notes-on .dot{background:#7f93b3} body.notes-on .dot.on{background:#fff}
+  .hint{font-family:var(--mono);font-size:10px}
+
+  @media (max-width:860px){ .vs{grid-template-columns:1fr} .bar{grid-template-columns:minmax(70px,8em) 1fr auto} }
+  @media (prefers-reduced-motion:reduce){
+    .slide,[data-reveal],.panel,.bar .fill{transition:none!important;animation:none!important;opacity:1!important;transform:none!important}
+    .bar .fill{width:var(--pct)!important}
+    .typed::after{animation:none;opacity:0}
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1 ── title ─────────────────────────────────────── -->
+  <section class="slide">
+    <div class="eyebrow" data-reveal style="--i:0">BetaNYC · for Reinvent Albany</div>
+    <h1 data-reveal style="--i:1">What nobody has<br>assembled yet.</h1>
+    <p class="lede" data-reveal style="--i:2">Grounded AI over New York City's own records. Built in the open, and we will show you where it breaks.</p>
+    <p class="sub" data-reveal style="--i:3">You already know where this data lives. What follows is how fast the <em>assembly</em> step gets, what happens when a number isn't there, and one thing we got wrong ourselves this morning.</p>
+    <aside class="notes">
+      <h4>This room is not the constituency. It is the oversight.</h4>
+      <p class="say">"You already know where this data lives — you've FOILed for worse. What I want to show you is how fast the assembly step gets when an agent can reach all of it at once, and what it does when a number isn't there."</p>
+      <p><strong>Do not explain the domain.</strong> They know what Schedule C is. The pitch is never "here is discretionary funding" — it is "here is discretionary funding, queryable in seconds, by an agent that cites its source and refuses to guess."</p>
+      <p><strong>Lead with limitations.</strong> Stating a coverage gap before you're asked buys more credibility here than any figure. They <em>will</em> check.</p>
+      <p><strong>Runtime ~22 minutes.</strong> If short, cut Act 4. <strong>Never cut Acts 5 or 6</strong> — the two failure acts are what this deck is for.</p>
+      <p class="trap">⚠️ Expect hard questions about provenance and coverage. That is the good outcome.</p>
+    </aside>
+  </section>
+
+  <!-- 2 ── what we plugged in ────────────────────────── -->
+  <section class="slide">
+    <div class="eyebrow" data-reveal style="--i:0">What we plugged in, and what it doesn't cover</div>
+    <h2 data-reveal style="--i:1">Seven connectors. Two of them<br>have holes we'll name.</h2>
+    <div class="reach">
+      <div class="reach-item" data-reveal style="--i:2"><span class="t">Council legislation</span>Bills, hearings, sponsors, votes <span class="n">21,467 bills · votes: 2 sessions only</span></div>
+      <div class="reach-item" data-reveal style="--i:3"><span class="t">Charter, Code &amp; Rules</span>Full text by section <span class="n">22,131 sections · thru LL 2026/116</span></div>
+      <div class="reach-item" data-reveal style="--i:4"><span class="t">City budget</span>Schedule C, capital, transparency <span class="n">33,638 awards · FY2015–FY2027</span></div>
+      <div class="reach-item" data-reveal style="--i:5"><span class="t">The City Record</span>Procurement and public notices <span class="n">live</span></div>
+      <div class="reach-item" data-reveal style="--i:6"><span class="t">311</span>Requests, status, calendar <span class="n">live</span></div>
+      <div class="reach-item" data-reveal style="--i:7"><span class="t">NY State legislation</span>Bills, laws, members <span class="n">231,107 bills</span></div>
+      <div class="reach-item" data-reveal style="--i:8"><span class="t">Open data catalog</span>Any dataset on the portal <span class="n">SoQL</span></div>
+    </div>
+    <ul class="cant">
+      <li data-reveal style="--i:9"><strong>Transparency resolutions:</strong> FY2010–FY2024 and FY2026. <strong>FY2025 is not in the dataset.</strong></li>
+      <li data-reveal style="--i:10"><strong>FY2010–FY2013 org and member text is low-confidence</strong> (garbled PDF text layer). Financials are reliable — <strong>join on EIN, not name</strong>.</li>
+      <li data-reveal style="--i:11"><strong>Citywide spending (Checkbook) is unreachable.</strong> That's Act 5.</li>
+      <li data-reveal style="--i:12"><strong>Council vote positions cover two sessions.</strong> The archive is filling in backwards.</li>
+    </ul>
+    <aside class="notes">
+      <h4>Read the four gaps out loud. Do not rush them.</h4>
+      <p>For every other audience this slide is a caveat. <strong>For this one it is content.</strong> Volunteering coverage limits before anyone asks is the single highest-value thing you do in the first five minutes.</p>
+      <p class="say">"Four things this can't tell you, before we start. If any of them matter to a question you were going to ask, ask it anyway and I'll show you the shape of the failure."</p>
+      <p class="trap">⚠️ FY2009 transparency resolutions and FY2008 are unparsed — source blocked. FY2009–FY2014 Schedule C is initiatives-only, no EIN, and is excluded from the award tools entirely.</p>
+    </aside>
+  </section>
+
+  <!-- 3 ── ACT 1 · the law ───────────────────────────── -->
+  <section class="slide" data-demo>
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 1</span> Open on their turf</div>
+    <h2 data-reveal style="--i:1">The transparency law,<br>read back to you.</h2>
+    <div class="query" data-reveal style="--i:2;margin-top:.7em">
+      <span class="caret">&rsaquo;</span><span class="typed" data-type="What does the Admin Code require about open data, and which law established it?"></span>
+    </div>
+    <div class="vs">
+      <div class="panel bad">
+        <h3>By hand</h3>
+        <ul class="serp">
+          <li>Search amlegal for chapter 5 of title 23<span class="dom">then read to find the compliance sections</span></li>
+          <li>Search Legistar separately for the enacting Intro<span class="dom">different system, different query</span></li>
+          <li>Cross-reference the Local Law number to the Intro<span class="dom">a third lookup</span></li>
+        </ul>
+        <p class="verdict">Three systems, no single answer, and nothing links the statute to the bill that made it.</p>
+      </div>
+      <div class="panel good">
+        <h3>The connector <span class="pill live">§ 23-507 verified 2026-07-27</span></h3>
+        <p class="statute"><span class="k">§ 23-507 Agency open data coordinator</span>"The head of each agency <strong>shall designate an employee</strong>&hellip; responsible for ensuring that such agency complies&hellip; and for receiving and responding to feedback from the public."<br><span style="opacity:.7;font-size:.9em">L.L. 2017/251, eff. 12/17/2017</span></p>
+        <ul class="serp">
+          <li>Int 0029-2010 — the original open data law<span class="dom">enacted 2012-03-07</span></li>
+          <li>§ 23-504 legal policy · L.L. 2016/008 compliance exam · Charter § 20-f<span class="dom">the rest of the chain</span></li>
+        </ul>
+        <p class="verdict">The statute, its enacting bill, and its compliance machinery, by citation.</p>
+      </div>
+    </div>
+    <div class="also">
+      <span class="lbl">Also here</span>
+      <span><code>get_section</code> any citation, exact</span>
+      <span><code>list_titles</code> browse by title</span>
+      <span><code>get_version</code> what the corpus is current through</span>
+    </div>
+    <aside class="notes">
+      <h4>Act 1 — short. This is a handshake, not an argument.</h4>
+      <p class="say">"The law you helped pass, with its compliance machinery, retrievable by citation. Note § 23-507 — there is a <em>named, accountable role</em> at every agency. Hold that thought for Act 4."</p>
+      <p class="trap">⚠️ <strong>Charter search is keyword, not semantic.</strong> <code>open data coordinator</code> works; conceptual phrasings return zero. Rehearse the exact query.</p>
+      <p>Don't linger. They know this law better than you do — the point is that the tool retrieves it precisely, not that the law is interesting.</p>
+    </aside>
+  </section>
+
+  <!-- 4 ── ACT 2 · one vendor ────────────────────────── -->
+  <section class="slide" data-demo>
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 2</span> Not one district. The whole map.</div>
+    <h2 data-reveal style="--i:1">One vendor, 54 decisions,<br>no line item anywhere.</h2>
+    <div class="query" data-reveal style="--i:2;margin-top:.7em">
+      <span class="caret">&rsaquo;</span><span class="typed" data-type="Every FY2026 discretionary award to ACE, citywide."></span>
+    </div>
+    <div class="vs">
+      <div class="panel bad">
+        <h3>By hand</h3>
+        <ul class="serp">
+          <li>Open the FY2026 Schedule C document<span class="dom">hundreds of pages, organized by member</span></li>
+          <li>Read it end to end looking for one org name<span class="dom">there is no vendor index</span></li>
+          <li>Tally 54 rows across 41 sponsors by hand<span class="dom">an afternoon, and you'll miss two</span></li>
+        </ul>
+        <p class="verdict">The document is public. The <em>question</em> is not answerable without reading all of it.</p>
+      </div>
+      <div class="panel good">
+        <h3>The connector <span class="pill live">re-verified live 2026-07-27</span></h3>
+        <div class="figrow">
+          <div><div class="fig">$6,455,750</div><div class="cap">FY2026, one organization</div></div>
+          <div><div class="fig">54</div><div class="cap">Separate awards</div></div>
+        </div>
+        <ul class="serp">
+          <li><strong>41 distinct sponsors</strong> — 39 council members plus the <strong>Brooklyn and Queens delegations</strong><span class="dom">the delegations are not members; the column doesn't distinguish</span></li>
+          <li>Range $7,750 (Brooklyn delegation) to $280,000 (Felder, Krishnan)<span class="dom">nearly all NYC Cleanup, via DYCD</span></li>
+        </ul>
+        <p class="verdict">54 against a limit of 500, so this one is complete.</p>
+      </div>
+    </div>
+    <div class="also">
+      <span class="lbl">Also here</span>
+      <span><code>get_awards_by_ein</code> the same question, keyed on EIN</span>
+      <span><code>get_terms_conditions</code> the strings attached</span>
+      <span><code>get_legistar_link</code> back to the adopting resolution</span>
+    </div>
+    <aside class="notes">
+      <h4>Act 2</h4>
+      <p class="say">"One vendor, 54 separate discretionary decisions by 41 different sponsors, six and a half million dollars, and no single line item anywhere that says so. Assembling this by hand means reading the Schedule C document end to end. That's the afternoon this replaces."</p>
+      <p><strong>The refinement worth making to this room.</strong> Two of the 41 sponsors are the <strong>Brooklyn and Queens borough delegations</strong>, not individual members. The <code>council_member</code> column carries both without distinguishing them. Anyone aggregating "awards per member" from this field would silently fold delegation money into a member count. <em>Verified 2026-07-27; the older script said "41 distinct council members," which is not quite right.</em></p>
+      <p><strong>Sharpen the pattern for them:</strong> the interesting output is not the match, it's the <strong>mismatch</strong> — allocations with no corresponding spending, or spending exceeding allocation. This makes that comparison cheap enough to run across every organization rather than the three you already suspected. <strong>Which is exactly what Act 5 takes away.</strong></p>
+      <p class="trap">⚠️ Query by sponsoring member <em>surname</em>, never district. <code>council_district=10</code> once returned $47.5M of citywide awards; it's now rejected by name in budget MCP 1.3.0.</p>
+    </aside>
+  </section>
+
+  <!-- 5 ── ACT 3 · rescissions ───────────────────────── -->
+  <section class="slide" data-demo>
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 3</span> Build the meeting around this</div>
+    <h2 data-reveal style="--i:1">What got taken back.</h2>
+    <div class="query" data-reveal style="--i:2;margin-top:.7em">
+      <span class="caret">&rsaquo;</span><span class="typed" data-type="FY2026 transparency resolution rescissions — money de-designated after adoption."></span>
+    </div>
+    <div class="vs">
+      <div class="panel bad">
+        <h3>By hand</h3>
+        <ul class="serp">
+          <li>Ten separate transparency resolutions, Aug 2025 to Jun 2026<span class="dom">each its own PDF</span></li>
+          <li>Rescissions are negative amounts mixed among designations<span class="dom">no "rescission" view exists</span></li>
+          <li>A transfer looks like a rescind + a designate on one EIN<span class="dom">telling "moved" from "taken away" is manual</span></li>
+        </ul>
+        <p class="verdict">Ten documents. The question spans all of them.</p>
+      </div>
+      <div class="panel good">
+        <h3>The connector <span class="pill live">verified 2026-07-27</span></h3>
+        <div class="figrow">
+          <div><div class="fig">$212.6M</div><div class="cap">FY2026 rescinded</div></div>
+          <div><div class="fig">1,291</div><div class="cap">Rescissions, Reso 1–10</div></div>
+        </div>
+        <ul class="serp">
+          <li class="flag"><strong>345 rows carry no council member at all</strong> <span class="tag">— $176.6M, 83% of the value</span></li>
+          <li>Largest single: <strong>$12,500,000</strong>, unattributed, DSS/HRA<span class="dom">Reso 1, 2025-08-14</span></li>
+          <li>Reso 1 alone: 293 rescissions, $98.4M<span class="dom">adopted 2025-08-14</span></li>
+        </ul>
+        <p class="verdict">Money announced, then quietly withdrawn. Now one question.</p>
+      </div>
+    </div>
+    <div class="also">
+      <span class="lbl">Also here</span>
+      <span><code>action="designate"</code> the other direction</span>
+      <span>join a rescind + designate on one EIN to tell <em>moved</em> from <em>taken away</em></span>
+    </div>
+    <aside class="notes">
+      <h4>Act 3 — the strongest capability act. And read the warning in Act 6 before you quote these numbers.</h4>
+      <p class="say">"Adopted budgets get amended all year by transparency resolution, and rescissions carry negative amounts. This is money that was announced, then quietly withdrawn. A transfer shows up as a rescind and a designate on the same EIN, so the tool can distinguish 'moved' from 'taken away' — precisely the distinction a press release will not make."</p>
+      <p><strong>The unattributed rows are the thing to point at.</strong> 345 of 1,291 rescissions, $176.6 million, with no council member on the row. The largest is $12.5M to DSS/HRA. Ask the room what they'd want to know next — that is the demo doing its job. Not answering the question, but getting them to the question in ten seconds instead of a week.</p>
+      <p class="trap">⚠️ <strong>These figures came from the database, not from the tool.</strong> The tool caps at 500 rows and reports $122.3M. See Act 6 — and do not quote a tool result for this act until <a href="https://github.com/BetaNYC/New-York-City-Budget/issues/42">#42</a> is fixed.</p>
+      <p class="trap">⚠️ Say the coverage caveat before they ask: transparency resolutions are parsed for FY2010–FY2024 and FY2026. <strong>FY2025 is not in this dataset.</strong> FY2010–FY2013 org and member text is low-confidence — join on EIN.</p>
+    </aside>
+  </section>
+
+  <!-- 6 ── ACT 4 · the missing report ────────────────── -->
+  <section class="slide" data-demo>
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 4</span> Speaks their language</div>
+    <h2 data-reveal style="--i:1">The report that was mandated,<br>and isn't there.</h2>
+    <div class="query" data-reveal style="--i:2;margin-top:.7em">
+      <span class="caret">&rsaquo;</span><span class="typed" data-type="LL 174 of 2016 requires an annual CTE report. What's the latest on the portal?"></span>
+    </div>
+    <div class="vs">
+      <div class="panel bad">
+        <h3>By hand</h3>
+        <ul class="serp">
+          <li>Find the reporting mandate in the Admin Code<span class="dom">one system</span></li>
+          <li>Search the open data portal for a matching dataset<span class="dom">another</span></li>
+          <li>Decide whether "not on the portal" means "not produced"<span class="dom">a judgment, not a lookup</span></li>
+        </ul>
+        <p class="verdict">Doable. Once. Not as a survey across every mandate in the Code.</p>
+      </div>
+      <div class="panel good">
+        <h3>The connector <span class="pill old">portal verified 2026-07-21</span></h3>
+        <ul class="serp">
+          <li><strong>Six CTE datasets</strong>, 2015-16 through 2019-2020<span class="dom">most recent published 2021-09-22</span></li>
+          <li class="flag">And nothing newer <span class="tag">— the law says annual; it is 2026</span></li>
+          <li>§ 23-507 names an accountable coordinator at DOE<span class="dom">Act 1 pays off here</span></li>
+        </ul>
+        <p class="verdict">A reproducible method, not a one-off. Any mandate in the Code checks the same way.</p>
+      </div>
+    </div>
+    <div class="also">
+      <span class="lbl">Also here</span>
+      <span><code>socrata</code> catalog search across the whole portal</span>
+      <span><code>search</code> the Admin Code for other reporting mandates</span>
+    </div>
+    <aside class="notes">
+      <h4>Act 4 — the discipline is the act. Do not skip it.</h4>
+      <p class="say">"The law says annual. The portal's most recent is 2019-2020. It is 2026."</p>
+      <p class="say">"What we've established is that <em>the dataset isn't on the portal</em>. That is not the same as <em>the report was never produced</em> — it may well have gone to the Council as a PDF and never been published as open data. Those are different findings with different remedies, and the second one is § 23-507's problem: there's a named coordinator at DOE accountable for exactly this."</p>
+      <p><strong>Why it lands here specifically:</strong> it is a method they can run themselves across every reporting mandate in the Administrative Code, and the agent won't overstate the result if prompted not to.</p>
+      <p class="trap">⚠️ Portal figures verified 2026-07-21, not re-pulled. Re-run before the meeting — a new dataset would change the finding entirely, and this is the one act where being out of date makes you wrong rather than stale.</p>
+      <p><strong>Second example if you want one:</strong> the "Broadband Adoption by State Senate District" dataset (<code>9bjg-n96a</code>) has 26 rows covering SD 10–34 plus 36, all created 2020-06-19. It predates current district lines. A digital-equity dataset that cannot answer for a third of the city's senate districts.</p>
+      <p class="trap">⚠️ <strong>Always bound a Socrata catalog search with <code>limit</code>.</strong> An unbounded search returned 581 KB once — it inlines full polygon geometry for anything with a <code>the_geom</code> column. Most likely way to stall the room.</p>
+    </aside>
+  </section>
+
+  <!-- 7 ── ACT 5 · the wall ──────────────────────────── -->
+  <section class="slide" data-demo>
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 5</span> The act for this room</div>
+    <h2 data-reveal style="--i:1">Published, and machine-hostile.</h2>
+    <div class="query" data-reveal style="--i:2;margin-top:.7em">
+      <span class="caret">&rsaquo;</span><span class="typed" data-type="Check Checkbook for FY2026 spending paid to Community League of the Heights."></span>
+    </div>
+    <div class="vs">
+      <div class="panel bad">
+        <h3>What comes back <span class="pill warn">HTTP 403</span></h3>
+        <ul class="serp">
+          <li><code>total_records: 0</code><span class="dom">a count</span></li>
+          <li><code>records: []</code><span class="dom">an empty set</span></li>
+          <li><code>has_more: false</code><span class="dom">and a claim of completeness</span></li>
+          <li class="flag"><code>error: "HTTP 403"</code> <span class="tag">— in the same payload</span></li>
+        </ul>
+        <p class="verdict">Read the count and not the error, and an outage becomes a finding.</p>
+      </div>
+      <div class="panel good">
+        <h3>What we know</h3>
+        <ul class="serp">
+          <li>The site loads fine <strong>in a browser</strong>, on the same machine<span class="dom">curl gets 403; a Chrome User-Agent doesn't help</span></li>
+          <li>Site-wide, <strong>not</strong> <code>/api</code>-specific<span class="dom">Incapsula JavaScript challenge</span></li>
+          <li>Covers the <strong>documented XML API</strong>, not just search<span class="dom">worked 2026-07-16, broken by 2026-07-21</span></li>
+          <li>Filed against our own connector, not worked around<span class="dom">nyc-checkbook-mcp#21</span></li>
+        </ul>
+        <p class="verdict">The data is not secret. It is published and unreachable by a program.</p>
+      </div>
+    </div>
+    <aside class="notes">
+      <h4>Act 5 — the wall is the point. Three minutes of real attention.</h4>
+      <p class="say">"The site is up. I can pull this record by hand in a browser right now, and I will if you want. What I cannot do is reach it programmatically."</p>
+      <p class="say">"Notice the shape of the failure. A record count of zero, an empty result set, and an error field, all in the same response. If you read the count and not the error, the honest answer 'we could not reach Checkbook' becomes the false answer 'this organization received no city money.' That is a public-data outage that reads as a finding."</p>
+      <p><strong>The Late-Contracts Dashboard, launched July 8.</strong> Real accountability work; say so. But two things it's built on don't appear reachable through the public API — the "average days late" figure needs a prime-expense registration date that isn't exposed as a filter or column, and the non-profit vendor filter is backed by a classification we cannot find published anywhere. <strong>So the dashboard's own numbers are not independently reproducible from outside the office.</strong></p>
+      <p class="trap">⚠️ <strong>That is not an accusation</strong>, and say so. It is the ordinary result of building a dashboard against internal data. But it means the accountability analysis stops at the dashboard's edge. This is our audit's finding from July 9, it is checkable, and we could be wrong.</p>
+      <p class="trap">⚠️ <strong>We have not spoofed headers or tried to defeat the bot protection, and we are not going to.</strong> Say that plainly. The route to public data is the front door.</p>
+    </aside>
+  </section>
+
+  <!-- 8 ── ACT 6 · our own bug ───────────────────────── -->
+  <section class="slide">
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 6</span> And the thing we got wrong</div>
+    <h2 data-reveal style="--i:1">We found this in our own<br>tool this morning.</h2>
+    <div class="vs" style="margin-top:1em">
+      <div class="panel bad">
+        <h3>What our tool reported</h3>
+        <div class="figrow"><div><div class="fig" style="color:#8a2b2b">$122.3M</div><div class="cap">500 rescissions</div></div></div>
+        <ul class="serp">
+          <li>Header reads <code>500 row(s):</code><span class="dom">the same shape a complete result would print</span></li>
+          <li class="flag">No total, no <code>has_more</code>, no warning<span class="dom">you cannot tell 500 from 500-of-1,291</span></li>
+          <li class="flag">Passing <code>limit: 5000</code> returns the same 500<span class="dom">silently clamped</span></li>
+        </ul>
+        <p class="verdict">Understated by $90,314,887 and 791 rows.</p>
+      </div>
+      <div class="panel good">
+        <h3>What is actually there</h3>
+        <div class="figrow"><div><div class="fig">$212.6M</div><div class="cap">1,291 rescissions</div></div></div>
+        <ul class="serp">
+          <li><code>resolution</code> is TEXT, so it sorts "1", "10", "2"<span class="dom">truncation isn't even chronological</span></li>
+          <li class="flag">Resolutions <strong>3 through 9 entirely absent</strong> <span class="tag">— $60.3M</span></li>
+          <li>Filed as <strong>New-York-City-Budget#42</strong><span class="dom">2026-07-27, with the fix proposed</span></li>
+        </ul>
+        <p class="verdict">Real, correctly formatted, incomplete data. No error.</p>
+      </div>
+    </div>
+    <aside class="notes">
+      <h4>This is the close. Do not soften it.</h4>
+      <p><strong>What happened.</strong> Preparing this deck, we re-ran the rescission query. The tool returned exactly 500 rows against a limit of 500 — the truncation signature our own guide tells presenters to watch for. Raising the limit to 5,000 returned the identical 500 rows, because <code>cap()</code> clamps to 500 with no signal.</p>
+      <p class="say">"The number I would have shown you was $122 million. The real number is $212 million. Our tool was ninety million dollars low, and it told me nothing was wrong."</p>
+      <p><strong>The part that matters most to this room.</strong> This is the <em>second</em> time this exact failure shipped into a demo script, and the second one was inside the fix for the first. The earlier version was truncated at 50 rows; the correction said "re-run at limit 500 and read the real total off the result." That remediation is itself capped.</p>
+      <p class="say">"We wrote the rule — treat exactly-N-against-a-limit-of-N as truncation — and then broke it in the fix for the last time we broke it. I'd rather you hear that from us."</p>
+      <p><strong>Then the ask, which is the reason this act exists.</strong> A letter is going to the Comptroller asking for three things: restore programmatic access, confirm the Checkbook 2.0 migration dropped no documented fields, and expose the Late-Contracts Dashboard data through the public API.</p>
+      <p class="say">"You have more standing on this than we do. If a request like that carries more weight with your name next to it, we would welcome that."</p>
+      <p class="trap">⚠️ <strong>Do not promise anything about the letter's status.</strong> As of 2026-07-27 it is drafted and unsent. If asked, say exactly that. If someone asks to see it, that is the best outcome this act can produce.</p>
+    </aside>
+  </section>
+
+  <!-- 9 ── close ─────────────────────────────────────── -->
+  <section class="slide">
+    <div class="eyebrow" data-reveal style="--i:0">Closing</div>
+    <h2 data-reveal style="--i:1">Fork it and find what<br>we got wrong.</h2>
+    <p class="sub" data-reveal style="--i:2" style="max-width:36em">The connectors are public repos, the guides are CC BY-SA, and almost none of it requires an API key. Checkbook is the exception we just talked about, and we would like to fix that in public.</p>
+    <ol class="asks">
+      <li data-reveal style="--i:3">What query does your team run constantly, by hand?<span>That's the user journey we want to add</span></li>
+      <li data-reveal style="--i:4">Which coverage gap would you close first?<span>FY2025 transparency resolutions, or the vote archive</span></li>
+      <li data-reveal style="--i:5">Would you co-sign the Comptroller letter?<span>Programmatic access, migration audit, dashboard data</span></li>
+    </ol>
+    <p class="sub" data-reveal style="--i:6"><strong>github.com/BetaNYC/grounding-ai-with-ny-open-data</strong> &nbsp;·&nbsp; <strong>github.com/BetaNYC/New-York-City-Budget</strong> &nbsp;·&nbsp; <strong>beta.nyc</strong></p>
+    <p class="disclaimer" data-reveal style="--i:7">Budget, rescission, Charter and award figures verified live 2026-07-27; rescission totals read from the database rather than the tool, per New-York-City-Budget#42. Open data portal figures verified 2026-07-21 and not re-pulled. Checkbook status as of 2026-07-21. Legal material is for research purposes only and does not constitute legal advice.</p>
+    <aside class="notes">
+      <h4>Close, then listen</h4>
+      <p class="say">"All of this is open. We'd rather you fork it and find the things we got wrong than take our word for any of it. And if there's a query your team runs constantly by hand, that's exactly the user journey we want to add."</p>
+      <p><strong>Write down every question they ask.</strong> This room's questions are the highest-value evaluation set we can get — they know where the bodies are, and their failures are worth more than our successes.</p>
+      <p class="trap">⚠️ If they ask for the Comptroller letter, say it is drafted and unsent as of 2026-07-27. Do not characterize its contents beyond the three asks above.</p>
+    </aside>
+  </section>
+
+</div>
+
+<div class="notes" id="notesPanel"></div>
+<div class="bar-ui">
+  <div class="dots" id="dots"></div>
+  <div class="hint">&larr; &rarr; move · N notes · R replay · F full screen</div>
+</div>
+
+<script>
+(function(){
+  var slides = [].slice.call(document.querySelectorAll('.slide'));
+  var panel  = document.getElementById('notesPanel');
+  var dotWrap= document.getElementById('dots');
+  var i = 0, timers = [];
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var notes = slides.map(function(s){
+    var a = s.querySelector('.notes');
+    if (a) a.parentNode.removeChild(a);
+    return a ? a.innerHTML : '<p>No notes for this slide.</p>';
+  });
+
+  slides.forEach(function(_, n){
+    var b = document.createElement('button');
+    b.className='dot'; b.type='button';
+    b.setAttribute('aria-label','Slide '+(n+1));
+    b.addEventListener('click', function(e){ e.stopPropagation(); go(n); });
+    dotWrap.appendChild(b);
+  });
+  var dots = [].slice.call(dotWrap.children);
+
+  function type(el, onDone){
+    var text = el.getAttribute('data-type') || '';
+    el.classList.remove('done');
+    if (reduce){ el.textContent = text; el.classList.add('done'); onDone(); return; }
+    el.textContent = ''; var n = 0;
+    (function step(){
+      if (n > text.length){ el.classList.add('done'); timers.push(setTimeout(onDone, 220)); return; }
+      el.textContent = text.slice(0, n++);
+      timers.push(setTimeout(step, 22 + Math.random()*36));
+    })();
+  }
+
+  function play(){
+    timers.forEach(clearTimeout); timers = [];
+    var s = slides[i];
+    var panels = s.querySelectorAll('.panel');
+    [].forEach.call(panels, function(p){ p.classList.remove('in'); });
+    var typed = s.querySelectorAll('.typed');
+    if (!typed.length){ [].forEach.call(panels, function(p){ p.classList.add('in'); }); return; }
+    [].forEach.call(typed, function(el){
+      el.textContent = '';
+      timers.push(setTimeout(function(){
+        type(el, function(){
+          // left panel first, then right, so the contrast lands as a beat
+          [].forEach.call(panels, function(p, n){
+            timers.push(setTimeout(function(){ p.classList.add('in'); }, n * 420));
+          });
+        });
+      }, reduce ? 0 : 520));
+    });
+  }
+
+  function go(n){
+    if (n < 0 || n >= slides.length) return;
+    slides[i].classList.remove('is-active'); dots[i].classList.remove('on');
+    i = n;
+    void slides[i].offsetWidth;
+    slides[i].classList.add('is-active'); dots[i].classList.add('on');
+    panel.innerHTML = notes[i];
+    play();
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){ e.preventDefault(); go(i+1); }
+    else if (e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(i-1); }
+    else if (e.key==='Home'){ go(0); }
+    else if (e.key==='End'){ go(slides.length-1); }
+    else if (e.key==='r'||e.key==='R'){ go(i); }
+    else if (e.key==='n'||e.key==='N'){ document.body.classList.toggle('notes-on'); panel.classList.toggle('on'); }
+    else if (e.key==='f'||e.key==='F'){
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen();
+    }
+  });
+
+  document.addEventListener('click', function(e){
+    if (e.target.closest('.dot') || e.target.closest('.notes')) return;
+    go(e.clientX > innerWidth * 0.35 ? i+1 : i-1);
+  });
+
+  go(0);
+})();
+</script>
+</body>
+</html>

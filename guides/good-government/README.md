@@ -8,9 +8,11 @@ Material for **watchdog organizations, transparency advocates, and investigative
 
 ## Demo scripts
 
-| Audience | File |
-|---|---|
-| Reinvent Albany (reusable for Citizens Union, CBC, NYPIRG, newsrooms) | [`reinvent-albany.md`](reinvent-albany.md) |
+| Audience | Script | Deck |
+|---|---|---|
+| Reinvent Albany (reusable for Citizens Union, CBC, NYPIRG, newsrooms) | [`reinvent-albany.md`](reinvent-albany.md) | [`reinvent-albany-deck.html`](reinvent-albany-deck.html) |
+
+**The deck's side-by-side is different from the council decks.** There the left panel is a web search, because the question is "how is this better than Google." Here the left panel is **"by hand"** — the manual assembly cost — because this audience can already find the data. What costs them is putting it together. And two acts invert the format entirely: the failure *is* the content.
 
 ## Methodology
 

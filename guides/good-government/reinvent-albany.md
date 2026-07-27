@@ -4,9 +4,13 @@ status: DRAFT
 
 # Demo script — good-government / watchdog audience (Reinvent Albany)
 
-> **DRAFT.** First pass, 2026-07-21. A run-it-live script for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to a **good-government or watchdog organization** — written for **Reinvent Albany**, and reusable for Citizens Union, CBC, NYPIRG, the Fiscal Policy Institute, or an investigative newsroom.
+> **DRAFT.** Revised 2026-07-27. A run-it-live script for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to a **good-government or watchdog organization** — written for **Reinvent Albany**, and reusable for Citizens Union, CBC, NYPIRG, the Fiscal Policy Institute, or an investigative newsroom.
 >
-> **Every figure was pulled live on 2026-07-21**, with provenance in the presenter notes.
+> **Slide companion:** [`reinvent-albany-deck.html`](reinvent-albany-deck.html). Same acts, presentation medium, every warning below carried in its presenter notes (press `N`). **This file stays the source of truth for figures and provenance.**
+>
+> **Figures are dated individually in the presenter-notes provenance table.** Act 2, Act 3 and § 23-507 were re-verified 2026-07-27; the open data portal findings in Act 4 and the Checkbook status in Act 6 are from 2026-07-21 and were **not** re-pulled.
+
+> 🚨 **Act 3's figures changed by $90 million on 2026-07-27, and the reason is now Act 6 of the deck.** The tool that produces them caps at 500 rows without saying so. Read the Act 3 correction block before you present anything from it. [New-York-City-Budget#42](https://github.com/BetaNYC/New-York-City-Budget/issues/42).
 
 This audience is different from every other script in this repo, and the difference should shape the whole meeting.
 
@@ -58,7 +62,11 @@ Not one district. The whole map.
 **Prompt:**
 > "Show every FY2026 Council discretionary award to the Association of Community Employment Programs for the Homeless, then check NYC Checkbook for what the city actually paid them."
 
-**Verified live 2026-07-21:** **54 Schedule C awards totaling $6,455,750** in FY2026 — the same organization funded separately by **41 distinct council members**, district by district, nearly all under the **NYC Cleanup** initiative via DYCD. Individual awards range from **$7,750 to $280,000**. Re-run at `limit: 500`; 54 against a limit of 500, so complete.
+**Re-verified live 2026-07-27:** **54 Schedule C awards totaling $6,455,750** in FY2026 — the same organization funded separately by **41 distinct sponsors**, nearly all under the **NYC Cleanup** initiative via DYCD. Individual awards range from **$7,750 to $280,000**. 54 returned against a limit of 500, so this one is genuinely complete.
+
+> ⚠️ **Corrected 2026-07-27 — this previously read "41 distinct council members."** Two of the 41 are **borough delegations, not members**: `Brooklyn` (1 award, $7,750) and `Queens` (2 awards, $42,000). So it is **39 council members plus two borough delegations**.
+>
+> **The `member` column mixes three kinds of thing** and does not distinguish them: individual surnames, borough delegations (`Brooklyn`, `Queens`, `Staten Island`, `Manhattan`), and `Speaker`. Across all FY2026 awards the delegations alone carry **229 awards worth $25,380,937**. Anyone computing "awards per council member" from this field silently folds delegation and Speaker money into a member count. **Say this to this room** — it is exactly the kind of schema detail that quietly wrecks an analysis, and they will use the field.
 
 **What to say:**
 > "One vendor, 54 separate discretionary decisions by 41 different council members, six and a half million dollars, and no single line item anywhere that says so. Assembling this by hand means reading the Schedule C PDF end to end. That's the afternoon this replaces."
@@ -88,32 +96,67 @@ Not one district. The whole map.
 **Prompt:**
 > "Show FY2026 NYC Council transparency resolution rescissions — discretionary money that was de-designated after adoption."
 
-**A PARTIAL sample from FY2026 Resolution 1, adopted 2025-08-14** — each row verified live 2026-07-21, but this is **not** the full set. See the correction below the table before you present it:
+**The complete FY2026 set, established 2026-07-27: 1,291 rescissions totaling $212,600,875**, across transparency resolutions 1 through 10 (2025-08-14 to 2026-06-30).
 
-| Amount | Member | Recipient |
-|---|---|---|
-| −$213,000 | *(none listed)* | DYCD — Adult Literacy Forward |
-| −$145,000 | Bottcher | DYCD |
-| −$40,000 | Menin | Council on the Environment |
-| −$25,000 | Bottcher | Friends of the High Line |
-| −$25,000 | Marmorato | Horticultural Society of New York |
-| −$25,000 | Bottcher | DYCD |
+> ⚠️ **These figures were read from `budget.db` directly, NOT from the tool.** `search_transparency_resolutions` caps at 500 rows and reports **$122,285,988** — low by **$90,314,887**. Do not quote a tool result for this act until [New-York-City-Budget#42](https://github.com/BetaNYC/New-York-City-Budget/issues/42) is fixed. Full explanation below the tables.
+
+**By resolution:**
+
+| Reso | Adopted | Rescissions | Total |
+|---|---|---|---|
+| 1 | 2025-08-14 | 293 | $98,357,771 |
+| 2 | 2025-09-25 | 263 | $47,593,274 |
+| 3 | 2025-10-29 | 219 | $35,548,076 |
+| 4 | 2025-11-25 | 140 | $8,602,127 |
+| 5 | 2025-12-18 | 74 | $6,486,702 |
+| 6 | 2026-02-12 | 83 | $4,448,256 |
+| 7 | 2026-03-10 | 30 | $2,234,633 |
+| 8 | 2026-04-16 | 39 | $1,044,393 |
+| 9 | 2026-05-20 | 65 | $1,956,904 |
+| 10 | 2026-06-30 | 85 | $6,328,739 |
+
+**The largest, all unattributed** — each verified 2026-07-27:
+
+| Amount | Member | Recipient | Reso |
+|---|---|---|---|
+| −$12,500,000 | *(none)* | Department of Social Services (DSS/HRA) | 1 |
+| −$8,300,000 | *(none)* | Department of Social Services (DSS/HRA) | 1 |
+| −$8,100,000 | *(none)* | Department of Youth and Community Development | 1 |
+| −$7,168,410 | *(none)* | Department of Youth and Community Development | 2 |
+| −$5,750,000 | *(none)* | Department of Social Services (DSS/HRA) | 2 |
+
+**The largest with any attribution at all is −$2,500,000, `Speaker` → Bedford Stuyvesant Restoration Corporation (SBS).** Note that "Speaker" is a value in the member column alongside individual surnames — see the Act 2 caveat about borough delegations.
 | −$10,000 | Marmorato | Billion Oyster Project |
 | −$5,000 | Marte | Council on the Environment |
 
 **What to say:**
 > "Adopted budgets get amended all year by transparency resolution, and rescissions carry negative amounts. This is money that was announced, then quietly withdrawn. A transfer shows up as a rescind and a designate on the same EIN — so the tool can distinguish 'moved' from 'taken away,' which is precisely the distinction a press release will not make."
 
-> ⚠️ **Corrected 2026-07-21 — read this before presenting the table above.** That table is **not** the complete FY2026 rescission set. It came from a query that hit its 50-row limit and truncated part-way through the alphabet, at "Cultural After-School Adventure." Every row shown verifies individually, but **there are substantially more, including larger ones.**
+> 🚨 **Corrected twice. Read this before presenting anything above — and the second correction is the interesting one.**
 >
-> Two specific corrections, both of which this audience will find if you don't say them first:
+> **First correction (2026-07-21).** The original table was truncated at the default 50-row limit, part-way through the alphabet at "Cultural After-School Adventure." Its remediation said: *"Run this live with an explicit high limit — `limit: 500` — and read the real total off the result."*
 >
-> - **−$213,000 is not the largest.** `Louis → Department of Cultural Affairs` is **−$480,000** (CASA).
-> - **−$213,000 is not uniquely unattributed.** At least four other rows carry no council member, including **−$200,000** (Staten Island Chamber of Commerce Foundation), **−$200,000** (DYCD, Citywide Young Adult Entrepreneurship), **−$160,000** (DCLA, Coalition Theaters of Color), and **−$99,986** (HPD).
+> **Second correction (2026-07-27). That remediation is also truncated.** `search_transparency_resolutions` **hard-caps at 500 rows.** `cap()` in `src/db.ts:54` is `Math.min(Math.max(1, Math.trunc(limit)), 500)`, so `limit: 5000` returns the identical 500 rows. Nothing in the response says so — the header reads `500 row(s):`, exactly what a complete result of 500 would print.
 >
-> **Run this live with an explicit high limit** — `search_transparency_resolutions(action="rescind", fiscal_year=2026, limit=500)` — and read the real total off the result rather than the table above. Presenting a truncated list as complete, to the organization whose job is catching exactly that, is the one unforced error available in this act.
+> | | Rows | Total |
+> |---|---|---|
+> | What the tool returns | 500 | $122,285,988 |
+> | What is actually there | **1,291** | **$212,600,875** |
+> | Missing | 791 | **$90,314,887** |
+>
+> **And the truncation is not chronological.** `resolution` is stored as TEXT, and the query is `ORDER BY source_fy, resolution, chart`, so it sorts "1", "10", "2". The 500 rows you get are all of Reso 1, all of Reso 10, and 122 of Reso 2. **Resolutions 3 through 9 are entirely absent — 650 rescissions worth $60,321,091.** The remaining $29,993,796 of the gap is the 141 rows of Reso 2 that fell past the cap.
+>
+> **We wrote the rule and then broke it inside the fix for the last time we broke it.** This script states "treat returned exactly N against a limit of N as truncation until proven otherwise," and the `limit: 500` remediation violates exactly that. Filed as [New-York-City-Budget#42](https://github.com/BetaNYC/New-York-City-Budget/issues/42).
+>
+> **Until #42 lands, read this act's figures off the tables above, not off a live tool call.** If you run it live in the room — which is a legitimate choice — say the cap out loud before you say the number. **Presenting a truncated total as complete, to the organization whose job is catching exactly that, is the one unforced error available in this act.** For this audience the bug is better material than the figure: see the deck's Act 6.
+>
+> Two claims from the first correction, re-checked 2026-07-27 and still true but no longer the headline: `Louis → Department of Cultural Affairs` at **−$480,000** (CASA, Reso 1) is real, but it is nowhere near the largest. And −$213,000 (DYCD, Adult Literacy Forward) is far from uniquely unattributed.
 
-**The unattributed rescissions are the thing to point at**, and there are several. −$213,000 to Adult Literacy Forward is a good one to open on: no council member attached, and a program whose name tells you who it serves. Then note it is not alone, and not the biggest. Ask the room what they'd want to know next. That is the demo doing its job — not answering the question, but getting them to the question in ten seconds instead of a week.
+**The unattributed rescissions are the thing to point at, and the scale is the story.** Of 1,291 FY2026 rescissions, **345 carry no council member at all — $176,596,955, or 83% of the total dollar value** (verified 2026-07-27). Every one of the ten largest is unattributed.
+
+−$213,000 to Adult Literacy Forward is still a good one to open on: no member attached, and a program whose name tells you who it serves. Then widen to the 345, and note that the top of the list is agency-level money in the millions rather than the tens of thousands. Ask the room what they'd want to know next. That is the demo doing its job — not answering the question, but getting them to the question in ten seconds instead of a week.
+
+> ⚠️ **Do not assert that missing attribution is a transparency failure.** It may be a data-extraction artifact, or the source resolution may genuinely carry agency-level rescissions with no member line. Those are different findings. Offer to check the source resolution PDF via the Legistar crosswalk rather than characterizing it.
 
 > **Say the coverage caveat out loud before they ask it.** Transparency resolutions are parsed for FY2010–FY2024 and FY2026 — **FY2025 is not in this dataset.** And for FY2010–FY2013 the organization and member *text* is low-confidence (garbled PDF text layer); the financial columns are reliable, so **join on EIN, not on name** for those years. Volunteering this is worth more with this audience than any figure you could show them.
 
@@ -206,9 +249,27 @@ On July 8 the Comptroller launched a [Late-Contracts Dashboard](https://www.chec
 
 ---
 
-## Presenter notes (verified 2026-07-21)
+## Presenter notes
+
+**Figures carry individual verification dates — see the provenance table.** Acts 2 and 3 and § 23-507 were re-verified **2026-07-27**; Act 4's portal findings and Act 6's Checkbook status are from **2026-07-21** and were not re-pulled.
 
 **This audience will interrogate provenance.** Answer precisely or concede. A hedge you can defend beats a figure you can't.
+
+### 🚨 The row cap — the trap that broke this script twice
+
+**`search_transparency_resolutions` hard-caps at 500 rows and does not say so.** `cap()` in `src/db.ts:54` clamps any `limit` to 500. The response header reads `500 row(s):` — indistinguishable from a complete result of exactly 500. There is no total, no `has_more`, no warning.
+
+For FY2026 rescissions that understates by **$90,314,887** (500 rows / $122,285,988 reported, against 1,291 / $212,600,875 actual).
+
+**Worse, `resolution` is stored as TEXT**, so `ORDER BY source_fy, resolution, chart` sorts "1", "10", "2" — the truncation is not chronological, and **resolutions 3 through 9 vanish entirely**.
+
+**This script's *first* correction told presenters to fix the problem by passing `limit: 500`.** That remediation is itself the cap. Filed as [New-York-City-Budget#42](https://github.com/BetaNYC/New-York-City-Budget/issues/42).
+
+**What to do until it's fixed:**
+
+1. **Read Act 3's figures off the tables in this file.** They come from the database.
+2. If you run it live anyway — legitimate, and good material — **say the cap before you say the number.**
+3. **The same `cap()` governs four tools**, verified in `src/db.ts` on 2026-07-27: `search_awards` (line 177), `search_transparency_resolutions` (211), `search_capital_projects` (231), `get_terms_conditions` (248). **Treat any aggregate at or near 500 rows as truncated until checked against the database.** Act 2's 54 rows is safely below it, which is why that figure held.
 
 ### Coverage limits — know these cold, and volunteer them
 
@@ -260,7 +321,10 @@ From `list_available_fiscal_years`:
 | Open data statutory chain | `nyc-charter-laws-rules search("open data")`; `nyc-council-mcp search_legislation("open data")` |
 | ACE: 54 FY2026 awards, $6,455,750 | `search_awards(organization="Association of Community Employment", fiscal_year=2026, limit=60)` |
 | CLOTH $30,000 De La Rosa; 32 Checkbook records; Tax Levy Elected Officials | `search_awards(...)`; `search_spending(payee_name=…, fiscal_year=2026)` |
-| FY2026 rescissions, Reso 1 of 2025-08-14 — **partial sample, 8 rows shown** | `search_transparency_resolutions(action="rescind", fiscal_year=2026, limit=500)`. The original run used the default limit, returned 50, and truncated mid-alphabet. Each shown row re-verified live 2026-07-21; **the set is larger and the total is not stated anywhere in this script** |
+| **FY2026 rescissions: 1,291 rows, $212,600,875, Resos 1–10** | Read directly from `mcp/data/budget.db` on 2026-07-27, **not** from the tool: `SELECT COUNT(*), SUM(ABS(amount)) FROM transparency WHERE source_fy=2026 AND action='rescind'`. The tool caps at 500 and reports $122,285,988 — see [#42](https://github.com/BetaNYC/New-York-City-Budget/issues/42). The tool's `fiscal_year` parameter filters `source_fy`, so the comparison is like-for-like |
+| **345 unattributed rescissions, $176,596,955** | Same query with `AND TRIM(COALESCE(council_member,''))=''`. Verified 2026-07-27 |
+| **41 ACE sponsors = 39 members + Brooklyn and Queens delegations** | `SELECT COUNT(DISTINCT member) FROM awards WHERE fiscal_year=2026 AND organization LIKE '%Association of Community Employment%'`, then filtered for delegation values. Verified 2026-07-27 |
+| **§ 23-507 full text** | `get_section(citation="23-507")` — verified live 2026-07-27. L.L. 2017/251, eff. 12/17/2017 |
 | CTE datasets stop at 2019-2020 | Socrata catalog, two independent search terms |
 | Broadband dataset covers SD 10–34 + 36 only | Socrata `9bjg-n96a` |
 | Open solicitations | `nyc-record-mcp get_open_solicitations` |
@@ -269,8 +333,8 @@ From `list_available_fiscal_years`:
 - **Whether the Local Law 174 CTE report was actually produced** and simply not published as open data. Only the portal's contents were checked. State the narrow claim.
 - **Act 6's Late-Contracts claims are OUR audit's finding, dated 2026-07-09, not an established fact.** We found no documented public API behind the dashboard, and no published source for the non-profit vendor classification. That is an absence we searched for, which is weaker evidence than a presence we found. Say "we could not find it published" and not "it is not published." If the office produces a source, that is a good outcome and we update the audit. Basis: `team/engineering/2026-07-09-checkbook-2.0-api-audit.md` and [nyc-checkbook-mcp#11](https://github.com/BetaNYC/nyc-checkbook-mcp/issues/11).
 - **The letter in Act 6 part three is DRAFTED AND UNSENT as of 2026-07-21.** Do not describe it as sent, delivered, or pending a response. If asked where it stands, say it is drafted and we have not sent it yet. Check before the meeting — this is the single fastest fact in the script to go stale.
-- **Whether the missing member attribution on the unattributed rescissions is a data-extraction artifact or genuinely absent from the source document.** Do not assert it is a transparency failure. If asked, offer to check the source resolution PDF via the Legistar crosswalk. Note this applies to **several** rows, not just the −$213,000 one — at least five carry no member.
-- **The complete FY2026 rescission count and total.** Not established. The only query run hit its row limit. Run it at `limit: 500` before quoting any aggregate.
+- **Whether the missing member attribution on the unattributed rescissions is a data-extraction artifact or genuinely absent from the source document.** Do not assert it is a transparency failure. If asked, offer to check the source resolution PDF via the Legistar crosswalk. This applies to **345 rows worth $176.6M**, not a handful.
+- ~~**The complete FY2026 rescission count and total.**~~ **Established 2026-07-27: 1,291 rescissions, $212,600,875.** Read from the database, because the tool cannot return it — see [#42](https://github.com/BetaNYC/New-York-City-Budget/issues/42).
 - **That $6,455,750 is ACE's complete FY2026 total** — the query returned 54 rows against a limit of 60, so it is very likely complete, but re-run with a higher limit before publishing the figure.
 
 ---

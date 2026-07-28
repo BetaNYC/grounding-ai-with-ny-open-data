@@ -1,0 +1,392 @@
+<!doctype html>
+<!--
+  MCP Explorer — five BetaNYC connectors, five panes, cross-references wired up.
+
+  ALL DATA IS PRE-BAKED. A browser cannot call an MCP server (stdio, no endpoint),
+  so every figure below came from a real tool call, recorded verbatim next to it.
+  Verification dates are on every pane. See apps/README.md to refresh.
+
+  Verified 2026-07-27 unless a pane says otherwise.
+
+  THINGS THIS APP DELIBERATELY SURFACES RATHER THAN HIDES
+    * get_status requires a `type` enum; calling it bare is an error, not a default.
+    * socrata search(limit:5) returned 559,836 chars — `limit` does not bound the
+      payload, it inlines polygon geometry. 12,859 coordinate vertices.
+    * socrata returns is_sample:true even on a verified-correct count(*). Our own
+      guides say to distrust results when that flag is set. That advice is WRONG
+      and would make a presenter discard a correct number.
+    * The Charter corpus lags enactment. A law passed 2026-07-16 is not yet
+      codified; the corpus is current through LL 2026/116 (enacted 2026-07-11).
+    * Checkbook is absent entirely — Imperva has blocked it since ~2026-07-16.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MCP Explorer · BetaNYC</title>
+<style>
+  :root{
+    --blue:#2359a8; --blue-2:#B8D6FF; --bg-blue:#EEF4FF; --bg-blue-lt:#F9FAFF;
+    --gray:#414141; --gray-lt:#F1F1F1; --border:#949494; --ink:#1b1b1b;
+    --flag:#c2410c; --good:#186a3b; --bad:#8a2b2b; --warn:#7a5104;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:var(--gray);background:var(--bg-blue-lt);line-height:1.5;-webkit-font-smoothing:antialiased}
+
+  header{background:#12233c;color:#eaf1fb;padding:22px clamp(16px,4vw,44px) 0;
+         position:sticky;top:0;z-index:10}
+  /* collapse the blurb once you are working in a pane, so the nav stays reachable
+     without eating half the screen. ponytail: CSS-only, no scroll listener. */
+  header.compact h1{font-size:clamp(15px,1.6vw,19px)}
+  header.compact p{display:none}
+  header h1{font-size:clamp(18px,2.2vw,27px);font-weight:800;letter-spacing:-.01em;color:#fff}
+  header p{font-size:clamp(12px,1.15vw,14.5px);opacity:.8;max-width:62em;margin-top:.45em}
+  header .stamp{font-family:var(--mono);font-size:11.5px;opacity:.65;margin-top:.5em}
+
+  nav{display:flex;gap:2px;margin-top:16px;flex-wrap:wrap}
+  nav button{
+    background:rgba(255,255,255,.08);color:#cfdcee;border:0;cursor:pointer;
+    font:inherit;font-size:clamp(11.5px,1.1vw,14px);font-weight:700;
+    padding:.7em 1.15em;border-radius:8px 8px 0 0;white-space:nowrap;
+  }
+  nav button:hover{background:rgba(255,255,255,.16);color:#fff}
+  nav button.on{background:var(--bg-blue-lt);color:var(--blue)}
+  nav button .n{font-family:var(--mono);opacity:.55;margin-right:.45em}
+
+  main{padding:clamp(18px,3vw,34px) clamp(16px,4vw,44px) 70px;max-width:1280px}
+  .pane{display:none}
+  .pane.on{display:block}
+
+  h2{font-size:clamp(19px,2.1vw,28px);color:var(--blue);font-weight:800;letter-spacing:-.015em}
+  .what{font-size:clamp(13px,1.25vw,16.5px);max-width:44em;margin-top:.4em}
+  h3{font-size:clamp(13px,1.25vw,16px);color:var(--blue);font-weight:800;margin:1.5em 0 .55em;
+     text-transform:uppercase;letter-spacing:.08em}
+
+  .call{
+    font-family:var(--mono);font-size:clamp(10.5px,1.02vw,13px);
+    background:#12233c;color:#cfe0f5;padding:.5em .8em;border-radius:6px;
+    display:inline-block;margin:.15em 0 .8em;word-break:break-all;
+  }
+  .call b{color:#fff;font-weight:700}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:.4em}
+  .card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+  .card .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.09em;opacity:.7;font-weight:700}
+  .card .val{font-size:clamp(15px,1.5vw,20px);font-weight:800;color:var(--blue);margin-top:.2em;line-height:1.2}
+  .card .sub{font-size:12.5px;opacity:.8;margin-top:.3em}
+
+  .pill{display:inline-block;border-radius:99px;padding:.18em .7em;font-size:11px;font-weight:800;letter-spacing:.04em;white-space:nowrap}
+  .pill.on{background:#e4f6ec;color:var(--good)}
+  .pill.off{background:var(--gray-lt);color:#5a5a5a}
+  .pill.warn{background:#fdf1d8;color:var(--warn)}
+  .pill.bad{background:#fbe4e4;color:var(--bad)}
+  .pill.date{background:var(--bg-blue);color:var(--blue);font-family:var(--mono);letter-spacing:0}
+
+  table{border-collapse:collapse;width:100%;font-size:clamp(11.5px,1.12vw,14.5px);background:#fff;
+        border:1px solid var(--border);border-radius:10px;overflow:hidden}
+  th{background:var(--bg-blue);color:var(--blue);text-align:left;font-size:11px;text-transform:uppercase;
+     letter-spacing:.07em;padding:.6em .8em;white-space:nowrap}
+  td{padding:.55em .8em;border-top:1px solid var(--gray-lt);vertical-align:top}
+  td.mono{font-family:var(--mono);font-size:.92em;white-space:nowrap;color:var(--blue);font-weight:700}
+  td.amt{font-family:var(--mono);text-align:right;white-space:nowrap;font-weight:700;color:var(--blue)}
+  tr.hi td{background:#fff8e6;animation:flash 1.6s ease-out}
+  @keyframes flash{0%{background:#ffe9a8}100%{background:#fff8e6}}
+  tr.neg td.mono{color:var(--flag)}
+
+  .note{border-left:4px solid var(--blue-2);background:#fff;padding:.7em .95em;margin:.9em 0;
+        font-size:clamp(12px,1.15vw,14.5px);border-radius:0 8px 8px 0}
+  .note.warn{border-left-color:#f0a92c;background:#fffdf6}
+  .note.bad{border-left-color:var(--bad);background:#fff7f7}
+  .note strong{color:var(--blue)}
+  .note.bad strong,.note.warn strong{color:inherit}
+  .note code{font-family:var(--mono);background:var(--gray-lt);padding:.08em .32em;border-radius:3px;font-size:.93em}
+
+  .xref{
+    display:inline-flex;align-items:center;gap:.4em;background:var(--bg-blue);color:var(--blue);
+    border:1px solid var(--blue-2);border-radius:99px;padding:.28em .85em;font-size:12px;font-weight:700;
+    cursor:pointer;font-family:inherit;margin:.2em .3em .2em 0;
+  }
+  .xref:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .xref::before{content:"→";font-weight:800}
+
+  .chain{display:flex;flex-wrap:wrap;gap:9px;align-items:stretch;margin-top:.5em}
+  .chain .step{background:#fff;border:1px solid var(--border);border-radius:9px;padding:11px 13px;flex:1 1 165px;min-width:150px}
+  .chain .step .k{font-family:var(--mono);font-size:11.5px;font-weight:800;color:var(--blue)}
+  .chain .step .v{font-size:12.5px;margin-top:.25em;opacity:.88;line-height:1.35}
+  .chain .step.gap{background:#fffdf6;border-style:dashed;border-color:#f0a92c}
+  .chain .step.gap .k{color:var(--warn)}
+  .chain .arr{align-self:center;color:var(--blue-2);font-size:19px;font-weight:800}
+
+  footer{border-top:1px solid var(--gray-lt);margin-top:2.4em;padding-top:1.1em;font-size:11.5px;opacity:.72;max-width:64em}
+  a{color:var(--blue)}
+  @media (max-width:700px){ .chain .arr{display:none} .chain .step{flex:1 1 100%} }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>MCP Explorer</h1>
+  <p>Five BetaNYC connectors into New York City's own records, with the cross-references between them wired up. Every figure carries the tool call that produced it.</p>
+  <p class="stamp">Data pre-baked, verified 2026-07-27 · a browser cannot reach an MCP server, so nothing here is live · see apps/README.md to refresh</p>
+  <nav id="nav">
+    <button data-p="p311" class="on"><span class="n">1</span>311</button>
+    <button data-p="precord"><span class="n">2</span>City Record</button>
+    <button data-p="pcouncil"><span class="n">3</span>Council → Charter</button>
+    <button data-p="pnys"><span class="n">4</span>NYS Legislation</button>
+    <button data-p="pdata"><span class="n">5</span>Open Data</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- ═══════════ 1 · 311 ═══════════ -->
+<section class="pane on" id="p311">
+  <h2>311 · city services, right now</h2>
+  <p class="what">The operational layer. What is in effect today, which emergency programs are active, and the status of a single service request by number. <strong>Not</strong> complaint-type aggregates — those come from the open data catalog in pane 5.</p>
+
+  <h3>Today's calendar</h3>
+  <div class="call"><b>get_calendar()</b> → today_id 20260727</div>
+  <div class="grid">
+    <div class="card"><div class="lbl">Alternate Side Parking</div><div class="val">In effect</div><div class="sub">Alternate side parking and meters are in effect.</div></div>
+    <div class="card"><div class="lbl">Collections</div><div class="val">On schedule</div><div class="sub">Trash, recycling, and compost collections are on schedule.</div></div>
+    <div class="card"><div class="lbl">Schools</div><div class="val">Not in session</div><div class="sub">Public schools are not in session. <span class="pill off">exception: Summer 2026</span></div></div>
+  </div>
+
+  <h3>Emergency program status</h3>
+  <div class="call"><b>get_status(type:</b> "OEM" | "FireHydrant" | "SnowOnStreet" | "SnowOnSidewalk" | "CodeBlue"<b>)</b></div>
+  <table>
+    <tr><th>Program</th><th>In effect</th><th>Notes</th></tr>
+    <tr><td class="mono">OEM</td><td><span class="pill off">false</span></td><td>No active emergency notification. <code>eventName</code> empty.</td></tr>
+    <tr><td class="mono">FireHydrant</td><td><span class="pill off">false</span></td><td>No hydrant-opening program active.</td></tr>
+    <tr><td class="mono">SnowOnStreet</td><td><span class="pill off">false</span></td><td>Seasonal. July.</td></tr>
+  </table>
+
+  <div class="note warn"><strong>⚠️ <code>get_status</code> has no default.</strong> Calling it without <code>type</code> returns a validation error listing the five accepted values, rather than guessing one or returning everything. That is correct behavior and worth demonstrating on purpose: a tool that refuses beats a tool that picks for you.</div>
+
+  <div class="note"><strong>Three tools, four questions.</strong> <code>get_calendar</code> for what's in effect, <code>get_status</code> for emergency programs, <code>get_service_request</code> for one request by number, <code>get_service_request_list</code> for a set. There is <em>no</em> complaint-type summary tool here.
+    <button class="xref" data-go="pdata" data-hi="soql">complaint types live in Open Data</button></div>
+</section>
+
+<!-- ═══════════ 2 · CITY RECORD ═══════════ -->
+<section class="pane" id="precord">
+  <h2>City Record · public notices</h2>
+  <p class="what">The city's official journal, queryable. Procurement solicitations, contract-award comment periods, public hearings, and special materials. Same source as the daily PDF, without reading the daily PDF.</p>
+
+  <h3>Notices in the current window</h3>
+  <div class="call"><b>get_public_hearings(limit: 6)</b> → window opening 2026-07-27</div>
+  <table>
+    <tr><th>Agency</th><th>Notice</th><th>Section</th><th>Value</th></tr>
+    <tr id="r-finance"><td>Finance</td><td>Notice of Opening of the Books of Annual Records<br><span style="opacity:.7;font-size:.92em">Open for public inspection until 2026-12-31. Cites Admin Code Title 11, ch. 32.</span></td><td>Special Materials</td><td class="amt">—</td></tr>
+    <tr id="r-bsa"><td>Board of Standards<br>and Appeals</td><td><strong>Public hearing, 2026-08-10 10:00</strong><br><span style="opacity:.7;font-size:.92em">22 Reade Street, Spector Hall. Zoning calendar includes 511 West 25th St, Block 697 Lot 23, Manhattan, CB 4M.</span></td><td>Public Hearings<br>and Meetings</td><td class="amt">—</td></tr>
+    <tr id="r-venture" class="neg"><td>Health and Mental<br>Hygiene</td><td><strong>FY26 City Council / Peer Specialists Support</strong><br><span style="opacity:.7;font-size:.92em">Venture House Inc. Contract type: <strong>Discretionary / City Council / Expense</strong>. Term 2025-07-01 to 2028-06-30. E-PIN 81626L0186001.</span></td><td class="mono">Contract Awards</td><td class="amt">$281,250</td></tr>
+    <tr><td>Investigation</td><td>OnBase Maintenance &amp; Support, Amendment 1<br><span style="opacity:.7;font-size:.92em">Paperless Solutions Inc. Comments close 2026-08-07 17:00. E-PIN 03223S0001001A001.</span></td><td class="mono">Contract Awards</td><td class="amt">$150,798</td></tr>
+    <tr><td>DSS / HRA</td><td>NYCHSRO Independent Client Home Care Services Plans<br><span style="opacity:.7;font-size:.92em">Negotiated Acquisition Extension. E-PIN 06926N0024001.</span></td><td class="mono">Contract Awards</td><td class="amt">$373,239</td></tr>
+    <tr><td>Children's Services</td><td>Environmental Testing Services<br><span style="opacity:.7;font-size:.92em">Pyramid Safety &amp; Health Solutions Inc. M/WBE Small Purchase. E-PIN 06826W0070001.</span></td><td class="mono">Contract Awards</td><td class="amt">$200,000</td></tr>
+  </table>
+
+  <div class="note"><strong>The highlighted row is the cross-reference.</strong> A contract-award notice whose type is literally <em>Discretionary / City Council / Expense</em> is Council money surfacing in the procurement stream. The same organization appears in the budget connector.
+    <button class="xref" data-go="pcouncil" data-hi="venture">follow Venture House into Schedule C</button></div>
+
+  <div class="note warn"><strong>⚠️ Notice bodies arrive as raw HTML.</strong> Every <code>additional_description_1</code> field is a wall of nested <code>&lt;span style&gt;</code> from the agency's word processor, and some carry mojibake where apostrophes should be. Ask for a summary rather than dumping the field on screen.</div>
+
+  <div class="note"><strong>Also here:</strong> <code>get_procurement_notices</code>, <code>get_open_solicitations</code>, <code>get_notices_by_agency</code>, <code>get_notices_by_date_range</code>, <code>get_notices_by_type</code>, <code>search_notices</code>.</div>
+</section>
+
+<!-- ═══════════ 3 · COUNCIL → CHARTER ═══════════ -->
+<section class="pane" id="pcouncil">
+  <h2>Council → Charter · hearings, votes, and where a law lands</h2>
+  <p class="what">The chain this connector exists for: what is scheduled, how members voted, and where an enacted law actually shows up in the Administrative Code. Three separate systems, one question.</p>
+
+  <h3>Upcoming hearings</h3>
+  <div class="call"><b>upcoming_events(limit: 6)</b></div>
+  <table>
+    <tr><th>Date</th><th>Body</th><th>Location</th><th>Agenda</th></tr>
+    <tr><td class="mono">2026-08-04</td><td>Subcommittee on Landmarks, Public Sitings, Resiliency and Dispositions</td><td>250 Broadway, 8th Fl, Rm 1</td><td><span class="pill on">Final</span></td></tr>
+    <tr><td class="mono">2026-08-04</td><td>Subcommittee on Zoning and Franchises</td><td>250 Broadway, 8th Fl, Rm 1</td><td><span class="pill on">Final</span></td></tr>
+    <tr><td class="mono">2026-08-04</td><td>Committee on Land Use</td><td>250 Broadway, 8th Fl, Rm 1</td><td><span class="pill warn">Deferred</span></td></tr>
+  </table>
+  <div class="note"><strong>The third row is the honest one.</strong> <code>Deferred</code> is not <code>Final</code>. The tool distinguishes a settled agenda from an unsettled one, which is the difference between a calendar and a guess.
+    <button class="xref" data-go="precord" data-hi="bsa">BSA also has a zoning hearing, 2026-08-10</button></div>
+
+  <h3>Venture House · the same organization in the budget</h3>
+  <div class="call"><b>search_awards(organization:</b> "Venture House"<b>, limit: 20)</b> → 3 awards, $135,000</div>
+  <table>
+    <tr><th>FY</th><th>Amount</th><th>Sponsor</th><th>Program / initiative</th></tr>
+    <tr id="r-vh1"><td class="mono">2027</td><td class="amt">$75,000</td><td class="mono">(collective)</td><td>Opioid Prevention and Treatment</td></tr>
+    <tr id="r-vh2"><td class="mono">2027</td><td class="amt">$50,000</td><td class="mono">(collective)</td><td>Virtual Clubhouse · Speaker's Initiative · DHMH</td></tr>
+    <tr id="r-vh3"><td class="mono">2027</td><td class="amt">$10,000</td><td class="mono">Williams</td><td>Council District 27 · Support Our Older Adults · DFTA</td></tr>
+  </table>
+  <div class="note bad"><strong>Do not equate these numbers with the City Record notice.</strong> The notice is <strong>FY2026</strong> money, $281,250, term beginning 2025-07-01. These Schedule C rows are <strong>FY2027</strong>, $135,000, and fund different programs. <strong>The cross-reference is the organization, not the amount.</strong> Saying "the city record confirms the $281,250" would be wrong, and it is the easiest mistake available on this screen.</div>
+  <div class="note warn"><strong>⚠️ <code>(collective)</code> is a sponsor value.</strong> Alongside member surnames, the sponsor column carries <code>(collective)</code>, <code>Speaker</code>, and borough delegations (<code>Brooklyn</code>, <code>Queens</code>, <code>Staten Island</code>, <code>Manhattan</code>). Counting "awards per council member" off this field folds all of those into a member total.</div>
+
+  <h3>Votes on legislation</h3>
+  <div class="call"><b>vote_breakdown(file_number:</b> "Int 0983-2026"<b>)</b> → 2 roll calls, matter_id 79149</div>
+  <table>
+    <tr><th>Stage</th><th>Date</th><th>Recorded</th><th>Aye</th><th>Nay</th><th>Abstain</th></tr>
+    <tr><td>Committee on Governmental Operations, State &amp; Federal Legislation</td><td class="mono">2026-07-16 10:30</td><td class="amt">7</td><td class="amt">5</td><td class="amt">1</td><td class="amt">0</td></tr>
+    <tr><td><strong>City Council</strong></td><td class="mono">2026-07-16 13:30</td><td class="amt">51</td><td class="amt">42</td><td class="amt">6</td><td class="amt">1</td></tr>
+  </table>
+  <div class="note"><strong>Named, not tallied.</strong> Negatives: Carr, Morano, Vernikov, Ariola, Wong, Zhuang. Abstention: Menin. Absent: Mealy, Paladino. <em>Int 0983-2026 amends the Charter and the Administrative Code in relation to compensation of elected officials.</em></div>
+  <div class="note warn"><strong>⚠️ Coverage.</strong> The local votes index currently holds two sessions only, <strong>2026-06-30 and 2026-07-16</strong>. A member seated in 2022 returns the same two sessions as one seated in 2026. It is filling in backwards. Do not present a two-session sample as a voting record.</div>
+
+  <h3>From bill to law to code</h3>
+  <p class="what" style="margin-bottom:.6em">The full chain, on a law far enough along to have completed it:</p>
+  <div class="chain">
+    <div class="step"><div class="k">Int 393-A</div><div class="v">Sidewalk sheds. 26 sponsors, led by Powers and Bottcher.</div></div>
+    <div class="arr">→</div>
+    <div class="step"><div class="k">L.L. 2025/048</div><div class="v">Enacted 2025-04-17</div></div>
+    <div class="arr">→</div>
+    <div class="step"><div class="k">effective 2026-01-12</div><div class="v">The date the text began to govern</div></div>
+    <div class="arr">→</div>
+    <div class="step"><div class="k">§ 28-105.8.1</div><div class="v">"Sidewalk shed permits shall be issued for a period of <strong>90 days</strong>"</div></div>
+    <div class="arr">→</div>
+    <div class="step"><div class="k">§ 28-220.1</div><div class="v">$10 / $100 / $200 per linear foot per month by shed age, capped $6,000</div></div>
+  </div>
+  <div class="call" style="margin-top:.7em"><b>search(</b>"sidewalk shed"<b>)</b> then <b>get_section(citation:</b> "28-105.8.1"<b>)</b> and <b>get_section(citation:</b> "28-220.1"<b>)</b></div>
+
+  <div class="note warn"><strong>⚠️ And now the same chain on a law that is too new — this is the useful part.</strong> Int 0983-2026 passed on 2026-07-16 and amends the Charter and Admin Code. It is <strong>not in the corpus yet</strong>:</div>
+  <div class="chain">
+    <div class="step"><div class="k">Int 0983-2026</div><div class="v">Passed 2026-07-16, 42-6-1</div></div>
+    <div class="arr">→</div>
+    <div class="step"><div class="k">Local Law №</div><div class="v">Assigned after mayoral action</div></div>
+    <div class="arr">→</div>
+    <div class="step gap"><div class="k">codification lag</div><div class="v">Corpus is current through <strong>LL 2026/116</strong>, enacted 2026-07-11. Anything later is not here yet.</div></div>
+    <div class="arr">→</div>
+    <div class="step gap"><div class="k">§ ? </div><div class="v">Unknown until the publisher updates</div></div>
+  </div>
+  <div class="note"><strong>Say this out loud rather than discovering it live.</strong> There is a real gap between "the Council passed it" and "you can look it up by section." The tool reports what it is current through, so the gap is measurable instead of invisible. That is the whole argument for a corpus that states its own version.</div>
+</section>
+
+<!-- ═══════════ 4 · NYS ═══════════ -->
+<section class="pane" id="pnys">
+  <h2>NYS Legislation · does Albany intersect?</h2>
+  <p class="what">231,194 bills and 1,992 members from the New York State Senate's Open Legislation API. The question worth asking here is not "what is the state doing" but <strong>"has the state tried this before, and what happened."</strong></p>
+
+  <h3>The intersection: broadband access</h3>
+  <p class="what" style="margin-bottom:.5em">New York City <strong>enacted</strong> a home broadband access law. Albany has been introducing one since 2009.</p>
+  <div class="grid">
+    <div class="card" style="border-color:var(--good)"><div class="lbl">New York City</div><div class="val">Int 1122-2024</div><div class="sub">A plan for expanding home access to broadband internet. Committee on Technology. <strong>Enacted 2025-11-08.</strong> 28 sponsors including De La Rosa, who chairs that committee.</div></div>
+    <div class="card" style="border-style:dashed"><div class="lbl">New York State</div><div class="val">Still in committee</div><div class="sub">The omnibus telecommunications reform act, four sessions across 17 years. Never reported out.</div></div>
+  </div>
+
+  <div class="call"><b>search_bills(term:</b> "broadband internet access affordable"<b>, limit: 4)</b></div>
+  <table>
+    <tr><th>Bill</th><th>Sponsor</th><th>Status</th><th>Last action</th></tr>
+    <tr><td class="mono">A4469-2009</td><td>Brodsky, AD 92</td><td>In Assembly Committee</td><td class="mono">2010-01-06</td></tr>
+    <tr><td class="mono">A3472-2021</td><td>Pretlow, AD 89</td><td>In Assembly Committee</td><td class="mono">2022-01-05</td></tr>
+    <tr><td class="mono">A3682-2023</td><td>Pretlow, AD 89</td><td>In Assembly Committee</td><td class="mono">2024-01-03</td></tr>
+    <tr id="r-a7509"><td class="mono"><strong>A7509-2025</strong></td><td>Pretlow, AD 89</td><td><span class="pill warn">Live this session</span></td><td class="mono">2026-01-07</td></tr>
+  </table>
+  <div class="note"><strong>Same title, same summary, four sessions, two sponsors.</strong> All four carry <code>signed: false</code>, <code>adopted: false</code>, <code>vetoed: false</code>. All four sat in Corporations, Authorities and Commissions. <strong>A7509-2025 is not dead</strong> — it was re-referred on 2026-01-07 and is pending.</div>
+  <div class="note"><strong>Why this is the killer query.</strong> Print numbers change every session, so nothing upstream links a bill to its own past lives. "Has this been tried before" is days of research in Albany and one call here.</div>
+
+  <div class="note warn"><strong>⚠️ Coverage gaps, checked against <code>corpus.db</code> 2026-07-27.</strong> 231,194 bills and 1,992 members, but <strong>floor transcripts and hearing transcripts are both 0 rows</strong>, and NYS law sections number only <strong>137</strong>. The transcript tools exist and reach the live API, but there is no local corpus behind them. <strong>Do not demo transcript search.</strong> Stick to bills.</div>
+  <div class="note"><strong>The refusal is the thesis, written by the tool.</strong> Pass <code>query=</code> instead of <code>term=</code> and it answers: <em>"Unrecognized parameters are rejected rather than ignored, because silently dropping a filter returns real data that answers a different question."</em></div>
+</section>
+
+<!-- ═══════════ 5 · OPEN DATA ═══════════ -->
+<section class="pane" id="pdata">
+  <h2>Open Data · the whole portal, two ways</h2>
+  <p class="what">Any dataset on NYC Open Data, via SoQL. This is the widest surface of the five and the one most able to waste your time, so here is the right way and the wrong way side by side.</p>
+
+  <h3 id="soql">The right way: a bounded aggregate</h3>
+  <div class="call"><b>get_data(type:</b>"query"<b>, dataset_id:</b>"erm2-nwe9"<b>, select:</b>"complaint_type, count(*) as n"<b>, where:</b>"created_date &gt; '2026-07-20'"<b>, group:</b>"complaint_type"<b>, order:</b>"n DESC"<b>, limit:</b>8<b>)</b></div>
+  <table>
+    <tr><th>Complaint type</th><th>Requests</th><th>Share of window</th></tr>
+    <tr><td>Illegal Parking</td><td class="amt">9,812</td><td class="amt">15.0%</td></tr>
+    <tr><td>Noise – Residential</td><td class="amt">6,380</td><td class="amt">9.7%</td></tr>
+    <tr><td>Noise – Street/Sidewalk</td><td class="amt">5,043</td><td class="amt">7.7%</td></tr>
+    <tr><td>Blocked Driveway</td><td class="amt">2,798</td><td class="amt">4.3%</td></tr>
+    <tr><td>UNSANITARY CONDITION</td><td class="amt">2,775</td><td class="amt">4.2%</td></tr>
+    <tr><td>Street Condition</td><td class="amt">2,189</td><td class="amt">3.3%</td></tr>
+    <tr><td>Water System</td><td class="amt">1,564</td><td class="amt">2.4%</td></tr>
+    <tr><td>Abandoned Vehicle</td><td class="amt">1,464</td><td class="amt">2.2%</td></tr>
+  </table>
+  <div class="note"><strong>65,587 service requests citywide</strong> in the window opening 2026-07-20, verified by a separate <code>count(*)</code> that returned the same figure. Note <code>UNSANITARY CONDITION</code> arrives upper-case while its neighbours are title-case: complaint_type is uncontrolled text, so grouping on it needs normalizing before you compare across years.</div>
+
+  <div class="note bad"><strong>🚨 Correction to our own guides.</strong> Both the District 10 and Reinvent Albany scripts say to check <code>is_sample</code> and treat the numbers as meaningless if it is <code>true</code>. <strong>That advice is wrong.</strong> This aggregate returned <code>is_sample: true</code>, and so did a bare <code>count(*)</code> returning a single row, where "sample" cannot mean anything. Both figures are correct and agree with each other. Following the guidance would make a presenter discard a good number. The flag appears to be unconditional.</div>
+
+  <h3>The wrong way: an unbounded catalog search</h3>
+  <div class="call"><b>search(query:</b>"broadband"<b>, limit:</b>5<b>)</b></div>
+  <div class="grid">
+    <div class="card" style="border-color:var(--bad)"><div class="lbl">Response size</div><div class="val" style="color:var(--bad)">559,836 chars</div><div class="sub">For five results.</div></div>
+    <div class="card" style="border-color:var(--bad)"><div class="lbl">Geometry vertices inlined</div><div class="val" style="color:var(--bad)">12,859</div><div class="sub">Coordinate pairs from <code>the_geom</code> columns.</div></div>
+    <div class="card"><div class="lbl">What actually matched</div><div class="val">Library branches</div><div class="sub">Harry Belafonte 115th Street, 67th Street, 96th Street, Aguilar, Allerton — with full polygons.</div></div>
+  </div>
+  <div class="note bad"><strong><code>limit</code> bounds the row count, not the payload.</strong> Five rows became half a megabyte because the matched dataset carries polygon geometry and the server inlines it. This is the single most likely way to stall a live demo. <strong>Never run a bare catalog search on a projector.</strong> Query a known <code>dataset_id</code> with an explicit <code>select</code> instead, as above.</div>
+
+  <div class="note warn"><strong>⚠️ This server is third-party.</strong> The Socrata connector is not BetaNYC's. The strict-parameter guarantee that covers our seven servers does not apply here, and this pane's two defects are both upstream. Say so rather than letting the fleet be described as uniformly hardened.</div>
+
+  <div class="note"><strong>Absent by necessity:</strong> citywide spending. Checkbook NYC has been behind Imperva bot protection since roughly 2026-07-16, covering the documented XML API and not just the search box. It is built, the city is blocking it, and we are asking rather than working around it.</div>
+</section>
+
+<footer>
+  <strong>Provenance.</strong> All figures pulled 2026-07-27 by running the tool calls shown, except where a pane states otherwise. Charter corpus current through Local Law 2026/116 (enacted 2026-07-11) and rules effective 2026-07-23. NYS corpus synced 2026-07-27T16:03:34. Legal and code material is for research purposes only and does not constitute legal advice; verify current text at codelibrary.amlegal.com.
+  <br><br>Built by BetaNYC · <a href="https://github.com/BetaNYC/grounding-ai-with-ny-open-data">grounding-ai-with-ny-open-data</a> · <a href="https://beta.nyc">beta.nyc</a>
+</footer>
+
+</main>
+
+<script>
+(function(){
+  var nav = document.getElementById('nav');
+  var panes = [].slice.call(document.querySelectorAll('.pane'));
+  var btns = [].slice.call(nav.querySelectorAll('button'));
+
+  // cross-reference targets: which row to flash when arriving at a pane
+  var HI = {
+    venture: ['r-vh1','r-vh2','r-vh3'],
+    bsa:     ['r-bsa'],
+    soql:    []
+  };
+
+  var hdr = document.querySelector('header');
+
+  function show(id, hiKey){
+    panes.forEach(function(p){ p.classList.toggle('on', p.id === id); });
+    btns.forEach(function(b){ b.classList.toggle('on', b.dataset.p === id); });
+    document.querySelectorAll('tr.hi').forEach(function(r){ r.classList.remove('hi'); });
+
+    // Resolve the scroll target first, then scroll ONCE. Doing scrollTo(0,0) and
+    // then scrollIntoView leaves the page mid-flight and looks broken.
+    var target = null;
+    if (hiKey){
+      var ids = HI[hiKey] || [];
+      ids.forEach(function(rid){
+        var row = document.getElementById(rid);
+        if (row) row.classList.add('hi');
+      });
+      target = ids.length ? document.getElementById(ids[0])
+                          : document.getElementById(hiKey);
+    }
+
+    if (target){
+      hdr.classList.add('compact');
+      target.scrollIntoView({block:'center'});
+    } else {
+      hdr.classList.remove('compact');
+      window.scrollTo(0,0);
+    }
+  }
+
+  nav.addEventListener('click', function(e){
+    var b = e.target.closest('button');
+    if (b) show(b.dataset.p);
+  });
+
+  document.addEventListener('click', function(e){
+    var x = e.target.closest('.xref');
+    if (x) show(x.dataset.go, x.dataset.hi);
+  });
+
+  // 1-5 jump to a pane
+  document.addEventListener('keydown', function(e){
+    var n = parseInt(e.key, 10);
+    if (n >= 1 && n <= panes.length && !e.metaKey && !e.ctrlKey) show(panes[n-1].id);
+  });
+})();
+</script>
+</body>
+</html>

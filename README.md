@@ -25,6 +25,7 @@ This repo is one piece of a larger effort to make government data usable — see
 
 | File | What it covers |
 |---|---|
+| [`apps/mcp-explorer.html`](apps/mcp-explorer.html) | **Single-file explorer for five connectors** — 311, City Record, Council→Charter, NYS legislation, Open Data — with the cross-references between them wired up. Open it, no setup |
 | [`mcp-configs/socrata-nyc-nys.mcp.json`](mcp-configs/socrata-nyc-nys.mcp.json) | Drop-in MCP config for switching between the NYC and NYS open data portals |
 | [`guides/when-to-use-which-portal.md`](guides/when-to-use-which-portal.md) | What each portal (and each BetaNYC MCP) actually covers — a decision guide |
 | [`guides/query-patterns.md`](guides/query-patterns.md) | Copy-paste SoQL query patterns: catalog search, dataset fetch, cross-portal lookups |
@@ -57,6 +58,9 @@ No API key is required for either portal. An optional `SOCRATA_APP_TOKEN` raises
 grounding-ai-with-ny-open-data/
 ├── README.md                                  ← you are here
 ├── LICENSE                                    ← CC BY-SA 4.0
+├── apps/
+│   ├── README.md                              ← why the data is pre-baked, how to refresh
+│   └── mcp-explorer.html                      ← DRAFT — five connectors, five panes, cross-referenced
 ├── mcp-configs/
 │   └── socrata-nyc-nys.mcp.json               ← dual NYC/NYS Socrata MCP aliases
 ├── guides/

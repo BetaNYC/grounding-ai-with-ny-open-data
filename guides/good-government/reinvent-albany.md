@@ -213,27 +213,30 @@ The act that speaks their language most directly.
 
 We filed that as a bug against our own connector rather than shipping around it: [nyc-checkbook-mcp#21](https://github.com/BetaNYC/nyc-checkbook-mcp/issues/21).
 
-### Part two: the Late-Contracts Dashboard
+### Part two: what the block actually is
 
-**This is the substantive ask, and it is squarely their beat.**
+> ⚠️ **Scope change 2026-07-27 — this act no longer carries an ask.** It previously critiqued a specific dashboard published by another office and closed by inviting the room to co-sign an access request. **Both are removed.** Keep this act descriptive: report the failure shape, say what we have and have not done about it, and stop. Do not turn a demo into advocacy directed at a third party, and do not solicit anything from the room on it.
 
-On July 8 the Comptroller launched a [Late-Contracts Dashboard](https://www.checkbooknyc.com/late-contracts) tracking vendor contracting and payment delays. It is real accountability work and worth saying so.
+**Re-verified 2026-07-27.** The clean result is a controlled comparison: **one source address, two clients, minutes apart.**
+
+| Source | Client | Result |
+|---|---|---|
+| `143.244.47.76` | real browser (Chrome) | **200** — site loads fully |
+| **same address** | command-line client | **403** on the documented API |
+| a different datacenter address | real browser | stopped at the edge, different block page |
+| third-party fetcher | fetcher | 403 on the plain homepage |
+
+**So the discriminator is the client, not the network.** IP reputation is a real but separate second gate, which is what stopped the datacenter browser.
+
+> ⚠️ **Verified 2026-07-27 that `143.244.47.76` is a commercial VPN endpoint that was active on the test laptop.** It is not BetaNYC's office address and not a residential line. That does not weaken the browser-versus-client comparison, since both clients used the same address. It does mean **none of these tests exercised the office network**, so do not describe this as a test of any particular fix or allowlist. Say "one address, two clients" and stop.
 
 **What to say:**
-> "Two things that dashboard is built on do not appear to be reachable through the public API. The 'average days late' number needs a prime-expense registration date that is not exposed as a filter or a response column. The non-profit vendor filter is backed by a classification we cannot find published anywhere, in the API or on the open data portal. So the dashboard's own numbers are not independently reproducible by anyone outside the office."
+> "It isn't that we can't reach them. It's that a documented XML API requires a browser to call it, which is a contradiction in terms. No change on our end fixes that."
 
-> "That is not an accusation. It is the ordinary result of building a dashboard against internal data. But it means the accountability analysis stops at the dashboard's edge. You cannot extend it, cross it against anything, or check it."
+**What to say if asked what we are doing about it:**
+> "We've raised it directly, through our own channel, and we're waiting. We have not spoofed headers and we have not harvested challenge cookies. The route to public data is the front door, and we'd rather be able to say that."
 
-**The honest framing, and do not skip it:** this is our audit's finding, from July 9, and it is checkable. We could be wrong. The docs are public and so is our reasoning.
-
-### Part three: what we are actually doing about it
-
-> "We have a letter going to the Comptroller's office asking for three things: restore programmatic access, confirm the Checkbook 2.0 migration dropped no documented fields, and expose the data behind the Late-Contracts Dashboard through the public API. We are asking rather than working around it. We have not spoofed headers or tried to defeat the bot protection, and we are not going to. The route to public data access is the front door, and we would rather be able to say that."
-
-**Then the hook, which is the reason this act exists:**
-> "You have more standing on this than we do. If a request like that carries more weight with your name next to it, we would welcome that."
-
-> **Presenter note:** do not promise anything about the letter's status. As of 2026-07-21 it is drafted and unsent. If asked, say exactly that. And if someone in the room asks to see it, that is the best outcome this act can produce.
+> ⚠️ **If someone in the room offers to help, thank them and take it offline.** Do not turn the meeting into a joint action. That is a decision for another conversation, not a demo.
 
 ---
 
@@ -331,7 +334,7 @@ From `list_available_fiscal_years`:
 
 **Not independently verified this session:**
 - **Whether the Local Law 174 CTE report was actually produced** and simply not published as open data. Only the portal's contents were checked. State the narrow claim.
-- **Act 6's Late-Contracts claims are OUR audit's finding, dated 2026-07-09, not an established fact.** We found no documented public API behind the dashboard, and no published source for the non-profit vendor classification. That is an absence we searched for, which is weaker evidence than a presence we found. Say "we could not find it published" and not "it is not published." If the office produces a source, that is a good outcome and we update the audit. Basis: `team/engineering/2026-07-09-checkbook-2.0-api-audit.md` and [nyc-checkbook-mcp#11](https://github.com/BetaNYC/nyc-checkbook-mcp/issues/11).
+- ~~**Act 6's Late-Contracts claims**~~ **Removed from the presentation 2026-07-27.** The dashboard critique was cut along with the access ask, so nothing about another office's published product goes in front of this room. The underlying audit stands and is unaffected: `team/engineering/2026-07-09-checkbook-2.0-api-audit.md` and [nyc-checkbook-mcp#11](https://github.com/BetaNYC/nyc-checkbook-mcp/issues/11). **If it ever goes back in**, the framing rule was and remains: say "we could not find it published," never "it is not published" — an absence you searched for is weaker evidence than a presence you found.
 - **The letter in Act 6 part three is DRAFTED AND UNSENT as of 2026-07-21.** Do not describe it as sent, delivered, or pending a response. If asked where it stands, say it is drafted and we have not sent it yet. Check before the meeting — this is the single fastest fact in the script to go stale.
 - **Whether the missing member attribution on the unattributed rescissions is a data-extraction artifact or genuinely absent from the source document.** Do not assert it is a transparency failure. If asked, offer to check the source resolution PDF via the Legistar crosswalk. This applies to **345 rows worth $176.6M**, not a handful.
 - ~~**The complete FY2026 rescission count and total.**~~ **Established 2026-07-27: 1,291 rescissions, $212,600,875.** Read from the database, because the tool cannot return it — see [#42](https://github.com/BetaNYC/New-York-City-Budget/issues/42).

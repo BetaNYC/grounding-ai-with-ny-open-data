@@ -497,9 +497,10 @@
       <h4>Act 5 — the wall is the point. Three minutes of real attention.</h4>
       <p class="say">"The site is up. I can pull this record by hand in a browser right now, and I will if you want. What I cannot do is reach it programmatically."</p>
       <p class="say">"Notice the shape of the failure. A record count of zero, an empty result set, and an error field, all in the same response. If you read the count and not the error, the honest answer 'we could not reach Checkbook' becomes the false answer 'this organization received no city money.' That is a public-data outage that reads as a finding."</p>
-      <p><strong>The Late-Contracts Dashboard, launched July 8.</strong> Real accountability work; say so. But two things it's built on don't appear reachable through the public API — the "average days late" figure needs a prime-expense registration date that isn't exposed as a filter or column, and the non-profit vendor filter is backed by a classification we cannot find published anywhere. <strong>So the dashboard's own numbers are not independently reproducible from outside the office.</strong></p>
-      <p class="trap">⚠️ <strong>That is not an accusation</strong>, and say so. It is the ordinary result of building a dashboard against internal data. But it means the accountability analysis stops at the dashboard's edge. This is our audit's finding from July 9, it is checkable, and we could be wrong.</p>
+      <p><strong>What the block actually is, re-verified 2026-07-27.</strong> The clean comparison is <strong>one source address, two clients, same minute</strong>: a real browser loads the site normally (200), and the command-line client on that same machine gets 403 on the documented API. <strong>So the discriminator is the client, not the network.</strong> A separate datacenter address was stopped earlier still, at the edge, with a different block page, so IP reputation is a second and independent gate.</p>
+      <p class="say">"It isn't that we can't reach them. It's that a documented XML API requires a browser to call it, which is a contradiction in terms."</p>
       <p class="trap">⚠️ <strong>We have not spoofed headers or tried to defeat the bot protection, and we are not going to.</strong> Say that plainly. The route to public data is the front door.</p>
+      <p class="trap">⚠️ <strong>Keep this act descriptive, not an ask.</strong> Report the failure shape and stop. Do not turn it into advocacy directed at another office, and do not solicit anything from the room on it. If someone asks what we are doing about it, say we have raised it directly and are waiting.</p>
     </aside>
   </section>
 
@@ -535,9 +536,9 @@
       <p class="say">"The number I would have shown you was $122 million. The real number is $212 million. Our tool was ninety million dollars low, and it told me nothing was wrong."</p>
       <p><strong>The part that matters most to this room.</strong> This is the <em>second</em> time this exact failure shipped into a demo script, and the second one was inside the fix for the first. The earlier version was truncated at 50 rows; the correction said "re-run at limit 500 and read the real total off the result." That remediation is itself capped.</p>
       <p class="say">"We wrote the rule — treat exactly-N-against-a-limit-of-N as truncation — and then broke it in the fix for the last time we broke it. I'd rather you hear that from us."</p>
-      <p><strong>Then the ask, which is the reason this act exists.</strong> A letter is going to the Comptroller asking for three things: restore programmatic access, confirm the Checkbook 2.0 migration dropped no documented fields, and expose the Late-Contracts Dashboard data through the public API.</p>
+      <p><strong>Then the point of the act, which is not an ask.</strong> The reason to show them our own bug is that it is the same failure class as everything else in the deck: a tool returning real, correctly formatted, incomplete data with no error. We are not exempt from the thing we are teaching.</p>
       <p class="say">"You have more standing on this than we do. If a request like that carries more weight with your name next to it, we would welcome that."</p>
-      <p class="trap">⚠️ <strong>Do not promise anything about the letter's status.</strong> As of 2026-07-27 it is drafted and unsent. If asked, say exactly that. If someone asks to see it, that is the best outcome this act can produce.</p>
+      <p class="say">"We wrote the rule — treat exactly-N-against-a-limit-of-N as truncation — and then broke it in the fix for the last time we broke it. I'd rather you hear that from us."</p>
     </aside>
   </section>
 
@@ -549,7 +550,7 @@
     <ol class="asks">
       <li data-reveal style="--i:3">What query does your team run constantly, by hand?<span>That's the user journey we want to add</span></li>
       <li data-reveal style="--i:4">Which coverage gap would you close first?<span>FY2025 transparency resolutions, or the vote archive</span></li>
-      <li data-reveal style="--i:5">Would you co-sign the Comptroller letter?<span>Programmatic access, migration audit, dashboard data</span></li>
+      <li data-reveal style="--i:5">What would you check first, if you had this on your desk?<span>Where you'd point it that we haven't</span></li>
     </ol>
     <p class="sub" data-reveal style="--i:6"><strong>github.com/BetaNYC/grounding-ai-with-ny-open-data</strong> &nbsp;·&nbsp; <strong>github.com/BetaNYC/New-York-City-Budget</strong> &nbsp;·&nbsp; <strong>beta.nyc</strong></p>
     <p class="disclaimer" data-reveal style="--i:7">Budget, rescission, Charter and award figures verified live 2026-07-27; rescission totals read from the database rather than the tool, per New-York-City-Budget#42. Open data portal figures verified 2026-07-21 and not re-pulled. Checkbook status as of 2026-07-21. Legal material is for research purposes only and does not constitute legal advice.</p>
@@ -557,7 +558,7 @@
       <h4>Close, then listen</h4>
       <p class="say">"All of this is open. We'd rather you fork it and find the things we got wrong than take our word for any of it. And if there's a query your team runs constantly by hand, that's exactly the user journey we want to add."</p>
       <p><strong>Write down every question they ask.</strong> This room's questions are the highest-value evaluation set we can get — they know where the bodies are, and their failures are worth more than our successes.</p>
-      <p class="trap">⚠️ If they ask for the Comptroller letter, say it is drafted and unsent as of 2026-07-27. Do not characterize its contents beyond the three asks above.</p>
+      <p class="trap">⚠️ <strong>This deck carries no ask directed at another office.</strong> Deliberate. If the Checkbook block comes up and someone offers to help, thank them and take it offline rather than turning the meeting into a joint action. We have raised it directly through our own channel and that is all to say about it here.</p>
     </aside>
   </section>
 

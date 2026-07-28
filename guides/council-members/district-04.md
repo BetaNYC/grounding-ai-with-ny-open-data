@@ -145,7 +145,14 @@ Then the four things a web search structurally cannot do: reach **inside a porta
 
 > ⚠️ **Int 0983-2026 is the elected-official compensation bill.** It is public record and she voted Affirmative, but leading with "here's your vote on your own pay" in her own office reads as a gotcha. **Use Res 0551-2026 or Int 0972-2026 as the drill-down unless she asks.** Judgment call, not a rule.
 
-> ⚠️ **All 46 came back Affirmative.** That is a real record, not an artifact — the table discriminates, and the same session shows six named negatives from other members. But it covers **two sessions only**. Do not characterize it as a voting philosophy.
+> 🚨 **This is not her whole record. Say so before anyone asks.** The votes index currently holds **two sessions only**, 2026-06-30 and 2026-07-16. She was seated in January 2026, so several months of stated meetings are not in there yet. Verified 2026-07-27: a member serving since 2022 returns the same two sessions and nothing earlier, which is what gives the limitation away. The archive is filling in backwards.
+>
+> **What to say:**
+> > "This is the last two sessions, not your seven months. The archive is still filling in, and I'd rather tell you that than let you think it's the whole thing."
+>
+> Volunteering this costs nothing and is the same move as the rest of the deck. Being caught claiming a complete record in the member's own office costs a great deal.
+
+> ⚠️ **All 46 came back Affirmative.** That is a real record, not an artifact — the table discriminates, and the same session shows six named negatives from other members. But on a **two-session base**, do not characterize it as a voting philosophy.
 
 > ⚠️ **`get_voting_record` returns duplicate rows** — 50 rows for 46 distinct matters, because some items are recorded at both committee and full council. **Dedupe by `file_number` before you say a count out loud.** Worth an upstream issue.
 

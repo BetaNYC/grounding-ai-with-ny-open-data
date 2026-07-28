@@ -1,0 +1,672 @@
+<!doctype html>
+<!--
+  Demo deck — Council District 4 (Virginia Maloney)
+  Companion to district-04.md. Presentation medium, same material.
+
+  STRUCTURE: every act is a side-by-side — a real web search on the left,
+  the connector on the right. Search results were run live 2026-07-27 and
+  are reproduced verbatim. Nothing on the left column is invented.
+
+  VERIFICATION DATES
+    Budget      re-verified live 2026-07-27  (@betanyc/nyc-budget-mcp v1.3.0)
+    Votes       verified live 2026-07-27     (votes table shipped 2026-07-25/26)
+    Charter     verified live 2026-07-27     (22,131 sections, LL 2026/116)
+    Calendar    verified live 2026-07-27
+    Committees  verified live 2026-07-27
+    311         verified 2026-07-21 — NOT re-pulled, labeled as such on the slide
+
+  ⚠️ district-04.md Act 2 is STALE: it documents a refusal that no longer happens.
+
+  Press N for presenter notes. Runtime ~20 min; see the closing note for what to cut.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BetaNYC · Council District 4 · Virginia Maloney</title>
+<style>
+  :root{
+    --blue:#2359a8; --blue-2:#B8D6FF; --bg-blue:#EEF4FF; --bg-blue-lt:#F9FAFF;
+    --gray:#414141; --gray-lt:#F1F1F1; --border:#949494; --ink:#1b1b1b; --flag:#c2410c;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--sans);color:var(--gray);background:var(--bg-blue-lt);overflow:hidden;-webkit-font-smoothing:antialiased}
+
+  .deck{position:relative;height:100vh;width:100vw}
+  .slide{
+    position:absolute;inset:0;display:none;
+    padding:clamp(20px,3.4vw,52px) clamp(24px,4.6vw,84px) 56px;
+    flex-direction:column;justify-content:center;
+    opacity:0;transform:translateY(12px);
+    transition:opacity .4s var(--ease),transform .4s var(--ease);
+  }
+  .slide.is-active{display:flex;opacity:1;transform:none}
+
+  .eyebrow{font-size:clamp(9.5px,.95vw,12.5px);font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:.7em;display:flex;align-items:center;flex-wrap:wrap;gap:.6em}
+  .eyebrow .act{background:var(--blue);color:#fff;border-radius:99px;padding:.3em .9em;letter-spacing:.08em}
+  h1{font-size:clamp(30px,4.6vw,64px);line-height:1.05;color:var(--blue);font-weight:800;letter-spacing:-.02em}
+  h2{font-size:clamp(21px,2.9vw,40px);line-height:1.12;color:var(--blue);font-weight:800;letter-spacing:-.015em}
+  .lede{font-size:clamp(15px,1.7vw,24px);line-height:1.5;max-width:24em;margin-top:.75em}
+  .sub{font-size:clamp(12px,1.15vw,16px);line-height:1.55;color:var(--gray);opacity:.85;max-width:40em;margin-top:.95em}
+  strong{color:var(--blue)} em{font-style:italic}
+
+  [data-reveal]{opacity:0;transform:translateY(14px)}
+  .is-active [data-reveal]{animation:rise .55s var(--ease) forwards;animation-delay:calc(var(--i,0) * 150ms + 100ms)}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  .query{
+    background:#12233c;border-radius:10px;padding:clamp(10px,1.15vw,17px) clamp(13px,1.5vw,21px);
+    font-family:var(--mono);font-size:clamp(11px,1.2vw,17px);color:#eaf1fb;
+    display:flex;align-items:baseline;gap:.65em;box-shadow:0 8px 26px rgba(18,35,60,.2);
+  }
+  .query .caret{color:var(--blue-2);font-weight:700;flex:none}
+  .typed::after{content:"";display:inline-block;width:.58em;height:1.05em;background:var(--blue-2);margin-left:.12em;vertical-align:-.16em;animation:blink 1.05s steps(1,end) infinite}
+  .typed.done::after{animation:none;opacity:0}
+  @keyframes blink{50%{opacity:0}}
+
+  /* the recurring split */
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:clamp(9px,1.2vw,18px);margin-top:clamp(9px,1.15vw,16px);align-items:stretch;min-height:0}
+  .panel{
+    background:#fff;border:1px solid var(--border);border-radius:10px;
+    padding:clamp(11px,1.3vw,19px);display:flex;flex-direction:column;min-width:0;
+    box-shadow:0 5px 20px rgba(35,89,168,.09);
+    opacity:0;transform:translateY(16px);
+  }
+  .panel.in{animation:rise .46s var(--ease) forwards}
+  .panel.bad{background:var(--gray-lt);border-style:dashed;box-shadow:none}
+  .panel h3{font-size:clamp(9px,.94vw,12px);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.65em;color:var(--gray);display:flex;align-items:center;flex-wrap:wrap;gap:.5em}
+  .panel.good h3{color:var(--blue)}
+
+  .pill{background:var(--bg-blue);color:var(--blue);border-radius:99px;padding:.22em .7em;font-size:.86em;font-weight:700;letter-spacing:.03em;white-space:nowrap}
+  .pill.warn{background:#fdf1d8;color:#7a5104}
+  .pill.live{background:#e4f6ec;color:#186a3b}
+  .pill.old{background:#e2e2e2;color:#5a5a5a}
+
+  ul.serp{list-style:none;font-size:clamp(9.5px,.98vw,13.5px);line-height:1.38}
+  ul.serp li{padding:.28em 0;border-bottom:1px solid rgba(0,0,0,.06)}
+  ul.serp li:last-child{border-bottom:0}
+  ul.serp .dom{font-family:var(--mono);font-size:.84em;opacity:.6;display:block}
+  ul.serp li.flag{color:var(--flag);font-weight:700}
+  ul.serp li.flag .tag{font-weight:400;font-style:italic;opacity:.9}
+  ul.serp li.flag .dom{opacity:.75}
+
+  .verdict{margin-top:auto;padding-top:.75em;font-weight:700;font-size:clamp(9.5px,1vw,13.5px);line-height:1.4}
+  .panel.bad .verdict{color:#8a2b2b}
+  .panel.good .verdict{color:#186a3b}
+
+  /* compact bars inside a panel */
+  .bars{display:flex;flex-direction:column;gap:clamp(3px,.42vw,7px)}
+  .bar{display:grid;grid-template-columns:minmax(78px,9.5em) 1fr auto;align-items:center;gap:.6em}
+  .bar .name{font-size:clamp(9px,.94vw,12.5px);text-align:right;line-height:1.2}
+  .bar .track{background:#e6e6e6;border-radius:4px;height:clamp(11px,1.15vw,17px);overflow:hidden}
+  .panel .bar .track{background:var(--gray-lt)}
+  .bar .fill{background:var(--blue);height:100%;width:0;border-radius:4px;transition:width .8s var(--ease)}
+  .panel.in .bar .fill{width:var(--pct);transition-delay:calc(var(--n,0) * 75ms + 180ms)}
+  .bar .val{font-family:var(--mono);font-size:clamp(9px,.92vw,12.5px);font-weight:700;color:var(--blue);min-width:2.4em;text-align:right}
+  .bar.hot .fill{background:var(--flag)}
+  .bar.hot .val,.bar.hot .name{color:var(--flag);font-weight:700}
+
+  /* money inside a panel */
+  .fig{font-size:clamp(26px,3.4vw,50px);font-weight:800;color:var(--blue);line-height:1;letter-spacing:-.025em}
+  .figrow{display:flex;align-items:baseline;gap:clamp(10px,1.6vw,26px);flex-wrap:wrap;margin-bottom:.5em}
+  .figrow .cap{font-size:clamp(8.5px,.9vw,11.5px);text-transform:uppercase;letter-spacing:.08em;opacity:.85;line-height:1.3}
+
+  table.awards{border-collapse:collapse;width:100%;font-size:clamp(9.5px,.98vw,13.5px)}
+  table.awards td{padding:.3em .45em;border-bottom:1px solid var(--gray-lt);line-height:1.3}
+  table.awards td.amt{font-family:var(--mono);font-weight:700;color:var(--blue);white-space:nowrap;text-align:right;width:1%}
+  table.awards tr.us td{background:var(--bg-blue)}
+  table.awards tr.us td.org{font-weight:700;color:var(--blue)}
+  table.awards td.init{opacity:.7;font-size:.88em}
+
+  /* statute quote */
+  .statute{border-left:3px solid var(--blue-2);padding-left:.8em;font-size:clamp(10px,1.05vw,14.5px);line-height:1.48;color:var(--ink);margin-bottom:.55em}
+  .statute .k{font-family:var(--mono);font-weight:700;color:var(--blue);display:block;font-size:.92em;margin-bottom:.2em}
+
+  /* calendar rows */
+  ul.cal{list-style:none;font-size:clamp(9.5px,.98vw,13.5px);line-height:1.35}
+  ul.cal li{padding:.34em 0;border-bottom:1px solid var(--gray-lt)}
+  ul.cal li:last-child{border-bottom:0}
+  ul.cal .when{font-family:var(--mono);font-weight:700;color:var(--blue)}
+  ul.cal .where{display:block;opacity:.65;font-size:.86em}
+  .tagf{background:#e4f6ec;color:#186a3b;border-radius:3px;padding:.06em .4em;font-size:.8em;font-weight:700}
+  .tagd{background:#fdf1d8;color:#7a5104;border-radius:3px;padding:.06em .4em;font-size:.8em;font-weight:700}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:clamp(8px,1.05vw,16px);margin-top:clamp(10px,1.3vw,20px)}
+  .stat{background:#fff;border:1px solid var(--border);border-radius:9px;padding:clamp(9px,1.15vw,16px)}
+  .stat .n{font-size:clamp(19px,2.5vw,36px);font-weight:800;color:var(--blue);line-height:1;letter-spacing:-.02em}
+  .stat .l{font-size:clamp(8.5px,.88vw,11.5px);text-transform:uppercase;letter-spacing:.07em;margin-top:.35em;opacity:.85;line-height:1.3}
+
+  .caps{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(7px,.9vw,14px);margin-top:clamp(10px,1.3vw,18px)}
+  .cap-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:clamp(8px,1vw,14px);font-size:clamp(9.5px,.98vw,13.5px);line-height:1.35}
+  .cap-item .t{font-family:var(--mono);font-weight:700;color:var(--blue);font-size:.94em;display:block;margin-bottom:.15em}
+
+  /* per-act "what else this connector does" strip */
+  .also{
+    margin-top:clamp(7px,.9vw,13px);padding:clamp(7px,.85vw,12px) clamp(10px,1.2vw,17px);
+    background:var(--bg-blue);border-radius:8px;
+    font-size:clamp(9px,.92vw,12.5px);line-height:1.45;color:var(--gray);
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:.4em 1.1em;
+  }
+  .also .lbl{font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);font-size:.85em;flex:none}
+  .also code{font-family:var(--mono);color:var(--blue);font-weight:700;font-size:.95em}
+
+  /* slide 2 reach grid */
+  .reach{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(7px,.9vw,13px);margin-top:clamp(9px,1.1vw,16px)}
+  .reach-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:clamp(8px,1vw,14px);font-size:clamp(9.5px,.96vw,13px);line-height:1.35}
+  .reach-item .t{font-weight:800;color:var(--blue);display:block;margin-bottom:.15em;font-size:1.02em}
+  .reach-item .n{font-family:var(--mono);opacity:.7;font-size:.9em}
+  .cant{margin-top:clamp(9px,1.1vw,16px)}
+  .cant li{list-style:none;font-size:clamp(10.5px,1.08vw,15px);line-height:1.45;padding:.24em 0 .24em 1.35em;position:relative}
+  .cant li::before{content:"\00d7";position:absolute;left:0;color:#8a2b2b;font-weight:800;font-size:1.15em}
+
+  ol.asks{list-style:none;counter-reset:a;margin-top:clamp(10px,1.3vw,20px)}
+  ol.asks li{counter-increment:a;position:relative;padding-left:2.2em;margin-bottom:.6em;font-size:clamp(13px,1.45vw,21px);line-height:1.4}
+  ol.asks li::before{content:counter(a);position:absolute;left:0;top:.05em;width:1.5em;height:1.5em;background:var(--blue);color:#fff;border-radius:99px;display:grid;place-items:center;font-size:.7em;font-weight:800}
+  ol.asks li span{display:block;font-size:.68em;opacity:.7;margin-top:.15em}
+
+  .disclaimer{margin-top:auto;padding-top:clamp(8px,1vw,15px);font-size:clamp(8.5px,.82vw,11px);line-height:1.5;opacity:.66;max-width:58em}
+
+  .notes{display:none;position:fixed;left:0;right:0;bottom:0;max-height:50vh;overflow:auto;background:#12233c;color:#e8eef8;padding:clamp(12px,1.5vw,22px) clamp(18px,2.8vw,40px) 54px;font-size:clamp(11px,1.06vw,14.5px);line-height:1.55;z-index:20;box-shadow:0 -12px 40px rgba(0,0,0,.3)}
+  body.notes-on .notes.on{display:block}
+  .notes h4{font-size:.82em;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-2);margin-bottom:.65em}
+  .notes p{margin-bottom:.55em;max-width:64em}
+  .notes .say{border-left:3px solid var(--blue-2);padding-left:.8em;font-style:italic;color:#fff}
+  .notes .trap{border-left:3px solid #f0a92c;padding-left:.8em;color:#ffdfa6}
+  .notes code{font-family:var(--mono);background:rgba(255,255,255,.12);padding:.08em .32em;border-radius:3px;font-size:.92em}
+
+  .bar-ui{position:fixed;left:0;right:0;bottom:0;height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(12px,2.4vw,32px);font-size:11px;opacity:.6;pointer-events:none;z-index:30}
+  .dots{display:flex;gap:5px;pointer-events:auto}
+  .dot{width:6.5px;height:6.5px;border-radius:99px;background:var(--border);opacity:.5;border:0;padding:0;cursor:pointer}
+  .dot.on{background:var(--blue);opacity:1;transform:scale(1.3)}
+  body.notes-on .bar-ui{color:#e8eef8;opacity:.8}
+  body.notes-on .dot{background:#7f93b3} body.notes-on .dot.on{background:#fff}
+  .hint{font-family:var(--mono);font-size:10px}
+
+  @media (max-width:860px){ .vs{grid-template-columns:1fr} .bar{grid-template-columns:minmax(70px,8em) 1fr auto} }
+  @media (prefers-reduced-motion:reduce){
+    .slide,[data-reveal],.panel,.bar .fill{transition:none!important;animation:none!important;opacity:1!important;transform:none!important}
+    .bar .fill{width:var(--pct)!important}
+    .typed::after{animation:none;opacity:0}
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1 ── title ─────────────────────────────────────── -->
+  <section class="slide">
+    <div class="eyebrow" data-reveal style="--i:0">BetaNYC · Council District 4</div>
+    <h1 data-reveal style="--i:1">Your district,<br>on the record.</h1>
+    <p class="lede" data-reveal style="--i:2">Grounded AI over New York City's own open data. Built by BetaNYC, in the open.</p>
+    <p class="sub" data-reveal style="--i:3">Prepared for Council Member <strong>Virginia Maloney</strong> and staff. Every figure carries the date it was verified. Five questions, then we want to hear yours.</p>
+    <aside class="notes">
+      <h4>Opening</h4>
+      <p class="say">"You're seven months in. Rather than tell you what this does, I'm going to ask it five questions your office actually gets, and show you what a web search returns for the same question."</p>
+      <p class="trap">⚠️ In 311 queries the district is the string <code>'04'</code>, zero-padded. Querying <code>'4'</code> returns zero rows with no error. Districts 1 to 9 only.</p>
+      <p class="trap">⚠️ Her first discretionary budget is <strong>FY2027</strong>. FY2026 was adopted before she was seated, and querying it by her surname correctly returns nothing. Don't let that read as a tool failure.</p>
+      <p><strong>Runtime is about 20 minutes.</strong> To land in 12, cut Act 5 (calendar) and Act 3b (the digital equity thread). Never cut the profile slide — conceding the easy case is what makes the rest credible — and never cut Act 4, which is the sharpest contrast in the deck.</p>
+      <p>Each act carries an <strong>"Also here"</strong> strip naming what else that connector does. Don't read them aloud. They're for the staffer photographing the screen.</p>
+    </aside>
+  </section>
+
+  <!-- 2 ── what the connectors reach ─────────────────── -->
+  <section class="slide">
+    <div class="eyebrow" data-reveal style="--i:0">What we plugged in</div>
+    <h2 data-reveal style="--i:1">Seven connectors, straight into<br>the city's own records.</h2>
+
+    <div class="reach">
+      <div class="reach-item" data-reveal style="--i:2"><span class="t">Council legislation</span>Bills, hearings, sponsors, votes <span class="n">21,467 bills · 17,314 events</span></div>
+      <div class="reach-item" data-reveal style="--i:3"><span class="t">Charter, Code &amp; Rules</span>Full text, by section <span class="n">22,131 sections</span></div>
+      <div class="reach-item" data-reveal style="--i:4"><span class="t">City budget</span>Schedule C, capital, terms <span class="n">33,638 awards · FY2015–FY2027</span></div>
+      <div class="reach-item" data-reveal style="--i:5"><span class="t">311</span>Service requests, status, calendar <span class="n">live</span></div>
+      <div class="reach-item" data-reveal style="--i:6"><span class="t">The City Record</span>Procurement and public notices <span class="n">live</span></div>
+      <div class="reach-item" data-reveal style="--i:7"><span class="t">NY State legislation</span>Bills, laws, members <span class="n">231,107 bills</span></div>
+      <div class="reach-item" data-reveal style="--i:8"><span class="t">Open data catalog</span>Any dataset on the portal <span class="n">SoQL</span></div>
+    </div>
+
+    <ul class="cant">
+      <li data-reveal style="--i:9">A web search cannot reach <strong>inside a portal's search form</strong>. Crawlers see the search box, not the results.</li>
+      <li data-reveal style="--i:10">It cannot <strong>join</strong> four of these in one question.</li>
+      <li data-reveal style="--i:11">It cannot hand you a <strong>citation</strong> you can put in a letter.</li>
+      <li data-reveal style="--i:12">It cannot tell you <strong>when the answer last changed</strong>.</li>
+    </ul>
+
+    <aside class="notes">
+      <h4>Ninety seconds, then move</h4>
+      <p><strong>This is the "what did you actually build" slide.</strong> Do not explain what MCP is. Nobody in a council office needs the plumbing. Name the seven sources, then read the four bullets, then get into the questions.</p>
+      <p class="say">"Seven pipes into what the city already publishes. The interesting part isn't the list, it's the four things underneath it that no amount of searching gets you."</p>
+      <p class="trap">⚠️ <strong>Citywide spending (Checkbook NYC) is deliberately not on this slide.</strong> Imperva bot protection has fronted the site including its documented API since around 2026-07-16. Do not promise contract or spending data. A letter to the Comptroller requesting access is drafted. If asked, say it plainly: it's built, the city is currently blocking it, and we're asking.</p>
+      <p class="trap">⚠️ Don't say "Google" from the podium unless you re-ran it on Google yourself. These were run through a general web search. The point holds either way and the precision costs you nothing.</p>
+    </aside>
+  </section>
+
+  <!-- 3 ── profile ───────────────────────────────────── -->
+  <section class="slide" data-demo>
+    <div class="eyebrow" data-reveal style="--i:0">Start with the easy one</div>
+    <h2 data-reveal style="--i:1">Who is the member?</h2>
+    <div class="query" data-reveal style="--i:2;margin-top:.7em">
+      <span class="caret">&rsaquo;</span><span class="typed" data-type="Who is Council Member Virginia Maloney?"></span>
+    </div>
+    <div class="vs">
+      <div class="panel bad">
+        <h3>A web search <span class="pill old">run 2026-07-27</span></h3>
+        <ul class="serp">
+          <li>Staff Directory — Virginia Maloney<span class="dom">council.nyc.gov</span></li>
+          <li>Meet Council Member Virginia Maloney<span class="dom">murrayhillnyc.org</span></li>
+          <li>Virginia Maloney<span class="dom">ballotpedia.org · wikipedia.org · linkedin.com</span></li>
+          <li>Phone, district email, office hours, committee<span class="dom">assembled from several pages</span></li>
+        </ul>
+        <p class="verdict">Honestly? This one it does well. Contact details, a bio, a committee.</p>
+      </div>
+      <div class="panel good">
+        <h3>The connector <span class="pill live">verified 2026-07-27</span></h3>
+        <ul class="serp">
+          <li><strong>PersonId 7894</strong> · active · District4@council.nyc.gov<span class="dom">the key that joins to everything else</span></li>
+          <li>Committee on Economic Development — listed contact, 7 members<span class="dom">independently confirmed, not taken from the web</span></li>
+          <li>Legistar profile, linkable<span class="dom">legistar.council.nyc.gov · PersonId 329370</span></li>
+          <li class="flag">Record last modified <strong>2025-11-06</strong> <span class="tag">— before she took office</span><span class="dom">so treat the district address as possibly stale</span></li>
+        </ul>
+        <p class="verdict">Same facts, plus the ID that joins them and a date that tells you what to distrust.</p>
+      </div>
+    </div>
+    <div class="also" data-reveal style="--i:13">
+      <span class="lbl">Also here</span>
+      <span><code>get_council_member</code> any member</span>
+      <span><code>list_committees</code> all 73 bodies</span>
+      <span><code>get_committee</code> roster and volume</span>
+    </div>
+    <aside class="notes">
+      <h4>Concede this one. It buys you the next five.</h4>
+      <p><strong>Do not oversell the left column here.</strong> A web search is genuinely good at "who is this person." It found her phone, her district email, her office hours and her committee. Say so out loud. Conceding the easy case is what makes the room believe you on the hard ones.</p>
+      <p class="say">"I'm going to start with the one question a search engine handles well, so you know I'm not selling you something. Now watch what happens when we ask what she's <em>done</em>."</p>
+      <p><strong>The right column's real content is the last two lines.</strong> PersonId 7894 is the key that joins her to 46 votes, 77 budget awards and a committee. And the record carries a last-modified date.</p>
+      <p class="trap">⚠️ <strong>The two sources disagree on the district office address, and this is worth telling her staff.</strong> Legistar carries 211 East 43rd Street, Suite 1205. The web returns 420 Lexington Avenue, Suite 650. The Legistar record was last modified 2025-11-06, before she was seated, which points to Legistar being the stale one. <strong>Do not assert which is correct.</strong> Show the disagreement, note the date, and let her office tell you. It reads as a service, not a gotcha.</p>
+      <p class="trap">⚠️ <strong>Say "listed contact," not "Chair."</strong> The Legistar field is <code>BodyContactNameId</code>, which for council committees is conventionally the chair but does not literally say so. The web reports her as Chair of Economic Development. Two sources agreeing is good; overstating what our field says is exactly the failure this deck is about.</p>
+    </aside>
+  </section>
+
+  <!-- 3 ── ACT 1 · 311 ───────────────────────────────── -->
+  <section class="slide" data-demo>
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 1</span> Your district, right now</div>
+    <h2 data-reveal style="--i:1">What are people calling about?</h2>
+    <div class="query" data-reveal style="--i:2;margin-top:.7em">
+      <span class="caret">&rsaquo;</span><span class="typed" data-type="Top 311 complaints in Council District 4, last 30 days?"></span>
+    </div>
+    <div class="vs">
+      <div class="panel bad">
+        <h3>A web search <span class="pill old">run 2026-07-27</span></h3>
+        <ul class="serp">
+          <li>Which NYC Neighborhoods Receive the Most 311 Complaints?<span class="dom">violationwatch.nyc</span></li>
+          <li>District Info<span class="dom">council.nyc.gov</span></li>
+          <li>Report Problems<span class="dom">portal.311.nyc.gov</span></li>
+          <li class="flag">NYC 311 Complaint Data <span class="tag">— database product docs</span><span class="dom">motherduck.com</span></li>
+          <li class="flag">City Council Member Complaint <span class="tag">— how to complain <em>about</em> a member</span><span class="dom">portal.311.nyc.gov</span></li>
+          <li>+ 4 more</li>
+        </ul>
+        <p class="verdict">Nine links to portals and tools. Not one number.</p>
+      </div>
+      <div class="panel good">
+        <h3>The connector <span class="pill old">311 verified 2026-07-21</span></h3>
+        <div class="bars">
+          <div class="bar" style="--n:0"><div class="name">Illegal Parking</div><div class="track"><div class="fill" style="--pct:100%"></div></div><div class="val">735</div></div>
+          <div class="bar hot" style="--n:1"><div class="name">Encampment</div><div class="track"><div class="fill" style="--pct:53%"></div></div><div class="val">390</div></div>
+          <div class="bar hot" style="--n:2"><div class="name">Homeless Person Assistance</div><div class="track"><div class="fill" style="--pct:33%"></div></div><div class="val">242</div></div>
+          <div class="bar" style="--n:3"><div class="name">Noise</div><div class="track"><div class="fill" style="--pct:28%"></div></div><div class="val">207</div></div>
+          <div class="bar" style="--n:4"><div class="name">Street Condition</div><div class="track"><div class="fill" style="--pct:27%"></div></div><div class="val">197</div></div>
+          <div class="bar" style="--n:5"><div class="name">Vendor Enforcement</div><div class="track"><div class="fill" style="--pct:26%"></div></div><div class="val">193</div></div>
+        </div>
+        <p class="verdict">4,767 requests, ranked. The answer, not the door to it.</p>
+      </div>
+    </div>
+    <div class="also">
+      <span class="lbl">Also here</span>
+      <span><code>get_calendar</code> alternate-side parking and collection</span>
+      <span><code>get_service_request</code> one request by number</span>
+      <span><code>get_status</code> agency status</span>
+      <span><code>socrata</code> any dataset on the portal</span>
+    </div>
+    <aside class="notes">
+      <h4>Act 1</h4>
+      <p><strong>The left column is the whole point here.</strong> Every result is a place you could go to look it up yourself. One is documentation for a database product. One is the 311 page for filing a complaint <em>about</em> a council member, which matched on the words.</p>
+      <p class="say">"Nine results, and every one of them is a door. Not one of them walked through it."</p>
+      <p><strong>Where to linger on the right.</strong> Encampment and Homeless Person Assistance at #2 and #3 is a distinctive signature. District 10 uptown has no homelessness category in its top five at all. Same city, same thirty days, completely different constituent pressure.</p>
+      <p class="trap">⚠️ Don't editorialize past the data. This measures <em>what residents called 311 about</em>, which is complaint behavior as much as underlying conditions. Say that out loud if the room starts drawing policy conclusions.</p>
+      <p class="trap">⚠️ These counts are from 2026-07-21 and were NOT re-pulled. Re-run before the meeting or say the date aloud. The chip on the slide is gray, not green, for exactly this reason.</p>
+    </aside>
+  </section>
+
+  <!-- 4 ── ACT 2 · votes ─────────────────────────────── -->
+  <section class="slide" data-demo>
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 2</span> Your roll call</div>
+    <h2 data-reveal style="--i:1">One returns pages about you.<br>The other returns your votes.</h2>
+    <div class="query" data-reveal style="--i:2;margin-top:.7em">
+      <span class="caret">&rsaquo;</span><span class="typed" data-type="How has Council Member Maloney voted?"></span>
+    </div>
+    <div class="vs">
+      <div class="panel bad">
+        <h3>A web search <span class="pill old">run 2026-07-27</span></h3>
+        <ul class="serp">
+          <li>Virginia Maloney<span class="dom">ballotpedia.org</span></li>
+          <li>Wins Handily in District 4 Council Race<span class="dom">ourtownny.com</span></li>
+          <li class="flag">Carolyn Maloney <span class="tag">— a different Maloney</span><span class="dom">ballotpedia.org</span></li>
+          <li>District 4 — Virginia Maloney<span class="dom">council.nyc.gov</span></li>
+          <li class="flag">Voting Members 2020&ndash;2021 <span class="tag">— Cornell student assembly</span><span class="dom">assembly.cornell.edu</span></li>
+          <li>+ 4 more</li>
+        </ul>
+        <p class="verdict">Nine pages about a person. Zero votes.</p>
+      </div>
+      <div class="panel good">
+        <h3>The connector <span class="pill live">verified 2026-07-27</span></h3>
+        <ul class="serp">
+          <li><strong>46 matters</strong>, each with a file number and date<span class="dom">2026-06-30 and 2026-07-16 sessions</span></li>
+          <li>Res 0551-2026 — Expense budget designations<span class="dom">Affirmative · the resolution behind Act 3</span></li>
+          <li>Res 0546-2026 — FY2027 tax levy<span class="dom">Affirmative</span></li>
+          <li>LU 0112-2026 — East Harlem/El Barrio Article XI<span class="dom">Affirmative</span></li>
+          <li>Int 0972-2026 — Unincorporated business tax credit<span class="dom">Affirmative · intro.nyc/0972-2026</span></li>
+        </ul>
+        <p class="verdict">Every one citable. Plus the full 51-member split on any matter.</p>
+      </div>
+    </div>
+    <div class="also">
+      <span class="lbl">Also here</span>
+      <span><code>co_sponsors</code> who signed on, and who didn't</span>
+      <span><code>get_bill_history</code> every action, in order</span>
+      <span><code>get_bill_hearings</code> where a bill was heard</span>
+      <span><code>aggregate_bills</code> counts by sponsor and session</span>
+    </div>
+    <aside class="notes">
+      <h4>⚠️ Rewritten 2026-07-27 — votes shipped over the weekend</h4>
+      <p class="trap">⚠️ <strong><code>district-04.md</code> Act 2 is stale and contradicts this slide.</strong> It still says <code>get_voting_record</code> raises a named error because the votes table has zero rows. It no longer does. Do not run the meeting off the Markdown until that act is rewritten.</p>
+      <p><strong>Left column.</strong> Point at the two orange lines. A search for her voting record returns Carolyn Maloney, who served in Congress, and a Cornell graduate student assembly roster. Both rank because the words match.</p>
+      <p class="say">"Nine results, not one of them a vote, and two aren't even about you. It isn't lying to you. It has no idea it missed."</p>
+      <p><strong>Right column.</strong> <code>vote_breakdown("Int 0983-2026")</code> returns the full split: 51 recorded, 42 affirmative, 6 negative, 1 abstain, plus the committee stage. Named negatives, named abstention, named absences.</p>
+      <p class="trap">⚠️ <strong>Int 0983-2026 is the elected-official compensation bill.</strong> Public record, and she voted Affirmative, but leading with her own pay raise in her own office reads as a gotcha. Drill down on Res 0551-2026 or Int 0972-2026 unless she asks.</p>
+      <p class="trap">⚠️ <strong>All 46 came back Affirmative.</strong> Real, not an artifact: the same session shows six named negatives from other members. But it covers two sessions only. Do not characterize it as a voting philosophy.</p>
+      <p class="trap">⚠️ <code>get_voting_record</code> returns 50 rows for 46 distinct matters — some items appear at both committee and full council. Dedupe by <code>file_number</code> before saying a count aloud.</p>
+    </aside>
+  </section>
+
+  <!-- 5 ── ACT 3 · budget ────────────────────────────── -->
+  <section class="slide" data-demo>
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 3</span> Your first budget</div>
+    <h2 data-reveal style="--i:1">The record is thin.<br>The budget is not.</h2>
+    <div class="query" data-reveal style="--i:2;margin-top:.7em">
+      <span class="caret">&rsaquo;</span><span class="typed" data-type="What did Council Member Maloney fund in FY2027?"></span>
+    </div>
+    <div class="vs">
+      <div class="panel bad">
+        <h3>A web search <span class="pill old">run 2026-07-27</span></h3>
+        <ul class="serp">
+          <li>FY2027 Discretionary Funding Policies and Procedures (PDF)<span class="dom">council.nyc.gov</span></li>
+          <li>City Council Discretionary Funding<span class="dom">nyc.gov/veterans</span></li>
+          <li>District 4 — Virginia Maloney<span class="dom">council.nyc.gov</span></li>
+          <li class="flag">FY27 supplementary applications <span class="tag">— Oswald Feliz, D15</span><span class="dom">council.nyc.gov</span></li>
+          <li class="flag">Alexa Avilés <span class="tag">— D38</span><span class="dom">council.nyc.gov</span></li>
+        </ul>
+        <p class="verdict">The rules for how funding works, plus two other members' pages. Zero of her 77 awards.</p>
+      </div>
+      <div class="panel good">
+        <h3>The connector <span class="pill live">re-verified live 2026-07-27</span></h3>
+        <div class="figrow">
+          <div><div class="fig">$1,538,000</div><div class="cap">FY2027 Schedule C</div></div>
+          <div><div class="fig">77</div><div class="cap">Awards</div></div>
+        </div>
+        <table class="awards">
+          <tr><td class="amt">$200,000</td><td class="org">Assn. of Community Employment Programs for the Homeless</td><td class="init">NYC Cleanup</td></tr>
+          <tr><td class="amt">$70,000</td><td class="org">Department of Sanitation</td><td class="init">NYC Cleanup, CD 4</td></tr>
+          <tr><td class="amt">$50,000</td><td class="org">STPCV Tenants Association Foundation</td><td class="init">Speaker's Initiative</td></tr>
+          <tr><td class="amt">$40,000</td><td class="org">Justice Innovation, Inc.</td><td class="init">Community Safety</td></tr>
+        </table>
+        <p class="verdict">By name, initiative, and administering agency.</p>
+      </div>
+    </div>
+    <div class="also">
+      <span class="lbl">Also here</span>
+      <span><code>search_capital_projects</code> §254 capital</span>
+      <span><code>get_awards_by_ein</code> one org across all members</span>
+      <span><code>get_terms_conditions</code> the strings attached</span>
+      <span><code>get_legistar_link</code> back to the adopting resolution</span>
+    </div>
+    <aside class="notes">
+      <h4>Act 3</h4>
+      <p><strong>The left column here is the sharpest of the five.</strong> A search for what she funded returns the <em>rules</em> for discretionary funding, and then two other members' pages. Feliz is District 15, Avilés is District 38.</p>
+      <p class="say">"It found the policy manual and two of your colleagues. Not one of your seventy-seven awards."</p>
+      <p class="say">"This is the thing that <em>is</em> yours after seven months, and it's a million and a half of it."</p>
+      <p class="trap">⚠️ Always pass <code>limit: 200</code> or higher. An earlier draft shipped "$1,148,000" from a query capped at 40 that returned exactly 40 rows. The limit truncates the <em>total</em> as well as the list. Understated her budget by $390,000. Treat "returned exactly N against a limit of N" as truncation until proven otherwise.</p>
+      <p class="trap">⚠️ <code>council_member</code> matches as a substring and the result depends on fiscal year. FY2027 is safe. On FY2020 to FY2026 a "Powers" search silently sums Keith Powers and Brooks-Powers across two districts. Check the sponsor column, state the fiscal year aloud.</p>
+      <p>Query Schedule C by sponsoring member <em>surname</em>, never by district number. There is no district filter, and asking by district silently returns citywide awards.</p>
+    </aside>
+  </section>
+
+  <!-- 6 ── ACT 3b · digital equity ───────────────────── -->
+  <section class="slide">
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 3</span> The digital equity thread</div>
+    <h2 data-reveal style="--i:1">$80,000 into digital inclusion,<br>in a first budget.</h2>
+    <table class="awards" style="margin-top:1.1em;font-size:clamp(11px,1.15vw,16px)">
+      <tr class="us" data-reveal style="--i:2"><td class="amt">$20,000</td><td class="org">Fund for the City of New York <em>[AI Training Program]</em></td><td class="init">this is BetaNYC</td></tr>
+      <tr data-reveal style="--i:3"><td class="amt">$20,000</td><td class="org">Older Adults Technology Services (OATS)</td><td class="init">Older Adults Digital Literacy</td></tr>
+      <tr data-reveal style="--i:4"><td class="amt">$20,000</td><td class="org">Simon Wiesenthal Center</td><td class="init">Digital Equity Program</td></tr>
+      <tr data-reveal style="--i:5"><td class="amt">$20,000</td><td class="org">WNET</td><td class="init">Arts Broadcasting</td></tr>
+    </table>
+    <p class="sub" data-reveal style="--i:6">All four under the <strong>Digital Inclusion and Literacy Initiative</strong>, administered by DYCD. Fund for the City of New York is BetaNYC's fiscal sponsor, so our awards appear under its name.</p>
+    <aside class="notes">
+      <h4>Handle this one with care</h4>
+      <p>The strongest version is <strong>not</strong> leading with "you already fund us." Run the demo straight, let the agent surface the award from the public record alongside the other three, and only then note that one of those lines is us. The tool finding your own funding in the same query that found everyone else's is far more persuasive than saying so up front, and it keeps the meeting about her office's data rather than about an ask.</p>
+      <p class="trap">⚠️ Do NOT characterize how that decision was made. Nothing in the data supports a claim about her office's internal process, and BetaNYC is the grantee of the line in question. Say what the record shows and stop.</p>
+      <p><strong>The data subtlety, if the room is engaged:</strong> FCNY is a fiscal sponsor, a passthrough carrying dozens of programs under one EIN (13-2612524). "Fund for the City of New York" in the recipient column is not the actual grantee. The <code>[AI Training Program]</code> bracket is. Filtering by organization alone would silently merge unrelated grantees. This is exactly what makes a naive spreadsheet analysis wrong.</p>
+    </aside>
+  </section>
+
+  <!-- 7 ── ACT 4 · charter ───────────────────────────── -->
+  <section class="slide" data-demo>
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 4</span> The Charter, Code and Rules</div>
+    <h2 data-reveal style="--i:1">Looking at NYC's Laws</h2>
+    <p class="sub" data-reveal style="--i:1;margin-top:.3em;font-size:clamp(13px,1.4vw,19px);opacity:1">Roughly right is not citable.</p>
+    <div class="query" data-reveal style="--i:2;margin-top:.7em">
+      <span class="caret">&rsaquo;</span><span class="typed" data-type="How long can a sidewalk shed stay up?"></span>
+    </div>
+    <div class="vs">
+      <div class="panel bad">
+        <h3>A web search <span class="pill old">run 2026-07-27</span></h3>
+        <ul class="serp">
+          <li>Mayor's Office press release<span class="dom">nyc.gov/mayors-office</span></li>
+          <li>NYC sidewalk scaffolding reforms<span class="dom">nbcnewyork.com</span></li>
+          <li class="flag">Sidewalk Sheds NYC: New 90-Day Rules <span class="tag">— permit expediter's blog</span><span class="dom">permitexpertsnyc.com</span></li>
+          <li class="flag">NYC Sidewalk Shed Rules <span class="tag">— marketing blog</span><span class="dom">skybriz.com</span></li>
+          <li class="flag">2025 Laws That Could Reshape Sidewalk Sheds <span class="tag">— engineering firm's blog</span><span class="dom">randpc.com</span></li>
+        </ul>
+        <p class="verdict">Nine secondary sources. Approximately right. Not one is the law.</p>
+      </div>
+      <div class="panel good">
+        <h3>The connector <span class="pill live">verified 2026-07-27</span></h3>
+        <p class="statute"><span class="k">§ 28-105.8.1 Duration of permit</span>"Sidewalk shed permits shall be issued for a period of <strong>90 days</strong> and may not be renewed until department penalties&hellip; are paid."</p>
+        <p class="statute"><span class="k">§ 28-220.1 Penalties</span>$10 / $100 / $200 per linear foot per month by shed age, capped at $6,000. <strong>Exception: one- and two-family homes.</strong></p>
+        <p class="verdict">The section, the amending law (L.L. 2025/048), and the date it took effect (1/12/2026).</p>
+      </div>
+    </div>
+    <div class="also">
+      <span class="lbl">Also here</span>
+      <span><code>get_section</code> any citation, exact</span>
+      <span><code>list_titles</code> browse the Code by title</span>
+      <span><code>get_version</code> what the corpus is current through</span>
+      <span>Rules as well as Charter and Administrative Code</span>
+    </div>
+    <aside class="notes">
+      <h4>Act 4 — the sharpest contrast in the deck. Don't cut it.</h4>
+      <p><strong>This is the subtle one, and the strongest.</strong> The web search got the headline roughly right: 90 days, $6,000 cap. So resist the urge to say it failed. It didn't. It's <em>unciteable</em>, and it's imprecise in a way that costs you.</p>
+      <p class="say">"It got the number right. Now look at where it got it: a press release, a TV station, and three blogs belonging to companies that sell permit expediting. You cannot put any of those in a letter to DOB."</p>
+      <p><strong>Then the precision point, which is the kill shot.</strong> The web summary says penalties apply to sheds "standing longer than 180 days." The statute says something different: penalties begin at the <strong>second renewal</strong>, and only where <strong>work is not in progress</strong>, tiered by how long the shed has existed. Roughly 180 days is a blog's paraphrase of a rule whose actual test is the work, not the clock.</p>
+      <p class="say">"Close enough to sound right in a meeting. Wrong enough to lose the argument when the owner's lawyer shows up."</p>
+      <p><strong>And the exemption.</strong> One- and two-family homes are exempt, as are sheds up for new building, enlargement, or demolition. That appears in the statute and in none of the blogs. It is exactly the detail a constituent letter has to get right.</p>
+      <p class="trap">⚠️ Charter search is keyword matching, not semantic. <code>sidewalk shed</code> returns nine results. <code>noise nighttime construction</code> and <code>heat season residential temperature</code> both return zero. <strong>Rehearse your queries.</strong> Improvising a phrasing in the room will demo an empty result set.</p>
+      <p class="trap">⚠️ Always read the legal disclaimer if anyone treats this as advice. It's research material, not legal advice, and the corpus is current through Local Law 2026/116 — not necessarily through today.</p>
+    </aside>
+  </section>
+
+  <!-- 8 ── ACT 5 · calendar ──────────────────────────── -->
+  <section class="slide" data-demo>
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 5</span> What's in front of the Council</div>
+    <h2 data-reveal style="--i:1">Agendas before the meeting,<br>not minutes after it.</h2>
+    <div class="query" data-reveal style="--i:2;margin-top:.7em">
+      <span class="caret">&rsaquo;</span><span class="typed" data-type="What Council hearings are coming up?"></span>
+    </div>
+    <div class="vs">
+      <div class="panel bad">
+        <h3>A web search <span class="pill old">run 2026-07-27</span></h3>
+        <ul class="serp">
+          <li>Upcoming Public Hearings — Land Use<span class="dom">council.nyc.gov</span></li>
+          <li>citymeetings.nyc<span class="dom">citymeetings.nyc</span></li>
+          <li>Calendar and agenda (raw document link)<span class="dom">nyc.legistar.com/View.ashx</span></li>
+          <li class="flag">Council Hearing on SoHo Rezoning Plan <span class="tag">— an old rezoning story</span><span class="dom">cbsnews.com</span></li>
+          <li>Hearings — LPC<span class="dom">nyc.gov/site/lpc</span></li>
+        </ul>
+        <p class="verdict">Portals, a raw file link, and a stale news story. No agenda for this week.</p>
+      </div>
+      <div class="panel good">
+        <h3>The connector <span class="pill live">verified 2026-07-27</span></h3>
+        <ul class="cal">
+          <li><span class="when">2026-08-04</span> Subcommittee on Landmarks, Public Sitings, Resiliency and Dispositions <span class="tagf">agenda final</span><span class="where">250 Broadway, 8th Floor, Hearing Room 1</span></li>
+          <li><span class="when">2026-08-04</span> Subcommittee on Zoning and Franchises <span class="tagf">agenda final</span><span class="where">250 Broadway, 8th Floor, Hearing Room 1</span></li>
+          <li><span class="when">2026-08-04</span> Committee on Land Use <span class="tagd">deferred</span><span class="where">250 Broadway, 8th Floor, Hearing Room 1</span></li>
+        </ul>
+        <p class="verdict">Body, room, date, and whether the agenda is actually settled.</p>
+      </div>
+    </div>
+    <div class="also">
+      <span class="lbl">Also here</span>
+      <span><code>get_event_bills</code> what's on a given agenda</span>
+      <span><code>get_upcoming_hearings</code> full agenda text</span>
+      <span><code>search_events</code> past meetings</span>
+      <span><code>nyc-record-mcp</code> public hearing notices citywide</span>
+    </div>
+    <aside class="notes">
+      <h4>Act 5</h4>
+      <p><strong>The honest detail is the third row.</strong> Land Use shows <code>Deferred</code>, not <code>Final</code>. The tool distinguishes a settled agenda from an unsettled one, so you know which meetings you can plan around.</p>
+      <p class="say">"Two of these you can plan around. The third one it's telling you not to trust yet. That distinction is the difference between a calendar and a guess."</p>
+      <p class="say">"For a new member's office still building its calendar muscle, this is the least glamorous and most immediately useful thing here."</p>
+      <p class="trap">⚠️ <code>get_upcoming_hearings</code> is extremely verbose — land use items run to hundreds of block-and-lot references. Use <code>upcoming_events</code> for the overview, as shown, and only drill into a single event's agenda on request.</p>
+      <p class="trap">⚠️ Re-run before the meeting. These are 2026-08-04 events; if you present after that date the slide is simply wrong.</p>
+    </aside>
+  </section>
+
+  <!-- 10 ── close ────────────────────────────────────── -->
+  <section class="slide">
+    <div class="eyebrow" data-reveal style="--i:0">Closing</div>
+    <h2 data-reveal style="--i:1">As your record grows, the<br>empty answers fill in.</h2>
+    <p class="sub" data-reveal style="--i:2" style="max-width:34em">Six days ago the voting question came back empty and we would have shown you a graceful failure. It shipped over the weekend. That is what building in the open looks like.</p>
+    <ol class="asks">
+      <li data-reveal style="--i:3">What is the constituent question that takes your office the longest to answer?<span>The product specification</span></li>
+      <li data-reveal style="--i:4">Where do you go now, and what breaks?<span>Usually: email the agency and wait</span></li>
+      <li data-reveal style="--i:5">What would you need to show the member for this to be worth ten minutes of your day?<span>The adoption bar</span></li>
+    </ol>
+    <p class="sub" data-reveal style="--i:6"><strong>github.com/BetaNYC/grounding-ai-with-ny-open-data</strong> &nbsp;·&nbsp; <strong>beta.nyc</strong></p>
+    <p class="disclaimer" data-reveal style="--i:7">Web searches run 2026-07-27 and reproduced verbatim. Budget re-verified 2026-07-27 via @betanyc/nyc-budget-mcp v1.3.0. Votes, Charter, calendar and committee figures verified live 2026-07-27. 311 figures verified 2026-07-21. Charter corpus current through Local Law 2026/116. Legal material is for research purposes only and does not constitute legal advice; verify current text at codelibrary.amlegal.com.</p>
+    <aside class="notes">
+      <h4>Close, then shut up and listen</h4>
+      <p class="say">"BetaNYC built these connectors and guides in the open. Any office can point its own AI at the real city and state record instead of trusting it to remember."</p>
+      <p><strong>Write the answers down.</strong> Every question they try today, working or not, becomes a test case. The failures are worth more than the successes.</p>
+      <p class="trap">⚠️ Do not recite District 4's boundaries as authoritative. The neighborhood list in <code>district-04.md</code> is inferred from award recipients, not from a districting source.</p>
+      <p><strong>Backup prompts if one falls flat:</strong> alternate-side parking suspensions (311, always returns something) · FY2027 Digital Inclusion awards citywide · what the Charter says about Council oversight powers · NYC legislation on broadband access (returns Int 1122-2024, enacted 2025-11-08).</p>
+    </aside>
+  </section>
+
+</div>
+
+<div class="notes" id="notesPanel"></div>
+<div class="bar-ui">
+  <div class="dots" id="dots"></div>
+  <div class="hint">&larr; &rarr; move · N notes · R replay · F full screen</div>
+</div>
+
+<script>
+(function(){
+  var slides = [].slice.call(document.querySelectorAll('.slide'));
+  var panel  = document.getElementById('notesPanel');
+  var dotWrap= document.getElementById('dots');
+  var i = 0, timers = [];
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var notes = slides.map(function(s){
+    var a = s.querySelector('.notes');
+    if (a) a.parentNode.removeChild(a);
+    return a ? a.innerHTML : '<p>No notes for this slide.</p>';
+  });
+
+  slides.forEach(function(_, n){
+    var b = document.createElement('button');
+    b.className='dot'; b.type='button';
+    b.setAttribute('aria-label','Slide '+(n+1));
+    b.addEventListener('click', function(e){ e.stopPropagation(); go(n); });
+    dotWrap.appendChild(b);
+  });
+  var dots = [].slice.call(dotWrap.children);
+
+  function type(el, onDone){
+    var text = el.getAttribute('data-type') || '';
+    el.classList.remove('done');
+    if (reduce){ el.textContent = text; el.classList.add('done'); onDone(); return; }
+    el.textContent = ''; var n = 0;
+    (function step(){
+      if (n > text.length){ el.classList.add('done'); timers.push(setTimeout(onDone, 220)); return; }
+      el.textContent = text.slice(0, n++);
+      timers.push(setTimeout(step, 22 + Math.random()*36));
+    })();
+  }
+
+  function play(){
+    timers.forEach(clearTimeout); timers = [];
+    var s = slides[i];
+    var panels = s.querySelectorAll('.panel');
+    [].forEach.call(panels, function(p){ p.classList.remove('in'); });
+    var typed = s.querySelectorAll('.typed');
+    if (!typed.length){ [].forEach.call(panels, function(p){ p.classList.add('in'); }); return; }
+    [].forEach.call(typed, function(el){
+      el.textContent = '';
+      timers.push(setTimeout(function(){
+        type(el, function(){
+          // left panel first, then right, so the contrast lands as a beat
+          [].forEach.call(panels, function(p, n){
+            timers.push(setTimeout(function(){ p.classList.add('in'); }, n * 420));
+          });
+        });
+      }, reduce ? 0 : 520));
+    });
+  }
+
+  function go(n){
+    if (n < 0 || n >= slides.length) return;
+    slides[i].classList.remove('is-active'); dots[i].classList.remove('on');
+    i = n;
+    void slides[i].offsetWidth;
+    slides[i].classList.add('is-active'); dots[i].classList.add('on');
+    panel.innerHTML = notes[i];
+    play();
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){ e.preventDefault(); go(i+1); }
+    else if (e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(i-1); }
+    else if (e.key==='Home'){ go(0); }
+    else if (e.key==='End'){ go(slides.length-1); }
+    else if (e.key==='r'||e.key==='R'){ go(i); }
+    else if (e.key==='n'||e.key==='N'){ document.body.classList.toggle('notes-on'); panel.classList.toggle('on'); }
+    else if (e.key==='f'||e.key==='F'){
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen();
+    }
+  });
+
+  document.addEventListener('click', function(e){
+    if (e.target.closest('.dot') || e.target.closest('.notes')) return;
+    go(e.clientX > innerWidth * 0.35 ? i+1 : i-1);
+  });
+
+  go(0);
+})();
+</script>
+</body>
+</html>

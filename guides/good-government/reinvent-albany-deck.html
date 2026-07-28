@@ -5,7 +5,7 @@
 
   STRUCTURE: every act is a side-by-side, but the LEFT panel is "by hand" — the
   manual assembly cost — not a web search. This audience can already find the
-  data; what costs them is the assembly. Acts 5 and 6 invert it: the failure IS
+  data; what costs them is the assembly. Acts 6 and 7 invert it: the failure IS
   the content.
 
   VERIFICATION DATES
@@ -212,7 +212,7 @@
       <p class="say">"You already know where this data lives — you've FOILed for worse. What I want to show you is how fast the assembly step gets when an agent can reach all of it at once, and what it does when a number isn't there."</p>
       <p><strong>Do not explain the domain.</strong> They know what Schedule C is. The pitch is never "here is discretionary funding" — it is "here is discretionary funding, queryable in seconds, by an agent that cites its source and refuses to guess."</p>
       <p><strong>Lead with limitations.</strong> Stating a coverage gap before you're asked buys more credibility here than any figure. They <em>will</em> check.</p>
-      <p><strong>Runtime ~22 minutes.</strong> If short, cut Act 4. <strong>Never cut Acts 5 or 6</strong> — the two failure acts are what this deck is for.</p>
+      <p><strong>Runtime ~22 minutes.</strong> If short, cut Act 4 or trim Act 5 to ninety seconds. <strong>Never cut Acts 6 or 7</strong> — the two failure acts are what this deck is for.</p>
       <p class="trap">⚠️ Expect hard questions about provenance and coverage. That is the good outcome.</p>
     </aside>
   </section>
@@ -227,7 +227,7 @@
       <div class="reach-item" data-reveal style="--i:4"><span class="t">City budget</span>Schedule C, capital, transparency <span class="n">33,638 awards · FY2015–FY2027</span></div>
       <div class="reach-item" data-reveal style="--i:5"><span class="t">The City Record</span>Procurement and public notices <span class="n">live</span></div>
       <div class="reach-item" data-reveal style="--i:6"><span class="t">311</span>Requests, status, calendar <span class="n">live</span></div>
-      <div class="reach-item" data-reveal style="--i:7"><span class="t">NY State legislation</span>Bills, laws, members <span class="n">231,107 bills</span></div>
+      <div class="reach-item" data-reveal style="--i:7"><span class="t">NY State legislation</span>Bills, laws, members <span class="n">231,194 bills · transcripts: 0</span></div>
       <div class="reach-item" data-reveal style="--i:8"><span class="t">Open data catalog</span>Any dataset on the portal <span class="n">SoQL</span></div>
     </div>
     <ul class="cant">
@@ -370,7 +370,7 @@
       <h4>Act 3 — the strongest capability act. And read the warning in Act 6 before you quote these numbers.</h4>
       <p class="say">"Adopted budgets get amended all year by transparency resolution, and rescissions carry negative amounts. This is money that was announced, then quietly withdrawn. A transfer shows up as a rescind and a designate on the same EIN, so the tool can distinguish 'moved' from 'taken away' — precisely the distinction a press release will not make."</p>
       <p><strong>The unattributed rows are the thing to point at.</strong> 345 of 1,291 rescissions, $176.6 million, with no council member on the row. The largest is $12.5M to DSS/HRA. Ask the room what they'd want to know next — that is the demo doing its job. Not answering the question, but getting them to the question in ten seconds instead of a week.</p>
-      <p class="trap">⚠️ <strong>These figures came from the database, not from the tool.</strong> The tool caps at 500 rows and reports $122.3M. See Act 6 — and do not quote a tool result for this act until <a href="https://github.com/BetaNYC/New-York-City-Budget/issues/42">#42</a> is fixed.</p>
+      <p class="trap">⚠️ <strong>These figures came from the database, not from the tool.</strong> The tool caps at 500 rows and reports $122.3M. See Act 7 — and do not quote a tool result for this act until <a href="https://github.com/BetaNYC/New-York-City-Budget/issues/42">#42</a> is fixed.</p>
       <p class="trap">⚠️ Say the coverage caveat before they ask: transparency resolutions are parsed for FY2010–FY2024 and FY2026. <strong>FY2025 is not in this dataset.</strong> FY2010–FY2013 org and member text is low-confidence — join on EIN.</p>
     </aside>
   </section>
@@ -418,9 +418,55 @@
     </aside>
   </section>
 
-  <!-- 7 ── ACT 5 · the wall ──────────────────────────── -->
+  <!-- ── ACT 5 · NYS legislation ──────────────────────── -->
   <section class="slide" data-demo>
-    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 5</span> The act for this room</div>
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 5</span> And Albany</div>
+    <h2 data-reveal style="--i:1">The reform graveyard,<br>queryable.</h2>
+    <div class="query" data-reveal style="--i:2;margin-top:.7em">
+      <span class="caret">&rsaquo;</span><span class="typed" data-type="Has this FOIL reform been introduced before, and what happened to it?"></span>
+    </div>
+    <div class="vs">
+      <div class="panel bad">
+        <h3>By hand</h3>
+        <ul class="serp">
+          <li>Search nysenate.gov one session at a time<span class="dom">each year is a separate search</span></li>
+          <li>Match on title, because print numbers change every session<span class="dom">A8139 becomes A6323 becomes A5485</span></li>
+          <li>Notice it moved between three sponsors over 14 years<span class="dom">nothing links them</span></li>
+        </ul>
+        <p class="verdict">Every bill is public. The <em>pattern</em> is indexed nowhere.</p>
+      </div>
+      <div class="panel good">
+        <h3>The connector <span class="pill live">verified 2026-07-27</span></h3>
+        <ul class="serp">
+          <li>A8139-2011 — Hanna, AD 130<span class="dom">referred to Real Property Taxation</span></li>
+          <li>A6323-2013 — Nojay, AD 133<span class="dom">referred, died in committee</span></li>
+          <li class="flag">A5485-2015 — Nojay <span class="tag">— enacting clause stricken 2016-09-19</span></li>
+          <li>A5768-2017 — Errigo, AD 133<span class="dom">referred, died in committee</span></li>
+        </ul>
+        <p class="verdict">Same title, same summary. Four sessions, three sponsors, none became law.</p>
+      </div>
+    </div>
+    <p class="sub" data-reveal style="--i:13;margin-top:.7em">And a live one: Linda Rosenthal's FOIL and Open Meetings review bill, <strong>A7933-2023 → A3140-2025</strong>, re-referred to Governmental Operations on <strong>2026-01-07</strong>. Still pending.</p>
+    <div class="also">
+      <span class="lbl">Also here</span>
+      <span><code>get_bill_votes</code> roll calls</span>
+      <span><code>get_member</code> 1,992 members</span>
+      <span><code>search</code> full text across <strong>231,194 bills</strong></span>
+    </div>
+    <aside class="notes">
+      <h4>Act 5 — keep it to two minutes. It exists because of their name.</h4>
+      <p><strong>Why this act is for them specifically.</strong> Reinvent Albany tracks which reforms die repeatedly. "How many times has this been introduced and killed" is a days-long research task in Albany and a ten-second question here — because print numbers change every session and nothing upstream links a bill to its own past lives.</p>
+      <p class="say">"Same bill, same summary, four sessions, three different sponsors, fourteen years. In 2016 someone struck the enacting clause. None of it became law, and no single page anywhere tells you that."</p>
+      <p class="trap">⚠️ <strong>Do not say A3140-2025 "died."</strong> It was re-referred to Governmental Operations on 2026-01-07 and is live this session. The dead one is the real-property-tax lineage. Getting that backwards in front of this room would be bad.</p>
+      <p class="trap">⚠️ <strong>Coverage gaps in this connector, volunteer them.</strong> The local corpus holds <strong>231,194 bills and 1,992 members</strong> — but <strong>floor transcripts and hearing transcripts are both 0 rows</strong>, and NYS law sections number only <strong>137</strong>. The transcript tools exist and reach the live API, but there is no local corpus behind them. <strong>Do not demo transcript search.</strong> Stick to bills, which is where the substance is. Verified against <code>corpus.db</code> 2026-07-27.</p>
+      <p><strong>The refusal is worth reading aloud here.</strong> Passing <code>query=</code> instead of <code>term=</code> returns: <em>"Unrecognized parameters are rejected rather than ignored, because silently dropping a filter returns real data that answers a different question."</em> That sentence is the entire thesis of the meeting, written by the tool.</p>
+      <p class="trap">⚠️ Statuses move. Re-verify before the meeting — this is bills in committee, and a bill can be reported out between now and Thursday.</p>
+    </aside>
+  </section>
+
+  <!-- 8 ── ACT 6 · the wall ──────────────────────────── -->
+  <section class="slide" data-demo>
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 6</span> The act for this room</div>
     <h2 data-reveal style="--i:1">Published, and machine-hostile.</h2>
     <div class="query" data-reveal style="--i:2;margin-top:.7em">
       <span class="caret">&rsaquo;</span><span class="typed" data-type="Check Checkbook for FY2026 spending paid to Community League of the Heights."></span>
@@ -457,9 +503,9 @@
     </aside>
   </section>
 
-  <!-- 8 ── ACT 6 · our own bug ───────────────────────── -->
+  <!-- 9 ── ACT 7 · our own bug ───────────────────────── -->
   <section class="slide">
-    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 6</span> And the thing we got wrong</div>
+    <div class="eyebrow" data-reveal style="--i:0"><span class="act">Act 7</span> And the thing we got wrong</div>
     <h2 data-reveal style="--i:1">We found this in our own<br>tool this morning.</h2>
     <div class="vs" style="margin-top:1em">
       <div class="panel bad">
@@ -495,7 +541,7 @@
     </aside>
   </section>
 
-  <!-- 9 ── close ─────────────────────────────────────── -->
+  <!-- 10 ── close ─────────────────────────────────────── -->
   <section class="slide">
     <div class="eyebrow" data-reveal style="--i:0">Closing</div>
     <h2 data-reveal style="--i:1">Fork it and find what<br>we got wrong.</h2>

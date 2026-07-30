@@ -4,19 +4,30 @@ status: DRAFT
 
 # Demo script — good-government / watchdog audience (Reinvent Albany)
 
-> **DRAFT.** Revised 2026-07-27. A run-it-live script for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to a **good-government or watchdog organization** — written for **Reinvent Albany**, and reusable for Citizens Union, CBC, NYPIRG, the Fiscal Policy Institute, or an investigative newsroom.
+> **DRAFT.** Revised 2026-07-27, **revised again 2026-07-30**. A run-it-live script for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to a **good-government or watchdog organization** — written for **Reinvent Albany**, and reusable for Citizens Union, CBC, NYPIRG, the Fiscal Policy Institute, or an investigative newsroom.
 >
 > **Slide companion:** [`reinvent-albany-deck.html`](reinvent-albany-deck.html). Same acts, presentation medium, every warning below carried in its presenter notes (press `N`). **This file stays the source of truth for figures and provenance.**
 >
-> **Figures are dated individually in the presenter-notes provenance table.** Act 2, Act 3 and § 23-507 were re-verified 2026-07-27; the open data portal findings in Act 4 and the Checkbook status in Act 6 are from 2026-07-21 and were **not** re-pulled.
+> **Figures are dated individually in the presenter-notes provenance table.** Act 2's Schedule C figures, Act 3 and § 23-507 were re-verified 2026-07-27; Act 2's Checkbook figures were re-verified 2026-07-30; the open data portal findings in Act 4 are from 2026-07-21 and were **not** re-pulled.
 
-> 🚨 **Act 3's figures changed by $90 million on 2026-07-27, and the reason is now Act 6 of the deck.** The tool that produces them caps at 500 rows without saying so. Read the Act 3 correction block before you present anything from it. [New-York-City-Budget#42](https://github.com/BetaNYC/New-York-City-Budget/issues/42).
+> 🚨 **Act 3's figures changed by $90 million on 2026-07-27.** The tool that produces them caps at 500 rows without saying so. Read the Act 3 correction block before you present anything from it. [New-York-City-Budget#42](https://github.com/BetaNYC/New-York-City-Budget/issues/42).
+
+> ### 🔄 Revision note — what changed on 2026-07-30
+>
+> The Checkbook material in this script was built around an outage. **That outage is over, and the reason it ended changes what Act 6 says.**
+>
+> - **Checkbook API access was restored 2026-07-28.** Verified live again 2026-07-30. The Act 2 reconciliation runs as originally written; the outage warnings are gone.
+> - **The residual block turned out to be ours, not theirs.** We were exceeding an undocumented 1 req/sec limit. Any framing of this as "the city blocked us" is now false. Fixed in `nyc-checkbook-mcp` v1.6.0.
+> - **The Comptroller's office answered our letter in two days**, fixed two drifted catalog entries, and **corrected one of our own findings**: Prime Registration Date *is* exposed.
+> - **Do not attempt the 403 as a live demo.** It asked the agent for a record that no longer fails to return.
+>
+> ⚠️ **The 2026-07-27 scope decision still stands and is not reopened by any of this.** This act carries **no ask** and does not critique another office's dashboard. Report the failure shape, say what we did about it, and stop.
 
 This audience is different from every other script in this repo, and the difference should shape the whole meeting.
 
-**They are not the constituency. They are the oversight.** A council member wants to see their own district; a watchdog wants to see the thing nobody has assembled yet. So this script is not district-scoped, and it does not try to impress with a clean lookup. It goes straight at the questions this audience actually lives on: **where did the money go, what got taken back, what was supposed to be published but wasn't, and what is published but cannot be reached.**
+**They are not the constituency. They are the oversight.** A council member wants to see their own district; a watchdog wants to see the thing nobody has assembled yet. So this script is not district-scoped, and it does not try to impress with a clean lookup. It goes straight at the questions this audience actually lives on: **where did the money go, what got taken back, what was supposed to be published but wasn't, and what is published but cannot be joined to anything.**
 
-That last one is Act 6, and it is the only act in this repo that demonstrates a failure rather than a capability. For this room it is the strongest material in the script.
+Act 6 is the one that closes the loop: it is the only act in this repo where BetaNYC is the subject rather than the tool, and where we were the ones who turned out to be wrong. For this room that is the strongest material in the script.
 
 They also already know this domain better than you do. Do not explain Schedule C to Reinvent Albany. The pitch is not "here is discretionary funding" — it is "here is discretionary funding, queryable in seconds, by an agent that cites its source and refuses to guess."
 
@@ -25,9 +36,17 @@ They also already know this domain better than you do. Do not explain Schedule C
 ## Before you start (2 min)
 
 - No district to pre-fill. This script runs citywide.
-- Have [Checkbook NYC](https://www.checkbooknyc.com) and [NYC Open Data](https://data.cityofnewyork.us) open. **You will need the Checkbook tab.** As of 2026-07-21 its API returns HTTP 403 to automated requests, so any Checkbook step has to be done by hand. Act 6 turns that into the material; Act 2 needs it as a fallback.
-- Runs about 25 minutes with Act 6, 22 without. Act 5 is already marked optional. **If you are short on time, cut Act 5 rather than Act 6** — Act 6 is the one written for this audience.
+- Have [Checkbook NYC](https://www.checkbooknyc.com) and [NYC Open Data](https://data.cityofnewyork.us) open as reference tabs. **The Checkbook API works again** as of 2026-07-28, so no step needs to be done by hand.
+- Runs about 26 minutes with Act 6, 22 without. Act 5 is already marked optional. **If you are short on time, cut Act 5 rather than Act 6** — Act 6 is the one written for this audience.
 - Expect to be interrupted with hard questions about provenance and coverage. **That is the good outcome.** The presenter notes below are written so you can answer them.
+
+> ⚠️ **Check your egress IP before you demo, and before you quote any failure to anyone.**
+>
+> ```
+> curl -s https://api.ipify.org
+> ```
+>
+> The BetaNYC office is `50.74.128.42`. **`janus` routes through a commercial VPN by default** (`utun10`, separate from Tailscale), which egresses from a datacenter address. On 2026-07-27 that nearly produced a "your fix did not work" report to a CIO who had just done real work for us. A 403 mid-demo is far more likely to be your own network path than Checkbook.
 
 **Opening line:**
 > "You already know where this data lives — you've FOILed for worse. What I want to show you is how fast the assembly step gets when an agent can reach all of it at once, and what it does when a number isn't there."
@@ -71,21 +90,24 @@ Not one district. The whole map.
 **What to say:**
 > "One vendor, 54 separate discretionary decisions by 41 different council members, six and a half million dollars, and no single line item anywhere that says so. Assembling this by hand means reading the Schedule C PDF end to end. That's the afternoon this replaces."
 
-**Then the reconciliation, on a smaller organization so the numbers stay legible:**
+**Then the reconciliation, on a smaller organization so the numbers stay legible.**
 
-> 🚨 **Checkbook is returning HTTP 403 as of 2026-07-21 21:00 — this half of Act 2 will fail live.** Not the known `smart_search` block: the *structured* `/api` endpoint is blocked too. **Diagnosed:** the homepage 403s to `curl` from the same machine where it loads fine in a browser, and a Chrome User-Agent does not help — Incapsula's JavaScript challenge, which a browser passes and an API client cannot. Site-wide, not `/api`-specific, and **we will not work around it.** The figures below are from 2026-07-16 and could not be re-verified.
->
-> **For this room specifically, the cause is more interesting than the outage.** A public-data site that a human can read but a program cannot is a live, checkable example of the access gap this audience campaigns on. The data is not secret — it is published, and it is machine-hostile. That is a better Act 2 than the reconciliation, and it is true.
->
-> **This audience will ask what happens when a source is unavailable — so make that the answer.** The tool returns `total_records: 0` with `records: []` **and** an `error: "HTTP 403"` field in the same payload. That is worth showing them deliberately: a count of zero sitting next to an error is exactly how a "no records found" claim gets manufactured from an outage. It is a live example of the thesis, and more useful to this room than the reconciliation would have been. Filed for fixing.
->
-> If Checkbook is back by the meeting, re-verify before quoting:
+**Prompt:**
+> "Check NYC Checkbook for FY2026 spending paid to Community League of the Heights."
 
-> "Community League of the Heights received $30,000 from Council Member De La Rosa in FY2026. In Checkbook, the same organization shows 32 FY2026 payment records — including **$107,244.16 and $33,000 under budget code `3625 (Tax Levy Elected Officials)`**."
+**Verified live 2026-07-30** (`search_spending(payee_name="Community League of the Heights", fiscal_year="2026")`): **32 payment records totaling $1,040,448.79**, across DYCD, DOE, SBS, DOT, and Small Business Services. Three of those checks sit under budget code **`3625 (TAX LEVY ELECTED OFFICIALS)`**: **$107,244.16**, **$33,000.00**, and **$2,560.00** — **$142,804.16** in total.
 
 **The line to land:** "That budget code is the join. It's discretionary money appearing as an actual disbursement. Allocation in one system, check in another, connected in two questions."
 
-> **Sharpen it for this room:** the interesting output of this pattern is not the match — it's the **mismatch**. Allocations with no corresponding spending, or spending that exceeds allocation, are the thing worth chasing. The tooling makes that comparison cheap enough to run across every organization rather than the three you already suspected.
+> 🚩 **Do not say $107,244.16 is De La Rosa's $30,000 arriving. It is not, and this room will catch it.**
+>
+> The allocation side shows CLOTH receiving **$30,000 from Council Member De La Rosa** in FY2026. The disbursement side shows **$142,804.16** under Tax Levy Elected Officials. Those do not reconcile because **code `3625` aggregates discretionary spending from every elected official to that vendor**, not De La Rosa's award alone. Other members funded CLOTH too.
+>
+> **State that gap out loud — it is the more interesting finding.** The budget code gets you from an allocation to a real check. Getting from there to *whose* allocation that check discharges is a further step the code does not give you. So the join is real, and it is coarser than it looks.
+>
+> That is this folder's fourth question in one live example: **published, current, and still not joinable to the unit governance actually uses.** For an audience that campaigns on exactly this, a demonstrated limit is worth more than a clean match.
+
+> **Sharpen it for this room:** the interesting output of this pattern is not the match — it's the **mismatch**. Allocations with no corresponding spending, or spending that exceeds allocation, are the thing worth chasing. The tooling makes that comparison cheap enough to run across every organization rather than the three you already suspected. Just be precise about which mismatches are findings and which are artifacts of a coarse budget code.
 
 ---
 
@@ -188,58 +210,72 @@ The act that speaks their language most directly.
 **Prompt:**
 > "What NYC procurement solicitations are currently open, and which agencies posted them?"
 
-**Verified:** returns live City Record notices with agency, PIN/EPIN, selection method, due date, and contact — e.g. FDNY `05726B0010` (mark-out and core drilling, competitive sealed bids, due 2026-07-21 14:00), NYCHA `522172`, DEP `82626B0026`.
+**Verified 2026-07-21:** returns live City Record notices with agency, PIN/EPIN, selection method, due date, and contact — e.g. FDNY `05726B0010` (mark-out and core drilling, competitive sealed bids, due 2026-07-21 14:00), NYCHA `522172`, DEP `82626B0026`.
+
+> ⏳ **Those examples have expired.** FDNY `05726B0010` closed 2026-07-21 14:00. **This act is only worth running live** — the whole point is that the notices are current, and reading out a solicitation that closed last week undercuts it. Run the prompt fresh in the meeting and read whatever comes back. Do not quote the three above.
 
 **What to say:** "The City Record, queryable. Same source as the daily PDF, without reading the daily PDF."
 
 ---
 
-## Act 6 — The thing we cannot show you (3 min)
+## Act 6 — What happened when we asked (4 min)
 
-**This is the act for this audience specifically.** Every other act demonstrates something working. This one demonstrates a wall, and the wall is the point. Run it only if the room is engaged; it is the strongest close available here but it needs three minutes of real attention.
+**This is the act for this audience specifically.** Every other act demonstrates the tooling. This one demonstrates the *process* — what it looks like to find a public-data access problem, report it through the front door, and be told you were partly the cause. Run it only if the room is engaged. It is the strongest close available here and it needs four minutes of real attention.
 
-### Part one: show the block, live
+> **Do not run part one as a live query.** The 2026-07-21 version of this act demoed a 403. Access was restored 2026-07-28 and re-verified 2026-07-30 — the query now simply works. This act is told, not demoed.
 
-**Prompt:**
-> "Check NYC Checkbook for FY2026 spending paid to Community League of the Heights."
-
-**What comes back:** nothing. As of 2026-07-21 the Checkbook API returns HTTP 403 to every automated request.
+### Part one: the round-trip, in four dates
 
 **What to say:**
-> "The site is up. I can pull this record by hand in a browser right now, and I will if you want. What I cannot do is reach it programmatically. There is a bot-protection layer in front of checkbooknyc.com, and as of this week it covers the documented XML API, not just the search box."
+> "Between July 16 and July 21, Checkbook's documented API started returning 403 to us. The site loaded fine in a browser. On the 22nd we sent a letter to the Comptroller's office. They answered on the 24th — two days — with a real technical response, looped in their CIO, and offered a call. On the 28th we got on that call and access was working."
 
-**Then the part that belongs to this room:**
-> "Notice the shape of the failure. The tool returns a record count of zero, an empty result set, and an error field, all in the same response. If you read the count and not the error, the honest answer 'we could not reach Checkbook' becomes the false answer 'this organization received no city money.' That is a public-data outage that reads as a finding."
+**Then the part that belongs to this room, and do not soften it:**
+> "And the residual block was ours. We were exceeding a rate limit of one request per second. Their fix had already worked; what we were still measuring was our own client getting itself blocked. We shipped the fix on our side — rate pacing, backoff, and we stopped following redirects, which was turning one logical API call into about forty requests against their origin."
 
-We filed that as a bug against our own connector rather than shipping around it: [nyc-checkbook-mcp#21](https://github.com/BetaNYC/nyc-checkbook-mcp/issues/21).
+**Why this is the right material for this audience:** they spend their working lives being told that a data problem is somebody else's fault. An organization that says "we asked, they fixed it, and then the rest of it was us" is establishing that its findings are worth trusting when they *do* point outward. **The correction is the credential.**
 
-### Part two: the Late-Contracts Dashboard
+> **Presenter note — the near-miss, if the room is technical.** On 2026-07-27 we retested and got a fresh 403, and nearly reported "your fix did not work" to a CIO who had just done real work for us. The test had egressed through a VPN on a datacenter IP, not the office address the office had investigated. Chrome from the same address loaded the site fine, which is what caught it. **One source address, two clients, minutes apart: browser 200, command line 403.** That is how we established the discriminator was the client and not the network — and it is why the standing rule is now to check your egress IP before reporting any test result to an office whose diagnosis keys on source IP.
 
-**This is the substantive ask, and it is squarely their beat.**
+### Part two: what we got wrong, and who corrected it
 
-On July 8 the Comptroller launched a [Late-Contracts Dashboard](https://www.checkbooknyc.com/late-contracts) tracking vendor contracting and payment delays. It is real accountability work and worth saying so.
+> ⚠️ **Scope, per the 2026-07-27 decision. This part reports on our own work only.** An earlier draft critiqued a dashboard published by the Comptroller's office. **That critique is not in this script and is not reinstated by the fact that we now have more information about it.** Describe our own error; do not evaluate another office's product in front of a third party.
+
+Our 2026-07-09 audit made two claims about reproducing a published figure. **The office answered both, and corrected us on one.**
+
+| Our claim | What turned out to be true |
+|---|---|
+| A prime-expense **registration date** was not exposed | ❌ **We were wrong.** Prime Registration Date *is* exposed as a response field |
+| A **non-profit vendor classification** was not published | ✅ Correct. Not exposed; they said they will consider it |
 
 **What to say:**
-> "Two things that dashboard is built on do not appear to be reachable through the public API. The 'average days late' number needs a prime-expense registration date that is not exposed as a filter or a response column. The non-profit vendor filter is backed by a classification we cannot find published anywhere, in the API or on the open data portal. So the dashboard's own numbers are not independently reproducible by anyone outside the office."
+> "We published two findings about data we couldn't reach. One of them was simply wrong — the field was there and we missed it. They told us so, and we corrected it. That's worth saying out loud, because it is the same standard we're asking you to hold our numbers to."
 
-> "That is not an accusation. It is the ordinary result of building a dashboard against internal data. But it means the accountability analysis stops at the dashboard's edge. You cannot extend it, cross it against anything, or check it."
+**Also confirmed by the office:** the Checkbook 2.0 migration **dropped no documented API fields or domains**, and external applications can keep using the API without going through the web interface. We can now state that rather than infer it. They also fixed two drifted NYC Open Data catalog entries we had flagged.
 
-**The honest framing, and do not skip it:** this is our audit's finding, from July 9, and it is checkable. We could be wrong. The docs are public and so is our reasoning.
+### Part three: the limits that are documented nowhere
 
-### Part three: what we are actually doing about it
+> ⚠️ **This part carries NO ask.** Report the finding and stop. Do not invite the room to co-sign anything, and do not suggest their name would carry it further. That framing was removed on 2026-07-27 and is not coming back.
 
-> "We have a letter going to the Comptroller's office asking for three things: restore programmatic access, confirm the Checkbook 2.0 migration dropped no documented fields, and expose the data behind the Late-Contracts Dashboard through the public API. We are asking rather than working around it. We have not spoofed headers or tried to defeat the bot protection, and we are not going to. The route to public data access is the front door, and we would rather be able to say that."
+**What to say:**
+> "Checkbook enforces two operational limits. One request per second, and twenty thousand records per call. Neither is documented anywhere on checkbooknyc.com — not on the API landing page, not in the global parameters table, not on any domain page. We only learned both numbers in conversation with the office."
 
-**Then the hook, which is the reason this act exists:**
-> "You have more standing on this than we do. If a request like that carries more weight with your name next to it, we would welcome that."
+> "That's the part worth knowing. Not that the limits exist — they're reasonable limits. It's that the only way we learned them was to violate one and get blocked. An independent researcher hitting the same wall just experiences an outage and concludes the data is unreliable."
 
-> **Presenter note:** do not promise anything about the letter's status. As of 2026-07-21 it is drafted and unsent. If asked, say exactly that. And if someone in the room asks to see it, that is the best outcome this act can produce.
+**Two smaller documentation observations, if they want specifics:**
+
+- The API landing page says **20,000 records per call**; every domain parameter table says **fewer than 1,000** and caps the field at four characters, which cannot express 20000. We tested — **20,000 is correct** and the tables are stale.
+- The landing page says `records_from`; the parameter tables say `record_from`.
+
+**How to close the act:**
+> "We've passed all of that back to them. That's where it sits."
+
+> **Presenter note — the letter's status, and get this right.** The letter was **sent 2026-07-22** and **answered 2026-07-24**. Do not describe it as pending, unsent, or unanswered. The relationship is live and cooperative: **Richard Lundy** (Assistant Comptroller, IT Operations/CIO) is the technical route, **Matt Rubin** (Chief of Staff) is the relationship owner. We replied 2026-07-29 confirming access works, owning the rate-limit fault, and asking whether the limit is scoped per IP or per client. **That question is outstanding** — and it is ours to pursue, not the room's. If someone volunteers to weigh in, that is their initiative and a fine outcome; **you do not solicit it.**
 
 ---
 
 ## Closing (1 min)
 
-> "All of this is open. The connectors are public repos, the guides are CC BY-SA, and almost none of it requires an API key — Checkbook is the exception we just talked about, and we would like to fix that in public. We'd rather you fork it and find the things we got wrong than take our word for any of it. And if there's a query your team runs constantly by hand, that's exactly the user journey we want to add."
+> "All of this is open. The connectors are public repos, the guides are CC BY-SA, and most of it requires no API key at all. Every bug I described in Act 6 is a public issue with our name on it, including the one where we were the problem. We'd rather you fork it and find the things we got wrong than take our word for any of it. And if there's a query your team runs constantly by hand, that's exactly the user journey we want to add."
 
 **Leave-behind links:**
 - This repo: [`grounding-ai-with-ny-open-data`](https://github.com/BetaNYC/grounding-ai-with-ny-open-data)
@@ -304,7 +340,8 @@ From `list_available_fiscal_years`:
 
 ### Tool behavior
 
-- **Checkbook `smart_search` is blocked** by an Incapsula WAF challenge. Use the structured tools; `search_spending` requires `fiscal_year` or `issue_date_from`.
+- **Checkbook operates two limits, neither documented on their site:** **1 request per second** and **20,000 records per call**. Exceeding the first puts you in a block that persists past the burst and returns 403 to *every* client on that IP, a browser included — which is exactly how a rate-limit block gets misread as a site outage. `nyc-checkbook-mcp` **v1.6.0** ships a rate pacer, retry backoff, and no redirect following. Use v1.6.0 or later.
+- **`smart_search` is being removed, and the reason is worth knowing.** It was never part of Checkbook's supported API surface — the office told us so directly, and their logs show our July 16 calls to it rejected on that basis. This was never a WAF problem. Tracked in [nyc-checkbook-mcp#25](https://github.com/BetaNYC/nyc-checkbook-mcp/issues/25). Use the structured tools; `search_spending` requires `fiscal_year` or `issue_date_from`.
 - **`search_contracts` genuinely cannot filter by vendor name** — the Checkbook contracts API filters vendors only by `vendor_code` and offers no name→code lookup. Credit where due: passing the *declared* `vendor_name` parameter returns an explicit error naming the limitation and listing the three supported alternatives, rather than silently returning unrelated contracts. That is the right behavior and worth showing this audience as an example of a tool that refuses rather than guesses. **The sharp edge, and the better version of the story:** until 2026-07-21 that careful guard was defeated by a one-word typo — the undeclared `vendor` bypassed it entirely and returned millions of unrelated rows. Checkbook **1.4.0** closes it: `vendor` is now rejected and the message points at `vendor_name`. A guard that only fires on the spelling you anticipated is precisely why schema strictness matters more than any individual check, and this server is now the worked example of both halves.
 - **`search_legislation` matches bill titles, not subject matter.** Single keywords work; multi-word conceptual phrases return `[]`. A sensible keyword can miss entirely — `"encampment"` finds nothing.
 - **✅ `get_voting_record` now refuses instead of returning `[]`** (council **2.5.0**, verified live 2026-07-21). The `votes` table still has 0 rows — that is unchanged — but the tool now says so, explains that the source archive holds attendance rather than aye/nay, and names three working alternatives ([#19](https://github.com/BetaNYC/nyc-council-mcp/issues/19)). **Read it aloud if it comes up:** for this audience, a tool that declines and explains itself is the demo. `vote_breakdown` is the same; **`get_votes` is not** — it reads the live Legistar API rather than the local table and was never affected.
@@ -320,19 +357,22 @@ From `list_available_fiscal_years`:
 |---|---|
 | Open data statutory chain | `nyc-charter-laws-rules search("open data")`; `nyc-council-mcp search_legislation("open data")` |
 | ACE: 54 FY2026 awards, $6,455,750 | `search_awards(organization="Association of Community Employment", fiscal_year=2026, limit=60)` |
-| CLOTH $30,000 De La Rosa; 32 Checkbook records; Tax Levy Elected Officials | `search_awards(...)`; `search_spending(payee_name=…, fiscal_year=2026)` |
+| CLOTH: 32 FY2026 Checkbook records, **$1,040,448.79** total; code `3625` = **$142,804.16** across 3 checks | **Re-verified live 2026-07-30** from the office IP `50.74.128.42`: `search_spending(payee_name="Community League of the Heights", fiscal_year="2026")` → HTTP 200, `total_records: 32`, `has_more: false` |
+| CLOTH $30,000 award from De La Rosa (allocation side) | `search_awards(...)`, **2026-07-21, not re-verified since.** This does **not** reconcile to the $142,804.16 above — code `3625` aggregates every elected official's discretionary money to the vendor. See the flag in Act 2 |
 | **FY2026 rescissions: 1,291 rows, $212,600,875, Resos 1–10** | Read directly from `mcp/data/budget.db` on 2026-07-27, **not** from the tool: `SELECT COUNT(*), SUM(ABS(amount)) FROM transparency WHERE source_fy=2026 AND action='rescind'`. The tool caps at 500 and reports $122,285,988 — see [#42](https://github.com/BetaNYC/New-York-City-Budget/issues/42). The tool's `fiscal_year` parameter filters `source_fy`, so the comparison is like-for-like |
 | **345 unattributed rescissions, $176,596,955** | Same query with `AND TRIM(COALESCE(council_member,''))=''`. Verified 2026-07-27 |
 | **41 ACE sponsors = 39 members + Brooklyn and Queens delegations** | `SELECT COUNT(DISTINCT member) FROM awards WHERE fiscal_year=2026 AND organization LIKE '%Association of Community Employment%'`, then filtered for delegation values. Verified 2026-07-27 |
 | **§ 23-507 full text** | `get_section(citation="23-507")` — verified live 2026-07-27. L.L. 2017/251, eff. 12/17/2017 |
+| **Checkbook access restored; 1 req/sec and 20,000-record limits** | Troubleshooting session with the Comptroller's office 2026-07-28; both limits stated verbally, neither published. Re-verified from the office IP 2026-07-30 |
 | CTE datasets stop at 2019-2020 | Socrata catalog, two independent search terms |
 | Broadband dataset covers SD 10–34 + 36 only | Socrata `9bjg-n96a` |
 | Open solicitations | `nyc-record-mcp get_open_solicitations` |
 
 **Not independently verified this session:**
 - **Whether the Local Law 174 CTE report was actually produced** and simply not published as open data. Only the portal's contents were checked. State the narrow claim.
-- **Act 6's Late-Contracts claims are OUR audit's finding, dated 2026-07-09, not an established fact.** We found no documented public API behind the dashboard, and no published source for the non-profit vendor classification. That is an absence we searched for, which is weaker evidence than a presence we found. Say "we could not find it published" and not "it is not published." If the office produces a source, that is a good outcome and we update the audit. Basis: `team/engineering/2026-07-09-checkbook-2.0-api-audit.md` and [nyc-checkbook-mcp#11](https://github.com/BetaNYC/nyc-checkbook-mcp/issues/11).
-- **The letter in Act 6 part three is DRAFTED AND UNSENT as of 2026-07-21.** Do not describe it as sent, delivered, or pending a response. If asked where it stands, say it is drafted and we have not sent it yet. Check before the meeting — this is the single fastest fact in the script to go stale.
+- ✅ **RESOLVED 2026-07-24 — the Late-Contracts claims were answered, and half of ours was wrong.** Our 2026-07-09 audit said the prime-expense registration date was not exposed. **The office corrected us: it is.** The non-profit vendor classification genuinely is not published, and they will consider exposing it. This is the worked example of why the "absence we searched for is weaker than a presence we found" rule exists — we published an absence and it did not hold. Basis: `team/engineering/2026-07-09-checkbook-2.0-api-audit.md`, [nyc-checkbook-mcp#11](https://github.com/BetaNYC/nyc-checkbook-mcp/issues/11), and `team/contacts/agencies/office-of-the-new-york-city-comptroller.md`. **Per the 2026-07-27 scope decision this is background, not presentation material** — the dashboard critique is not in the script.
+- ✅ **RESOLVED — the letter was SENT 2026-07-22 and ANSWERED 2026-07-24.** The old note here said "drafted and unsent"; that is now false and would be caught. We replied 2026-07-29. **One question is genuinely outstanding: whether the 1 req/sec limit is scoped per IP or per client.** That is the only part of this thread you should describe as open, and **you are not asking the room to join it.**
+- **Whether Checkbook's rate limit is published anywhere we have not looked.** We checked the API landing page, the global parameters table, and every domain page, and the office confirmed verbally that it is undocumented. That is strong, but it is still our search plus their word. Say "the office told us it isn't documented, and we couldn't find it either" rather than asserting it as fact.
 - **Whether the missing member attribution on the unattributed rescissions is a data-extraction artifact or genuinely absent from the source document.** Do not assert it is a transparency failure. If asked, offer to check the source resolution PDF via the Legistar crosswalk. This applies to **345 rows worth $176.6M**, not a handful.
 - ~~**The complete FY2026 rescission count and total.**~~ **Established 2026-07-27: 1,291 rescissions, $212,600,875.** Read from the database, because the tool cannot return it — see [#42](https://github.com/BetaNYC/New-York-City-Budget/issues/42).
 - **That $6,455,750 is ACE's complete FY2026 total** — the query returned 54 rows against a limit of 60, so it is very likely complete, but re-run with a higher limit before publishing the figure.

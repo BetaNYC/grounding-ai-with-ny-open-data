@@ -1,0 +1,26 @@
+# GitHub Pages configuration.
+#
+# No `theme:` key on purpose. This repo supplies its own `_layouts/default.html`,
+# which takes precedence over any theme gem, so the site renders in BetaNYC brand
+# rather than the stock Jekyll look.
+#
+# The three plugins this site depends on are part of GitHub Pages' always-on set
+# and are NOT listed here — listing them is unnecessary and listing them wrongly
+# is a way to break the build:
+#   jekyll-optional-front-matter  renders every .md despite none having front matter
+#   jekyll-default-layout         gives those pages `layout: default` automatically
+#   jekyll-relative-links         rewrites in-document .md links to published .html
+#
+# ⚠️ Bare directory links (`guides/educators/`) still 404 on the published site,
+# because jekyll-readme-index only indexes the ROOT readme. Link to the file
+# (`guides/educators/README.md`) so it resolves on github.com and here.
+
+title: Grounding AI with NY Open Data
+description: >-
+  A practical resource for grounding AI agents in authentic, verifiable New York
+  City and New York State open data, built by BetaNYC.
+
+# Nothing is excluded on purpose. `index.md` becomes the front page, which stops
+# jekyll-readme-index promoting the root README — so README.md now publishes at
+# /README.html instead, and the `../README.md` links in resources/ still resolve.
+# Excluding it would break them.

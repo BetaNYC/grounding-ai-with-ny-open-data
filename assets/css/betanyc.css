@@ -1,0 +1,199 @@
+/* ============================================================
+   BetaNYC — grounding-ai-with-ny-open-data
+   Brand tokens from archive/betanyc/brand.md (finalized 2026-05-06),
+   the same set the HTML decks use, so the site and the decks read as
+   one thing.
+
+   NO EXTERNAL REQUESTS. Fonts fall back to a system stack if Poppins
+   and Roboto are not installed locally. This mirrors the decks' offline
+   guarantee and keeps the site usable on a captive-portal conference
+   network.
+   ============================================================ */
+
+:root{
+  --bnyc-blue:#2359a8;
+  --bnyc-blue-secondary:#B8D6FF;
+  --bnyc-bg-blue:#EEF4FF;
+  --bnyc-bg-blue-light:#F9FAFF;
+  --bnyc-white:#FFFFFF;
+  --bnyc-black:#000000;
+  --bnyc-dark-gray:#414141;
+  --bnyc-light-gray:#F1F1F1;
+  --bnyc-border-gray:#949494;
+
+  --font-display:'Poppins','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --font-heading:'Roboto','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+  --measure:38rem;      /* reading width for prose */
+  --wide:64rem;         /* page frame */
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--font-display);
+  color:var(--bnyc-dark-gray);
+  background:var(--bnyc-white);
+  line-height:1.6;
+  font-size:17px;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- Frame ---------- */
+.wrap{max-width:var(--wide);margin:0 auto;padding:0 1.4rem}
+
+.site-header{
+  background:var(--bnyc-blue);
+  color:var(--bnyc-white);
+  padding:1.1rem 0;
+}
+.site-header a{color:var(--bnyc-white);text-decoration:none}
+.site-header .bar{display:flex;align-items:baseline;gap:1.4rem;flex-wrap:wrap}
+.site-header .mark{
+  font-family:var(--font-display);font-weight:800;
+  font-size:1.2rem;letter-spacing:-.01em;
+}
+.site-header nav{display:flex;gap:1.1rem;flex-wrap:wrap;margin-left:auto}
+.site-header nav a{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:.76rem;text-transform:uppercase;letter-spacing:.09em;
+  opacity:.92;
+}
+.site-header nav a:hover{opacity:1;text-decoration:underline}
+
+.site-footer{
+  border-top:1px solid var(--bnyc-border-gray);
+  margin-top:4rem;padding:2rem 0 3rem;
+  font-size:.9rem;color:var(--bnyc-dark-gray);
+}
+.site-footer a{color:var(--bnyc-blue)}
+.site-footer .lic{margin-top:.7rem;font-size:.82rem;opacity:.8}
+
+/* ---------- Content ---------- */
+main{padding:2.6rem 0 1rem}
+main > *{max-width:var(--measure)}
+main > .full{max-width:none}
+
+h1,h2,h3,h4{color:var(--bnyc-blue);line-height:1.18;font-weight:800}
+h1{font-size:2.3rem;letter-spacing:-.02em;margin-bottom:.5rem}
+h2{font-family:var(--font-heading);font-size:1.5rem;margin:2.4rem 0 .7rem}
+h3{font-family:var(--font-heading);font-size:1.15rem;margin:1.8rem 0 .5rem}
+h4{font-family:var(--font-heading);font-size:1rem;margin:1.4rem 0 .4rem}
+
+p,ul,ol{margin-bottom:1.05rem}
+ul,ol{padding-left:1.3rem}
+li{margin-bottom:.35rem}
+a{color:var(--bnyc-blue)}
+strong{color:var(--bnyc-blue)}
+hr{border:0;border-top:1px solid var(--bnyc-border-gray);margin:2.6rem 0;opacity:.5}
+
+.lede{font-size:1.22rem;line-height:1.5;margin-bottom:1.5rem}
+
+blockquote{
+  border-left:3px solid var(--bnyc-blue-secondary);
+  padding:.15rem 0 .15rem 1rem;
+  margin:1.2rem 0;
+  color:var(--bnyc-dark-gray);
+}
+blockquote > :last-child{margin-bottom:0}
+
+code{
+  font-family:var(--font-mono);font-size:.88em;
+  background:var(--bnyc-light-gray);padding:.12em .38em;
+}
+pre{
+  background:var(--bnyc-light-gray);
+  border:1px solid var(--bnyc-border-gray);
+  padding:.9rem 1rem;overflow-x:auto;margin-bottom:1.05rem;
+  max-width:none;
+}
+pre code{background:none;padding:0;font-size:.84rem;line-height:1.5}
+
+/* Tables scroll inside themselves rather than forcing the page sideways.
+   display:block makes the table its own scroll container, so markdown
+   tables need no wrapper div — which matters because kramdown will not
+   add one. The page body must never scroll horizontally. */
+table{
+  display:block;overflow-x:auto;
+  width:max-content;max-width:100%;
+  border-collapse:collapse;font-size:.92rem;
+  margin-bottom:1.2rem;
+}
+th,td{
+  border:1px solid var(--bnyc-border-gray);
+  padding:.5rem .65rem;text-align:left;vertical-align:top;
+}
+th{background:var(--bnyc-bg-blue);color:var(--bnyc-blue);font-family:var(--font-heading);font-weight:700}
+
+img{max-width:100%;height:auto}
+
+/* ---------- Cards ---------- */
+.cards{
+  display:grid;gap:1rem;max-width:none;
+  grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));
+  margin:1.4rem 0 2rem;
+}
+.card{
+  border:1px solid var(--bnyc-border-gray);   /* square corners, standing standard */
+  background:var(--bnyc-white);
+  padding:1.1rem 1.15rem;
+  display:flex;flex-direction:column;
+}
+.card h3{margin-top:0;font-size:1.05rem}
+.card p{font-size:.94rem;margin-bottom:.7rem}
+.card p:last-child{margin-bottom:0}
+.card .who{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--bnyc-dark-gray);margin-bottom:.45rem;
+}
+.card .links{margin-top:auto;padding-top:.85rem;display:flex;gap:.5rem;flex-wrap:wrap}
+
+.btn{
+  display:inline-block;
+  font-family:var(--font-heading);font-weight:700;
+  font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;
+  padding:.42em .85em;border:1px solid var(--bnyc-blue);
+  color:var(--bnyc-blue);text-decoration:none;background:var(--bnyc-white);
+}
+.btn:hover{background:var(--bnyc-bg-blue)}
+.btn.solid{background:var(--bnyc-blue);color:var(--bnyc-white)}
+.btn.solid:hover{background:#1c4785}
+.btn.off{border-color:var(--bnyc-border-gray);color:var(--bnyc-dark-gray);opacity:.65;pointer-events:none}
+
+/* ---------- Profile page header ---------- */
+.profile-head{
+  background:var(--bnyc-bg-blue);
+  border:1px solid var(--bnyc-border-gray);
+  padding:1.5rem 1.6rem;margin-bottom:2rem;max-width:none;
+}
+.profile-head .who{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--bnyc-blue);margin-bottom:.5rem;
+}
+.profile-head h1{font-size:1.9rem;margin-bottom:.5rem}
+.profile-head p{margin-bottom:0;max-width:var(--measure)}
+.profile-head .links{margin-top:1.1rem;display:flex;gap:.5rem;flex-wrap:wrap}
+
+.note{
+  background:var(--bnyc-bg-blue-light);
+  border:1px solid var(--bnyc-border-gray);
+  border-left:3px solid var(--bnyc-blue);
+  padding:.9rem 1.1rem;margin:1.4rem 0;font-size:.94rem;
+}
+.note > :last-child{margin-bottom:0}
+
+.muted{color:var(--bnyc-dark-gray);opacity:.78;font-size:.92rem}
+
+/* ---------- Small screens ---------- */
+@media (max-width:640px){
+  body{font-size:16px}
+  h1{font-size:1.75rem}
+  h2{font-size:1.3rem}
+  .lede{font-size:1.1rem}
+  .site-header .bar{gap:.6rem}
+  .site-header nav{margin-left:0;width:100%;gap:.85rem}
+}

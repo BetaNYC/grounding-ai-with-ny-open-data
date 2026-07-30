@@ -1,0 +1,31 @@
+---
+layout: default
+---
+{%- comment -%}
+  Audience landing page. The banner is built from front matter so a new
+  profile is a short markdown file, not hand-authored HTML.
+
+  Front matter:
+    title:        the audience, as they'd recognise themselves
+    who:          eyebrow label (e.g. "NYC Council · District 4")
+    summary:      one plain-language sentence
+    script:       path to the run-it-live demo script  (required)
+    deck:         path to the HTML deck                (omit if none exists)
+    deck_status:  shown instead of a deck button when `deck` is absent
+{%- endcomment -%}
+
+<div class="profile-head">
+  {% if page.who %}<div class="who">{{ page.who }}</div>{% endif %}
+  <h1>{{ page.title }}</h1>
+  {% if page.summary %}<p>{{ page.summary }}</p>{% endif %}
+  <div class="links">
+    {% if page.deck %}
+      <a class="btn solid" href="{{ page.deck | relative_url }}">Open the deck</a>
+    {% else %}
+      <span class="btn off">{{ page.deck_status | default: "Deck not built yet" }}</span>
+    {% endif %}
+    {% if page.script %}<a class="btn" href="{{ page.script | relative_url }}">Read the demo script</a>{% endif %}
+  </div>
+</div>
+
+{{ content }}

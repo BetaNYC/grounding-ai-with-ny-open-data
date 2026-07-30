@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BetaNYC Civic AI Tools Showcase — CUNY AIGE, 2026-07-30</title>
+<style>
+/* ---------- BetaNYC brand tokens (archive/betanyc/brand.md, finalized 2026-05-06) ---------- */
+:root{
+  --bnyc-blue:#2359a8;
+  --bnyc-blue-secondary:#B8D6FF;
+  --bnyc-bg-blue:#EEF4FF;
+  --bnyc-bg-blue-light:#F9FAFF;
+  --bnyc-white:#FFFFFF;
+  --bnyc-black:#000000;
+  --bnyc-dark-gray:#414141;
+  --bnyc-light-gray:#F1F1F1;
+  --bnyc-border-gray:#949494;
+
+  /* Poppins = display + body, Roboto = H2-H6. No external requests: falls back
+     to system sans if the fonts are not installed locally. */
+  --font-display:'Poppins','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --font-heading:'Roboto','Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--font-display);
+  color:var(--bnyc-dark-gray);
+  background:var(--bnyc-light-gray);
+  overflow:hidden;
+}
+
+/* ---------- Deck shell ---------- */
+#deck{position:relative;width:100vw;height:100vh}
+
+.slide{
+  position:absolute;inset:0;
+  display:none;
+  flex-direction:column;
+  /* Center vertically so the deck reads correctly in a portrait preview pane
+     as well as a landscape projector. */
+  justify-content:center;
+  /* Bottom padding clears the fixed footer chrome. */
+  padding:4.2vh 5vw 5.5rem;
+  background:var(--bnyc-white);
+  overflow-y:auto;
+}
+.slide.active{display:flex;animation:slideIn .42s cubic-bezier(.22,.61,.36,1) both}
+/* Tall, dense slides need to start at the top or they clip. */
+.slide.top{justify-content:flex-start}
+@keyframes slideIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.slide.tint{background:var(--bnyc-bg-blue)}
+.slide.tint-light{background:var(--bnyc-bg-blue-light)}
+.slide.invert{background:var(--bnyc-blue);color:var(--bnyc-white)}
+.slide.invert h1,.slide.invert h2,.slide.invert h3{color:var(--bnyc-white)}
+.slide.invert a{color:var(--bnyc-white)}
+.slide.center{justify-content:center}
+
+/* ---------- Type ---------- */
+/* Type scale is driven by min(vw, vh) so a portrait preview pane gets the same
+   optical size as a landscape projector. Sizing on vw alone collapsed to the
+   clamp floor in a narrow window. */
+h1{
+  font-family:var(--font-display);font-weight:700;
+  font-size:clamp(2.3rem,5.4vmin,3.7rem);line-height:1.14;
+  color:var(--bnyc-blue);letter-spacing:-.015em;
+}
+h2{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(1.85rem,3.7vmin,2.7rem);line-height:1.24;
+  color:var(--bnyc-blue);margin-bottom:.55em;
+}
+h3{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(1.2rem,2.1vmin,1.55rem);line-height:1.3;
+  color:var(--bnyc-blue);
+}
+h4{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(1.05rem,1.85vmin,1.3rem);line-height:1.28;
+  color:var(--bnyc-blue);
+}
+p,li{font-size:clamp(1.05rem,1.8vmin,1.35rem);line-height:1.6}
+.lede{font-size:clamp(1.3rem,2.6vmin,1.9rem);line-height:1.46;max-width:28em}
+.kicker{
+  font-family:var(--font-heading);font-weight:700;
+  text-transform:uppercase;letter-spacing:.13em;
+  font-size:clamp(.72rem,1.15vmin,.9rem);
+  color:var(--bnyc-blue);margin-bottom:1.1em;
+}
+.slide.invert .kicker{color:var(--bnyc-blue-secondary)}
+.muted{color:var(--bnyc-dark-gray);opacity:.72}
+.slide.invert .muted{color:var(--bnyc-white);opacity:.8}
+strong{font-weight:700;color:var(--bnyc-blue)}
+.slide.invert strong{color:var(--bnyc-white)}
+code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.88em;background:var(--bnyc-light-gray);
+  padding:.1em .38em;color:var(--bnyc-dark-gray);
+}
+.slide.invert code{background:rgba(255,255,255,.16);color:var(--bnyc-white)}
+
+/* ---------- Reveal animation for children ---------- */
+.slide.active .reveal{animation:rise .5s cubic-bezier(.22,.61,.36,1) both}
+.reveal{opacity:0}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.active .reveal:nth-child(1){animation-delay:.06s}
+.slide.active .reveal:nth-child(2){animation-delay:.12s}
+.slide.active .reveal:nth-child(3){animation-delay:.18s}
+.slide.active .reveal:nth-child(4){animation-delay:.24s}
+.slide.active .reveal:nth-child(5){animation-delay:.30s}
+.slide.active .reveal:nth-child(6){animation-delay:.36s}
+.slide.active .reveal:nth-child(7){animation-delay:.42s}
+.slide.active .reveal:nth-child(8){animation-delay:.48s}
+.slide.active .reveal:nth-child(9){animation-delay:.54s}
+.slide.active .reveal:nth-child(10){animation-delay:.60s}
+
+/* ---------- Cards: 1px #949494, square corners (standing standard 2026-06-22) ---------- */
+.grid{display:grid;gap:.85rem;margin-top:.4rem}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:1000px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+/* Narrow panes: everything goes single column rather than clipping. */
+@media(max-width:780px){.g2,.g3,.g4{grid-template-columns:1fr}}
+/* Grid children must be allowed to shrink or long tokens push the card wide. */
+.grid > *{min-width:0}
+.card p,.card h4{overflow-wrap:anywhere}
+
+.card{
+  border:1px solid var(--bnyc-border-gray);
+  border-radius:0;
+  background:var(--bnyc-white);
+  padding:1.15rem 1.3rem;
+  display:flex;flex-direction:column;gap:.5rem;
+}
+.card.fill{background:var(--bnyc-bg-blue)}
+.card.fill-light{background:var(--bnyc-bg-blue-light)}
+.card p{font-size:clamp(.95rem,1.55vmin,1.18rem);line-height:1.5}
+.card .q{
+  font-style:italic;color:var(--bnyc-blue);
+  font-size:clamp(.95rem,1.55vmin,1.18rem);line-height:1.44;
+}
+.card .meta{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.68rem,1.05vmin,.82rem);text-transform:uppercase;
+  letter-spacing:.09em;opacity:.72;
+}
+/* npm package names are lowercase; never uppercase them. */
+.card .pkg{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:clamp(.72rem,1.15vmin,.86rem);
+  text-transform:none;letter-spacing:0;
+  color:var(--bnyc-dark-gray);opacity:.66;
+  overflow-wrap:anywhere;
+}
+/* The course hook: emphasis without shouting. */
+.card .hook{
+  font-family:var(--font-display);font-weight:400;
+  font-size:clamp(.9rem,1.45vmin,1.1rem);line-height:1.42;
+  text-transform:none;letter-spacing:0;
+  color:var(--bnyc-blue);
+  border-top:1px solid var(--bnyc-border-gray);
+  padding-top:.55rem;margin-top:.15rem;
+}
+.card .hook b{font-weight:700}
+
+/* Before / after opposition: gray means superseded, blue means current.
+   Same grammar as .pane.bad / .pane.good so the deck reads consistently. */
+.card.was{background:var(--bnyc-light-gray)}
+.card.was h3,.card.was h4{color:var(--bnyc-dark-gray);opacity:.72}
+.card.is{
+  background:var(--bnyc-bg-blue);
+  border-color:var(--bnyc-blue);border-left-width:6px;
+}
+
+.badge{
+  display:inline-block;
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.66rem,1.05vmin,.8rem);
+  text-transform:uppercase;letter-spacing:.08em;
+  padding:.2em .55em;border:1px solid var(--bnyc-border-gray);
+  align-self:flex-start;
+}
+.badge.free{background:var(--bnyc-blue);color:var(--bnyc-white);border-color:var(--bnyc-blue)}
+.badge.key{background:var(--bnyc-light-gray);color:var(--bnyc-dark-gray)}
+
+/* ---------- Two-column compare ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-top:.5rem}
+@media(max-width:820px){.compare{grid-template-columns:1fr}}
+.pane{border:1px solid var(--bnyc-border-gray);padding:1.1rem 1.2rem;background:var(--bnyc-white)}
+.pane.bad{background:var(--bnyc-light-gray)}
+.pane.good{background:var(--bnyc-bg-blue)}
+.pane h3{margin-bottom:.55rem}
+.pane ul{margin:.4rem 0 0 1.05rem}
+.pane li{font-size:clamp(.82rem,1vw,1rem);line-height:1.55;margin-bottom:.3rem}
+
+/* ---------- Big stat / quote ---------- */
+.quote{
+  border-left:5px solid var(--bnyc-blue);
+  background:var(--bnyc-bg-blue-light);
+  padding:1.2rem 1.5rem;max-width:34em;
+  font-size:clamp(1.05rem,1.6vw,1.42rem);line-height:1.5;
+}
+.slide.invert .quote{
+  border-left-color:var(--bnyc-blue-secondary);
+  background:rgba(255,255,255,.1);
+}
+.cite{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.62rem,.78vw,.78rem);text-transform:uppercase;
+  letter-spacing:.09em;margin-top:.9rem;opacity:.75;
+}
+
+.statrow{display:flex;flex-wrap:wrap;gap:2.6rem;margin-top:.6rem}
+.stat .n{
+  font-family:var(--font-display);font-weight:700;
+  font-size:clamp(2rem,3.6vw,3.1rem);line-height:1;color:var(--bnyc-blue);
+}
+.slide.invert .stat .n{color:var(--bnyc-white)}
+.stat .l{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.64rem,.8vw,.8rem);text-transform:uppercase;
+  letter-spacing:.09em;margin-top:.45rem;opacity:.78;max-width:11em;
+}
+
+ul.plain{list-style:none}
+ul.plain li{padding-left:1.35em;position:relative;margin-bottom:.55rem}
+ul.plain li::before{
+  content:"";position:absolute;left:0;top:.62em;
+  width:.52em;height:.52em;background:var(--bnyc-blue);
+}
+.slide.invert ul.plain li::before{background:var(--bnyc-blue-secondary)}
+
+.steps{counter-reset:s;list-style:none;margin-top:.5rem}
+.steps li{
+  counter-increment:s;position:relative;padding-left:2.5rem;margin-bottom:.8rem;
+}
+.steps li::before{
+  content:counter(s);position:absolute;left:0;top:-.05em;
+  width:1.7rem;height:1.7rem;
+  background:var(--bnyc-blue);color:var(--bnyc-white);
+  font-family:var(--font-heading);font-weight:700;font-size:.86rem;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ---------- Typing demo (slide 3) ---------- */
+.demo{max-width:60em;width:100%}
+
+.promptbar{
+  border:1px solid var(--bnyc-border-gray);
+  background:var(--bnyc-white);
+  padding:.9rem 1.1rem;
+  display:flex;align-items:baseline;gap:.7rem;
+  font-size:clamp(1rem,1.75vmin,1.3rem);
+  min-height:3.4em;
+}
+.promptbar .chev{
+  font-family:var(--font-heading);font-weight:700;
+  color:var(--bnyc-blue);flex:none;
+}
+.promptbar .typed{color:var(--bnyc-dark-gray);line-height:1.45}
+.caret{
+  display:inline-block;width:.08em;height:1.05em;
+  background:var(--bnyc-blue);vertical-align:-.14em;
+  margin-left:.06em;animation:blink 1s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.caret.off{display:none}
+
+.status{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.72rem,1.15vmin,.88rem);
+  text-transform:uppercase;letter-spacing:.1em;
+  color:var(--bnyc-blue);margin:.9rem 0 .1rem;
+  opacity:0;transition:opacity .3s ease;
+}
+.status.on{opacity:.85}
+.status .dots::after{content:'';animation:dots 1.2s steps(4,end) infinite}
+@keyframes dots{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
+
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.9rem}
+@media(max-width:900px){.answers{grid-template-columns:1fr}}
+
+.ans{
+  border:1px solid var(--bnyc-border-gray);padding:1.05rem 1.2rem;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .4s ease,transform .4s ease;
+}
+.ans.on{opacity:1;transform:none}
+.ans.bad{background:var(--bnyc-light-gray)}
+.ans.good{background:var(--bnyc-bg-blue);border-color:var(--bnyc-blue);border-left-width:6px}
+.ans h3{margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.ans .src{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.62rem,1vmin,.76rem);text-transform:uppercase;
+  letter-spacing:.09em;padding:.16em .5em;
+  border:1px solid var(--bnyc-border-gray);
+}
+.ans.bad .src{color:var(--bnyc-dark-gray);opacity:.75}
+.ans.good .src{background:var(--bnyc-blue);color:var(--bnyc-white);border-color:var(--bnyc-blue)}
+
+.ans ul{list-style:none;margin:0}
+.ans li{
+  font-size:clamp(.95rem,1.6vmin,1.2rem);line-height:1.5;
+  padding:.24rem 0 .24rem 1.25em;position:relative;
+  opacity:0;transform:translateX(-6px);
+  transition:opacity .32s ease,transform .32s ease;
+}
+.ans li.on{opacity:1;transform:none}
+.ans li::before{
+  content:"";position:absolute;left:0;top:.78em;
+  width:.42em;height:.42em;background:var(--bnyc-blue);
+}
+.ans.bad li::before{background:var(--bnyc-border-gray)}
+.ans li.verdict{font-weight:700;color:var(--bnyc-blue);padding-top:.5rem}
+.ans.bad li.verdict{color:var(--bnyc-dark-gray)}
+.ans li.verdict::before{display:none}
+.ans li.verdict{padding-left:0}
+
+.resolved{
+  display:inline-block;margin-left:.4em;
+  font-family:var(--font-heading);font-weight:700;
+  font-size:.72em;color:var(--bnyc-blue);
+  opacity:0;transition:opacity .4s ease;
+}
+.resolved.on{opacity:1}
+
+.replay{
+  /* Must sit above the #nav click zones or pressing it flips the slide. */
+  position:relative;z-index:55;
+  margin-top:1.1rem;
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.68rem,1.05vmin,.8rem);
+  text-transform:uppercase;letter-spacing:.09em;
+  color:var(--bnyc-blue);background:none;
+  border:1px solid var(--bnyc-blue);
+  padding:.45em 1em;cursor:pointer;
+}
+.replay:hover{background:var(--bnyc-blue);color:var(--bnyc-white)}
+
+/* ---------- Presenter notes (N to toggle) ----------
+   Every trap rides on the slide it belongs to, so the notes cannot drift from
+   what is on screen. Toggled with N; hidden by default. */
+.notes{display:none}
+body.notes-on .slide.active .notes{
+  display:block;
+  margin-top:1.1rem;
+  border:1px solid var(--bnyc-blue);
+  border-left-width:6px;
+  background:var(--bnyc-bg-blue);
+  padding:.9rem 1.15rem;
+  max-width:52em;
+}
+body.notes-on .slide.invert .notes{
+  background:rgba(255,255,255,.12);
+  border-color:var(--bnyc-white);
+}
+.notes .nlabel{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.62rem,1vmin,.76rem);
+  text-transform:uppercase;letter-spacing:.1em;
+  color:var(--bnyc-blue);margin-bottom:.4rem;
+}
+.slide.invert .notes .nlabel{color:var(--bnyc-white)}
+.notes p{font-size:clamp(.92rem,1.5vmin,1.12rem);line-height:1.52}
+.notes p + p{margin-top:.5rem}
+#notesFlag{
+  position:fixed;left:1.35rem;top:.9rem;z-index:60;display:none;
+  font-family:var(--font-heading);font-weight:700;
+  font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;
+  background:var(--bnyc-blue);color:var(--bnyc-white);
+  padding:.28em .7em;
+}
+body.notes-on #notesFlag{display:block}
+body.notes-on #help{display:none} /* the flag occupies the same corner */
+
+/* ---------- Outbound links ---------- */
+.links{
+  display:flex;flex-wrap:wrap;gap:.3rem .5rem;
+  margin-top:.5rem;padding-top:.5rem;
+  border-top:1px solid var(--bnyc-border-gray);
+}
+a.out{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.68rem,1.05vmin,.82rem);
+  letter-spacing:.03em;
+  color:var(--bnyc-blue);text-decoration:none;
+  border:1px solid var(--bnyc-blue);
+  padding:.26em .6em;
+  white-space:nowrap;
+}
+a.out:hover,a.out:focus-visible{background:var(--bnyc-blue);color:var(--bnyc-white);outline:none}
+a.out::after{content:" \2197";font-weight:400}
+.slide.invert a.out{color:var(--bnyc-white);border-color:var(--bnyc-white)}
+.slide.invert a.out:hover{background:var(--bnyc-white);color:var(--bnyc-blue)}
+/* Inline links inside prose. */
+a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:.15em}
+.slide.invert a.inline{color:var(--bnyc-white)}
+/* Drawer: the primary source for the demo you just watched. */
+#dLinks{display:flex;flex-wrap:wrap;gap:.4rem .55rem;margin-top:1rem}
+
+/* ---------- Clickable card demos ---------- */
+.card[data-demo]{cursor:pointer;transition:box-shadow .18s ease,transform .18s ease}
+.card[data-demo]:hover{box-shadow:0 0 0 3px var(--bnyc-blue-secondary);transform:translateY(-2px)}
+.tryit{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.66rem,1.05vmin,.8rem);
+  text-transform:uppercase;letter-spacing:.09em;
+  color:var(--bnyc-blue);margin-top:auto;padding-top:.5rem;
+}
+.tryit::after{content:" \203A";font-size:1.15em}
+
+#drawer{
+  position:fixed;inset:0;z-index:90;display:none;
+  background:rgba(35,89,168,.22);
+  padding:4vh 4vw;overflow-y:auto;
+}
+#drawer.on{display:flex;align-items:flex-start;justify-content:center}
+#drawerBox{
+  width:100%;max-width:56em;
+  background:var(--bnyc-white);
+  border:1px solid var(--bnyc-blue);border-left-width:6px;
+  padding:1.6rem 1.8rem 1.8rem;
+  animation:rise .3s cubic-bezier(.22,.61,.36,1) both;
+}
+#drawerBox .dtop{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:1rem;margin-bottom:1rem;
+}
+#drawerClose{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:1.4rem;line-height:1;background:none;border:none;
+  color:var(--bnyc-blue);cursor:pointer;padding:.1em .3em;flex:none;
+}
+#drawerClose:hover{background:var(--bnyc-light-gray)}
+
+.prov{
+  display:inline-block;
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.62rem,1vmin,.76rem);
+  text-transform:uppercase;letter-spacing:.09em;
+  padding:.24em .6em;border:1px solid var(--bnyc-border-gray);
+}
+.prov.ok{background:var(--bnyc-blue);color:var(--bnyc-white);border-color:var(--bnyc-blue)}
+.prov.illus{background:var(--bnyc-light-gray);color:var(--bnyc-dark-gray)}
+
+.result{
+  border:1px solid var(--bnyc-border-gray);
+  background:var(--bnyc-bg-blue-light);
+  padding:1.05rem 1.2rem;margin-top:.9rem;
+}
+.result .rl{
+  font-size:clamp(.95rem,1.6vmin,1.2rem);line-height:1.52;
+  padding:.22rem 0 .22rem 1.2em;position:relative;
+  opacity:0;transform:translateX(-6px);
+  transition:opacity .3s ease,transform .3s ease;
+}
+.result .rl.on{opacity:1;transform:none}
+.result .rl::before{
+  content:"";position:absolute;left:0;top:.72em;
+  width:.4em;height:.4em;background:var(--bnyc-blue);
+}
+.result .rl.note{
+  padding-left:0;margin-top:.6rem;font-style:italic;
+  color:var(--bnyc-dark-gray);border-top:1px solid var(--bnyc-border-gray);
+  padding-top:.6rem;
+}
+.result .rl.note::before{display:none}
+.drawer-foot{
+  margin-top:1.1rem;font-size:clamp(.86rem,1.4vmin,1.02rem);
+  line-height:1.5;color:var(--bnyc-dark-gray);opacity:.8;
+}
+
+/* ---------- Chrome ---------- */
+#bar{
+  position:fixed;left:0;top:0;height:4px;
+  background:var(--bnyc-blue);width:0;
+  transition:width .3s ease;z-index:60;
+}
+#count{
+  position:fixed;right:1.15rem;bottom:.85rem;z-index:60;
+  font-family:var(--font-heading);font-weight:700;
+  font-size:.72rem;letter-spacing:.09em;
+  color:var(--bnyc-dark-gray);opacity:.62;
+}
+#brandmark{
+  position:fixed;left:1.35rem;bottom:.85rem;z-index:60;
+  font-family:var(--font-display);font-weight:700;
+  font-size:.74rem;letter-spacing:.02em;
+  color:var(--bnyc-blue);opacity:.75;
+}
+.slide.invert ~ #brandmark{color:var(--bnyc-white)}
+#help{
+  position:fixed;right:1.15rem;top:.9rem;z-index:60;
+  font-family:var(--font-heading);font-size:.66rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--bnyc-dark-gray);opacity:.42;
+}
+/* No invisible click-catcher overlay. An earlier version used fixed left/right
+   hit zones at z-index 50, which sat on top of the slide and made cards in the
+   outer 22% unclickable. Advance is handled on the slide itself instead. */
+
+/* ---------- Grid overview ---------- */
+#overview{
+  position:fixed;inset:0;z-index:80;display:none;
+  background:var(--bnyc-white);padding:2.2rem 2.4rem;overflow-y:auto;
+}
+#overview.on{display:block}
+#overview h2{margin-bottom:1.1rem}
+#ovgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.7rem}
+.ovcard{
+  border:1px solid var(--bnyc-border-gray);padding:.7rem .8rem;
+  cursor:pointer;background:var(--bnyc-white);
+  display:flex;flex-direction:column;gap:.3rem;
+}
+.ovcard:hover{background:var(--bnyc-bg-blue)}
+.ovcard .n{
+  font-family:var(--font-heading);font-weight:700;font-size:.62rem;
+  letter-spacing:.09em;color:var(--bnyc-blue);
+}
+.ovcard .t{font-size:.86rem;line-height:1.35}
+
+@media print{
+  body{overflow:visible;background:#fff}
+  .slide{display:flex!important;position:relative;height:auto;min-height:96vh;page-break-after:always;animation:none}
+  .reveal{opacity:1;animation:none}
+  #bar,#count,#help,#nav,#overview,#brandmark{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="bar"></div>
+<div id="deck">
+
+<!-- 1 -->
+<section class="slide invert center" data-title="Title">
+  <div class="kicker reveal">BetaNYC · CUNY Integrating AI in GenEd · July 30, 2026</div>
+  <h1 class="reveal" style="max-width:24em">The tools we have in place</h1>
+  <p class="lede reveal" style="margin-top:1.1rem;opacity:.94">
+    Ask New York City a question in plain language. Get an answer from the actual public record,
+    with an identifier you can open in a browser.
+  </p>
+  <p class="reveal muted" style="margin-top:2rem;font-size:.9rem">
+    Seven open-source data connectors · Free · MIT licensed · Four need no signup at all
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p>Name the room before you show anything. Weight the hour toward whichever disciplines are actually represented; in a gen-ed group that is usually <b>first-year writing</b>.</p><p>Ask each person what they are designing <em>right now</em>. A faculty audience mid-curriculum-design needs things they can assign, not an awareness session. Their answers reorder the rest of this deck.</p></div>
+</section>
+
+<!-- 2 -->
+<section class="slide tint" data-title="What is actually new">
+  <div class="kicker reveal">The shift</div>
+  <h2 class="reveal">What is actually new here</h2>
+  <div class="grid g2 reveal" style="margin-top:.7rem">
+    <div class="card was">
+      <span class="badge key">Before</span>
+      <h3>Answers from memory</h3>
+      <p>A model answers about NYC from what it absorbed in training. It cannot tell you where a number
+      came from, because it does not know. <strong style="color:inherit">Fluency is the only signal you get.</strong></p>
+    </div>
+    <div class="card is">
+      <span class="badge free">Now</span>
+      <h3>Answers from the record</h3>
+      <p>The model queries the City's own systems while you watch: Legistar, Checkbook, the City Record,
+      the Charter, 311, Albany. <strong>Every claim resolves to an identifier.</strong></p>
+    </div>
+  </div>
+  <p class="reveal" style="margin-top:1.1rem;max-width:40em">
+    The interesting part for a classroom is not the capability. It is that
+    <strong>the failure mode becomes demonstrable</strong>. You can show students the wrong answer
+    and the right one side by side, and ask them how they would have known.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p>Do not dwell. Thirty seconds.</p><p>The load-bearing sentence is the last one: <b>the failure mode becomes demonstrable.</b> That is the thing they can assign. The capability is not the point for this room.</p></div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-title="The teachable failure" data-anim="typedemo">
+  <div class="kicker reveal">The demo that matters</div>
+  <h2 class="reveal">Ask the same question two ways</h2>
+
+  <div class="demo reveal">
+    <div class="promptbar">
+      <span class="chev">&rsaquo;</span>
+      <span><span class="typed" id="typed"></span><span class="caret" id="caret"></span></span>
+    </div>
+
+    <div class="status" id="status">Querying NYC Council Legistar<span class="dots"></span></div>
+
+    <div class="answers">
+      <div class="ans bad" id="ansBad">
+        <h3><span class="src">No connector</span> Answering from memory</h3>
+        <ul>
+          <li>Confident, fluent, well organized</li>
+          <li>Specific-looking numbers: <code>Int ####-20##</code></li>
+          <li>Often the wrong legislative session</li>
+          <li>Sometimes invented outright</li>
+          <li class="verdict">Nothing in the answer lets you check it.</li>
+        </ul>
+      </div>
+
+      <div class="ans good" id="ansGood">
+        <h3><span class="src">Legistar</span> Answering from the record</h3>
+        <ul>
+          <li><code>Int 1122-2024</code></li>
+          <li>"A plan for expanding home access to broadband internet"</li>
+          <li>Enacted <strong>2025-11-08</strong></li>
+          <li><code>intro.nyc/1122-2024</code><span class="resolved" id="resolved">&#10003; resolves</span></li>
+          <li class="verdict">The URL opens. The status matches.</li>
+        </ul>
+      </div>
+    </div>
+
+    <button class="replay" id="replay" type="button">Replay &nbsp;&middot;&nbsp; R</button>
+  </div>
+
+  <p class="reveal" style="margin-top:1.1rem;max-width:42em">
+    The teaching beat is the question you ask afterward: <strong>how would a student have known
+    the first answer was wrong?</strong> The answer is not "use a better model." It is
+    "demand a resolvable identifier."
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>This is the slide that cannot be replaced by a document you send afterward.</b> Press <b>R</b> to replay the typing.</p><p>After the grounded panel lands, stop and ask the room: <em>how would a student have known the first answer was wrong?</em> Let them answer it. The answer is not 'use a better model,' it is 'demand a resolvable identifier.'</p><p>If the animation misbehaves, the content still reads. Do not narrate the tool.</p></div>
+</section>
+
+<!-- 4 -->
+<section class="slide tint-light" data-title="How it works">
+  <div class="kicker reveal">Under the hood, briefly</div>
+  <h2 class="reveal">Two ideas, and then it is just querying</h2>
+  <div class="grid g2 reveal" style="margin-top:.5rem">
+    <div class="card">
+      <h3>A connector</h3>
+      <p>BetaNYC's own definition: <em>"a small piece of software that lets an AI assistant pull data
+      from a source on demand."</em> Seven of them, one per government data domain. Published on npm,
+      MIT licensed, source on GitHub.</p>
+    </div>
+    <div class="card fill">
+      <h3>Find the contract, then query it</h3>
+      <p>Step one returns metadata: a dataset ID, a column list, data types. That is an API contract.
+      Step two queries against the ID step one produced. The two-step generalizes far past this portal,
+      which is why it is worth teaching.</p>
+    </div>
+  </div>
+  <p class="reveal muted" style="margin-top:1.2rem;max-width:40em;font-size:.95rem">
+    Works with Claude, ChatGPT, Copilot, Notion, and other assistants that speak the same protocol.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p>Skip most of this unless asked. <b>Do not spend time defining technical terms</b> for an audience that already knows them; they will ask if they do not.</p><p>The transferable idea is the two-step — find the contract, then query against it. It generalizes far past this portal, which is why it belongs in a syllabus.</p></div>
+</section>
+
+<!-- 5 -->
+<section class="slide top" data-title="Four connectors, no signup">
+  <div class="kicker reveal">The inventory, part 1 of 2</div>
+  <h2 class="reveal">Four you can use before creating any account</h2>
+  <div class="grid g2 reveal" style="margin-top:.2rem">
+    <div class="card" data-demo="charter">
+      <span class="badge free">No key · No signup</span>
+      <h4>NYC Laws &amp; Charter</h4>
+      <p>The City Charter, the Administrative Code, and the Rules of the City of New York, as a
+      searchable offline corpus. The city's actual governing text.</p>
+      <p class="q">"What does the Charter say about community boards?"</p>
+      <p class="pkg">@betanyc/nyc-charter-laws-rules</p>
+      <div class="links"><a class="out" href="https://github.com/BetaNYC/nyc-charter-laws-rules" target="_blank" rel="noopener">GitHub</a><a class="out" href="https://www.npmjs.com/package/@betanyc/nyc-charter-laws-rules" target="_blank" rel="noopener">npm</a></div>
+      <p class="hook"><b>In a course:</b> institutions from the primary text, not a textbook paraphrase</p>
+      <p class="tryit">Run this query</p>
+    </div>
+    <div class="card" data-demo="checkbook">
+      <span class="badge free">No key · No signup</span>
+      <h4>City Spending</h4>
+      <p>Agency spending, contracts, budget lines, payroll, and revenue, from the Comptroller's
+      Checkbook system.</p>
+      <p class="q">"Show me Sanitation’s registered contracts for FY2026."</p>
+      <p class="pkg">@betanyc/nyc-checkbook-mcp</p>
+      <div class="links"><a class="out" href="https://github.com/BetaNYC/nyc-checkbook-mcp" target="_blank" rel="noopener">GitHub</a><a class="out" href="https://www.npmjs.com/package/@betanyc/nyc-checkbook-mcp" target="_blank" rel="noopener">npm</a><a class="out" href="https://www.checkbooknyc.com" target="_blank" rel="noopener">Checkbook NYC</a></div>
+      <p class="hook"><b>In a course:</b> any claim with a dollar figure becomes checkable</p>
+      <p class="tryit">Run this query</p>
+    </div>
+    <div class="card" data-demo="record">
+      <span class="badge free">No key · No signup</span>
+      <h4>Procurement &amp; Contracts</h4>
+      <p>Open RFPs, contract awards, and public hearing notices from <strong>The City Record</strong>,
+      the city's daily paper of government activity, published since 1873.</p>
+      <p class="q">"What solicitations are still open, soonest deadline first?"</p>
+      <p class="pkg">@betanyc/nyc-record-mcp</p>
+      <div class="links"><a class="out" href="https://github.com/BetaNYC/nyc-record-mcp" target="_blank" rel="noopener">GitHub</a><a class="out" href="https://www.npmjs.com/package/@betanyc/nyc-record-mcp" target="_blank" rel="noopener">npm</a><a class="out" href="https://www.nyc.gov/cityrecord" target="_blank" rel="noopener">The City Record</a></div>
+      <p class="hook"><b>In a course:</b> how government asks for things, in its own register</p>
+      <p class="tryit">Run this query</p>
+    </div>
+    <div class="card" data-demo="budget">
+      <span class="badge free">No key · No signup</span>
+      <h4>Council Discretionary Funding</h4>
+      <p>Which organizations each Council member funded, the award amounts, and capital project
+      changes. Structured by BetaNYC from the adopted budget.</p>
+      <p class="q">"Which organizations did Council Member Restler fund in FY2026?"</p>
+      <p class="pkg">@betanyc/nyc-budget-mcp</p>
+      <div class="links"><a class="out" href="https://github.com/BetaNYC/New-York-City-Budget" target="_blank" rel="noopener">GitHub</a><a class="out" href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp" target="_blank" rel="noopener">npm</a></div>
+      <p class="hook"><b>In a course:</b> representation made specific; every student has a district</p>
+      <p class="tryit">Run this query</p>
+    </div>
+  </div>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Lead with cost.</b> Four of seven need no key and no account. That is the objection that kills classroom adoption, so answer it before it is asked.</p><p>Click any card to run the query live. <b>Charter is the safest demo</b> — offline corpus, no network dependency.</p><p>Every card links to its GitHub repo and npm package if someone wants to look under the hood.</p></div>
+</section>
+
+<!-- 6 -->
+<section class="slide top tint-light" data-title="Three with a free key, plus Socrata">
+  <div class="kicker reveal">The inventory, part 2 of 2</div>
+  <h2 class="reveal">Three more, once you register a free key</h2>
+  <div class="grid g2 reveal" style="margin-top:.2rem">
+    <div class="card" data-demo="council">
+      <span class="badge key">Free key</span>
+      <h4>Council Legislation</h4>
+      <p>Bills, committee votes, hearings, and individual council member voting records, live from
+      the Council's own Legistar system.</p>
+      <p class="q">"How did the Council vote on Int 0948?"</p>
+      <p class="pkg">@betanyc/nyc-council-mcp</p>
+      <div class="links"><a class="out" href="https://github.com/BetaNYC/nyc-council-mcp" target="_blank" rel="noopener">GitHub</a><a class="out" href="https://www.npmjs.com/package/@betanyc/nyc-council-mcp" target="_blank" rel="noopener">npm</a><a class="out" href="https://intro.nyc" target="_blank" rel="noopener">intro.nyc</a></div>
+      <p class="hook"><b>In a course:</b> trace one bill; process as a verifiable sequence</p>
+      <p class="tryit">Run this query</p>
+    </div>
+    <div class="card" data-demo="threeoneone">
+      <span class="badge key">Free key</span>
+      <h4>311 City Services</h4>
+      <p>Alternate-side parking, collections, school session status, and emergency conditions such as Code Blue. Status lookups for any date, or a 90-day range.</p>
+      <p class="q">"Is alternate-side parking in effect on July 30?"</p>
+      <p class="pkg">@betanyc/nyc-311-mcp</p>
+      <div class="links"><a class="out" href="https://github.com/BetaNYC/nyc-311-mcp" target="_blank" rel="noopener">GitHub</a><a class="out" href="https://www.npmjs.com/package/@betanyc/nyc-311-mcp" target="_blank" rel="noopener">npm</a></div>
+      <p class="hook"><b>In a course:</b> the city as its own residents describe it</p>
+      <p class="tryit">Run this query</p>
+    </div>
+    <div class="card" data-demo="nys">
+      <span class="badge key">Free key</span>
+      <h4>New York State Legislation</h4>
+      <p>State bills, votes, committee calendars, and Senate hearing transcripts from OpenLegislation.
+      More than 150,000 records.</p>
+      <p class="q">"Find State Senator Kavanagh. Which district, which session?"</p>
+      <p class="pkg">@betanyc/nys-openlegislation-mcp</p>
+      <div class="links"><a class="out" href="https://github.com/BetaNYC/nys-openlegislation-mcp" target="_blank" rel="noopener">GitHub</a><a class="out" href="https://www.npmjs.com/package/@betanyc/nys-openlegislation-mcp" target="_blank" rel="noopener">npm</a><a class="out" href="https://legislation.nysenate.gov" target="_blank" rel="noopener">OpenLegislation</a></div>
+      <p class="hook"><b>In a course:</b> federalism made concrete; city authority versus state</p>
+      <p class="tryit">Run this query</p>
+    </div>
+    <div class="card fill" data-demo="socrata">
+      <span class="badge free">No key</span>
+      <h4>Socrata <span style="font-weight:400;opacity:.7">· community-built</span></h4>
+      <p>Any Socrata-powered portal, which means all of NYC Open Data and NY State Open Data. Dataset
+      search, metadata inspection, live queries. Built by Nathan Storey.</p>
+      <p class="q">"Search NYC Open Data for datasets about career and technical education."</p>
+      <p class="pkg">npstorey/socrata-mcp-server</p>
+      <div class="links"><a class="out" href="https://github.com/npstorey/socrata-mcp-server" target="_blank" rel="noopener">GitHub</a><a class="out" href="https://data.cityofnewyork.us" target="_blank" rel="noopener">NYC Open Data</a></div>
+      <p class="hook"><b>In a course:</b> the catalog itself, read as an API contract</p>
+      <p class="tryit">Run this query</p>
+    </div>
+  </div>
+  <p class="reveal muted" style="margin-top:.9rem;font-size:.95rem">
+    Cautionary precedent: our own 2024 workshop on open data and AI required a paid ChatGPT Plus
+    account to follow along. The 2026 replacement removed that requirement, because a paid-tool
+    dependency excludes CUNY students unevenly.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p>The keys are free; registration is the only friction.</p><p><b>Say the last paragraph out loud.</b> Our own 2024 workshop required a paid ChatGPT Plus account. The 2026 replacement removed it, because a paid-tool dependency excludes CUNY students unevenly. Admitting that buys more than any capability claim.</p></div>
+</section>
+
+<!-- 7 -->
+<section class="slide top tint" data-title="Civic AI Tools">
+  <div class="kicker reveal">Someone else's tool, and the best one for a classroom</div>
+  <h2 class="reveal">civicaitools.org</h2>
+  <p class="lede reveal" style="margin-bottom:.6rem">
+    "Explore Open Data with AI. See how AI answers <strong>with and without</strong> access to real datasets."
+  </p>
+  <div class="grid g2 reveal" style="margin-top:.5rem">
+    <div class="card fill" data-demo="civicaitools">
+      <span class="badge free">No key · No signup</span>
+      <h4>Run the comparison yourself</h4>
+      <p>Both answers side by side, in a browser. Three cities: New York, Chicago, San Francisco.</p>
+      <p class="tryit">See what it returns</p><div class="links"><a class="out" href="https://civicaitools.org" target="_blank" rel="noopener">civicaitools.org</a></div>
+    </div>
+    <div class="card">
+      <h4>Signed records, replayable traces</h4>
+      <p>Each answer is published as a <strong>signed record</strong> naming the datasets, queries, and
+      model used, with an Explore page that logs every tool call. Provenance as a feature, not a footnote.</p>
+    </div>
+    <div class="card">
+      <h4>Why it matters for teaching</h4>
+      <p>It turns the demo two slides back into something a student runs themselves, on their own
+      question, with no setup. The failure mode stops being a claim you make and becomes an
+      experiment they perform.</p>
+    </div>
+    <div class="card fill-light">
+      <h4>Whose it is</h4>
+      <p>Built by <strong>Nathan Storey</strong> as a personal project, fiscally sponsored by
+      <strong>Metagov</strong>. Not a BetaNYC tool. He also taught the two-part open data and AI class
+      at our School of Data in March 2026.</p>
+    </div>
+  </div>
+  <p class="reveal muted" style="margin-top:.85rem;font-size:.95rem">
+    Demo-scale rate limits apply; running it locally lifts them. Worth naming the ownership out loud:
+    the best classroom-ready thing in this deck is not ours.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Say the ownership out loud.</b> Not ours. Nathan Storey's personal project, fiscally sponsored by Metagov, not affiliated with any employer.</p><p>The <b>signed records</b> feature is the thing to linger on: each answer publishes the datasets, queries, and model used, with replayable traces. A student can hand in the trace and an instructor can replay it. That is the closest existing analogue to a citation standard for an AI answer.</p><p>The most classroom-ready tool in this deck is not ours, and saying so is the credible move.</p></div>
+</section>
+
+<!-- 8 -->
+<section class="slide top" data-title="The wider ecosystem">
+  <div class="kicker reveal">Not just ours</div>
+  <h2 class="reveal">Public-interest AI already in the wild in NYC</h2>
+  <div class="grid g3 reveal" style="margin-top:.3rem">
+    <div class="card">
+      <h4>Roxanne</h4>
+      <p class="q">AI assistant for NYC housing repairs</p>
+      <div class="links"><a class="out" href="https://www.housingcourtanswers.org/roxanne" target="_blank" rel="noopener">housingcourtanswers.org/roxanne</a></div>
+    </div>
+    <div class="card">
+      <h4>CityMeetings.NYC</h4>
+      <p class="q">Council meetings, made navigable</p>
+      <div class="links"><a class="out" href="https://citymeetings.nyc" target="_blank" rel="noopener">citymeetings.nyc</a></div>
+    </div>
+    <div class="card">
+      <h4>Reclamo AI</h4>
+      <p class="q">Complaint and claims assistance</p>
+      <div class="links"><a class="out" href="https://www.reclamo.ai" target="_blank" rel="noopener">reclamo.ai</a></div>
+    </div>
+    <div class="card">
+      <h4>Depositron</h4>
+      <p class="q">Security deposit recovery</p>
+      <div class="links"><a class="out" href="https://depositron.com" target="_blank" rel="noopener">depositron.com</a></div>
+    </div>
+    <div class="card">
+      <h4>Block Party Resolutions</h4>
+      <p class="q">A searchable archive</p>
+      <div class="links"><a class="out" href="https://blockparty.studio/resolutions" target="_blank" rel="noopener">blockparty.studio/resolutions</a></div>
+    </div>
+    <div class="card">
+      <h4>Vital City</h4>
+      <p class="q">Public-safety data experiments</p>
+      <div class="links"><a class="out" href="https://www.vitalcitynyc.org/experiments" target="_blank" rel="noopener">vitalcitynyc.org/experiments</a></div>
+    </div>
+    <div class="card fill-light">
+      <h4>The AI Resist List</h4>
+      <p class="q">The critical counterweight</p>
+      <div class="links"><a class="out" href="https://airesistlist.org" target="_blank" rel="noopener">airesistlist.org</a></div>
+    </div>
+    <div class="card fill-light">
+      <h4>Civic Tech Field Guide</h4>
+      <p class="q">The global index, AI section</p>
+      <div class="links"><a class="out" href="https://civictech.guide/ai" target="_blank" rel="noopener">civictech.guide/ai</a></div>
+    </div>
+    <div class="card fill">
+      <h4>FloodGen</h4>
+      <p class="q">Flood advocacy through AI imagery</p>
+      <div class="links"><a class="out" href="https://floodgen.beta.nyc" target="_blank" rel="noopener">floodgen.beta.nyc</a></div>
+    </div>
+  </div>
+  <p class="reveal muted" style="margin-top:.9rem;font-size:.9rem">
+    Two of these are worth pairing deliberately: the Field Guide indexes what exists, the Resist List
+    argues about what should not.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Do not read the grid.</b> Pick two.</p><p>The pairing worth making: the <b>Civic Tech Field Guide</b> indexes what exists, <b>The AI Resist List</b> argues about what should not. Showing both is the teaching move, and it signals you are not selling AI.</p></div>
+</section>
+
+<!-- 9 -->
+<section class="slide tint-light" data-title="Lab tools">
+  <div class="kicker reveal">Built from community requests</div>
+  <h2 class="reveal">The Civic Innovation Lab</h2>
+  <p class="reveal" style="max-width:40em;margin-bottom:.9rem">
+    Every tool starts as a <strong>RADAR</strong> (Research &amp; Data Assistance Request) from a
+    community board, a coalition, or a partner organization. Not from us.
+  </p>
+  <div class="grid g3 reveal">
+    <div class="card"><h4>FloodGen</h4><p>AI-generated imagery of projected flooding, for advocacy. Paperspace GPU, NYC Geocoder, LIDAR mask preprocessing.</p><div class="links"><a class="out" href="https://floodgen.beta.nyc" target="_blank" rel="noopener">floodgen.beta.nyc</a></div></div>
+    <div class="card"><h4>NYC Urban Heat Portal</h4><p>Explore urban heat data, visualize heat metrics by neighborhood, and find cooling strategies.</p><div class="links"><a class="out" href="https://urbanheat.nyc" target="_blank" rel="noopener">urbanheat.nyc</a><a class="out" href="https://www.beta.nyc/featured-tools/nyc-urban-heat-portal/" target="_blank" rel="noopener">About</a></div></div>
+    <div class="card"><h4>NYC Boundaries Map</h4><p>Overlapping administrative boundaries. Why cross-agency coordination is structurally hard.</p><div class="links"><a class="out" href="https://boundaries.beta.nyc" target="_blank" rel="noopener">boundaries.beta.nyc</a></div></div>
+    <div class="card"><h4>School Allocations Dashboard</h4><p>Public school allocations and budgets, scraped from the DOE’s Galaxy system, consolidated and cleaned.</p><div class="links"><a class="out" href="https://public.tableau.com/app/profile/betanyc/viz/NYCPublicSchoolAllocationsandBudgetDashboard_17225412389160/NYCPublicSchoolAllocationsandBudgetDashboard" target="_blank" rel="noopener">Dashboard</a><a class="out" href="https://www.beta.nyc/featured-tools/public-school-allocations-and-budget-dashboard/" target="_blank" rel="noopener">About</a><a class="out" href="https://github.com/BetaNYC/nyc-school-budgets-scrapers" target="_blank" rel="noopener">Scraper repo</a></div></div>
+    <div class="card"><h4>BoardStat</h4><p>311 service requests from 2010 to present, per community board.</p><div class="links"><a class="out" href="https://boardstat.beta.nyc" target="_blank" rel="noopener">boardstat.beta.nyc</a></div></div>
+    <div class="card fill"><h4>Right to Counsel &amp; Lead Paint maps</h4><p>Statewide support for the Housing Courts Must Change platform, and an address lookup telling tenants whether their building likely contains lead paint.</p><div class="links"><a class="out" href="https://hcmustchange.beta.nyc/" target="_blank" rel="noopener">Housing Courts map</a><a class="out" href="https://coopersquare.org/leadmap" target="_blank" rel="noopener">Lead paint map</a></div></div>
+  </div>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>RADAR is the point of this slide.</b> Tools begin as requests from community boards and coalitions, not as our ideas.</p><p>The <b>lead paint map</b> is the best single example for a humanities room: no AI at all, one public fact (buildings before 1960 are presumed to contain lead paint), and a real tenant decision at the other end. Built with the Cooper Square Committee through RADAR.</p></div>
+</section>
+
+<!-- 10 -->
+<section class="slide invert" data-title="Where we did not use AI">
+  <div class="kicker reveal">The credibility slide</div>
+  <h2 class="reveal">Where we deliberately did not use AI</h2>
+  <div class="quote reveal">
+    NYC Council budget data, reconciled and structured, extracted <strong>deterministically</strong>
+    from official PDFs.
+    <div class="cite">BetaNYC/New-York-City-Budget</div><div class="links"><a class="out" href="https://github.com/BetaNYC/New-York-City-Budget" target="_blank" rel="noopener">View the repo</a></div>
+  </div>
+  <p class="reveal" style="margin-top:1.5rem;max-width:42em">
+    Reconciling public money has to be reproducible. Run it twice, get the same numbers, and be able
+    to show why. A language model cannot promise that, so it is not in the extraction path.
+  </p>
+  <p class="reveal" style="margin-top:1rem;max-width:42em">
+    The connector that answers <em>"which nonprofits did my Council member fund?"</em> sits on top of
+    that deterministic data. <strong>The AI is the interface, not the arithmetic.</strong>
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Slow down here.</b> This is the credibility slide for a skeptical room.</p><p>Reconciling public money has to be reproducible: run it twice, get the same numbers, show why. A language model cannot promise that, so it is not in the extraction path.</p><p><b>The AI is the interface, not the arithmetic.</b> Naming a place you declined to use AI buys more trust than any capability claim in the deck.</p></div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-title="Grounding is curricular">
+  <div class="kicker reveal">The pivot</div>
+  <h2 class="reveal">Grounding is not a product feature. It is a curricular concept.</h2>
+  <p class="reveal lede" style="margin-top:.4rem">
+    A student who understands why an agent must cite a dataset ID understands provenance,
+    API contracts, and verification. Three things that outlive whichever model is current.
+  </p>
+  <div class="grid g3 reveal" style="margin-top:1.3rem">
+    <div class="card fill"><h3>Provenance</h3><p>Where did this come from, and can I get back to it?</p></div>
+    <div class="card fill"><h3>Contracts</h3><p>What does this source actually promise to contain?</p></div>
+    <div class="card fill"><h3>Verification</h3><p>Including the discipline of stating a bounded negative.</p></div>
+  </div>
+  <p class="reveal muted" style="margin-top:1.2rem;max-width:40em;font-size:.95rem">
+    NYC's open data is an unusually good teaching corpus because it is real, local, free,
+    and messy in instructive ways.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p>The pivot from tools to teaching. This is where the deck stops being a demo.</p><p>Provenance, API contracts, verification — three things that outlive whichever model is current. That is the argument for putting this in a gen-ed course rather than a CS elective.</p></div>
+</section>
+
+<!-- 12 -->
+<section class="slide tint" data-title="Your four courses">
+  <div class="kicker reveal">Applications, per the room</div>
+  <h2 class="reveal">What this becomes in your courses</h2>
+  <div class="grid g3 reveal" style="margin-top:.3rem">
+    <div class="card">
+      <p class="meta">First-year writing</p>
+      <h3>Verify, then rewrite</h3>
+      <p>Take one real agency document. Identify every checkable claim. Check each against a primary
+      source, recording the identifier. Rewrite for a named audience.</p>
+      <p><strong>Then: a note on what could not be verified, and why.</strong></p>
+    </div>
+    <div class="card">
+      <p class="meta">Critical thinking</p>
+      <h3>Two answers, one wrong</h3>
+      <p>The same civic question, answered twice. Both fluent. Students sort checkable from
+      uncheckable, check, and then write up <strong>what made the wrong one persuasive</strong>.</p>
+    </div>
+    <div class="card">
+      <p class="meta">Political science</p>
+      <h3>Your district, on the record</h3>
+      <p>One bill, one discretionary award, one 311 pattern, all in the student's own district.
+      A memo on whether stated priorities match the record, citing identifiers throughout.</p>
+    </div>
+  </div>
+  <div class="grid reveal" style="max-width:34em;margin-top:.9rem">
+    <div class="card fill" data-demo="crosswalk">
+      <span class="badge free">Live demo · Capstone</span>
+      <h4>Follow one dollar across three systems</h4>
+      <p class="tryit">Run this query</p>
+    </div>
+  </div>
+  <p class="reveal" style="margin-top:1rem;max-width:44em">
+    On academic integrity: the deliverable is not prose a model could produce. It is a verification
+    table, a rewrite, and a documented gap. <strong>The process is the artifact.</strong>
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Weight first-year writing most heavily.</b> Angela and Swan both teach it; that is half the room.</p><p>These assignments are <em>untested</em>. Offer them as conversation starters with four curriculum designers, not as finished handouts. Our own standing rule is that a script without verified notes is a draft.</p><p>The academic-integrity line is what they will ask about. <b>The deliverable is a verification table, a rewrite, and a documented gap — the process is the artifact.</b> A student who outsources it has to outsource the checking, and the checking leaves the trail.</p></div>
+</section>
+
+<!-- 13 -->
+<section class="slide tint-light" data-title="The five acts">
+  <div class="kicker reveal">The session structure we reuse</div>
+  <h2 class="reveal">Five acts, and only two change per discipline</h2>
+  <ol class="steps reveal" style="max-width:44em">
+    <li><strong>Demonstrate the failure mode</strong> rather than asserting it.</li>
+    <li><strong>Catalog search as an API contract.</strong> Metadata, not prose.</li>
+    <li><strong>One dataset the audience already cares about</strong>, in depth. <span class="muted">Swaps per discipline.</span></li>
+    <li><strong>A gap, a limitation, or a data-quality problem.</strong> <span class="muted">Swaps per discipline. Keep this one always.</span></li>
+    <li><strong>Setup cost and assignment shapes.</strong></li>
+  </ol>
+  <p class="reveal" style="margin-top:.7rem;max-width:42em">
+    Act 4 is where the honesty gets taught. Our own worked example: Local Law 174 of 2016 requires an
+    <em>annual</em> career and technical education report. The most recent one on the portal covers
+    2019&ndash;2020. It is 2026. <strong>The finding is the absence.</strong>
+  </p>
+  <div class="grid reveal" style="max-width:30em;margin-top:.9rem">
+    <div class="card fill" data-demo="ll174">
+      <span class="badge free">Live demo</span>
+      <h4>Watch the absence surface</h4>
+      <p class="tryit">Run this query</p>
+    </div>
+  </div>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Act 4 is the one to keep in every version.</b> That is where the honesty gets taught.</p><p>Click the card to watch the absence surface: Local Law 174 requires an annual report, the most recent on the portal is 2019–2020, and it is 2026.</p><p>Stating a bounded negative — precisely what you checked and did not find — is harder than finding a source, and it is exactly the move student writing usually skips.</p></div>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-title="Practical answers">
+  <div class="kicker reveal">Before you can assign anything</div>
+  <h2 class="reveal">The practical answers</h2>
+  <div class="grid g2 reveal" style="margin-top:.3rem">
+    <div class="card">
+      <h3>Does anyone have to install something?</h3>
+      <p>Not necessarily. School of Data 2026 ran setup through <strong>GitHub Codespaces</strong>,
+      which avoids local installation entirely. That is the answer for a locked-down lab.</p>
+    </div>
+    <div class="card">
+      <h3>I have 50 minutes and no lab</h3>
+      <p>Our Class 101 runs with <strong>no computer needed</strong>, using a printed card deck. It is
+      in reworking right now, so we will not oversell it, but the format exists and works.</p>
+    </div>
+    <div class="card fill-light">
+      <h3>Can I adapt your material?</h3>
+      <p>Yes. Most of it is <strong>CC BY-SA 4.0</strong>, crediting "BetaNYC, a partner project of the
+      Fund for the City of New York." ShareAlike means your adaptation carries the same license.
+      AI 101 material additionally carries a Data &amp; Society credit.</p>
+    </div>
+    <div class="card fill-light">
+      <h3>Student privacy?</h3>
+      <p>The city masks small cell counts in its own published data so individuals cannot be
+      re-identified. Same reasoning keeps student data out of these tools. It demonstrates better
+      than it lectures.</p>
+    </div>
+  </div>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>These four answers decide whether anything actually gets assigned.</b> Do not rush them to get to the closing slides.</p><p>Have the license obligation ready: CC BY-SA 4.0, crediting 'BetaNYC, a partner project of the Fund for the City of New York.' ShareAlike, so their adaptation carries the same license. <b>AI 101 additionally carries a Data &amp; Society credit</b> — and the AI 101 page does not currently display it, so say it verbally.</p></div>
+</section>
+
+<!-- 15 -->
+<section class="slide tint" data-title="What we are honest about">
+  <div class="kicker reveal">Stated up front</div>
+  <h2 class="reveal">What we are honest about</h2>
+  <ul class="plain reveal" style="max-width:44em;margin-top:.4rem">
+    <li><strong>AI Civics 201 is not finished.</strong> Five of twenty classes are written. The two most
+    relevant to this room, plain language and spotting AI fakes, are both still stubs.</li>
+    <li><strong>Our educator demo script was built for computer science.</strong> Today is the first
+    liberal-arts adaptation, and we are extending the structure live.</li>
+    <li><strong>Our own AI teaching modules for fellows have no written learning objectives yet.</strong>
+    We teach AI to our fellows, and that is the part of our curriculum that is least specified.</li>
+    <li><strong>There is no public learning community yet.</strong> The cohort space is an unstarted phase.
+    We will not promise it.</li>
+    <li><strong>The guides are drafts.</strong> First pass, July 2026.</li>
+  </ul>
+  <p class="reveal" style="margin-top:1.1rem;max-width:42em">
+    This is an offer to collaborate, not a product to adopt.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Read this slide. Do not soften it.</b></p><p>Five of twenty classes written. The two most relevant to this room — plain language, and spotting AI fakes — are both still stubs.</p><p>Offer collaboration, not a product. This room can co-author the liberal-arts version, and that is a better ask than adoption.</p></div>
+</section>
+
+<!-- 16 -->
+<section class="slide invert" data-title="The real invitation">
+  <div class="kicker reveal">The most useful thing on this slide</div>
+  <h2 class="reveal">You have colleagues two campuses over already doing this</h2>
+  <div class="quote reveal">
+    "Artificial intelligence increasingly shapes how cities make decisions, but most 'AI literacy'
+    efforts focus on <strong>how to use tools, not how to question them</strong>."
+    <div class="cite">Making AI Make Sense Together · School of Data, March 2026 · CUNY PIT Lab &amp; TIER Lab</div>
+  </div>
+  <p class="reveal" style="margin-top:1.4rem;max-width:42em">
+    Kathleen Cumiskey, Anthoni Garcia, Raj Korpan, Jeff Tobias, and Brendon Hawkins ran that workshop
+    at our conference. No technical background required. Educators and librarians were the named audience.
+  </p>
+  <p class="reveal" style="margin-top:.9rem;max-width:42em">
+    That critique applies to our catalog too. AI 101 teaches use. AI Civics 201 teaches grounded querying.
+    <strong>The questioning strand is the liberal-arts strand, and you are better placed to teach it than we are.</strong>
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>The strongest thing you have, and it is not a tool.</b></p><p>CUNY faculty ran a critical-AI workshop at BetaNYC's own School of Data in March 2026. PIT Lab and TIER Lab. No technical background required, educators and librarians as named audience.</p><p>Offer the introduction. Colleagues two campuses over beat a tool demo, and it is the concrete version of what the event description promised.</p></div>
+</section>
+
+<!-- 17 -->
+<section class="slide center" data-title="Stay connected">
+  <div class="kicker reveal">Next</div>
+  <h1 class="reveal">Where to find all of it</h1>
+  <div class="grid g2 reveal" style="margin-top:1.2rem;max-width:52em">
+    <div class="card"><h3>The connectors</h3><p><span class="muted">All seven, with setup instructions and example questions.</span></p><div class="links"><a class="out" href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/" target="_blank" rel="noopener">beta.nyc tools page</a><a class="out" href="https://github.com/BetaNYC" target="_blank" rel="noopener">BetaNYC on GitHub</a></div></div>
+    <div class="card"><h3>The classes</h3><p><span class="muted">Intro to NY Open Data · AI 101 · Mapping for Equity, with slides and companion docs.</span></p><div class="links"><a class="out" href="https://www.beta.nyc/open-data-classes/" target="_blank" rel="noopener">Class catalog</a><a class="out" href="https://www.beta.nyc/ai-101-class-materials/" target="_blank" rel="noopener">AI 101 materials</a></div></div>
+    <div class="card fill-light"><h3>School of Data</h3><p>The annual conference. Where the Critical AI workshop happened, and where your session could.</p><div class="links"><a class="out" href="https://schoolofdata.nyc/" target="_blank" rel="noopener">schoolofdata.nyc</a><a class="out" href="https://opendataweek.nyc/" target="_blank" rel="noopener">Open Data Week</a></div></div>
+    <div class="card fill-light"><h3>Everything else</h3><p><span class="muted">Newsletter · events · Slack · RADAR research requests.</span></p><div class="links"><a class="out" href="https://www.beta.nyc/links/" target="_blank" rel="noopener">beta.nyc/links</a><a class="out" href="https://www.beta.nyc/events/" target="_blank" rel="noopener">Events</a></div></div>
+  </div>
+  <p class="reveal muted" style="margin-top:1.8rem;font-size:.9rem">
+    BetaNYC is a partner project of the Fund for the City of New York.
+    Materials CC BY-SA 4.0 unless noted. Connectors MIT.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p>Ask what would actually help them, then stop talking.</p><p><b>Do not promise the Discord cohort space.</b> BetaBuilders Phase 1 built staff and associate-board areas only; a public learning space is an unstarted phase.</p></div>
+</section>
+
+<!-- 18 -->
+<section class="slide top tint-light" data-title="Credits — sources and tools">
+  <div class="kicker reveal">With thanks</div>
+  <h2 class="reveal">None of this is ours alone</h2>
+  <p class="reveal" style="max-width:44em;margin-bottom:.7rem">
+    Every answer in this deck came out of a record someone else maintains, or a tool someone else
+    built. Naming them is the same discipline the deck argues for.
+  </p>
+
+  <div class="grid g3 reveal" style="margin-top:.2rem">
+    <div class="card">
+      <h4>The public record</h4>
+      <p>The people who publish and maintain the data every connector reads.</p>
+      <p class="hook" style="color:var(--bnyc-dark-gray)">
+        NYC Council &amp; Legistar · Office of the Comptroller (Checkbook NYC) ·
+        The City Record, published daily since 1873 · NYC Charter, Administrative Code and Rules,
+        via American Legal Publishing · NYC 311 · NYC Department of Education (Galaxy) ·
+        NYS Education Department · NYC Council adopted-budget documents
+      </p>
+      <div class="links">
+        <a class="out" href="https://opendata.cityofnewyork.us" target="_blank" rel="noopener">NYC Open Data</a>
+        <a class="out" href="https://data.ny.gov" target="_blank" rel="noopener">NY State Open Data</a>
+        <a class="out" href="https://legislation.nysenate.gov" target="_blank" rel="noopener">NYS OpenLegislation</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Platforms and standards</h4>
+      <p>The infrastructure that makes the records queryable at all.</p>
+      <p class="hook" style="color:var(--bnyc-dark-gray)">
+        <b>Socrata / Tyler Data &amp; Insights</b>, and SoQL, the query language underneath both
+        portals · <b>NYC Office of Technology and Innovation</b>, which runs NYC Open Data and the
+        Open Data Ambassadors program · <b>NYS Office of Information Technology Services</b>, which
+        runs data.ny.gov · the <b>Model Context Protocol</b>, which is how any of these reach an
+        assistant
+      </p>
+      <div class="links">
+        <a class="out" href="https://dev.socrata.com" target="_blank" rel="noopener">Socrata docs</a>
+        <a class="out" href="https://www.nyc.gov/content/oti/pages/" target="_blank" rel="noopener">NYC OTI</a>
+      </div>
+    </div>
+
+    <div class="card fill">
+      <h4>Built by other people</h4>
+      <p>Tools in this deck that are not ours, and are better than ours in places.</p>
+      <p class="hook" style="color:var(--bnyc-dark-gray)">
+        <b>Nathan Storey</b> — the Socrata MCP server, civicaitools.org (fiscally sponsored by
+        Metagov), and the two-part open data and AI class at our School of Data ·
+        <b>Housing Court Answers</b> (Roxanne) · <b>CityMeetings.NYC</b> · <b>Reclamo AI</b> ·
+        <b>Depositron</b> · <b>Block Party</b> · <b>Vital City</b> · <b>The AI Resist List</b> ·
+        <b>Civic Tech Field Guide</b>
+      </p>
+      <div class="links">
+        <a class="out" href="https://civicaitools.org" target="_blank" rel="noopener">civicaitools.org</a>
+        <a class="out" href="https://metagov.org" target="_blank" rel="noopener">Metagov</a>
+        <a class="out" href="https://civictech.guide/ai" target="_blank" rel="noopener">Field Guide</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Partners who asked for the tools</h4>
+      <p>Lab tools begin as a RADAR request from someone doing the work, not as our idea.</p>
+      <p class="hook" style="color:var(--bnyc-dark-gray)">
+        <b>Right to Counsel NYC Coalition</b> — the Housing Courts Must Change map ·
+        <b>Cooper Square Committee</b> and <b>Lead Dust Free NYC</b> — the lead paint map ·
+        <b>OpenPlans</b>, <b>Culture and Arts Policy Institute</b>, and
+        <b>New York Lawyers for the Public Interest</b> — recent RADARs
+      </p>
+      <div class="links">
+        <a class="out" href="https://www.righttocounselnyc.org" target="_blank" rel="noopener">RTC NYC</a>
+        <a class="out" href="https://coopersquare.org" target="_blank" rel="noopener">Cooper Square</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Curriculum partners</h4>
+      <p>Our own classes are co-authored, and the credit travels with the material.</p>
+      <p class="hook" style="color:var(--bnyc-dark-gray)">
+        <b>Data &amp; Society</b> — AI Civics, a content partner on our AI 101 curriculum ·
+        <b>NYC Council AICE Initiative</b> — named curriculum partner ·
+        <b>Upperline Code</b>, <b>NYC DOE</b>, <b>WiTNY</b> and <b>Google</b> — CS and the City,
+        and Data Science 1, presented at School of Data 2020 by Renne Castro and Jeff Olson ·
+        <b>Two Sigma Data Clinic</b>
+      </p>
+      <div class="links">
+        <a class="out" href="https://datasociety.net" target="_blank" rel="noopener">Data &amp; Society</a>
+      </div>
+    </div>
+
+    <div class="card fill-light">
+      <h4>The critical-AI workshop</h4>
+      <p>The session that framed the gap this deck opens with, at our own conference, March 2026.</p>
+      <p class="hook" style="color:var(--bnyc-dark-gray)">
+        <b>CUNY Public Interest Technology (PIT) Lab</b> and the <b>Trustworthy, Intelligent and
+        Explainable Robotics (TIER) Lab</b> — Kathleen Cumiskey, Anthoni Garcia, Raj Korpan,
+        Jeff Tobias, and Brendon Hawkins
+      </p>
+      <div class="links">
+        <a class="out" href="https://schoolofdata.nyc/" target="_blank" rel="noopener">School of Data</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p>Skim this. The point is that it exists, not that you read it.</p><p>If someone asks why you bothered: the answer is slide 11. We argue that claims must resolve to a source, so the deck names its own.</p></div>
+</section>
+
+<!-- 19 -->
+<section class="slide top" data-title="Licenses, funding, and how this was made">
+  <div class="kicker reveal">The fine print, stated up front</div>
+  <h2 class="reveal">Licenses, funding, and how this deck was made</h2>
+
+  <div class="grid g2 reveal" style="margin-top:.2rem">
+    <div class="card">
+      <h4>Licenses</h4>
+      <p><b>Seven connectors:</b> MIT. <b>Curriculum, guides, toolkits and decks:</b> CC BY-SA 4.0,
+      crediting "BetaNYC, a partner project of the Fund for the City of New York." ShareAlike, so
+      your adaptation carries the same license.</p>
+      <p><b>AI 101 material</b> additionally carries a Data &amp; Society credit and involves the
+      NYC Council AICE Initiative. <b>Government records</b> referenced throughout are public records
+      of the City and State of New York.</p>
+      <div class="links">
+        <a class="out" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>
+        <a class="out" href="https://fcny.org" target="_blank" rel="noopener">Fund for the City of NY</a>
+      </div>
+    </div>
+
+    <div class="card fill">
+      <h4>Who funds this</h4>
+      <p>Since the deck shows you how to look up discretionary funding, here is ours.</p>
+      <p><b>$25,000</b>, FY2026, from <b>Council Member Lincoln Restler</b>, Council District 33,
+      through the <b>Digital Inclusion and Literacy Initiative</b>, administered by <b>DYCD</b>,
+      passed through the <b>Fund for the City of New York</b>.</p>
+      <p class="hook"><b>You can verify that yourself</b> with the discretionary funding connector,
+      in about fifteen seconds, without an account.</p>
+      <div class="links">
+        <a class="out" href="https://github.com/BetaNYC/New-York-City-Budget" target="_blank" rel="noopener">Budget data repo</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>How this deck was made</h4>
+      <p>BetaNYC uses AI openly and with human accountability, so: this deck was assembled with
+      <b>AI assistance</b> (Anthropic's Claude) under BetaNYC staff direction and review. The
+      connectors themselves were built the same way, then reviewed and tested by staff before release.</p>
+      <p>The curriculum repos carry the same statement. We are not going to argue for provenance
+      and then be vague about our own.</p>
+    </div>
+
+    <div class="card fill-light">
+      <h4>What was verified, and when</h4>
+      <p>Every query result shown in the demos was <b>dry-run against the live connectors on
+      2026-07-29</b>. Nothing on those screens is invented, and nothing is a placeholder.</p>
+      <p>Two things we could not verify and did not fake: the Checkbook NYC website blocks automated
+      requests, so that one link is unconfirmed; and figures on live systems change, so a number
+      true today may not be true when you run it.</p>
+      <p class="hook"><b>That is the honest version of a citation,</b> and it is what we would ask a
+      student to write.</p>
+    </div>
+  </div>
+
+  <p class="reveal" style="margin-top:1rem;max-width:46em">
+    Corrections welcome, on any of it. Issues and pull requests are open on every repo, and the
+    portal directory in particular improves when someone tells us a link is dead.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>The funding disclosure is the closing move if the room is still skeptical.</b></p><p>The deck teaches them to look up Council discretionary awards, so it discloses ours: $25,000, FY2026, Council Member Restler, District 33, Digital Inclusion and Literacy Initiative, via DYCD. They can verify it in fifteen seconds without an account.</p><p>Every demo result was dry-run against the live connectors on 2026-07-29. One link — Checkbook NYC — is unverified because the site blocks automated requests, and the slide says so.</p></div>
+</section>
+
+</div>
+
+<div id="brandmark">BetaNYC</div>
+<div id="count"></div>
+<div id="notesFlag">Presenter notes visible</div>
+<div id="help">← → move · N notes · G grid · F full</div>
+
+<div id="overview"><h2>Jump to a slide</h2><div id="ovgrid"></div></div>
+
+<div id="drawer">
+  <div id="drawerBox">
+    <div class="dtop">
+      <div>
+        <div class="kicker" id="dSource" style="margin-bottom:.5em"></div>
+        <span class="prov" id="dProv"></span>
+      </div>
+      <button id="drawerClose" type="button" aria-label="Close">&times;</button>
+    </div>
+
+    <div class="promptbar">
+      <span class="chev">&rsaquo;</span>
+      <span><span class="typed" id="dTyped"></span><span class="caret" id="dCaret"></span></span>
+    </div>
+
+    <div class="status" id="dStatus">Querying<span class="dots"></span></div>
+
+    <div class="result" id="dResult"></div>
+
+    <div class="drawer-foot" id="dFoot"></div>
+    <div id="dLinks"></div>
+    <button class="replay" id="dReplay" type="button">Replay &nbsp;&middot;&nbsp; R</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var bar = document.getElementById('bar');
+  var count = document.getElementById('count');
+  var overview = document.getElementById('overview');
+  var ovgrid = document.getElementById('ovgrid');
+  var i = 0;
+
+  /* ----- Animation engine -----
+     Time-driven, not timer-stacked. One rAF loop reads elapsed ms and applies
+     whatever state that timestamp implies, so a throttled or backgrounded tab
+     renders the correct frame instead of falling behind a queue of setTimeouts.
+     Falls back to a coarse interval if rAF is unavailable. */
+  var raf = null, rafIv = null;
+  function stopLoop(){
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    if (rafIv) { clearInterval(rafIv); rafIv = null; }
+  }
+  function runLoop(apply, totalMs){
+    stopLoop();
+    var t0 = performance.now();
+    function frame(){
+      var el = performance.now() - t0;
+      apply(el);
+      if (el < totalMs) {
+        if (window.requestAnimationFrame) raf = requestAnimationFrame(frame);
+      } else { stopLoop(); apply(totalMs); }
+    }
+    if (window.requestAnimationFrame) raf = requestAnimationFrame(frame);
+    else rafIv = setInterval(frame, 90);
+  }
+
+  // Reveal a list of elements in sequence from a start offset.
+  function seq(els, elapsed, start, step){
+    els.forEach(function(el, k){
+      el.classList.toggle('on', elapsed >= start + k * step);
+    });
+    return start + els.length * step;
+  }
+  function typeInto(node, text, elapsed, start, per){
+    var n = Math.max(0, Math.min(text.length, Math.floor((elapsed - start) / per)));
+    if (node.textContent !== text.slice(0, n)) node.textContent = text.slice(0, n);
+    return start + text.length * per;
+  }
+
+  /* ----- Slide 3: the two-answer comparison ----- */
+  var QUESTION = 'What NYC Council legislation exists on broadband access?';
+
+  function runDemo(){
+    var typed = document.getElementById('typed');
+    if (!typed) return;
+    var caret = document.getElementById('caret'),
+        status = document.getElementById('status'),
+        bad = document.getElementById('ansBad'),
+        good = document.getElementById('ansGood'),
+        resolved = document.getElementById('resolved'),
+        badLis = Array.prototype.slice.call(bad.querySelectorAll('li')),
+        goodLis = Array.prototype.slice.call(good.querySelectorAll('li'));
+
+    var PER = 34, T0 = 400;
+    var typeEnd = T0 + QUESTION.length * PER;
+    var badAt = typeEnd + 420;
+    var badEnd = badAt + badLis.length * 200;
+    var lookAt = badEnd + 300;
+    var goodAt = lookAt + 1200;
+    var goodEnd = goodAt + goodLis.length * 210;
+    var total = goodEnd + 500;
+
+    runLoop(function(el){
+      typeInto(typed, QUESTION, el, T0, PER);
+      caret.classList.toggle('off', el >= typeEnd + 300);
+      bad.classList.toggle('on', el >= badAt - 160);
+      seq(badLis, el, badAt, 200);
+      status.classList.toggle('on', el >= lookAt && el < goodAt);
+      good.classList.toggle('on', el >= goodAt - 150);
+      seq(goodLis, el, goodAt, 210);
+      resolved.classList.toggle('on', el >= goodEnd + 200);
+    }, total);
+  }
+
+  /* ----- Per-connector demos, opened from a card -----
+     `verified` results were dry-run against the live connectors on the stated
+     date. `illustrative` results show the SHAPE of an answer, with no invented
+     figures presented as real. The badge is part of the teaching point. */
+  var DEMOS = {
+    charter: {
+      links: [['https://github.com/BetaNYC/nyc-charter-laws-rules', 'Connector on GitHub']],
+      source: 'NYC Charter, Administrative Code & Rules',
+      prompt: 'Which two animals appear in the NYC Administrative Code?',
+      status: 'Searching the Administrative Code',
+      prov: ['ok', 'Verified 2026-07-06'],
+      lines: [
+        'Admin Code <b>&sect; 2-102</b> &mdash; the official animals of the City of New York',
+        'Two beavers, <b>Jos&eacute;</b> and <b>Justin</b>',
+        'Named for Rep. Jos&eacute; E. Serrano (2007) and "Justin Beaver" (2010)',
+        'The Bronx River beavers, the first seen in NYC in roughly 200 years'
+      ],
+      note: 'A student can open the Code section and read it. The identifier is the proof, not the fluency.',
+      foot: 'This is Class 09 of AI Civics 201: local history as a verification lab. The same lesson then asks the model a question Checkbook <em>cannot</em> answer, so students see a limit as well as a capability.'
+    },
+    council: {
+      links: [['https://intro.nyc/1122-2024', 'Open Int 1122-2024'], ['https://github.com/BetaNYC/nyc-council-mcp', 'Connector on GitHub']],
+      source: 'NYC Council Legistar',
+      prompt: 'What NYC Council legislation exists on broadband access?',
+      status: 'Querying NYC Council Legistar',
+      prov: ['ok', 'Verified 2026-07-21'],
+      lines: [
+        '<b>Int 1122-2024</b>',
+        '"A plan for expanding home access to broadband internet"',
+        'Status: <b>Enacted 2025-11-08</b>',
+        'Resolves at <b>intro.nyc/1122-2024</b> &nbsp;&#10003;'
+      ],
+      note: 'Ask an ungrounded model the same question and you get confident Intro numbers with no way to check them.',
+      foot: 'The teaching beat: <b>how would a student have known the first answer was wrong?</b> Not "use a better model" &mdash; "demand a resolvable identifier."'
+    },
+    socrata: {
+      links: [['https://data.cityofnewyork.us/d/gyjk-fbss', 'Dataset gyjk-fbss'], ['https://data.cityofnewyork.us/d/8vqd-3345', 'Dataset 8vqd-3345']],
+      source: 'NYC Open Data, via Socrata',
+      prompt: 'Search NYC Open Data for datasets about career and technical education.',
+      status: 'Searching the NYC Open Data catalog',
+      prov: ['ok', 'Verified 2026-07-21'],
+      lines: [
+        'Dataset <b>gyjk-fbss</b> &mdash; Local Law 174 CTE programs report',
+        'Dataset <b>8vqd-3345</b> &mdash; companion CTE enrollment counts',
+        'Returns metadata, not prose: IDs, column names, data types',
+        'In <b>8vqd-3345</b>, some enrollment cells contain the literal string <code>"s"</code>'
+      ],
+      note: 'That "s" is suppression: the city masks small counts so individual students cannot be re-identified.',
+      foot: 'This is the best single artifact in the deck for a critical-thinking course. <code>int(row[...])</code> crashes. A silent <code>try/except</code> produces a <b>wrong average</b> &mdash; an error that yields a plausible number and never announces itself.'
+    },
+    ll174: {
+      links: [['https://data.cityofnewyork.us/d/gyjk-fbss', 'The CTE report dataset'], ['https://data.cityofnewyork.us', 'NYC Open Data']],
+      source: 'NYC Open Data + Local Law 174 of 2016',
+      prompt: 'Local Law 174 requires an annual CTE report. What is the most recent year available?',
+      status: 'Checking the portal for published years',
+      prov: ['ok', 'Verified 2026-07-21'],
+      lines: [
+        'The law says <b>annual</b>',
+        'Most recent report on the portal covers <b>2019&ndash;2020</b>',
+        'Published <b>September 2021</b>',
+        'It is now <b>2026</b>'
+      ],
+      note: 'The honest correction matters more than the finding: this shows what is on the portal, not that no report exists anywhere.',
+      foot: 'Act 4 of every demo script. <b>The finding is the absence.</b> Stating a bounded negative &mdash; precisely what you checked and did not find &mdash; is harder than finding a source, and it is exactly the move student writing usually skips.'
+    },
+    checkbook: {
+      links: [['https://www.checkbooknyc.com', 'Checkbook NYC'], ['https://github.com/BetaNYC/nyc-checkbook-mcp', 'Connector on GitHub']],
+      source: "Comptroller's Checkbook",
+      prompt: 'Show me Sanitation’s registered contracts for FY2026.',
+      status: 'Querying Checkbook',
+      prov: ['ok', 'Verified 2026-07-29'],
+      lines: [
+        '<b>254</b> registered contracts, agency code 827, FY2026',
+        'Largest: <b>Veolia ES Technical Solutions LLC</b> &mdash; waste removal and processing',
+        'Committed <b>$18,100,000</b> &nbsp;&middot;&nbsp; spent to date <b>$478,414.64</b>',
+        'Contract <code>MMA182720268802706</code>, running 2025-12-01 to 2030-11-30'
+      ],
+      note: 'Committed is not spent. A student who reads "$18 million contract" as "$18 million spent" is wrong, and the field names are right there to catch it.',
+      foot: 'This is the whole argument in one row. The number that makes a headline is <b>$18.1 million</b>. The number that describes reality so far is <b>$478 thousand</b> &mdash; 2.6% of it. Both are in the same record, correctly labelled.'
+    },
+    record: {
+      links: [['https://www.nyc.gov/cityrecord', 'The City Record'], ['https://github.com/BetaNYC/nyc-record-mcp', 'Connector on GitHub']],
+      source: 'The City Record',
+      prompt: 'What solicitations are still open, soonest deadline first?',
+      status: 'Searching The City Record',
+      prov: ['ok', 'Verified 2026-07-29'],
+      lines: [
+        'NYPD &mdash; <b>"Gun Cleaning Kit"</b>, due 2026-07-29 1:00 PM, competitive sealed bid',
+        'NYPD &mdash; <b>"Police Officer Eight Point Cap"</b>, due 2026-07-29 1:30 PM',
+        'School Construction Authority &mdash; kitchen design services, RFP, <b>up to $500,000</b>',
+        'Dept. of Finance &mdash; printing and mailing parking violation summonses'
+      ],
+      note: 'Every one of these is a real open solicitation as of today, with a named contact, a phone number, and an hour-precise deadline.',
+      foot: 'For a writing course this is unusually good source material: government asking for something, in its own register, with a real deadline and a real reader. "Gun Cleaning Kit" and "Eight Point Cap" also puncture the idea that public records are abstract.'
+    },
+    budget: {
+      links: [['https://github.com/BetaNYC/New-York-City-Budget', 'Budget data repo'], ['https://council.nyc.gov/budget/', 'Council budget']],
+      source: 'NYC Council adopted budget, structured by BetaNYC',
+      prompt: 'Which organizations did Council Member Restler fund in FY2026?',
+      status: 'Querying discretionary funding records',
+      prov: ['ok', 'Verified 2026-07-29'],
+      lines: [
+        '<b>12 awards, $836,000 total</b>, Council District 33, FY2026',
+        '$300,000 &rarr; ExpandED Schools, high-impact tutoring, via DYCD',
+        '$40,000 &rarr; Dept. of Sanitation, rat-resistant basket replacement',
+        '$25,000 &rarr; Fund for the City of New York &mdash; <b>BetaNYC</b>, Digital Inclusion and Literacy Initiative'
+      ],
+      note: 'That last row is us. We are showing you our own funding, in the connector we built, from the budget documents we structured.',
+      foot: 'Note what is <em>not</em> AI here: the PDF extraction is <b>deterministic</b>, reconciled against printed totals, because reconciling public money has to be reproducible. The AI is the interface, not the arithmetic. Every student has a district, so every student gets a different answer.'
+    },
+    crosswalk: {
+      links: [['https://github.com/BetaNYC/New-York-City-Budget', 'Budget data repo'], ['https://www.checkbooknyc.com', 'Checkbook NYC']],
+      source: 'Two connectors, one money trail',
+      prompt: 'Trace Council discretionary money into an actual agency contract.',
+      status: 'Querying discretionary awards, then Checkbook contracts',
+      prov: ['ok', 'Verified 2026-07-29'],
+      lines: [
+        'Checkbook, agency 827 (Sanitation), FY2026 &mdash; purpose reads <b>"CITY COUNCIL FUNDING &mdash; BID CONTAINERIZATION PROGRAM"</b>',
+        'Award method: <b>BORO NEEDS / DISCRETIONARY FUND</b>',
+        'Hudson Square District Management Association &mdash; <b>$168,750</b>',
+        'Neighborhood Initiatives Development Corporation &mdash; <b>$143,261</b>',
+        'NoHo NY District Management Association &mdash; <b>$75,000</b>'
+      ],
+      note: 'Council decides, an agency contracts, a named organization is paid. Three separate public records, and the connectors let a student walk between them.',
+      foot: 'This is the capstone shape for a political science course: not "here is how a budget works," but <b>follow one dollar across three systems and cite each hop.</b> No single dataset answers it, which is exactly why it teaches something.'
+    },
+    civicaitools: {
+      links: [['https://civicaitools.org', 'Open civicaitools.org']],
+      source: 'civicaitools.org',
+      prompt: 'What are the top 311 complaints in NYC, and how does San Francisco compare?',
+      status: 'Running the query with and without live data access',
+      prov: ['ok', 'Verified 2026-07-29'],
+      lines: [
+        'Headline: <b>"Explore Open Data with AI"</b> &mdash; see how AI answers <em>with and without</em> access to real datasets',
+        'Runs both answers <b>side by side</b> in a browser. No signup, no key.',
+        'Covers three cities: <b>New York, Chicago, San Francisco</b>, queried over SoQL',
+        'Publishes each answer as a <b>signed record</b> naming the datasets, queries, and model used',
+        'An <b>Explore</b> page logs every tool call as a replayable trace'
+      ],
+      note: 'Built by Nathan Storey as a personal project, fiscally sponsored by Metagov. Not a BetaNYC tool, and not affiliated with any employer.',
+      foot: 'The signed record is the part worth showing faculty. It is provenance as a <em>feature</em>, not a footnote: a student can hand in the trace, and an instructor can replay it. That is the closest thing here to a citation standard for an AI answer. Demo-scale rate limits apply; local setup lifts them.'
+    },
+    nys: {
+      links: [['https://legislation.nysenate.gov', 'NYS OpenLegislation'], ['https://github.com/BetaNYC/nys-openlegislation-mcp', 'Connector on GitHub']],
+      source: 'NYS Senate OpenLegislation',
+      prompt: 'Find State Senator Kavanagh. Which district, which session?',
+      status: 'Querying OpenLegislation',
+      prov: ['ok', 'Verified 2026-07-29'],
+      lines: [
+        '<b>Senate, 2025 session</b> &mdash; district <b>27</b>, member ID 1140',
+        'Same surname, <b>2017 session</b> &mdash; district <b>74</b>, member ID 526',
+        'Different chamber, different district number, same person',
+        'More than <b>150,000</b> records; also votes, calendars, hearing transcripts'
+      ],
+      note: 'The two rows are the lesson. A name is not an identifier. Without the session year, "Kavanagh’s district" has two correct answers.',
+      foot: 'A student who asks an ungrounded model "what district does Kavanagh represent?" gets one confident number. The record returns two, and makes you say which session you meant. Also verified: the state animal is fixed in NYS Law &sect; 79. It is the beaver.'
+    },
+    threeoneone: {
+      links: [['https://github.com/BetaNYC/nyc-311-mcp', 'Connector on GitHub'], ['https://portal.311.nyc.gov', 'NYC 311']],
+      source: 'NYC 311 service calendar',
+      prompt: 'Is alternate-side parking in effect on July 30?',
+      status: 'Querying the 311 city-services calendar',
+      prov: ['ok', 'Verified 2026-07-29'],
+      lines: [
+        'Alternate Side Parking &mdash; <b>IN EFFECT</b>, meters in effect',
+        'Collections &mdash; <b>ON SCHEDULE</b> for trash, recycling, and compost',
+        'Schools &mdash; <b>NOT IN SESSION</b>, exception "Summer 2026"',
+        'Answers for any date, or a range up to 90 days'
+      ],
+      note: 'This connector answers status questions, not statistical ones. It has no aggregation: no "top complaint types," no counts by district.',
+      foot: 'Worth saying plainly, because it is a real limit and we got it wrong in an earlier draft of this deck. For complaint <em>counts</em> you need the 311 dataset on the open data portal via Socrata, not this connector. <b>Knowing which tool cannot answer your question is part of the literacy.</b>'
+    }
+  };
+
+  var drawer = document.getElementById('drawer');
+  var dBox = document.getElementById('drawerBox');
+  var curDemo = null;
+
+  function playDrawer(key){
+    var d = DEMOS[key];
+    if (!d) return;
+    curDemo = key;
+    document.getElementById('dSource').textContent = d.source;
+    var prov = document.getElementById('dProv');
+    prov.className = 'prov ' + d.prov[0];
+    prov.innerHTML = d.prov[1];
+    document.getElementById('dStatus').firstChild.nodeValue = d.status;
+    document.getElementById('dFoot').innerHTML = d.foot || '';
+    // Primary sources for whatever the demo just queried.
+    document.getElementById('dLinks').innerHTML = (d.links || []).map(function(l){
+      return '<a class="out" href="' + l[0] + '" target="_blank" rel="noopener">' + l[1] + '</a>';
+    }).join('');
+
+    var res = document.getElementById('dResult');
+    res.innerHTML = d.lines.map(function(l){ return '<div class="rl">' + l + '</div>'; }).join('')
+                  + (d.note ? '<div class="rl note">' + d.note + '</div>' : '');
+
+    drawer.classList.add('on');
+    animateDrawer();
+  }
+
+  function animateDrawer(){
+    var d = DEMOS[curDemo]; if (!d) return;
+    var typed = document.getElementById('dTyped'),
+        caret = document.getElementById('dCaret'),
+        status = document.getElementById('dStatus'),
+        lines = Array.prototype.slice.call(document.querySelectorAll('#dResult .rl'));
+
+    var PER = 30, T0 = 300;
+    var typeEnd = T0 + d.prompt.length * PER;
+    var lookAt = typeEnd + 320;
+    var showAt = lookAt + 1050;
+    var end = showAt + lines.length * 200;
+
+    runLoop(function(el){
+      typeInto(typed, d.prompt, el, T0, PER);
+      caret.classList.toggle('off', el >= typeEnd + 260);
+      status.classList.toggle('on', el >= lookAt && el < showAt);
+      seq(lines, el, showAt, 200);
+    }, end + 300);
+  }
+
+  function closeDrawer(){ drawer.classList.remove('on'); curDemo = null; stopLoop(); }
+
+  document.addEventListener('click', function(e){
+    if (!e.target || !e.target.closest) return;
+    // A link inside a demo card must follow the link, not open the drawer.
+    if (e.target.closest('a')) { e.stopPropagation(); return; }
+    var card = e.target.closest('.card[data-demo]');
+    if (card) { e.stopPropagation(); playDrawer(card.dataset.demo); }
+  }, true);
+  document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+  document.getElementById('dReplay').addEventListener('click', function(e){ e.stopPropagation(); animateDrawer(); });
+  drawer.addEventListener('click', function(e){ if (e.target === drawer) closeDrawer(); });
+  dBox.addEventListener('click', function(e){ e.stopPropagation(); });
+
+  function show(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(s, k){ s.classList.toggle('active', k === i); });
+    bar.style.width = ((i + 1) / slides.length * 100) + '%';
+    count.textContent = (i + 1) + ' / ' + slides.length;
+    if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
+    if (drawer.classList.contains('on')) closeDrawer();
+    stopLoop();
+    if (slides[i].dataset.anim === 'typedemo') runDemo();
+  }
+  /* Arrows must not flip slides out from under an open demo. */
+  function move(d){ if (drawer.classList.contains('on')) return; closeOv(); show(i + d); }
+  function openOv(){ overview.classList.add('on'); }
+  function closeOv(){ overview.classList.remove('on'); }
+
+  slides.forEach(function(s, k){
+    var c = document.createElement('div');
+    c.className = 'ovcard';
+    c.innerHTML = '<div class="n">' + (k + 1) + '</div><div class="t">' +
+                  (s.dataset.title || 'Slide ' + (k + 1)) + '</div>';
+    c.addEventListener('click', function(){ closeOv(); show(k); });
+    ovgrid.appendChild(c);
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); move(1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); move(-1); }
+    else if (e.key === 'Home') { e.preventDefault(); move(-999); }
+    else if (e.key === 'End') { e.preventDefault(); move(999); }
+    else if (e.key === 'r' || e.key === 'R') {
+      if (drawer.classList.contains('on')) animateDrawer();
+      else if (slides[i].dataset.anim === 'typedemo') runDemo();
+    }
+    else if (e.key === 'n' || e.key === 'N') { document.body.classList.toggle('notes-on'); }
+    else if (e.key === 'g' || e.key === 'G') { overview.classList.contains('on') ? closeOv() : openOv(); }
+    else if (e.key === 'Escape') { closeOv(); closeDrawer(); }
+    else if (e.key === 'f' || e.key === 'F') {
+      if (document.fullscreenElement) { document.exitFullscreen(); }
+      else if (document.documentElement.requestFullscreen) { document.documentElement.requestFullscreen(); }
+    }
+  });
+
+  /* Click-to-advance lives on the deck itself. Anything interactive is excluded,
+     so a demo card, a button, or a link always wins over slide navigation. */
+  var INTERACTIVE = '.card[data-demo], button, a, input, select, textarea, #drawer, #overview';
+  document.getElementById('deck').addEventListener('click', function(e){
+    if (drawer.classList.contains('on')) return;
+    var t = e.target;
+    if (t && t.closest && t.closest(INTERACTIVE)) return;
+    move(e.clientX < window.innerWidth * 0.32 ? -1 : 1);
+  });
+
+  var rp = document.getElementById('replay');
+  if (rp) rp.addEventListener('click', function(e){ e.stopPropagation(); runDemo(); });
+
+  // Touch swipe, for presenting from a tablet.
+  var x0 = null;
+  document.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 55) move(dx < 0 ? 1 : -1);
+    x0 = null;
+  }, {passive:true});
+
+  function fromHash(){
+    var n = parseInt((location.hash || '#1').slice(1), 10);
+    return isNaN(n) ? 0 : n - 1;
+  }
+  window.addEventListener('hashchange', function(){
+    if (fromHash() !== i) show(fromHash());
+  });
+  show(fromHash());
+})();
+</script>
+</body>
+</html>

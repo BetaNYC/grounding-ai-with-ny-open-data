@@ -55,6 +55,6 @@ Every demo script here should model that distinction out loud in front of the ro
 
 ## See also
 
-- [`../council-members/`](../council-members/) and [`../state-legislators/`](../state-legislators/) — the constituency-facing scripts.
-- [`../educators/`](../educators/) — framed around what the material teaches.
+- [`../council-members/`](../council-members/README.md) and [`../state-legislators/`](../state-legislators/README.md) — the constituency-facing scripts.
+- [`../educators/`](../educators/README.md) — framed around what the material teaches.
 - [`../user-journeys.md`](../user-journeys.md) — the full prompt catalog, including the "follow the discretionary dollar" and "full contract lifecycle" crosswalks this folder builds on, plus **Crosswalk F, "Who funded this seat?"** — a campaign finance journey whose honest answer is that the join does not exist.

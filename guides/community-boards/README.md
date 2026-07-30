@@ -37,5 +37,5 @@ Keep the four-act arc (one clean answer → grounded-vs-ungrounded → follow-th
 
 ## See also
 
-- [`../council-members/`](../council-members/) — the parallel set of demos tuned for Council members and their districts.
+- [`../council-members/`](../council-members/README.md) — the parallel set of demos tuned for Council members and their districts.
 - [`../user-journeys.md`](../user-journeys.md) — the full, audience-neutral prompt catalog these scripts draw from.

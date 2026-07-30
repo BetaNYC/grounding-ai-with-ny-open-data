@@ -6,7 +6,7 @@ status: DRAFT
 
 Run-it-live demo scripts for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to a **specific NYC Council member** (or their staff). Each file is pre-filled for one district so it can be read straight off the page in a meeting.
 
-Same idea as the [`../community-boards/`](../community-boards/) demos, framed for a Council audience: their district's 311, *their own* legislation, *their* discretionary funding, and oversight of the agencies they question at hearings.
+Same idea as the [`../community-boards/`](../community-boards/README.md) demos, framed for a Council audience: their district's 311, *their own* legislation, *their* discretionary funding, and oversight of the agencies they question at hearings.
 
 These are the district-specific companions to the general prompt catalog in [`../user-journeys.md`](../user-journeys.md).
 
@@ -61,5 +61,5 @@ A `district-[NN]-deck.html` is the script in a presentation medium, for meetings
 
 ## See also
 
-- [`../community-boards/`](../community-boards/) — the parallel demos tuned for community boards.
+- [`../community-boards/`](../community-boards/README.md) — the parallel demos tuned for community boards.
 - [`../user-journeys.md`](../user-journeys.md) — the full, audience-neutral prompt catalog.

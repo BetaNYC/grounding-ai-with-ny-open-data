@@ -8,6 +8,21 @@ AI agents are only as trustworthy as what they're grounded in. This repo documen
 
 ---
 
+## Read it in a browser
+
+Everything here is published at **<https://betanyc.github.io/grounding-ai-with-ny-open-data/>**. Every guide renders at the same path with `.html` in place of `.md`.
+
+The slide decks are the reason the site exists. They are self-contained HTML, so GitHub shows you source instead of slides. Open them from the published site:
+
+| Deck | Audience |
+|---|---|
+| [CUNY liberal arts and general education](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/educators/cuny-liberal-arts-deck.html) | Faculty who teach writing, critical thinking, and political science |
+| [Council District 4](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/council-members/district-04-deck.html) | Council members and district staff |
+
+Arrow keys move between slides, `N` opens presenter notes, `G` is the slide grid, `F` goes full screen.
+
+---
+
 ## Built by BetaNYC
 
 [**BetaNYC**](https://beta.nyc) is New York's civic organization dedicated to improving lives through public interest technology, open data, and civic design. We build tools, train the public, and advocate for a more transparent, accountable, and participatory city government.
@@ -29,11 +44,11 @@ This repo is one piece of a larger effort to make government data usable — see
 | [`guides/when-to-use-which-portal.md`](guides/when-to-use-which-portal.md) | What each portal (and each BetaNYC MCP) actually covers — a decision guide |
 | [`guides/query-patterns.md`](guides/query-patterns.md) | Copy-paste SoQL query patterns: catalog search, dataset fetch, cross-portal lookups |
 | [`guides/user-journeys.md`](guides/user-journeys.md) | User stories + sample prompts for each MCP, plus cross-source "crosswalk" journeys |
-| [`guides/community-boards/`](guides/community-boards/) | Run-it-live demo scripts tuned per community board (e.g. Manhattan CB1) |
-| [`guides/council-members/`](guides/council-members/) | Run-it-live demo scripts tuned per Council district, with a copy-me template |
-| [`guides/educators/`](guides/educators/) | Run-it-live demo scripts for faculty and curriculum staff, framed around what the material teaches |
-| [`guides/state-legislators/`](guides/state-legislators/) | Run-it-live demo scripts per NYS Senate/Assembly district, built on NYS Open Legislation |
-| [`guides/good-government/`](guides/good-government/) | Watchdog and newsroom material — run-it-live demo scripts, plus a FOIL contract-research methodology and its worked example |
+| [`guides/community-boards/`](guides/community-boards/README.md) | Run-it-live demo scripts tuned per community board (e.g. Manhattan CB1) |
+| [`guides/council-members/`](guides/council-members/README.md) | Run-it-live demo scripts tuned per Council district, with a copy-me template |
+| [`guides/educators/`](guides/educators/README.md) | Run-it-live demo scripts for faculty and curriculum staff, framed around what the material teaches |
+| [`guides/state-legislators/`](guides/state-legislators/README.md) | Run-it-live demo scripts per NYS Senate/Assembly district, built on NYS Open Legislation |
+| [`guides/good-government/`](guides/good-government/README.md) | Watchdog and newsroom material — run-it-live demo scripts, plus a FOIL contract-research methodology and its worked example |
 | [`guides/grounding-ai-agents.md`](guides/grounding-ai-agents.md) | Why grounding matters, and prompt/verification patterns for agent builders |
 | [`guides/training-resources.md`](guides/training-resources.md) | BetaNYC and partner training — Intro to Open Data, Open Data Ambassadors, and more |
 | [`resources/ny-open-data-portals.md`](resources/ny-open-data-portals.md) | Directory of open data portals run by NY counties and municipalities, with API and platform notes |

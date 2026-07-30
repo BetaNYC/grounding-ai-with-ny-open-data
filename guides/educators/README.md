@@ -6,7 +6,7 @@ status: DRAFT
 
 Run-it-live demo scripts for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to **faculty, curriculum designers, and instructional staff**.
 
-These differ from the other demo folders in this repo by the question they answer. [`../council-members/`](../council-members/) and [`../community-boards/`](../community-boards/) answer *"what is happening in my district?"* — the audience wants their own data back. An educator audience is asking something else: **"what does this teach, and can I assign it?"**
+These differ from the other demo folders in this repo by the question they answer. [`../council-members/`](../council-members/README.md) and [`../community-boards/`](../community-boards/README.md) answer *"what is happening in my district?"* — the audience wants their own data back. An educator audience is asking something else: **"what does this teach, and can I assign it?"**
 
 So the arc is built around transferable concepts rather than local findings:
 

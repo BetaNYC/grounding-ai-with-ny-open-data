@@ -60,7 +60,7 @@ These five, used by hand, carry most of the contract-discovery steps.
 
 ### Tier 2 — BetaNYC's MCP servers
 
-These put the same public sources behind a grounded agent, so it queries the record instead of recalling it. All are published npm packages, installable with `npx`, and each repo's README carries its own config block. [`../../mcp-configs/`](../../mcp-configs/) currently holds only the Socrata portal-switching config, not these seven.
+These put the same public sources behind a grounded agent, so it queries the record instead of recalling it. All are published npm packages, installable with `npx`, and each repo's README carries its own config block. [`../../mcp-configs/`](../../mcp-configs/socrata-nyc-nys.mcp.json) currently holds only the Socrata portal-switching config, not these seven.
 
 | Server | Minimum version | Use in this method |
 |---|---|---|

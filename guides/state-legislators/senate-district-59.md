@@ -8,7 +8,7 @@ status: DRAFT
 >
 > **Every fact below was pulled live and is reproduced in the presenter notes.** All four acts and all four backup prompts reproduced exactly on the 2026-07-22 re-run. If a live call disagrees, trust the live call and say so.
 
-Companion to the general [`../user-journeys.md`](../user-journeys.md) catalog. Unlike the [`../council-members/`](../council-members/) scripts, the spine here is **NYS Open Legislation**, not Legistar — plus the city datasets that happen to be cut by state district.
+Companion to the general [`../user-journeys.md`](../user-journeys.md) catalog. Unlike the [`../council-members/`](../council-members/README.md) scripts, the spine here is **NYS Open Legislation**, not Legistar — plus the city datasets that happen to be cut by state district.
 
 ---
 

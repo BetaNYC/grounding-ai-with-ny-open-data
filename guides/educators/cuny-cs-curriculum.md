@@ -6,7 +6,7 @@ status: DRAFT
 
 > **DRAFT.** First pass, 2026-07-21. A run-it-live script for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to **CUNY faculty and staff who design computer science curriculum**. Every prompt below was dry-run against the live MCPs on 2026-07-21 — see the presenter notes for what each one actually returned.
 
-Companion to the general [`../user-journeys.md`](../user-journeys.md) catalog, framed for an academic audience. The other demo scripts in this repo ([`../council-members/`](../council-members/), [`../community-boards/`](../community-boards/)) ask *"what is happening in my district?"* This one asks a different question: **"what does this teach, and is it assignable?"**
+Companion to the general [`../user-journeys.md`](../user-journeys.md) catalog, framed for an academic audience. The other demo scripts in this repo ([`../council-members/`](../council-members/README.md), [`../community-boards/`](../community-boards/README.md)) ask *"what is happening in my district?"* This one asks a different question: **"what does this teach, and is it assignable?"**
 
 **The point:** grounding is not a product feature, it is a *curricular concept*. A student who understands why an agent must cite a dataset ID understands provenance, API contracts, and verification — three things that outlive whichever model is current. NYC's open data portal is an unusually good teaching corpus because the data is real, local, free, and messy in instructive ways.
 

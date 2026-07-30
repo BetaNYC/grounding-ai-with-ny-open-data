@@ -6,7 +6,7 @@ status: DRAFT
 
 Run-it-live demo scripts for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to a **New York State Senator or Assemblymember** (or their staff).
 
-The parallel to [`../council-members/`](../council-members/), with one structural difference: the spine is **NYS Open Legislation** rather than Legistar, and there is **no state equivalent of Schedule C discretionary awards** in our tooling. So the four-act arc is different, not just re-pointed.
+The parallel to [`../council-members/`](../council-members/README.md), with one structural difference: the spine is **NYS Open Legislation** rather than Legistar, and there is **no state equivalent of Schedule C discretionary awards** in our tooling. So the four-act arc is different, not just re-pointed.
 
 ## Available demos
 
@@ -57,6 +57,6 @@ If a dataset lacks a district, say the dataset lacks the district — not that t
 
 ## See also
 
-- [`../council-members/`](../council-members/) — the parallel demos for NYC Council districts.
-- [`../educators/`](../educators/) — demos framed around what the material teaches.
+- [`../council-members/`](../council-members/README.md) — the parallel demos for NYC Council districts.
+- [`../educators/`](../educators/README.md) — demos framed around what the material teaches.
 - [`../user-journeys.md`](../user-journeys.md) — the full, audience-neutral prompt catalog.

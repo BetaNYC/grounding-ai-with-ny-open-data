@@ -20,10 +20,11 @@ So the arc is built around transferable concepts rather than local findings:
 | Audience | File |
 |---|---|
 | CUNY computer science curriculum | [`cuny-cs-curriculum.md`](cuny-cs-curriculum.md) |
+| Liberal arts and general education — writing, critical thinking, political science | [`cuny-liberal-arts.md`](cuny-liberal-arts.md) · deck: [`cuny-liberal-arts-deck.html`](cuny-liberal-arts-deck.html) |
 
 ## Adapting these
 
-The CUNY script leans on education-sector datasets (CTE reports, graduation outcomes) because that is what a computer science curriculum audience recognizes. For a different discipline, swap the dataset in Act 3 and keep the structure:
+The CS script leans on education-sector datasets (CTE reports, graduation outcomes) because that is what a computer science curriculum audience recognizes. For a different discipline, swap the dataset in Act 3 and keep the structure:
 
 1. **Act 1** — demonstrate the failure mode rather than asserting it.
 2. **Act 2** — catalog search as an API contract.
@@ -31,7 +32,18 @@ The CUNY script leans on education-sector datasets (CTE reports, graduation outc
 4. **Act 4** — a gap, a limitation, or a data-quality problem. This act is where the honesty discipline gets taught, and it is the one worth keeping in every version.
 5. **Act 5** — setup cost and assignment shapes.
 
-For a journalism school, Act 3 might be 311 or procurement. For public policy, discretionary funding. For a statistics course, the suppression discussion in Act 3 can carry the whole session on its own.
+Worked swaps, from the two scripts in this folder:
+
+| Discipline | Act 3 | Act 4 (the honesty act) |
+|---|---|---|
+| Computer science | CTE programs report (`gyjk-fbss`) with schema and NYSED-approval columns | Local Law 174: the law says annual, the record stops at 2019–2020 |
+| First-year writing | One agency document plus the record behind its central claim | What the document asserts that the data does not support |
+| Critical thinking | The suppressed-cell CTE enrollment file (`8vqd-3345`) | The silent `try/except` that yields a wrong average |
+| Political science | Council discretionary funding for the student's own district | The same Local Law 174 gap, read as an oversight failure |
+
+Still unwritten: for a journalism school, Act 3 might be 311 or procurement. For a statistics course, the suppression discussion in Act 3 can carry the whole session on its own.
+
+**Name the question the audience came in with before you pick anything.** That is the real adaptation step. The council and community-board folders answer *"what is happening in my district?"* An educator audience asks *"what does this teach, and can I assign it?"* — and within that, a CS audience wants the systems property while a humanities audience wants the reading-and-writing property. Same connectors, different arc.
 
 ## A standing rule for this folder
 

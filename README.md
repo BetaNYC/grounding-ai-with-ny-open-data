@@ -10,16 +10,23 @@ AI agents are only as trustworthy as what they're grounded in. This repo documen
 
 ## Read it in a browser
 
-Everything here is published at **<https://betanyc.github.io/grounding-ai-with-ny-open-data/>**. Every guide renders at the same path with `.html` in place of `.md`.
+Everything here is published at **<https://betanyc.github.io/grounding-ai-with-ny-open-data/>**, styled to match the decks. Every guide renders at the same path with `.html` in place of `.md`.
 
-The slide decks are the reason the site exists. They are self-contained HTML, so GitHub shows you source instead of slides. Open them from the published site:
+**Start at the site, not this file.** The front page describes each class in plain language, and every audience has a landing page with its script and deck:
 
-| Deck | Audience |
-|---|---|
-| [CUNY liberal arts and general education](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/educators/cuny-liberal-arts-deck.html) | Faculty who teach writing, critical thinking, and political science |
-| [Council District 4](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/council-members/district-04-deck.html) | Council members and district staff |
+| Audience | Landing page | Deck |
+|---|---|---|
+| Council District 4 — Virginia Maloney | [district-04](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/council-members/district-04/) | ✅ |
+| Council District 10 — Carmen N. De La Rosa | [district-10](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/council-members/district-10/) | ✅ |
+| NYS Senate District 59 — Sen. Kristen Gonzalez | [senate-district-59](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/state-legislators/senate-district-59/) | — |
+| Manhattan Community Board 1 | [manhattan-cb1](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/community-boards/manhattan-cb1/) | — |
+| Liberal arts & general education faculty | [cuny-liberal-arts](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/educators/cuny-liberal-arts/) | ✅ |
+| CS curriculum designers | [cuny-cs-curriculum](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/educators/cuny-cs-curriculum/) | — |
+| Watchdogs and newsrooms | [reinvent-albany](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/good-government/reinvent-albany/) | ✅ |
 
-Arrow keys move between slides, `N` opens presenter notes, `G` is the slide grid, `F` goes full screen.
+The decks are self-contained HTML, so GitHub shows you source instead of slides — open them from the site. Arrow keys move between slides, `N` opens presenter notes, `G` is the slide grid, `F` goes full screen.
+
+**Adding a new audience?** Create `guides/<folder>/<slug>/index.md` with `layout: profile` and the front matter documented in [`_layouts/profile.html`](_layouts/profile.html). Omit `deck:` and the page shows a disabled button instead of a broken link.
 
 ---
 
@@ -72,6 +79,14 @@ No API key is required for either portal. An optional `SOCRATA_APP_TOKEN` raises
 grounding-ai-with-ny-open-data/
 ├── README.md                                  ← you are here
 ├── LICENSE                                    ← CC BY-SA 4.0
+├── index.md                                   ← the published site's front page
+├── favicon.ico                                ← BetaNYC beta mark
+├── _config.yml                                ← Jekyll config (no theme gem — see _layouts)
+├── _layouts/
+│   ├── default.html                           ← site shell, applied to every page
+│   └── profile.html                           ← audience landing pages, built from front matter
+├── assets/css/
+│   └── betanyc.css                            ← brand tokens, shared with the decks
 ├── mcp-configs/
 │   └── socrata-nyc-nys.mcp.json               ← dual NYC/NYS Socrata MCP aliases
 ├── guides/

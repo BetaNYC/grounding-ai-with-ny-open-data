@@ -1,0 +1,75 @@
+# Builds the site exactly the way GitHub Pages does, on every PR, and asserts the
+# theme actually applied. Build only — it does NOT deploy. Deployment stays with
+# the repo's legacy Pages build, and adding a deploy step here would fight it.
+#
+# This exists because the theme cannot be verified locally: the machine has no Ruby
+# toolchain, and _layouts wiring is invisible until Jekyll runs. Without this, the
+# first place a broken layout would show up is the live public site.
+name: Site build check
+
+on:
+  pull_request:
+    paths:
+      - "_config.yml"
+      - "_layouts/**"
+      - "_includes/**"
+      - "assets/**"
+      - "**/*.md"
+      - ".github/workflows/site-build-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: read
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+          verbose: true
+
+      - name: Assert the theme applied and pages rendered
+        run: |
+          set -euo pipefail
+          fail=0
+          need() {  # path, needle, why
+            if [ ! -f "$1" ]; then echo "MISSING  $1  ($3)"; fail=1; return; fi
+            if ! grep -q "$2" "$1"; then echo "NO MATCH $1  expected '$2'  ($3)"; fail=1; return; fi
+            echo "ok       $1  ($3)"
+          }
+
+          need _site/index.html            "assets/css/betanyc.css" "front page uses the BetaNYC layout"
+          need _site/index.html            "Ask New York City"      "front page content rendered"
+          need _site/assets/css/betanyc.css ":root"                 "stylesheet published"
+
+          # A page with NO front matter must still get the layout, via
+          # jekyll-optional-front-matter + jekyll-default-layout.
+          need _site/guides/query-patterns.html "assets/css/betanyc.css" "front-matter-less guide is themed"
+
+          # Profile pages render through _layouts/profile.html.
+          need _site/guides/council-members/district-04/index.html "Open the deck"      "profile with a deck"
+          need _site/guides/state-legislators/senate-district-59/index.html "btn off"   "profile without a deck degrades"
+
+          # jekyll-relative-links must still rewrite .md links to .html.
+          need _site/guides/educators/cuny-liberal-arts.html ".html" "relative links rewritten"
+
+          echo "--- unrendered Liquid anywhere in the build? ---"
+          if grep -rIl --include=*.html -e '{%' -e '{{' _site 2>/dev/null | grep . ; then
+            echo "FAIL: unrendered Liquid above"; fail=1
+          else
+            echo "none"
+          fi
+
+          exit $fail

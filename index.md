@@ -76,6 +76,17 @@ the arc, the examples, and what the audience already knows.
 </div>
 
 <div class="card">
+  <div class="who">City government</div>
+  <h3>Agency staff and data teams</h3>
+  <p>For people inside the thing being queried. Two chapters go deep: what the open data portals do
+  that a search engine structurally cannot, and the cross-agency spending view no single agency can
+  assemble on its own.</p>
+  <div class="links">
+    <a class="btn" href="{{ '/guides/city-government/' | relative_url }}">City government</a>
+  </div>
+</div>
+
+<div class="card">
   <div class="who">Watchdogs and newsrooms</div>
   <h3>Following the money</h3>
   <p>For people who can already find the data. What costs them is the assembly — one vendor across

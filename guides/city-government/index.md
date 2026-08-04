@@ -52,6 +52,8 @@ The deck concedes on its second slide that a published dataset is a poor substit
 own system of record, and it ends by admitting we cannot tell anyone whether their IT policy permits
 installing any of this. Both concessions are load-bearing with this audience.
 
-Every figure was verified live on **2026-08-03** and carries that date. Where our own documentation
+The Checkbook and Socrata figures were run live on **2026-08-04**; three others are carried from
+earlier work and keep their own dates. Every number in the script's provenance table names the call
+behind it. Where our own documentation
 contradicts itself — the newsletter scanner is "~130 sources" in two files and "~115" in a third —
 the presenter notes say so rather than defending a figure we cannot source.

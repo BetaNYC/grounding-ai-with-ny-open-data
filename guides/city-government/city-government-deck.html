@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BetaNYC &middot; City government &middot; Ask the city a question, get a record back</title>
+<!-- relative so the tab icon works both from the published site and from a local file:// copy -->
+<link rel="icon" href="../../favicon.ico">
+<style>
+/* ---------- BetaNYC brand tokens (archive/betanyc/brand.md, finalized 2026-05-06) ---------- */
+:root{
+  --bnyc-blue:#2359a8;
+  --bnyc-blue-secondary:#B8D6FF;
+  --bnyc-bg-blue:#EEF4FF;
+  --bnyc-bg-blue-light:#F9FAFF;
+  --bnyc-white:#FFFFFF;
+  --bnyc-black:#000000;
+  --bnyc-dark-gray:#414141;
+  --bnyc-light-gray:#F1F1F1;
+  --bnyc-border-gray:#949494;
+
+  /* Poppins = display + body, Roboto = H2-H6. No external requests: falls back
+     to system sans if the fonts are not installed locally. */
+  --font-display:'Poppins','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --font-heading:'Roboto','Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--font-display);
+  color:var(--bnyc-dark-gray);
+  background:var(--bnyc-light-gray);
+  overflow:hidden;
+}
+
+/* ---------- Deck shell ---------- */
+#deck{position:relative;width:100vw;height:100vh}
+
+.slide{
+  position:absolute;inset:0;
+  display:none;
+  flex-direction:column;
+  /* Center vertically so the deck reads correctly in a portrait preview pane
+     as well as a landscape projector. */
+  justify-content:center;
+  /* Bottom padding clears the fixed footer chrome. */
+  padding:4.2vh 5vw 5.5rem;
+  background:var(--bnyc-white);
+  overflow-y:auto;
+}
+.slide.active{display:flex;animation:slideIn .42s cubic-bezier(.22,.61,.36,1) both}
+/* Tall, dense slides need to start at the top or they clip. */
+.slide.top{justify-content:flex-start}
+@keyframes slideIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.slide.tint{background:var(--bnyc-bg-blue)}
+.slide.tint-light{background:var(--bnyc-bg-blue-light)}
+.slide.invert{background:var(--bnyc-blue);color:var(--bnyc-white)}
+.slide.invert h1,.slide.invert h2,.slide.invert h3{color:var(--bnyc-white)}
+.slide.invert a{color:var(--bnyc-white)}
+.slide.center{justify-content:center}
+
+/* ---------- Type ---------- */
+/* Type scale is driven by min(vw, vh) so a portrait preview pane gets the same
+   optical size as a landscape projector. Sizing on vw alone collapsed to the
+   clamp floor in a narrow window. */
+h1{
+  font-family:var(--font-display);font-weight:700;
+  font-size:clamp(2.3rem,5.4vmin,3.7rem);line-height:1.14;
+  color:var(--bnyc-blue);letter-spacing:-.015em;
+}
+h2{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(1.85rem,3.7vmin,2.7rem);line-height:1.24;
+  color:var(--bnyc-blue);margin-bottom:.55em;
+}
+h3{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(1.2rem,2.1vmin,1.55rem);line-height:1.3;
+  color:var(--bnyc-blue);
+}
+h4{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(1.05rem,1.85vmin,1.3rem);line-height:1.28;
+  color:var(--bnyc-blue);
+}
+p,li{font-size:clamp(1.05rem,1.8vmin,1.35rem);line-height:1.6}
+.lede{font-size:clamp(1.3rem,2.6vmin,1.9rem);line-height:1.46;max-width:28em}
+.kicker{
+  font-family:var(--font-heading);font-weight:700;
+  text-transform:uppercase;letter-spacing:.13em;
+  font-size:clamp(.72rem,1.15vmin,.9rem);
+  color:var(--bnyc-blue);margin-bottom:1.1em;
+}
+.slide.invert .kicker{color:var(--bnyc-blue-secondary)}
+.muted{color:var(--bnyc-dark-gray);opacity:.72}
+.slide.invert .muted{color:var(--bnyc-white);opacity:.8}
+strong{font-weight:700;color:var(--bnyc-blue)}
+.slide.invert strong{color:var(--bnyc-white)}
+code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.88em;background:var(--bnyc-light-gray);
+  padding:.1em .38em;color:var(--bnyc-dark-gray);
+}
+.slide.invert code{background:rgba(255,255,255,.16);color:var(--bnyc-white)}
+
+/* ---------- Reveal animation for children ---------- */
+.slide.active .reveal{animation:rise .5s cubic-bezier(.22,.61,.36,1) both}
+.reveal{opacity:0}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slide.active .reveal:nth-child(1){animation-delay:.06s}
+.slide.active .reveal:nth-child(2){animation-delay:.12s}
+.slide.active .reveal:nth-child(3){animation-delay:.18s}
+.slide.active .reveal:nth-child(4){animation-delay:.24s}
+.slide.active .reveal:nth-child(5){animation-delay:.30s}
+.slide.active .reveal:nth-child(6){animation-delay:.36s}
+.slide.active .reveal:nth-child(7){animation-delay:.42s}
+.slide.active .reveal:nth-child(8){animation-delay:.48s}
+.slide.active .reveal:nth-child(9){animation-delay:.54s}
+.slide.active .reveal:nth-child(10){animation-delay:.60s}
+
+/* ---------- Cards: 1px #949494, square corners (standing standard 2026-06-22) ---------- */
+.grid{display:grid;gap:.85rem;margin-top:.4rem}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:1000px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+/* Narrow panes: everything goes single column rather than clipping. */
+@media(max-width:780px){.g2,.g3,.g4{grid-template-columns:1fr}}
+/* Grid children must be allowed to shrink or long tokens push the card wide. */
+.grid > *{min-width:0}
+.card p,.card h4{overflow-wrap:anywhere}
+
+.card{
+  border:1px solid var(--bnyc-border-gray);
+  border-radius:0;
+  background:var(--bnyc-white);
+  padding:1.15rem 1.3rem;
+  display:flex;flex-direction:column;gap:.5rem;
+}
+.card.fill{background:var(--bnyc-bg-blue)}
+.card.fill-light{background:var(--bnyc-bg-blue-light)}
+.card p{font-size:clamp(.95rem,1.55vmin,1.18rem);line-height:1.5}
+.card .q{
+  font-style:italic;color:var(--bnyc-blue);
+  font-size:clamp(.95rem,1.55vmin,1.18rem);line-height:1.44;
+}
+.card .meta{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.68rem,1.05vmin,.82rem);text-transform:uppercase;
+  letter-spacing:.09em;opacity:.72;
+}
+/* npm package names are lowercase; never uppercase them. */
+.card .pkg{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:clamp(.72rem,1.15vmin,.86rem);
+  text-transform:none;letter-spacing:0;
+  color:var(--bnyc-dark-gray);opacity:.66;
+  overflow-wrap:anywhere;
+}
+/* The course hook: emphasis without shouting. */
+.card .hook{
+  font-family:var(--font-display);font-weight:400;
+  font-size:clamp(.9rem,1.45vmin,1.1rem);line-height:1.42;
+  text-transform:none;letter-spacing:0;
+  color:var(--bnyc-blue);
+  border-top:1px solid var(--bnyc-border-gray);
+  padding-top:.55rem;margin-top:.15rem;
+}
+.card .hook b{font-weight:700}
+
+/* Before / after opposition: gray means superseded, blue means current.
+   Same grammar as .pane.bad / .pane.good so the deck reads consistently. */
+.card.was{background:var(--bnyc-light-gray)}
+.card.was h3,.card.was h4{color:var(--bnyc-dark-gray);opacity:.72}
+.card.is{
+  background:var(--bnyc-bg-blue);
+  border-color:var(--bnyc-blue);border-left-width:6px;
+}
+
+.badge{
+  display:inline-block;
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.66rem,1.05vmin,.8rem);
+  text-transform:uppercase;letter-spacing:.08em;
+  padding:.2em .55em;border:1px solid var(--bnyc-border-gray);
+  align-self:flex-start;
+}
+.badge.free{background:var(--bnyc-blue);color:var(--bnyc-white);border-color:var(--bnyc-blue)}
+.badge.key{background:var(--bnyc-light-gray);color:var(--bnyc-dark-gray)}
+
+/* ---------- Two-column compare ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-top:.5rem}
+@media(max-width:820px){.compare{grid-template-columns:1fr}}
+.pane{border:1px solid var(--bnyc-border-gray);padding:1.1rem 1.2rem;background:var(--bnyc-white)}
+.pane.bad{background:var(--bnyc-light-gray)}
+.pane.good{background:var(--bnyc-bg-blue)}
+.pane h3{margin-bottom:.55rem}
+.pane ul{margin:.4rem 0 0 1.05rem}
+.pane li{font-size:clamp(.82rem,1vw,1rem);line-height:1.55;margin-bottom:.3rem}
+
+/* ---------- Big stat / quote ---------- */
+.quote{
+  border-left:5px solid var(--bnyc-blue);
+  background:var(--bnyc-bg-blue-light);
+  padding:1.2rem 1.5rem;max-width:34em;
+  font-size:clamp(1.05rem,1.6vw,1.42rem);line-height:1.5;
+}
+.slide.invert .quote{
+  border-left-color:var(--bnyc-blue-secondary);
+  background:rgba(255,255,255,.1);
+}
+.cite{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.62rem,.78vw,.78rem);text-transform:uppercase;
+  letter-spacing:.09em;margin-top:.9rem;opacity:.75;
+}
+
+.statrow{display:flex;flex-wrap:wrap;gap:2.6rem;margin-top:.6rem}
+.stat .n{
+  font-family:var(--font-display);font-weight:700;
+  font-size:clamp(2rem,3.6vw,3.1rem);line-height:1;color:var(--bnyc-blue);
+}
+.slide.invert .stat .n{color:var(--bnyc-white)}
+.stat .l{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.64rem,.8vw,.8rem);text-transform:uppercase;
+  letter-spacing:.09em;margin-top:.45rem;opacity:.78;max-width:11em;
+}
+
+ul.plain{list-style:none}
+ul.plain li{padding-left:1.35em;position:relative;margin-bottom:.55rem}
+ul.plain li::before{
+  content:"";position:absolute;left:0;top:.62em;
+  width:.52em;height:.52em;background:var(--bnyc-blue);
+}
+.slide.invert ul.plain li::before{background:var(--bnyc-blue-secondary)}
+
+.steps{counter-reset:s;list-style:none;margin-top:.5rem}
+.steps li{
+  counter-increment:s;position:relative;padding-left:2.5rem;margin-bottom:.8rem;
+}
+.steps li::before{
+  content:counter(s);position:absolute;left:0;top:-.05em;
+  width:1.7rem;height:1.7rem;
+  background:var(--bnyc-blue);color:var(--bnyc-white);
+  font-family:var(--font-heading);font-weight:700;font-size:.86rem;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ---------- Typing demo (slide 3) ---------- */
+.demo{max-width:60em;width:100%}
+
+.promptbar{
+  border:1px solid var(--bnyc-border-gray);
+  background:var(--bnyc-white);
+  padding:.9rem 1.1rem;
+  display:flex;align-items:baseline;gap:.7rem;
+  font-size:clamp(1rem,1.75vmin,1.3rem);
+  min-height:3.4em;
+}
+.promptbar .chev{
+  font-family:var(--font-heading);font-weight:700;
+  color:var(--bnyc-blue);flex:none;
+}
+.promptbar .typed{color:var(--bnyc-dark-gray);line-height:1.45}
+.caret{
+  display:inline-block;width:.08em;height:1.05em;
+  background:var(--bnyc-blue);vertical-align:-.14em;
+  margin-left:.06em;animation:blink 1s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.caret.off{display:none}
+
+.status{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.72rem,1.15vmin,.88rem);
+  text-transform:uppercase;letter-spacing:.1em;
+  color:var(--bnyc-blue);margin:.9rem 0 .1rem;
+  opacity:0;transition:opacity .3s ease;
+}
+.status.on{opacity:.85}
+.status .dots::after{content:'';animation:dots 1.2s steps(4,end) infinite}
+@keyframes dots{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
+
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.9rem}
+@media(max-width:900px){.answers{grid-template-columns:1fr}}
+
+.ans{
+  border:1px solid var(--bnyc-border-gray);padding:1.05rem 1.2rem;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .4s ease,transform .4s ease;
+}
+.ans.on{opacity:1;transform:none}
+.ans.bad{background:var(--bnyc-light-gray)}
+.ans.good{background:var(--bnyc-bg-blue);border-color:var(--bnyc-blue);border-left-width:6px}
+.ans h3{margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.ans .src{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.62rem,1vmin,.76rem);text-transform:uppercase;
+  letter-spacing:.09em;padding:.16em .5em;
+  border:1px solid var(--bnyc-border-gray);
+}
+.ans.bad .src{color:var(--bnyc-dark-gray);opacity:.75}
+.ans.good .src{background:var(--bnyc-blue);color:var(--bnyc-white);border-color:var(--bnyc-blue)}
+
+.ans ul{list-style:none;margin:0}
+.ans li{
+  font-size:clamp(.95rem,1.6vmin,1.2rem);line-height:1.5;
+  padding:.24rem 0 .24rem 1.25em;position:relative;
+  opacity:0;transform:translateX(-6px);
+  transition:opacity .32s ease,transform .32s ease;
+}
+.ans li.on{opacity:1;transform:none}
+.ans li::before{
+  content:"";position:absolute;left:0;top:.78em;
+  width:.42em;height:.42em;background:var(--bnyc-blue);
+}
+.ans.bad li::before{background:var(--bnyc-border-gray)}
+.ans li.verdict{font-weight:700;color:var(--bnyc-blue);padding-top:.5rem}
+.ans.bad li.verdict{color:var(--bnyc-dark-gray)}
+.ans li.verdict::before{display:none}
+.ans li.verdict{padding-left:0}
+
+.resolved{
+  display:inline-block;margin-left:.4em;
+  font-family:var(--font-heading);font-weight:700;
+  font-size:.72em;color:var(--bnyc-blue);
+  opacity:0;transition:opacity .4s ease;
+}
+.resolved.on{opacity:1}
+
+.replay{
+  /* Must sit above the #nav click zones or pressing it flips the slide. */
+  position:relative;z-index:55;
+  margin-top:1.1rem;
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.68rem,1.05vmin,.8rem);
+  text-transform:uppercase;letter-spacing:.09em;
+  color:var(--bnyc-blue);background:none;
+  border:1px solid var(--bnyc-blue);
+  padding:.45em 1em;cursor:pointer;
+}
+.replay:hover{background:var(--bnyc-blue);color:var(--bnyc-white)}
+
+/* ---------- Presenter notes (N to toggle) ----------
+   Every trap rides on the slide it belongs to, so the notes cannot drift from
+   what is on screen. Toggled with N; hidden by default. */
+.notes{display:none}
+body.notes-on .slide.active .notes{
+  display:block;
+  margin-top:1.1rem;
+  border:1px solid var(--bnyc-blue);
+  border-left-width:6px;
+  background:var(--bnyc-bg-blue);
+  padding:.9rem 1.15rem;
+  max-width:52em;
+}
+body.notes-on .slide.invert .notes{
+  background:rgba(255,255,255,.12);
+  border-color:var(--bnyc-white);
+}
+.notes .nlabel{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.62rem,1vmin,.76rem);
+  text-transform:uppercase;letter-spacing:.1em;
+  color:var(--bnyc-blue);margin-bottom:.4rem;
+}
+.slide.invert .notes .nlabel{color:var(--bnyc-white)}
+.notes p{font-size:clamp(.92rem,1.5vmin,1.12rem);line-height:1.52}
+.notes p + p{margin-top:.5rem}
+#notesFlag{
+  position:fixed;left:1.35rem;top:.9rem;z-index:60;display:none;
+  font-family:var(--font-heading);font-weight:700;
+  font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;
+  background:var(--bnyc-blue);color:var(--bnyc-white);
+  padding:.28em .7em;
+}
+body.notes-on #notesFlag{display:block}
+body.notes-on #help{display:none} /* the flag occupies the same corner */
+
+/* ---------- Outbound links ---------- */
+.links{
+  display:flex;flex-wrap:wrap;gap:.3rem .5rem;
+  margin-top:.5rem;padding-top:.5rem;
+  border-top:1px solid var(--bnyc-border-gray);
+}
+a.out{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.68rem,1.05vmin,.82rem);
+  letter-spacing:.03em;
+  color:var(--bnyc-blue);text-decoration:none;
+  border:1px solid var(--bnyc-blue);
+  padding:.26em .6em;
+  white-space:nowrap;
+}
+a.out:hover,a.out:focus-visible{background:var(--bnyc-blue);color:var(--bnyc-white);outline:none}
+a.out::after{content:" \2197";font-weight:400}
+.slide.invert a.out{color:var(--bnyc-white);border-color:var(--bnyc-white)}
+.slide.invert a.out:hover{background:var(--bnyc-white);color:var(--bnyc-blue)}
+/* Inline links inside prose. */
+a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:.15em}
+.slide.invert a.inline{color:var(--bnyc-white)}
+/* Drawer: the primary source for the demo you just watched. */
+#dLinks{display:flex;flex-wrap:wrap;gap:.4rem .55rem;margin-top:1rem}
+
+/* ---------- Clickable card demos ---------- */
+.card[data-demo]{cursor:pointer;transition:box-shadow .18s ease,transform .18s ease}
+.card[data-demo]:hover{box-shadow:0 0 0 3px var(--bnyc-blue-secondary);transform:translateY(-2px)}
+.tryit{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.66rem,1.05vmin,.8rem);
+  text-transform:uppercase;letter-spacing:.09em;
+  color:var(--bnyc-blue);margin-top:auto;padding-top:.5rem;
+}
+.tryit::after{content:" \203A";font-size:1.15em}
+
+#drawer{
+  position:fixed;inset:0;z-index:90;display:none;
+  background:rgba(35,89,168,.22);
+  padding:4vh 4vw;overflow-y:auto;
+}
+#drawer.on{display:flex;align-items:flex-start;justify-content:center}
+#drawerBox{
+  width:100%;max-width:56em;
+  background:var(--bnyc-white);
+  border:1px solid var(--bnyc-blue);border-left-width:6px;
+  padding:1.6rem 1.8rem 1.8rem;
+  animation:rise .3s cubic-bezier(.22,.61,.36,1) both;
+}
+#drawerBox .dtop{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:1rem;margin-bottom:1rem;
+}
+#drawerClose{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:1.4rem;line-height:1;background:none;border:none;
+  color:var(--bnyc-blue);cursor:pointer;padding:.1em .3em;flex:none;
+}
+#drawerClose:hover{background:var(--bnyc-light-gray)}
+
+.prov{
+  display:inline-block;
+  font-family:var(--font-heading);font-weight:700;
+  font-size:clamp(.62rem,1vmin,.76rem);
+  text-transform:uppercase;letter-spacing:.09em;
+  padding:.24em .6em;border:1px solid var(--bnyc-border-gray);
+}
+.prov.ok{background:var(--bnyc-blue);color:var(--bnyc-white);border-color:var(--bnyc-blue)}
+.prov.illus{background:var(--bnyc-light-gray);color:var(--bnyc-dark-gray)}
+
+.result{
+  border:1px solid var(--bnyc-border-gray);
+  background:var(--bnyc-bg-blue-light);
+  padding:1.05rem 1.2rem;margin-top:.9rem;
+}
+.result .rl{
+  font-size:clamp(.95rem,1.6vmin,1.2rem);line-height:1.52;
+  padding:.22rem 0 .22rem 1.2em;position:relative;
+  opacity:0;transform:translateX(-6px);
+  transition:opacity .3s ease,transform .3s ease;
+}
+.result .rl.on{opacity:1;transform:none}
+.result .rl::before{
+  content:"";position:absolute;left:0;top:.72em;
+  width:.4em;height:.4em;background:var(--bnyc-blue);
+}
+.result .rl.note{
+  padding-left:0;margin-top:.6rem;font-style:italic;
+  color:var(--bnyc-dark-gray);border-top:1px solid var(--bnyc-border-gray);
+  padding-top:.6rem;
+}
+.result .rl.note::before{display:none}
+.drawer-foot{
+  margin-top:1.1rem;font-size:clamp(.86rem,1.4vmin,1.02rem);
+  line-height:1.5;color:var(--bnyc-dark-gray);opacity:.8;
+}
+
+/* ---------- Chrome ---------- */
+#bar{
+  position:fixed;left:0;top:0;height:4px;
+  background:var(--bnyc-blue);width:0;
+  transition:width .3s ease;z-index:60;
+}
+#count{
+  position:fixed;right:1.15rem;bottom:.85rem;z-index:60;
+  font-family:var(--font-heading);font-weight:700;
+  font-size:.72rem;letter-spacing:.09em;
+  color:var(--bnyc-dark-gray);opacity:.62;
+}
+#brandmark{
+  position:fixed;left:1.35rem;bottom:.85rem;z-index:60;
+  font-family:var(--font-display);font-weight:700;
+  font-size:.74rem;letter-spacing:.02em;
+  color:var(--bnyc-blue);opacity:.75;
+}
+.slide.invert ~ #brandmark{color:var(--bnyc-white)}
+#help{
+  position:fixed;right:1.15rem;top:.9rem;z-index:60;
+  font-family:var(--font-heading);font-size:.66rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--bnyc-dark-gray);opacity:.42;
+}
+/* No invisible click-catcher overlay. An earlier version used fixed left/right
+   hit zones at z-index 50, which sat on top of the slide and made cards in the
+   outer 22% unclickable. Advance is handled on the slide itself instead. */
+
+/* ---------- Grid overview ---------- */
+#overview{
+  position:fixed;inset:0;z-index:80;display:none;
+  background:var(--bnyc-white);padding:2.2rem 2.4rem;overflow-y:auto;
+}
+#overview.on{display:block}
+#overview h2{margin-bottom:1.1rem}
+#ovgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.7rem}
+.ovcard{
+  border:1px solid var(--bnyc-border-gray);padding:.7rem .8rem;
+  cursor:pointer;background:var(--bnyc-white);
+  display:flex;flex-direction:column;gap:.3rem;
+}
+.ovcard:hover{background:var(--bnyc-bg-blue)}
+.ovcard .n{
+  font-family:var(--font-heading);font-weight:700;font-size:.62rem;
+  letter-spacing:.09em;color:var(--bnyc-blue);
+}
+.ovcard .t{font-size:.86rem;line-height:1.35}
+
+@media print{
+  body{overflow:visible;background:#fff}
+  .slide{display:flex!important;position:relative;height:auto;min-height:96vh;page-break-after:always;animation:none}
+  .reveal{opacity:1;animation:none}
+  #bar,#count,#help,#nav,#overview,#brandmark{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="bar"></div>
+<div id="deck">
+
+<!-- 1 -->
+<section class="slide invert center" data-title="Title">
+  <div class="kicker reveal">BetaNYC &middot; For people who work in City government &middot; August 3, 2026</div>
+  <h1 class="reveal" style="max-width:23em">Ask the city a question, get a record back</h1>
+  <p class="lede reveal" style="margin-top:1.1rem;opacity:.94">
+    Nine open-source connectors that let an AI assistant query the City's own systems while you watch.
+    Every claim resolves to something you can open in a browser and check.
+  </p>
+  <p class="reveal muted" style="margin-top:2rem;font-size:.9rem">
+    Free &middot; MIT licensed &middot; No vendor &middot; Every figure on these slides dated and sourced
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Know your room before slide 2.</b> Agency data staff want the Socrata act. Program and budget staff want Checkbook. Communications and operations staff want the last three slides, which are about how BetaNYC runs itself. Ask at the top and reorder.</p><p>Runs ~30 minutes at full length. Cuttable, in order: slide 16, then slide 6. <b>Do not cut slide 15</b>, the automations.</p><p><b>Everything numeric on these slides was verified live on 2026-08-03.</b> Checkbook and the 311 aggregate were run from this machine that morning. If you present more than a week out, re-run them.</p></div>
+</section>
+
+<!-- 2 -->
+<section class="slide tint" data-title="Where doing it by hand wins">
+  <div class="kicker reveal">Concede this first</div>
+  <h2 class="reveal">Three things you should not use this for</h2>
+  <div class="grid g3 reveal" style="margin-top:.7rem">
+    <div class="card was">
+      <h3>Your own agency's live operational data</h3>
+      <p>You have a system of record and it is better than this. These connectors read
+      <strong style="color:inherit">published</strong> data. If the question is about your own caseload
+      this week, ask your own database.</p>
+    </div>
+    <div class="card was">
+      <h3>Anything legally operative</h3>
+      <p>A determination, a filing, a figure going into testimony. Go to the source document.
+      This is a research accelerator, not a system of record, and Checkbook itself says the same.</p>
+    </div>
+    <div class="card was">
+      <h3>One record you already know</h3>
+      <p>If you have the contract number, open Checkbook in a browser. A tab beats a query.
+      <strong style="color:inherit">Do not let a tool add a step.</strong></p>
+    </div>
+  </div>
+  <p class="reveal" style="margin-top:1.2rem;max-width:46em">
+    What is left is the part that actually costs you: <strong>a question that crosses systems</strong>,
+    or crosses agencies, where no one page anywhere holds the answer.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Lead by conceding and mean it.</b> This room has been pitched a lot of civic tech. The fastest way to lose them is to claim the tool is good at everything, and the fastest way to earn the next twenty minutes is to name the cases where it is the wrong choice.</p><p>The first card matters most here and is the one that differs from every other version of this deck. <b>Do not tell agency staff that a public dataset beats their own system.</b> It does not, and they know it.</p></div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-title="Socrata · the question Google cannot answer" data-anim="typedemo">
+  <div class="kicker reveal">Chapter 1 &middot; the open data portals, in depth</div>
+  <h2 class="reveal">The question a search engine structurally cannot answer</h2>
+
+  <div class="demo reveal">
+    <div class="promptbar">
+      <span class="chev">&rsaquo;</span>
+      <span><span class="typed" id="typed"></span><span class="caret" id="caret"></span></span>
+    </div>
+
+    <div class="status" id="status">Querying NYC Open Data, dataset erm2-nwe9<span class="dots"></span></div>
+
+    <div class="answers">
+      <div class="ans bad" id="ansBad">
+        <h3><span class="src">Web search</span> What a search engine returns</h3>
+        <ul>
+          <li>The 311 dataset's <em>landing page</em></li>
+          <li>A news article about noise complaints, from 2023</li>
+          <li>A dashboard someone built, last refreshed at an unknown date</li>
+          <li>A blog post <em>about</em> the data</li>
+          <li class="verdict">Pages about the data. Not the data.</li>
+        </ul>
+      </div>
+
+      <div class="ans good" id="ansGood">
+        <h3><span class="src">Live rows</span> What the query returns</h3>
+        <ul>
+          <li><strong>108,042</strong> Brooklyn service requests since July 1</li>
+          <li>Illegal Parking <strong>18,662</strong> &middot; Noise&ndash;Residential <strong>10,307</strong></li>
+          <li>Noise&ndash;Street <strong>5,667</strong> &middot; Blocked Driveway <strong>5,036</strong></li>
+          <li>Unsanitary Condition <strong>4,122</strong> &middot; Water System <strong>4,088</strong><span class="resolved" id="resolved">&#10003; grouped server-side</span></li>
+          <li class="verdict">No web page anywhere contains this table.</li>
+        </ul>
+      </div>
+    </div>
+
+    <button class="replay" id="replay" type="button">Replay &nbsp;&middot;&nbsp; R</button>
+  </div>
+
+  <p class="reveal" style="margin-top:1.1rem;max-width:46em">
+    That table did not exist until the question was asked. It was <strong>computed</strong>, against live rows,
+    by a database that grouped and counted on request. A search engine indexes documents that already exist.
+    <strong>This one does not exist yet.</strong>
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>This is the thesis of the whole chapter, so do not rush it.</b> The distinction is not "the AI is smarter than Google." It is that a search engine can only return a document somebody already wrote, and an aggregate over live rows is not a document.</p><p><b>Verified live 2026-08-03</b> against <code>erm2-nwe9</code>, created_date &gt; 2026-07-01, borough = BROOKLYN. Re-run it before you present. The numbers move daily and quoting a stale count on the slide about freshness would be an unforced error.</p><p>If someone asks why Illegal Parking dominates: do not theorize. Say you do not know and that the honest next query is a breakdown by agency and resolution status. <b>The demo's job is to get you to the next question, not to answer this one.</b></p></div>
+</section>
+
+<!-- 4 -->
+<section class="slide top tint" data-title="Socrata · four ways search fails">
+  <div class="kicker reveal">Chapter 1 &middot; why not just search for it</div>
+  <h2 class="reveal">Four ways the search-engine path fails, specifically</h2>
+
+  <div class="grid g4 reveal" style="margin-top:.5rem">
+    <div class="card was">
+      <h4>1. It returns writing about data</h4>
+      <p>An article, a dashboard, a PDF summary. All of them are somebody's reading of the rows at some past
+      moment. <strong style="color:inherit">None of them are the rows.</strong></p>
+    </div>
+    <div class="card was">
+      <h4>2. It cannot compute</h4>
+      <p>Count, group, sum, filter by date range, join two columns. A search index does none of that.
+      It matches text against documents.</p>
+    </div>
+    <div class="card was">
+      <h4>3. It has no freshness contract</h4>
+      <p>A highly-ranked page may be four years stale, and nothing on it tells you. The portal reports when
+      the dataset was last updated, as a field.</p>
+    </div>
+    <div class="card was">
+      <h4>4. Asking a chatbot instead is worse</h4>
+      <p>A language model with no connector will produce a confident, plausible, <strong style="color:inherit">and
+      sometimes invented</strong> dataset ID. Nothing in the answer tells you which.</p>
+    </div>
+  </div>
+
+  <p class="reveal" style="margin-top:1.2rem;max-width:48em">
+    The fourth is the one worth dwelling on with this room. <strong>The dangerous failure is not an error
+    message. It is a plausible answer to a question you did not ask</strong>, delivered in the same tone as
+    a correct one.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Card 4 is the reason this project exists.</b> A four-by-four dataset ID like <code>erm2-nwe9</code> is exactly the shape of string a language model will happily fabricate, and it looks identical to a real one.</p><p>If you want a live demonstration and have the nerve: ask an assistant with no connectors for the dataset ID of some obscure NYC dataset, then check it. <b>Do not promise this will fail on cue.</b> Sometimes it gets it right, which is itself the point: you cannot tell from the answer.</p></div>
+</section>
+
+<!-- 5 -->
+<section class="slide top" data-title="Socrata · what the query actually does">
+  <div class="kicker reveal">Chapter 1 &middot; the mechanism, four steps</div>
+  <h2 class="reveal">What actually happens between the question and the answer</h2>
+
+  <ol class="steps reveal" style="margin-top:.5rem;max-width:52em">
+    <li><strong>Catalog search.</strong> The assistant searches the portal's own catalog for datasets matching
+    the subject. It gets back real dataset identifiers with descriptions, owners, and update dates. It does
+    not recall an ID from memory.</li>
+    <li><strong>Schema read.</strong> It reads the actual column names and types for the dataset it picked.
+    This is why it can write a correct filter instead of guessing that a column is called
+    <code>borough</code> when it is called <code>boro</code>.</li>
+    <li><strong>A real database query.</strong> It composes SoQL, the portal's query language, and the portal
+    executes it. <code>SELECT complaint_type, count(*) WHERE created_date &gt; ... GROUP BY complaint_type</code>.
+    The arithmetic happens <strong>on the City's server</strong>, not in the model.</li>
+    <li><strong>An answer with a handle.</strong> The result carries the dataset ID and the filter used, so
+    anyone can re-run it. <strong>Including someone who wants to prove you wrong.</strong></li>
+  </ol>
+
+  <p class="reveal" style="margin-top:1rem;max-width:48em">
+    Step 3 is the one that matters. <strong>The model is not doing the counting.</strong> It is writing a query,
+    and a database is doing the counting. The AI is the interface, not the arithmetic.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Say the last line in those words.</b> "The AI is the interface, not the arithmetic." In a government room it is the sentence that decides whether the rest of the meeting is about capability or about risk.</p><p>If the room is technical, offer the corollary: this is also why the failure modes are boring and checkable. A wrong filter returns a wrong number that you can see the filter for. That is a much better class of error than a confident sentence with no provenance.</p><p>Step 2 is a real distinction and worth naming. <b>Column names in NYC Open Data are not consistent across datasets</b>, so schema-read-before-query is not ceremony.</p></div>
+</section>
+
+<!-- 6 -->
+<section class="slide top tint-light" data-title="Socrata · city and state">
+  <div class="kicker reveal">Chapter 1 &middot; two portals, one tool</div>
+  <h2 class="reveal">The City portal and the State portal, and where they do not meet</h2>
+
+  <div class="grid g2 reveal" style="margin-top:.4rem">
+    <div class="card fill">
+      <h3>Same connector, different domain</h3>
+      <p><code>data.cityofnewyork.us</code> is the City's catalog. <code>data.ny.gov</code> is the State's.
+      Both run on Socrata, so <strong>the same three tools reach both</strong>. You change one parameter.</p>
+      <p>That means a question that spans jurisdictions is two queries, not two projects.</p>
+    </div>
+    <div class="card">
+      <h4>And they share no join key</h4>
+      <p>The two catalogs publish overlapping subjects at different granularity, with different geography and
+      different identifiers. Matching is <strong>manual</strong>, on address or facility name or county.</p>
+      <p>Nothing about running the same tool against both portals makes their records line up.
+      <strong>Do not let the convenience imply a join that is not there.</strong></p>
+    </div>
+  </div>
+
+  <p class="reveal" style="margin-top:1.1rem;max-width:48em">
+    Neither portal requires an API key to read. Registration exists only to lift anonymous rate limits.
+    <strong>There is nothing to procure to start using this.</strong>
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p>The right-hand card is the honest half and the reason this slide is not just a feature list. <b>Cross-jurisdiction reconciliation is real work</b> and the tool does not do it for you.</p><p>The pre-wired config for switching between the two portals is in the repo at <code>mcp-configs/socrata-nyc-nys.mcp.json</code>. Point people at it rather than reading it aloud.</p><p><b>Cuttable if short on time</b>, unless the room includes State agency staff, in which case it is the slide they came for.</p></div>
+</section>
+
+<!-- 7 -->
+<section class="slide top" data-title="Socrata · the traps">
+  <div class="kicker reveal">Chapter 1 &middot; know these before you rely on it</div>
+  <h2 class="reveal">Three ways a portal query returns a real-looking wrong answer</h2>
+
+  <div class="grid g3 reveal" style="margin-top:.5rem">
+    <div class="card">
+      <h4>The dataset that looks current and is not</h4>
+      <p>A dataset can be published, indexed, findable, and superseded. Nothing in a result row says
+      "this stopped being maintained in 2021."
+      <strong>Check the update date as a matter of course, not as a spot check.</strong></p>
+    </div>
+    <div class="card">
+      <h4>Geography that predates current lines</h4>
+      <p>NYC's Broadband Adoption by State Senate District dataset (<code>9bjg-n96a</code>) has 26 rows, all
+      created 2020-06-19, and <strong>does not contain District 59</strong>. The file predates the current
+      district lines. It answers cleanly and it answers for the wrong map.</p>
+    </div>
+    <div class="card">
+      <h4>Silent row limits</h4>
+      <p>Every one of these tools caps what it returns. A result of exactly N rows against a limit of N is
+      <strong>indistinguishable from a complete result</strong> of N rows.
+      Treat that case as truncated until you have checked.</p>
+    </div>
+  </div>
+
+  <p class="reveal" style="margin-top:1.2rem;max-width:48em">
+    None of these produce an error. All three produce a number you could put in a memo.
+    <strong>That is precisely what makes them worth knowing.</strong>
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p>The middle card is verified and it is the most useful one for a government room, because it is not a data-quality complaint. <b>The dataset is fine. It is answering for a map that no longer exists</b>, and a digital-equity analysis built on it would be quietly wrong for a third of the city's senate districts.</p><p>The third card is not hypothetical for us. <b>We have shipped a truncated total ourselves</b>, in an earlier deck, by trusting a result that looked complete. Know that if someone asks how we know the trap is real. Do not volunteer the whole story or you will lose the thread.</p></div>
+</section>
+
+<!-- 8 -->
+<section class="slide top tint" data-title="Checkbook · one vendor, every agency">
+  <div class="kicker reveal">Chapter 2 &middot; Checkbook NYC</div>
+  <h2 class="reveal">One vendor, every agency, one fiscal year</h2>
+
+  <div class="grid g2 reveal" style="margin-top:.4rem">
+    <div class="card" data-demo="msft">
+      <span class="badge free">Verified live 2026-08-03</span>
+      <h4>Microsoft Corporation, FY2026</h4>
+      <p><strong>49 checks &middot; $14,482,518.24</strong>, spread across roughly two dozen agencies:
+      NYPD, OTI, DEP, DSS, Finance, FDNY, Health, ACS, DYCD, DCAS, Law, Parks, HPD, Sanitation, Probation,
+      City Planning, the Comptroller, CUNY, and the School Construction Authority.</p>
+      <p class="q">"What did the City pay Microsoft in FY2026, and which agencies paid it?"</p>
+      <p class="tryit">Run this query</p>
+    </div>
+    <div class="card fill">
+      <h3>Why this is hard from inside</h3>
+      <p>Any one agency can see its own payments. <strong>No agency can see the other twenty-one.</strong>
+      The citywide view exists in the Comptroller's published data and nowhere in an agency's own system.</p>
+      <p>Same question, same shape, for any vendor you actually care about. It is one parameter.</p>
+    </div>
+  </div>
+
+  <p class="reveal" style="margin-top:1.1rem;max-width:48em">
+    This is not oversight material. It is <strong>the view your own procurement colleagues would like to have
+    and cannot get</strong> without asking twenty-two counterparts by email.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Frame this as useful to them, not as scrutiny of them.</b> A watchdog room hears "one vendor across every agency" as an accountability tool. A room of city staff hears the same query as procurement intelligence they are currently missing, and that is the true and more useful framing here.</p><p><b>Verified live 2026-08-03:</b> 49 records, $14,482,518.24, <code>search_spending(payee_name="MICROSOFT", fiscal_year="2026")</code>, 49 of 49 returned against a page size of 50, so the set is complete rather than truncated. <b>Say that out loud if anyone asks how you know it is all of them.</b></p><p>Then go straight to the next slide, which is where this gets interesting.</p></div>
+</section>
+
+<!-- 9 -->
+<section class="slide top" data-title="Checkbook · the reseller trap">
+  <div class="kicker reveal">Chapter 2 &middot; the finding hiding inside the demo</div>
+  <h2 class="reveal">The largest Microsoft payment in the City is not paid to Microsoft</h2>
+
+  <div class="grid g2 reveal" style="margin-top:.4rem">
+    <div class="card was">
+      <span class="badge key">What the obvious query returns</span>
+      <h3>$14,482,518.24</h3>
+      <p>49 checks to <strong>MICROSOFT CORPORATION</strong>, FY2026, across two dozen agencies.
+      Complete, correct, and verifiable.</p>
+      <p><strong style="color:inherit">And it is not the number you wanted.</strong></p>
+    </div>
+    <div class="card is">
+      <span class="badge free">Verified live 2026-08-03</span>
+      <h3>$53,006,444.85</h3>
+      <p>Two checks issued <strong>2026-01-20</strong> under contract <code>DO185820262006811</code>,
+      purpose <strong>"OTI MS ELA Renewal &ndash; Year 1"</strong>. That is the City's Microsoft enterprise
+      license agreement.</p>
+      <p>Payee: <strong>DELL MARKETING LP</strong>. The payee-name search never sees it.</p>
+    </div>
+  </div>
+
+  <p class="reveal" style="margin-top:1.1rem;max-width:50em">
+    <strong>Most large software is bought through a reseller</strong>, so the vendor on the check is not the
+    vendor you are asking about. The connector's own documentation warns about this, and the demo above walks
+    straight into it. <strong>The fix is to search the contract purpose, not only the payee name.</strong>
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>This is the best slide in the deck, and it is best because the tool did not save you from the mistake. Reading the result did.</b></p><p>Verified 2026-08-03 via <code>get_agency_spending(agency_code="858", fiscal_year="2026")</code>: the top two OTI checks are <b>$30,473,296.68</b> and <b>$22,533,148.17</b>, same document ID, same contract, split across budget codes 8100 (CITYWIDE SUPPORT) and 3334 (MICROSOFT ELA INTRA-CITY FUNDING). Both to Dell Marketing LP. OTI has <b>14,986 spending records</b> in FY2026 in total.</p><p>⚠️ <b>Do not say "the City spent $67 million on Microsoft."</b> We have not established that the Dell ELA payments and the 49 Microsoft checks are disjoint, non-overlapping, or exhaustive of Microsoft-related spending citywide. <b>The claim on this slide is about the search, not about the total.</b> Adding them together in front of this room would be exactly the error the deck is warning about.</p><p>If someone asks for the real citywide Microsoft figure: say it is a good question, that it needs a purpose-text sweep across resellers, and offer to run it and send it. <b>Then actually do it.</b></p></div>
+</section>
+
+<!-- 10 -->
+<section class="slide top tint-light" data-title="The rest of the toolbox">
+  <div class="kicker reveal">Chapter 3 &middot; the other seven</div>
+  <h2 class="reveal">Nine connectors. Two of them have had a chapter.</h2>
+
+  <div class="grid g4 reveal" style="margin-top:.4rem">
+    <div class="card">
+      <h4>NYC Council</h4>
+      <p>Bills, sponsors, committees, hearings, and voting records out of Legistar. Legislative data is
+      relational, which a flat catalog handles badly.</p>
+      <p class="pkg">nyc-council-mcp</p>
+    </div>
+    <div class="card">
+      <h4>The City Record</h4>
+      <p>Procurement notices, solicitations, awards, and public hearings. Same source as the daily PDF,
+      without reading the daily PDF.</p>
+      <p class="pkg">nyc-record-mcp</p>
+    </div>
+    <div class="card">
+      <h4>Charter, Admin Code, Rules</h4>
+      <p>Full legal text, searchable. This is prose, not tables, so a dataset catalog was never going to
+      reach it.</p>
+      <p class="pkg">nyc-charter-laws-rules</p>
+    </div>
+    <div class="card">
+      <h4>NYC 311</h4>
+      <p>Live service-request status and the city-services calendar. Distinct from the bulk historical
+      311 export in the portal.</p>
+      <p class="pkg">nyc-311-mcp</p>
+    </div>
+    <div class="card">
+      <h4>NYC Budget</h4>
+      <p>Adopted budgets, discretionary awards, capital projects, and transparency resolutions, parsed from
+      the published documents.</p>
+      <p class="pkg">New-York-City-Budget</p>
+    </div>
+    <div class="card">
+      <h4>NYS Open Legislation</h4>
+      <p>Albany's bills, laws, members, and committees. Same shape as the Council connector, different
+      spine.</p>
+      <p class="pkg">nys-openlegislation-mcp</p>
+    </div>
+    <div class="card fill">
+      <h4>Checkbook NYC</h4>
+      <p>Spending, contracts, budget, payroll, revenue, from the Comptroller's API.</p>
+      <p class="pkg">nyc-checkbook-mcp &middot; chapter 2</p>
+    </div>
+    <div class="card fill">
+      <h4>Socrata</h4>
+      <p>The City and State open data catalogs, both portals, one connector.</p>
+      <p class="pkg">socrata &middot; chapter 1</p>
+    </div>
+  </div>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Do not read this grid.</b> Point at it, say "nine, all public repos," and ask which two matter to the people in the room. Then talk about those two.</p><p>The ninth connector is Google Workspace, which is how the assistant reaches BetaNYC's own documents. It is not on this grid because it is not a civic data source, and padding the count would be the wrong instinct in a deck about precision.</p></div>
+</section>
+
+<!-- 11 -->
+<section class="slide top invert" data-title="The round trip">
+  <div class="kicker reveal">What happened when we reported a problem</div>
+  <h2 class="reveal">We asked for access. Then we found out we were the problem.</h2>
+
+  <div class="grid g4 reveal" style="margin-top:.6rem">
+    <div class="card">
+      <span class="badge key">Jul 16&ndash;21</span>
+      <h4>Blocked</h4>
+      <p>Checkbook's documented API started returning <strong>403</strong> to us. The site loaded fine in a
+      browser.</p>
+    </div>
+    <div class="card">
+      <span class="badge key">Jul 22</span>
+      <h4>We wrote</h4>
+      <p>A letter to the Comptroller's office. Three asks. No header spoofing and no working around the
+      block.</p>
+    </div>
+    <div class="card">
+      <span class="badge key">Jul 24</span>
+      <h4>They answered</h4>
+      <p><strong>Two days.</strong> A real technical response, their CIO looped in, and an offer of a call.</p>
+    </div>
+    <div class="card is">
+      <span class="badge free">Jul 28</span>
+      <h4>It was us</h4>
+      <p>Access working. <strong>The residual block was ours.</strong> We were exceeding a rate limit.</p>
+    </div>
+  </div>
+
+  <p class="reveal" style="margin-top:1.2rem;max-width:50em">
+    Our client was following redirects, so we were making roughly <strong>forty requests</strong> against their
+    origin for every one logical API call. Their fix had already worked. What we were still measuring was our
+    own client getting itself blocked. They also corrected one of our published findings, which was simply
+    wrong. <strong>We had missed a field that was there all along.</strong>
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>This slide reads completely differently to a room of city staff than it did to a watchdog room</b>, and that difference is the reason to keep it. To them it is a story about an agency responding well in two days, and about an outside group publicly owning that it was at fault.</p><p>Say "we had missed a field that was there all along" in exactly those words. <b>It is the sentence that buys the rest of the meeting.</b></p><p>One open finding worth naming if asked: the rate limit is real and reasonable, and it is <b>documented nowhere</b>. We learned it by violating it. A researcher hitting the same wall just experiences an outage and concludes the data is unreliable. We have passed that back to the office and that is where it sits. <b>Carry no ask on this slide.</b> Do not invite the room to co-sign anything.</p></div>
+</section>
+
+<!-- 12 -->
+<section class="slide tint" data-title="Marvin · how we run ourselves">
+  <div class="kicker reveal">Chapter 4 &middot; what we built for our own operations</div>
+  <h2 class="reveal">The same discipline, turned inward</h2>
+
+  <p class="lede reveal" style="max-width:38em;margin-top:.3rem">
+    Everything so far is a tool we give away. The next three slides are how BetaNYC actually runs on it,
+    because a demo you do not use yourself is a brochure.
+  </p>
+
+  <div class="grid g3 reveal" style="margin-top:1.2rem">
+    <div class="card fill-light">
+      <h4>A weekly newsletter</h4>
+      <p>Six phases, from a 130-source scan to a multi-channel publish. <strong>A human decides what goes
+      in.</strong></p>
+    </div>
+    <div class="card fill-light">
+      <h4>An accessibility audit</h4>
+      <p>Our own website, against WCAG 2.1 AA, with the findings remediated and re-checked.</p>
+    </div>
+    <div class="card fill-light">
+      <h4>A gated community platform</h4>
+      <p>Discord access issued and revoked from our membership database, nightly.</p>
+    </div>
+  </div>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Transition slide, fifteen seconds.</b> Its only job is to signal that the subject has changed from "here is a civic data tool" to "here is how a small nonprofit actually operates with this."</p><p>This chapter is the one most likely to interest agency communications and operations staff, who are usually the people in the room asking what any of this means for their own work. <b>If that is most of the room, consider moving this chapter earlier.</b></p></div>
+</section>
+
+<!-- 13 -->
+<section class="slide top" data-title="Marvin · the newsletter pipeline">
+  <div class="kicker reveal">Chapter 4 &middot; six phases, one human gate</div>
+  <h2 class="reveal">How <em>This Week in NYC's #CivicTech</em> gets made</h2>
+
+  <ol class="steps reveal" style="margin-top:.4rem;max-width:54em">
+    <li><strong>Research</strong>, Monday. A scanner sweeps roughly <strong>130 civic-tech sources</strong>
+    plus reader submissions and writes an editorial brief with candidate items.</li>
+    <li><strong>Triage</strong>, Tuesday to Wednesday. <strong>A human editor marks every candidate Include,
+    Featured, or Skip.</strong> There is no command for this phase, deliberately.</li>
+    <li><strong>Update</strong>, Wednesday. The marked rows are exported into the week's picks file.</li>
+    <li><strong>Format</strong>, Thursday. Subject line, preview text, section dividers, ready to paste.</li>
+    <li><strong>Publish</strong>, Thursday. A WordPress draft, a Mailchimp draft, and LinkedIn copy.
+    <strong>It never auto-sends.</strong> A person presses send.</li>
+    <li><strong>Promote</strong>, Thursday to Friday. Social posts scheduled across the remaining channels.</li>
+  </ol>
+
+  <p class="reveal" style="margin-top:1rem;max-width:48em">
+    Phase 2 is the important one. <strong>The machine proposes and a person disposes</strong>, and the pipeline
+    is built so that skipping the human step is not possible rather than merely discouraged.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Phase 2 and the "never auto-sends" line are the whole point of this slide for a government audience.</b> The question underneath every AI conversation in a public agency is "what happens without a human," and the honest answer here is that nothing goes out.</p><p>⚠️ <b>Source count:</b> our own docs disagree, one file says ~130 and another says ~115. Say <b>"roughly 130"</b> and if pressed say the exact number is inconsistent in our documentation and you will confirm it. Do not defend a precise figure you cannot source.</p><p>The pipeline has run end to end for real, including a first live multi-channel publish that surfaced and fixed four genuine platform API bugs. <b>If asked whether this is aspirational: it is not, it ships weekly.</b></p></div>
+</section>
+
+<!-- 14 -->
+<section class="slide top tint-light" data-title="Marvin · accessibility audit">
+  <div class="kicker reveal">Chapter 4 &middot; auditing our own site</div>
+  <h2 class="reveal">Twenty-one pages, WCAG 2.1 AA, twenty-three findings</h2>
+
+  <div class="grid g2 reveal" style="margin-top:.4rem">
+    <div class="card">
+      <span class="badge free">2026-05-14</span>
+      <h4>What we ran</h4>
+      <p>An automated <strong>axe-core 4.9.1</strong> scan across <strong>21 pages</strong> of beta.nyc,
+      plus manual DOM inspection on the 10 highest-traffic pages. Standard: <strong>WCAG 2.1 AA</strong>.</p>
+      <p><strong>23 distinct issues</strong>, 7 of them sitewide.
+      Critical <strong>5</strong> &middot; Serious <strong>9</strong> &middot; Moderate <strong>6</strong> &middot;
+      Minor <strong>3</strong>.</p>
+    </div>
+    <div class="card fill">
+      <h3>And then the unglamorous half</h3>
+      <p>Missing alt text on team headshots. Unlabeled newsletter form inputs. A missing skip link.
+      Link text reading <strong>"More Details"</strong> eight times on one page, which a screen reader
+      announces as eight identical destinations.</p>
+      <p>Remediated, then <strong>re-checked by reading the live page's DOM back</strong>, not by trusting the
+      report that said it was fixed.</p>
+    </div>
+  </div>
+
+  <p class="reveal" style="margin-top:1.1rem;max-width:48em">
+    An automated scan finds the machine-detectable half. <strong>It cannot tell you whether your alt text is
+    any good</strong>, only that it exists. The manual pass is not optional and we should not imply otherwise.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>This is a genuinely useful slide for city staff</b>, because most agencies have a public-facing site under the same obligations and very little capacity to audit it. The method transfers directly and costs nothing.</p><p>The verify-by-reading-the-DOM-back detail is worth naming. <b>We do not treat "the agent said it fixed it" as evidence that it is fixed</b>, which is a general rule in this workspace and not specific to accessibility.</p><p>If asked what tool: axe-core is open source. The remediation went through our WordPress specialist agent. <b>Do not overclaim that this was fully autonomous.</b> A person reviewed and approved the changes.</p></div>
+</section>
+
+<!-- 15 -->
+<section class="slide top" data-title="Marvin · the automations">
+  <div class="kicker reveal">Chapter 4 &middot; what else runs on its own</div>
+  <h2 class="reveal">Membership, documentation, and metrics, on a schedule</h2>
+
+  <div class="grid g3 reveal" style="margin-top:.5rem">
+    <div class="card" >
+      <span class="badge free">Live</span>
+      <h4>Beta Builders Discord</h4>
+      <p>Our membership database is the <strong>sole source of truth</strong> for who gets in. A single-use
+      login link binds a Discord account to a membership record, and a <strong>nightly job removes any role
+      the database does not justify.</strong></p>
+      <p>Access is earned by donating, attending an event, or being on a curated list. It has granted access
+      automatically off a real donation.</p>
+    </div>
+    <div class="card">
+      <span class="badge free">Live</span>
+      <h4>Documentation that cannot go stale quietly</h4>
+      <p>A checker enforces that a feature change updates its documentation, running as a hook after every
+      turn, as a check on every pull request, and again in the weekly review.</p>
+      <p><strong>It encodes 11 of 15 rules.</strong> The gap is written down, so a green check is not mistaken
+      for a full pass.</p>
+    </div>
+    <div class="card">
+      <span class="badge free">Live</span>
+      <h4>Monthly community metrics</h4>
+      <p>Follower and subscriber counts across <strong>10 platforms</strong>. Five come back through APIs.
+      Five have no usable API and are collected by driving a browser.</p>
+      <p>The split is documented rather than smoothed over.</p>
+    </div>
+  </div>
+
+  <p class="reveal" style="margin-top:1.2rem;max-width:50em">
+    The middle card is the one we would defend hardest. <strong>An automated check that silently covers less
+    than it appears to is worse than no check</strong>, so the shortfall is written into the documentation it
+    governs.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>The Discord card is the one Noel wanted in and it is the strongest of the three</b>, because revocation is the hard half of access control and the nightly reconcile is what makes it real rather than a signup form.</p><p>⚠️ <b>Do not describe the Slack-to-Discord migration as finished.</b> It is in flight, with Slack closing later this year.</p><p>If the room asks about applying the membership-gating pattern to their own systems: the useful part is not Discord. It is <b>one authoritative record of who someone is, with every platform identity hanging off it</b>, so that removing access is one action instead of seven.</p></div>
+</section>
+
+<!-- 16 -->
+<section class="slide top tint" data-title="Can you actually run this">
+  <div class="kicker reveal">The practical question</div>
+  <h2 class="reveal">What it costs, and what we do not know about your environment</h2>
+
+  <div class="grid g2 reveal" style="margin-top:.4rem">
+    <div class="card fill">
+      <h3>What we can tell you</h3>
+      <p>The connectors are <strong>open source and MIT licensed</strong>. The guides are CC BY-SA.
+      <strong>Most need no API key and no account.</strong> A few need a free key, and registration is the
+      only friction.</p>
+      <p>There is no BetaNYC service in the middle. You run them yourself, against the City's own public
+      endpoints.</p>
+    </div>
+    <div class="card">
+      <h4>What we cannot tell you</h4>
+      <p>Whether your agency's IT policy permits installing them, which assistant you are permitted to use,
+      or how any of this interacts with your own procurement and security review.
+      <strong>We have not been through that process and will not pretend otherwise.</strong></p>
+      <p>What we can do is answer technical questions from whoever does.</p>
+    </div>
+  </div>
+
+  <p class="reveal" style="margin-top:1.1rem;max-width:48em">
+    The public data is public either way. <strong>Every query in this deck can be run by anyone, with no
+    account</strong>, which is worth remembering before it becomes an IT ticket.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Do not bluff the right-hand card.</b> Somebody in the room will know their agency's review process far better than you do, and guessing at it destroys the credibility the last fifteen slides bought.</p><p>The last line is the practical out and it is true. Nothing here needs to be installed anywhere to be checked. <b>Offer to run a query for them and send the result with the dataset ID attached.</b></p><p><b>This is the first slide to cut</b> if you are short on time and the room is not technical.</p></div>
+</section>
+
+<!-- 17 -->
+<section class="slide invert center" data-title="Close">
+  <div class="kicker reveal">Where to take it</div>
+  <h1 class="reveal" style="max-width:21em;font-size:clamp(2rem,4.6vmin,3.1rem)">Fork it and find what we got wrong</h1>
+  <p class="lede reveal" style="margin-top:1rem;opacity:.94;max-width:31em">
+    Public repos, open licenses, and most of it needs no key at all. We would rather you check it than take
+    our word for any of it.
+  </p>
+
+  <p class="reveal muted" style="margin-top:1.4rem;font-size:.88rem;max-width:34em">
+    Disclosure: BetaNYC received $25,000 in FY2026 Council discretionary funding, via the Fund for the City
+    of New York. You can verify that with the tools in this deck, in about fifteen seconds, with no account.
+  </p>
+
+  <div class="reveal" style="margin-top:1.6rem">
+    <a class="out" href="https://github.com/BetaNYC/grounding-ai-with-ny-open-data" target="_blank" rel="noopener">This repo &amp; every demo script</a>
+    <a class="out" href="https://betanyc.github.io/grounding-ai-with-ny-open-data/" target="_blank" rel="noopener">The published guides</a>
+    <a class="out" href="https://beta.nyc" target="_blank" rel="noopener">beta.nyc</a>
+  </div>
+
+  <p class="reveal muted" style="margin-top:1.6rem;font-size:.9rem;max-width:36em">
+    If there is a question your team runs by hand every month, that is exactly the user journey we want to add.
+  </p>
+
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>The ask is the last line. Get one concrete recurring question out of the room before you leave.</b> It is worth more than a follow-up meeting, and it is the only thing on this slide you actually need.</p><p>The disclosure line is deliberately small and unemphasized here. A watchdog room gets it as its own card; this room does not need it made into a moment, but leaving it out of a deck that teaches people to query discretionary funding would be worse.</p></div>
+</section>
+
+</div>
+
+<div id="brandmark">BetaNYC</div>
+<div id="count"></div>
+<div id="notesFlag">Presenter notes visible</div>
+<div id="help">← → move · N notes · G grid · F full</div>
+
+<div id="overview"><h2>Jump to a slide</h2><div id="ovgrid"></div></div>
+
+<div id="drawer">
+  <div id="drawerBox">
+    <div class="dtop">
+      <div>
+        <div class="kicker" id="dSource" style="margin-bottom:.5em"></div>
+        <span class="prov" id="dProv"></span>
+      </div>
+      <button id="drawerClose" type="button" aria-label="Close">&times;</button>
+    </div>
+
+    <div class="promptbar">
+      <span class="chev">&rsaquo;</span>
+      <span><span class="typed" id="dTyped"></span><span class="caret" id="dCaret"></span></span>
+    </div>
+
+    <div class="status" id="dStatus">Querying<span class="dots"></span></div>
+
+    <div class="result" id="dResult"></div>
+
+    <div class="drawer-foot" id="dFoot"></div>
+    <div id="dLinks"></div>
+    <button class="replay" id="dReplay" type="button">Replay &nbsp;&middot;&nbsp; R</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var bar = document.getElementById('bar');
+  var count = document.getElementById('count');
+  var overview = document.getElementById('overview');
+  var ovgrid = document.getElementById('ovgrid');
+  var i = 0;
+
+  /* ----- Animation engine -----
+     Time-driven, not timer-stacked. One rAF loop reads elapsed ms and applies
+     whatever state that timestamp implies, so a throttled or backgrounded tab
+     renders the correct frame instead of falling behind a queue of setTimeouts.
+     Falls back to a coarse interval if rAF is unavailable. */
+  var raf = null, rafIv = null;
+  function stopLoop(){
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    if (rafIv) { clearInterval(rafIv); rafIv = null; }
+  }
+  function runLoop(apply, totalMs){
+    stopLoop();
+    var t0 = performance.now();
+    function frame(){
+      var el = performance.now() - t0;
+      apply(el);
+      if (el < totalMs) {
+        if (window.requestAnimationFrame) raf = requestAnimationFrame(frame);
+      } else { stopLoop(); apply(totalMs); }
+    }
+    if (window.requestAnimationFrame) raf = requestAnimationFrame(frame);
+    else rafIv = setInterval(frame, 90);
+  }
+
+  // Reveal a list of elements in sequence from a start offset.
+  function seq(els, elapsed, start, step){
+    els.forEach(function(el, k){
+      el.classList.toggle('on', elapsed >= start + k * step);
+    });
+    return start + els.length * step;
+  }
+  function typeInto(node, text, elapsed, start, per){
+    var n = Math.max(0, Math.min(text.length, Math.floor((elapsed - start) / per)));
+    if (node.textContent !== text.slice(0, n)) node.textContent = text.slice(0, n);
+    return start + text.length * per;
+  }
+
+  /* ----- Slide 3: by-hand vs the query -----
+     Left panel is "by hand" deliberately. For a watchdog audience the alternative
+     is not a web search — they can already find the PDF. What costs them is the
+     assembly, so that is what the comparison has to be about. */
+  var QUESTION = 'How many 311 complaints has Brooklyn filed since July 1, by type?';
+
+  function runDemo(){
+    var typed = document.getElementById('typed');
+    if (!typed) return;
+    var caret = document.getElementById('caret'),
+        status = document.getElementById('status'),
+        bad = document.getElementById('ansBad'),
+        good = document.getElementById('ansGood'),
+        resolved = document.getElementById('resolved'),
+        badLis = Array.prototype.slice.call(bad.querySelectorAll('li')),
+        goodLis = Array.prototype.slice.call(good.querySelectorAll('li'));
+
+    var PER = 34, T0 = 400;
+    var typeEnd = T0 + QUESTION.length * PER;
+    var badAt = typeEnd + 420;
+    var badEnd = badAt + badLis.length * 200;
+    var lookAt = badEnd + 300;
+    var goodAt = lookAt + 1200;
+    var goodEnd = goodAt + goodLis.length * 210;
+    var total = goodEnd + 500;
+
+    runLoop(function(el){
+      typeInto(typed, QUESTION, el, T0, PER);
+      caret.classList.toggle('off', el >= typeEnd + 300);
+      bad.classList.toggle('on', el >= badAt - 160);
+      seq(badLis, el, badAt, 200);
+      status.classList.toggle('on', el >= lookAt && el < goodAt);
+      good.classList.toggle('on', el >= goodAt - 150);
+      seq(goodLis, el, goodAt, 210);
+      resolved.classList.toggle('on', el >= goodEnd + 200);
+    }, total);
+  }
+
+  /* ----- Per-source demos, opened from a card -----
+     `verified` results were run against the live connectors on the stated date.
+     Anything not re-run carries its original date, and anything whose result set
+     is known incomplete says so on the badge rather than in a footnote. */
+  var DEMOS = {
+    msft: {
+      links: [['https://www.checkbooknyc.com', 'Checkbook NYC'], ['https://github.com/BetaNYC/nyc-checkbook-mcp', 'Connector on GitHub']],
+      source: "Comptroller's Checkbook NYC",
+      prompt: 'What did the City pay Microsoft in FY2026, and which agencies paid it?',
+      status: 'Querying Checkbook spending records',
+      prov: ['ok', 'Verified live 2026-08-03'],
+      lines: [
+        '<b>49</b> check records, FY2026 &nbsp;&middot;&nbsp; <b>$14,482,518.24</b> total',
+        'Largest: <b>$3,667,552.00</b>, NYPD, MS Unified Support Master Agreement',
+        'Across ~22 agencies: OTI, DEP, DSS, Finance, FDNY, Health, ACS, DYCD, DCAS, Law, Parks, HPD, Sanitation, CUNY, SCA and more',
+        '49 of 49 returned against a page size of 50, so <b>the set is complete</b>, not truncated'
+      ],
+      note: 'And it is still not the number you wanted. The City\u2019s Microsoft enterprise license agreement, $53,006,444.85 across two checks on 2026-01-20, is paid to DELL MARKETING LP. A payee-name search never sees it.',
+      foot: 'Most large software is bought through a reseller, so the vendor on the check is not the vendor you asked about. <b>Search the contract purpose, not only the payee name.</b> And do not add the two figures together \u2014 we have not established they are disjoint.'
+    }
+  };
+
+  var drawer = document.getElementById('drawer');
+  var dBox = document.getElementById('drawerBox');
+  var curDemo = null;
+
+  function playDrawer(key){
+    var d = DEMOS[key];
+    if (!d) return;
+    curDemo = key;
+    document.getElementById('dSource').textContent = d.source;
+    var prov = document.getElementById('dProv');
+    prov.className = 'prov ' + d.prov[0];
+    prov.innerHTML = d.prov[1];
+    document.getElementById('dStatus').firstChild.nodeValue = d.status;
+    document.getElementById('dFoot').innerHTML = d.foot || '';
+    // Primary sources for whatever the demo just queried.
+    document.getElementById('dLinks').innerHTML = (d.links || []).map(function(l){
+      return '<a class="out" href="' + l[0] + '" target="_blank" rel="noopener">' + l[1] + '</a>';
+    }).join('');
+
+    var res = document.getElementById('dResult');
+    res.innerHTML = d.lines.map(function(l){ return '<div class="rl">' + l + '</div>'; }).join('')
+                  + (d.note ? '<div class="rl note">' + d.note + '</div>' : '');
+
+    drawer.classList.add('on');
+    animateDrawer();
+  }
+
+  function animateDrawer(){
+    var d = DEMOS[curDemo]; if (!d) return;
+    var typed = document.getElementById('dTyped'),
+        caret = document.getElementById('dCaret'),
+        status = document.getElementById('dStatus'),
+        lines = Array.prototype.slice.call(document.querySelectorAll('#dResult .rl'));
+
+    var PER = 30, T0 = 300;
+    var typeEnd = T0 + d.prompt.length * PER;
+    var lookAt = typeEnd + 320;
+    var showAt = lookAt + 1050;
+    var end = showAt + lines.length * 200;
+
+    runLoop(function(el){
+      typeInto(typed, d.prompt, el, T0, PER);
+      caret.classList.toggle('off', el >= typeEnd + 260);
+      status.classList.toggle('on', el >= lookAt && el < showAt);
+      seq(lines, el, showAt, 200);
+    }, end + 300);
+  }
+
+  function closeDrawer(){ drawer.classList.remove('on'); curDemo = null; stopLoop(); }
+
+  document.addEventListener('click', function(e){
+    if (!e.target || !e.target.closest) return;
+    // A link inside a demo card must follow the link, not open the drawer.
+    if (e.target.closest('a')) { e.stopPropagation(); return; }
+    var card = e.target.closest('.card[data-demo]');
+    if (card) { e.stopPropagation(); playDrawer(card.dataset.demo); }
+  }, true);
+  document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+  document.getElementById('dReplay').addEventListener('click', function(e){ e.stopPropagation(); animateDrawer(); });
+  drawer.addEventListener('click', function(e){ if (e.target === drawer) closeDrawer(); });
+  dBox.addEventListener('click', function(e){ e.stopPropagation(); });
+
+  function show(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(s, k){ s.classList.toggle('active', k === i); });
+    bar.style.width = ((i + 1) / slides.length * 100) + '%';
+    count.textContent = (i + 1) + ' / ' + slides.length;
+    if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
+    if (drawer.classList.contains('on')) closeDrawer();
+    stopLoop();
+    if (slides[i].dataset.anim === 'typedemo') runDemo();
+  }
+  /* Arrows must not flip slides out from under an open demo. */
+  function move(d){ if (drawer.classList.contains('on')) return; closeOv(); show(i + d); }
+  function openOv(){ overview.classList.add('on'); }
+  function closeOv(){ overview.classList.remove('on'); }
+
+  slides.forEach(function(s, k){
+    var c = document.createElement('div');
+    c.className = 'ovcard';
+    c.innerHTML = '<div class="n">' + (k + 1) + '</div><div class="t">' +
+                  (s.dataset.title || 'Slide ' + (k + 1)) + '</div>';
+    c.addEventListener('click', function(){ closeOv(); show(k); });
+    ovgrid.appendChild(c);
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); move(1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); move(-1); }
+    else if (e.key === 'Home') { e.preventDefault(); move(-999); }
+    else if (e.key === 'End') { e.preventDefault(); move(999); }
+    else if (e.key === 'r' || e.key === 'R') {
+      if (drawer.classList.contains('on')) animateDrawer();
+      else if (slides[i].dataset.anim === 'typedemo') runDemo();
+    }
+    else if (e.key === 'n' || e.key === 'N') { document.body.classList.toggle('notes-on'); }
+    else if (e.key === 'g' || e.key === 'G') { overview.classList.contains('on') ? closeOv() : openOv(); }
+    else if (e.key === 'Escape') { closeOv(); closeDrawer(); }
+    else if (e.key === 'f' || e.key === 'F') {
+      if (document.fullscreenElement) { document.exitFullscreen(); }
+      else if (document.documentElement.requestFullscreen) { document.documentElement.requestFullscreen(); }
+    }
+  });
+
+  /* Click-to-advance lives on the deck itself. Anything interactive is excluded,
+     so a demo card, a button, or a link always wins over slide navigation. */
+  var INTERACTIVE = '.card[data-demo], button, a, input, select, textarea, #drawer, #overview';
+  document.getElementById('deck').addEventListener('click', function(e){
+    if (drawer.classList.contains('on')) return;
+    var t = e.target;
+    if (t && t.closest && t.closest(INTERACTIVE)) return;
+    move(e.clientX < window.innerWidth * 0.32 ? -1 : 1);
+  });
+
+  var rp = document.getElementById('replay');
+  if (rp) rp.addEventListener('click', function(e){ e.stopPropagation(); runDemo(); });
+
+  // Touch swipe, for presenting from a tablet.
+  var x0 = null;
+  document.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 55) move(dx < 0 ? 1 : -1);
+    x0 = null;
+  }, {passive:true});
+
+  function fromHash(){
+    var n = parseInt((location.hash || '#1').slice(1), 10);
+    return isNaN(n) ? 0 : n - 1;
+  }
+  window.addEventListener('hashchange', function(){
+    if (fromHash() !== i) show(fromHash());
+  });
+  show(fromHash());
+})();
+</script>
+</body>
+</html>

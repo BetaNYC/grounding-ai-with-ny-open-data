@@ -8,7 +8,7 @@ status: DRAFT
 >
 > **Slide companion:** [`city-government-deck.html`](city-government-deck.html). Same chapters, presentation medium, every warning below carried in its presenter notes (press `N`). **This file stays the source of truth for figures and provenance.**
 >
-> **Every numeric claim in the deck was verified live from a BetaNYC machine on 2026-08-03.** Checkbook and the Socrata 311 aggregate were both run that morning. The provenance table at the bottom of this file records each one.
+> **The live figures were run from a BetaNYC machine on 2026-08-04** — the Checkbook queries and the Socrata 311 aggregate. Three further figures are carried forward from earlier work and keep their own, older dates. **The provenance table at the bottom of this file gives the date and the exact call for every number**, so which is which is never a guess.
 
 > 🚨 **The 311 figures move daily.** They are the demo for a chapter whose whole argument is that this data is live. Quoting a stale count on the freshness slide is the one unforced error available in this material. **Re-run before you present.**
 
@@ -49,7 +49,7 @@ A search engine can only return a document somebody already wrote. **An aggregat
 
 > "How many 311 complaints has Brooklyn filed since July 1, by type?"
 
-Returns, as of 2026-08-03: **108,042** Brooklyn service requests created since July 1, broken out as Illegal Parking 18,662, Noise–Residential 10,307, Noise–Street/Sidewalk 5,667, Blocked Driveway 5,036, Unsanitary Condition 4,122, Water System 4,088.
+Returns, as of 2026-08-04: **108,042** Brooklyn service requests created since July 1, broken out as Illegal Parking 18,662, Noise–Residential 10,307, Noise–Street/Sidewalk 5,667, Blocked Driveway 5,036, Unsanitary Condition 4,122, Water System 4,088.
 
 **That table did not exist until the question was asked.** It was computed, server-side, by a database that grouped and counted on request.
 
@@ -101,7 +101,7 @@ None of the three produce an error. All three produce a number you could put in 
 
 > "What did the City pay Microsoft in FY2026, and which agencies paid it?"
 
-Returns, verified 2026-08-03: **49 check records, $14,482,518.24**, spread across roughly two dozen agencies — NYPD, OTI, DEP, DSS, Finance, FDNY, Health, Mayoralty, ACS, DYCD, DCAS, Law, Parks, HPD, Sanitation, DDC, Consumer and Worker Protection, Probation, City Planning, the Comptroller, CUNY, and the School Construction Authority. The largest single check is **$3,667,552.00** to NYPD for the MS Unified Support Master Agreement.
+Returns, verified 2026-08-04: **49 check records, $14,482,518.24**, spread across roughly two dozen agencies — NYPD, OTI, DEP, DSS, Finance, FDNY, Health, Mayoralty, ACS, DYCD, DCAS, Law, Parks, HPD, Sanitation, DDC, Consumer and Worker Protection, Probation, City Planning, the Comptroller, CUNY, and the School Construction Authority. The largest single check is **$3,667,552.00** to NYPD for the MS Unified Support Master Agreement.
 
 **49 of 49 returned against a page size of 50, so the set is complete rather than truncated.** Say that if anyone asks how you know it is all of them — it is exactly the trap Chapter 1 warned about, and this is the answer to it.
 
@@ -242,7 +242,7 @@ The disclosure line — BetaNYC received $25,000 in FY2026 Council discretionary
 
 ### Figures and their provenance
 
-Every figure below was run live from a BetaNYC machine on **2026-08-03**. Nothing in this script is illustrative or reconstructed.
+The Checkbook and Socrata figures were run live from a BetaNYC machine on **2026-08-04**. The last three rows are carried from earlier work and are dated accordingly. **Nothing here is illustrative or reconstructed** — every row resolves to a call somebody can re-run.
 
 | Figure | Value | Source and exact call |
 |---|---|---|

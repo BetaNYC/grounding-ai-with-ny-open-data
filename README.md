@@ -58,6 +58,7 @@ This repo is one piece of a larger effort to make government data usable — see
 | [`guides/state-legislators/`](guides/state-legislators/README.md) | Run-it-live demo scripts per NYS Senate/Assembly district, built on NYS Open Legislation |
 | [`guides/good-government/`](guides/good-government/README.md) | Watchdog and newsroom material — run-it-live demo scripts, plus a FOIL contract-research methodology and its worked example |
 | [`guides/city-government/`](guides/city-government/README.md) | Material for staff inside city government — the open data portals in depth, and the cross-agency spending view no one agency can assemble |
+| [`guides/community-of-practice/`](guides/community-of-practice/README.md) | Decks for peer communities of practice on civic AI — first: the Data & Society AI Civics community of practice, 2026-09-18 |
 | [`guides/grounding-ai-agents.md`](guides/grounding-ai-agents.md) | Why grounding matters, and prompt/verification patterns for agent builders |
 | [`guides/training-resources.md`](guides/training-resources.md) | BetaNYC and partner training — Intro to Open Data, Open Data Ambassadors, and more |
 | [`resources/ny-open-data-portals.md`](resources/ny-open-data-portals.md) | Directory of open data portals run by NY counties and municipalities, with API and platform notes |

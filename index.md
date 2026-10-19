@@ -152,5 +152,6 @@ CC BY-SA 4.0 — fork them, correct them, and use them in your own room.
 ## Also here
 
 - [Directory of New York open data portals]({{ '/resources/ny-open-data-portals.html' | relative_url }}) — which counties and municipalities run one, with API notes
+- [How we turn a Council hearing into an open transcript]({{ '/guides/council-hearings/hearing-transcripts-pipeline.html' | relative_url }}) — the pipeline behind [BetaNYC/hearings-transcripts](https://github.com/BetaNYC/hearings-transcripts), on one page
 - [Training BetaNYC and partners run]({{ '/guides/training-resources.html' | relative_url }}) — Intro to Open Data, Open Data Ambassadors, and more
 - [The MCP config file]({{ '/mcp-configs/socrata-nyc-nys.mcp.json' | relative_url }}) — drop-in setup for switching between the NYC and NYS portals

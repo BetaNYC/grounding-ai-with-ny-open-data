@@ -77,14 +77,16 @@
 
 <h1>From a Council hearing to an open, speaker-labeled transcript</h1>
 <p class="lede">How BetaNYC turned two NYC Council AI hearings (October 5 and October 16, 2026) into searchable
-transcripts, panel timelines and word clouds. Scripts do the counting, and people check the meaning.</p>
+transcripts and word clouds, and the October 16 one into a panel timeline too. Scripts do the counting. AI assistants did the naming
+and editing at our direction, and every judgment call needs a source. The nine stages below are the process as we ran it on
+October 16; October 5 was done more by hand, and the scripts came out of it.</p>
 <p>This is BetaNYC's independent record, not the Council's official transcript.</p>
 
 <section>
   <h2>The nine stages</h2>
   <div class="legend">
     <span class="tag script">scripted</span>
-    <span class="tag human">people + AI assistants</span>
+    <span class="tag human">judgment: AI assistants at our direction, checked against sources</span>
     <span class="tag paid">paid service</span>
   </div>
   <div class="flow">
@@ -101,16 +103,16 @@ transcripts, panel timelines and word clouds. Scripts do the counting, and peopl
     <div class="stage">
       <header><span class="num">3</span><h3>Machine transcription</h3></header>
       <span class="tag script">scripted</span><span class="tag paid">paid</span>
-      <p>Deepgram Nova-3 writes the words and groups voices ("speaker 1, speaker 2"). It gets a short list of this hearing's names. <code>lexicon.txt</code></p>
+      <p>Deepgram Nova-3 writes the words and groups voices ("speaker 1, speaker 2"). Since October 16 it also gets a short list of this hearing's names. <code>lexicon.txt</code>. The script that sends the audio is in BetaNYC's private workspace; <a href="https://github.com/BetaNYC/hearings-transcripts/blob/main/scripts/README.md">scripts/README.md</a> describes the request.</p>
     </div>
     <div class="stage human-stage">
       <header><span class="num">4</span><h3>Put names on the voices</h3></header>
-      <span class="tag human">people + AI</span>
-      <p>Who is "speaker 3"? Self-introductions, the chair calling on people, Zoom name labels, captions. The hearing is split into panels too. <code>panels.json</code></p>
+      <span class="tag human">AI + sources</span>
+      <p>Who is "speaker 3"? Self-introductions, the chair calling on people, on-screen name labels, captions. The hearing is split into panels too. <code>panels.json</code></p>
     </div>
     <div class="stage human-stage">
       <header><span class="num">5</span><h3>Clean it up</h3></header>
-      <span class="tag human">people + AI</span><span class="tag script">checked by script</span>
+      <span class="tag human">AI + sources</span><span class="tag script">checked by script</span>
       <p>Remove "um"s and false starts, fix spelling. Timestamps and names never change. <code>validate_clean.py</code></p>
     </div>
     <div class="stage">
@@ -125,13 +127,13 @@ transcripts, panel timelines and word clouds. Scripts do the counting, and peopl
     </div>
     <div class="stage human-stage">
       <header><span class="num">8</span><h3>Check the record</h3></header>
-      <span class="tag human">people + AI</span>
-      <p>Every name we could source is checked against a public source; the ones we could not confirm are listed in the <a href="https://github.com/BetaNYC/hearings-transcripts/blob/main/hearings/2026-10-16-technology-ai/README.md#known-gaps">hearing's known gaps</a>. Every edit that changes meaning is checked against the captions. <a href="https://github.com/BetaNYC/hearings-transcripts/blob/main/docs/PIPELINE.md">Two reviews</a>, then a person opens every page.</p>
+      <span class="tag human">AI + sources</span>
+      <p>For October 16: names were checked against public sources by an AI assistant, and the ones we could not confirm are listed in the <a href="https://github.com/BetaNYC/hearings-transcripts/blob/main/hearings/2026-10-16-technology-ai/README.md#known-gaps">hearing's known gaps</a>. Meaning-changing edits were checked against the captions. A code review and a credibility review went <a href="https://github.com/BetaNYC/hearings-transcripts/blob/main/docs/PIPELINE.md">back and forth</a> until both said ship.</p>
     </div>
     <div class="stage">
       <header><span class="num">9</span><h3>Publish and take corrections</h3></header>
-      <span class="tag script">GitHub Pages</span><span class="tag human">people</span>
-      <p>The site goes live. Every page links to a correction form, and fixes go back into the inputs and rebuild.</p>
+      <span class="tag script">GitHub Pages</span><span class="tag human">approval</span>
+      <p>The site goes live. Full-quality audio goes in a GitHub Release, and the video goes to the Internet Archive, which can take hours or days to make it playable. Every page links to a correction form, and fixes go back into the inputs and rebuild.</p>
     </div>
   </div>
 </section>
@@ -145,11 +147,11 @@ transcripts, panel timelines and word clouds. Scripts do the counting, and peopl
     <div class="stat"><b>6</b><span>panels and parts</span></div>
     <div class="stat"><b>14</b><span>keyterms sent to Deepgram</span></div>
   </div>
-  <p class="foot">56 of the 248 turns hold two voices. Each one is credited to one person and marked <code>mixed</code>.</p>
+  <p class="foot">56 of the 248 turns hold more than one voice. Each one is credited to one person and marked <code>mixed</code>.</p>
 </section>
 
 <section>
-  <h2>What we learned: why people stay in the loop</h2>
+  <h2>What we learned: why every judgment needs a source</h2>
   <div class="lessons">
     <div class="lesson">
       <h3>A helpful word list can backfire</h3>
@@ -157,7 +159,7 @@ transcripts, panel timelines and word clouds. Scripts do the counting, and peopl
     </div>
     <div class="lesson">
       <h3>"Better-sounding" is not "right"</h3>
-      <p>Four cleanup edits were undone ("lunch" to "launch", "dictated" to "abdicated"…). Both the machine and the Council's captions disagreed with them. An edit that changes meaning needs a second source.</p>
+      <p>Four cleanup edits were undone ("lunch" to "launch", "dictated" to "abdicated"…). Neither Deepgram nor the Council's captions supported them. An edit that changes meaning needs a second source.</p>
     </div>
     <div class="lesson">
       <h3>Never publish a guess about a person</h3>
@@ -165,7 +167,7 @@ transcripts, panel timelines and word clouds. Scripts do the counting, and peopl
     </div>
     <div class="lesson">
       <h3>Read the frame, not the transcription</h3>
-      <p>Zoom name labels were read from video frames, so the spelling on the page matches the screen.</p>
+      <p>On-screen name labels were read from still frames of the video, so the spelling on the page matches the screen.</p>
     </div>
   </div>
 </section>

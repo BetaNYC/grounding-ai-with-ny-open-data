@@ -108,6 +108,17 @@ the arc, the examples, and what the audience already knows.
 </div>
 
 <div class="card">
+  <div class="who">Anyone who watches City Hall</div>
+  <h3>Decode a Council hearing</h3>
+  <p>Hours of hearing video become a transcript that says who spoke, when, and about what. The steps
+  BetaNYC worked out on two 2026 AI hearings, written so anyone can follow them.</p>
+  <div class="links">
+    <a class="btn" href="{{ '/guides/council-hearings/decode-a-council-hearing.html' | relative_url }}">The guide</a>
+    <a class="btn" href="{{ '/guides/council-hearings/hearing-transcripts-pipeline.html' | relative_url }}">The pipeline</a>
+  </div>
+</div>
+
+<div class="card">
   <div class="who">Peer communities of practice</div>
   <h3>Civic AI educators and organizers</h3>
   <p>For people deciding what to build and what to teach, some of whom start from "AI is bad." Digital
@@ -165,5 +176,6 @@ CC BY-SA 4.0 — fork them, correct them, and use them in your own room.
 
 - [Directory of New York open data portals]({{ '/resources/ny-open-data-portals.html' | relative_url }}) — which counties and municipalities run one, with API notes
 - [How we turn a Council hearing into an open transcript]({{ '/guides/council-hearings/hearing-transcripts-pipeline.html' | relative_url }}) — the pipeline behind [BetaNYC/hearings-transcripts](https://github.com/BetaNYC/hearings-transcripts), on one page
+- [Decode a Council hearing yourself]({{ '/guides/council-hearings/decode-a-council-hearing.html' | relative_url }}) — the eleven steps, what is free and what costs money, and what we learned
 - [Training BetaNYC and partners run]({{ '/guides/training-resources.html' | relative_url }}) — Intro to Open Data, Open Data Ambassadors, and more
 - [The MCP config file]({{ '/mcp-configs/socrata-nyc-nys.mcp.json' | relative_url }}) — drop-in setup for switching between the NYC and NYS portals

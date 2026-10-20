@@ -6,7 +6,7 @@ status: DRAFT
 
 Run-it-live demo scripts for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to a **New York State Senator or Assemblymember** (or their staff).
 
-The parallel to [`../council-members/`](../council-members/README.md), with one structural difference: the spine is **NYS Open Legislation** rather than Legistar, and there is **no state equivalent of Schedule C discretionary awards** in our tooling. So the four-act arc is different, not just re-pointed.
+The parallel to [`../council-members/`](../council-members/README.md), with one structural difference: the spine is **NYS Open Legislation** rather than Legistar, and there is **no state equivalent of the Council's discretionary awards** in our tooling. So the four-act arc is different, not just re-pointed.
 
 ## Available demos
 
@@ -31,7 +31,7 @@ Districts are the stable unit; members change.
 | | Council script | State script |
 |---|---|---|
 | Legislative spine | Legistar via `nyc-council-mcp` | NYS Open Legislation via `nys-openlegislation-mcp` |
-| Money act | Schedule C → Checkbook, a genuinely strong chain | **No equivalent.** Don't fake one |
+| Money act | Council discretionary awards → Checkbook, a genuinely strong chain | **No equivalent.** Don't fake one |
 | District data | 311 by `council_district` is rich and current | Thinner — city datasets cut by state district are rarer and often older |
 | Best closing act | Follow the money | **Find the gap** |
 

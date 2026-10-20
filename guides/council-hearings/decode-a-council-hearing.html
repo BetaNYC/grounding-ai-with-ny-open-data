@@ -68,12 +68,12 @@
 <h1>Decode a Council hearing yourself</h1>
 <p class="lede">A NYC Council hearing is public, but it is hours of video. This guide shows how to turn one
 into a transcript that says who spoke, when, and about what. It is the process BetaNYC used for the October 16, 2026
-hearing on AI, built on what we learned doing the October 5 hearing by hand. The method is open. Take it, use it, and tell us what to fix.</p>
+hearing on AI, built on what we learned doing the October 5 hearing by hand. The method is open. Take it, use it, and tell us what to fix. BetaNYC's transcripts are our independent record, not the Council's official transcript.</p>
 
 <section>
   <h2>What you need</h2>
   <div class="need">
-    <div><b>Free</b>The Council's own records: the hearing page, agenda, committee report, video and captions. Our scripts are free too. They need Python 3.11 or later and ffmpeg.</div>
+    <div><b>Free</b>The Council's own records: the hearing page, agenda, committee report, video and captions. Our scripts are free too. They need Python 3.11 to 3.14 and ffmpeg.</div>
     <div><b>Maybe paid</b>A speech-to-text service that can tell voices apart. BetaNYC used Deepgram, which charges by the length of the audio. We also tried a free tool on our own computer (Whisper). On long stretches of the October 5 hearing it got stuck repeating phrases.</div>
     <div><b>Judgment</b>Naming voices, cleaning the text, and checking names against sources. This is where most of the work goes. At BetaNYC, AI assistants did it at our direction, and our pages say so.</div>
   </div>
@@ -81,7 +81,7 @@ hearing on AI, built on what we learned doing the October 5 hearing by hand. The
 
 <section>
   <h2>The steps</h2>
-  <ol class="steps">
+  <ol class="steps" role="list">
 
     <li class="step">
       <h3>Pick a hearing and get its papers</h3>
@@ -126,8 +126,8 @@ hearing on AI, built on what we learned doing the October 5 hearing by hand. The
       <h3>Put names on the voices</h3>
       <span class="tag person">AI + sources</span>
       <p>Who is "speaker 3"? Look for clues: people saying their own names, the chair calling on someone,
-      the oath, Zoom name tiles, and the Council's captions. (The Council's own on-screen banner usually shows only
-      the Speaker, or just the committee.) An AI assistant can do the first pass if you give it the hearing's papers.
+      the oath, Zoom name tiles, and the Council's captions. (At our two hearings, the Council's on-screen banner
+      showed only the Speaker.) An AI assistant can do the first pass if you give it the hearing's papers.
       Then check each name against a source in step 8.</p>
       <div class="tip"><b>What we learned:</b> read names off the screen, not off the transcript.
       Grab a still frame of the video, enlarge it, and copy the spelling you see.</div>
@@ -191,6 +191,7 @@ hearing on AI, built on what we learned doing the October 5 hearing by hand. The
       <span class="tag free">free</span>
       <p>Put the pages online. GitHub Pages is free. Save the video to the <a href="https://archive.org/upload">Internet Archive</a>
       (free, with an account) so it outlasts any one website. We put the full-quality audio in a GitHub Release.
+      Check that you may re-host the video; our license covers only what we made.
       Always link back to the Council's official video, and say plainly that yours is not the Council's official transcript.
       Give every page a way to report a mistake, and fix the inputs, not the finished page.</p>
       <div class="tip"><b>What we learned:</b> plan for the slow parts. Written testimony posts days later. The Internet Archive can take
@@ -201,12 +202,13 @@ hearing on AI, built on what we learned doing the October 5 hearing by hand. The
 </section>
 
 <section>
-  <h2>Four rules we work by</h2>
+  <h2>Five rules we work by</h2>
   <div class="rules">
     <div class="rule"><h3>The video is the record</h3><p>A transcript helps you find a moment. Quote from the video, after you check it.</p></div>
     <div class="rule"><h3>Machines count, sources decide</h3><p>Scripts handle times, counts and checks. A name or an edit that changes meaning needs a source, and the page says who checked it: a person or an AI assistant.</p></div>
     <div class="rule"><h3>Show your work</h3><p>Publish the unedited transcript next to the clean one, the word list you sent the speech-to-text service, and where your names came from.</p></div>
     <div class="rule"><h3>Say what you don't know</h3><p>A missing surname or an unconfirmed group gets a note on the page, not a guess.</p></div>
+    <div class="rule"><h3>Respect people who testify</h3><p>Members of the public chose to speak, not to be researched. Publish their name and group as said on the record. Don't look up or add anything else about them, and take a page down when someone asks.</p></div>
   </div>
 </section>
 
@@ -215,7 +217,7 @@ hearing on AI, built on what we learned doing the October 5 hearing by hand. The
   <p>Full checklist with every command: <a href="https://github.com/BetaNYC/hearings-transcripts/blob/main/docs/PIPELINE.md">docs/PIPELINE.md</a></p>
   <p>Finished transcripts to learn from: <a href="https://betanyc.github.io/hearings-transcripts/">betanyc.github.io/hearings-transcripts</a></p>
   <p>The whole process on one page: <a href="hearing-transcripts-pipeline.html">how we turn a hearing into an open transcript</a></p>
-  <p>The code is MIT licensed and the data is CC BY 4.0. Spot a mistake, or decoded a hearing of your own?
+  <p>The code is MIT licensed, and the transcripts and data BetaNYC made are CC BY 4.0. The Council's video and captions are the Council's. Spot a mistake, or decoded a hearing of your own?
   <a href="https://github.com/BetaNYC/hearings-transcripts/issues/new/choose">Open an issue</a>.</p>
 </div>
 

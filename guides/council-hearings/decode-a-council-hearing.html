@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decode a Council hearing yourself: a step-by-step guide</title>
+<link rel="icon" href="../../favicon.ico">
+<style>
+  :root {
+    --blue: #2359a8; --blue-2: #B8D6FF; --bg-blue: #EEF4FF; --bg-blue-light: #F9FAFF;
+    --text: #414141; --fill: #F1F1F1; --border: #949494; --white: #FFFFFF;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--white); color: var(--text);
+         font: 400 17px/30px Poppins, "Helvetica Neue", Arial, sans-serif; }
+  h1, h2, h3 { font-family: Roboto, "Helvetica Neue", Arial, sans-serif; font-weight: 700; color: var(--blue); margin: 0; }
+  h1 { font-family: Poppins, "Helvetica Neue", Arial, sans-serif; font-size: 40px; line-height: 1.15; }
+  h2 { font-size: 26px; margin-bottom: 14px; }
+  h3 { font-size: 19px; line-height: 1.3; }
+  a { color: var(--blue); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 36px 32px 48px; }
+  .lede { font-size: 19px; max-width: 860px; margin: 12px 0 0; }
+  section { margin-top: 40px; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 13px; background: var(--bg-blue-light); padding: 0 3px; }
+
+  /* What you need */
+  .need { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .need div { border: 1px solid var(--border); padding: 14px 16px; background: var(--bg-blue); font-size: 15px; line-height: 24px; }
+  .need b { display: block; color: var(--blue); font-size: 16px; margin-bottom: 4px; }
+
+  /* Steps */
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+  .step { position: relative; border: 1px solid var(--border); padding: 18px 20px 18px 74px; margin-bottom: 16px; }
+  .step::before { counter-increment: step; content: counter(step); position: absolute; left: 18px; top: 18px;
+                  width: 38px; height: 38px; line-height: 38px; text-align: center;
+                  background: var(--blue); color: var(--white); font-weight: 700; font-size: 18px; }
+  .step.people { background: var(--bg-blue-light); }
+  .step p { margin: 6px 0 0; font-size: 16px; line-height: 26px; }
+  .tag { display: inline-block; font-size: 13px; line-height: 20px; padding: 0 8px; margin: 6px 6px 0 0;
+         border: 1px solid var(--border); vertical-align: middle; }
+  .tag.free { background: var(--bg-blue); }
+  .tag.paid { background: var(--blue-2); }
+  .tag.person { background: var(--fill); }
+  .tip { margin-top: 10px; border-left: 4px solid var(--blue); padding: 4px 0 4px 12px; font-size: 15px; line-height: 24px; }
+  .tip b { color: var(--blue); }
+  .more { font-size: 15px; margin-top: 8px; }
+
+  /* Rules */
+  .rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .rule { border: 1px solid var(--border); padding: 14px 18px; }
+  .rule p { margin: 6px 0 0; font-size: 15px; line-height: 24px; }
+
+  .cta { margin-top: 40px; border: 1px solid var(--border); background: var(--blue); color: var(--white); padding: 22px 26px; }
+  .cta h2 { color: var(--white); margin-bottom: 6px; }
+  .cta a { color: var(--white); font-weight: 700; }
+  .cta p { margin: 4px 0; }
+  .foot { font-size: 13px; line-height: 20px; margin-top: 18px; }
+
+  @media (max-width: 900px) {
+    .need, .rules { grid-template-columns: 1fr; }
+    h1 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Decode a Council hearing yourself</h1>
+<p class="lede">A NYC Council hearing is public, but it is hours of video. This guide shows how to turn one
+into a transcript that says who spoke, when, and about what. It is the process BetaNYC used for the October 16, 2026
+hearing on AI, built on what we learned doing the October 5 hearing by hand. The method is open. Take it, use it, and tell us what to fix. BetaNYC's transcripts are our independent record, not the Council's official transcript.</p>
+
+<section>
+  <h2>What you need</h2>
+  <div class="need">
+    <div><b>Free</b>The Council's own records: the hearing page, agenda, committee report, video and captions. Our scripts are free too. They need Python 3.11 to 3.14 and ffmpeg.</div>
+    <div><b>Maybe paid</b>A speech-to-text service that can tell voices apart. BetaNYC used Deepgram, which charges by the length of the audio. We also tried a free tool on our own computer (Whisper). On long stretches of the October 5 hearing it got stuck repeating phrases.</div>
+    <div><b>Judgment</b>Naming voices, cleaning the text, and checking names against sources. This is where most of the work goes. At BetaNYC, AI assistants did it at our direction, and our pages say so.</div>
+  </div>
+</section>
+
+<section>
+  <h2>The steps</h2>
+  <ol class="steps" role="list">
+
+    <li class="step">
+      <h3>Pick a hearing and get its papers</h3>
+      <span class="tag free">free</span>
+      <p>Find the hearing on the Council's <a href="https://legistar.council.nyc.gov/Calendar.aspx">Legistar calendar</a>.
+      Download the agenda and the committee report. The report usually names who was invited to testify.
+      Come back a day or two later. Written testimony is often posted after the hearing.</p>
+      <p class="more">Our script for this: <code>fetch_legistar.py</code> (needs a Legistar API token, which you ask the Council for).</p>
+    </li>
+
+    <li class="step">
+      <h3>Get the video and the Council's captions</h3>
+      <span class="tag free">free</span>
+      <p>The video link appears on the hearing page once the hearing is over. Keep the Council's captions too.
+      They are rough, but they are a second witness to what was said.</p>
+      <p class="more">Our script for this: <code>fetch_media.py</code> (video, captions and small audio files).</p>
+    </li>
+
+    <li class="step people">
+      <h3>Make a short word list</h3>
+      <span class="tag person">judgment</span>
+      <p>Write down this hearing's names: Council Members, witnesses, groups, and the products or terms that keep coming up.
+      Take them only from the hearing's own papers. Speech-to-text gets names wrong, and a short list helps it get them right.</p>
+      <div class="tip"><b>What we learned:</b> a general list can backfire. Our list of BetaNYC names turned a
+      witness's self-introduction into a BetaNYC staff member's name. We paid to transcribe October 16 twice because of it.
+      Keep the list to this one hearing.</div>
+      <p class="more"><a href="https://github.com/BetaNYC/hearings-transcripts/blob/main/lexicon/README.md">How we build the list</a></p>
+    </li>
+
+    <li class="step">
+      <h3>Run speech-to-text that separates voices</h3>
+      <span class="tag paid">usually paid</span>
+      <p>Send the audio to a service that does "diarization," meaning it splits the audio by voice:
+      "speaker 1, speaker 2." You get words and times, but no names yet. Save the full response
+      so you never pay for the same run twice.</p>
+      <div class="tip"><b>What we learned:</b> "speaker 3" is a guess about a voice, not a person.
+      On October 5, the service lumped different voices under one number, and a voice we took for one Council Member was another. Name each turn from what is said in it.</div>
+      <p class="more">What we sent Deepgram: <a href="https://github.com/BetaNYC/hearings-transcripts/blob/main/scripts/README.md">scripts/README.md</a>, section 3.</p>
+    </li>
+
+    <li class="step people">
+      <h3>Put names on the voices</h3>
+      <span class="tag person">AI + sources</span>
+      <p>Who is "speaker 3"? Look for clues: people saying their own names, the chair calling on someone,
+      the oath, Zoom name tiles, and the Council's captions. (At our two hearings, the Council's on-screen banner
+      showed only the Speaker.) An AI assistant can do the first pass if you give it the hearing's papers.
+      Then check each name against a source in step 8.</p>
+      <div class="tip"><b>What we learned:</b> read names off the screen, not off the transcript.
+      Grab a still frame of the video, enlarge it, and copy the spelling you see.</div>
+      <p class="more"><a href="https://github.com/BetaNYC/hearings-transcripts/blob/main/docs/prompts/speaker-naming.md">Our speaker-naming prompt</a></p>
+    </li>
+
+    <li class="step people">
+      <h3>Mark the parts of the hearing</h3>
+      <span class="tag person">judgment</span>
+      <p>Most hearings have parts: opening statements, the City's panel, invited witnesses, then the public.
+      Write down when each part starts and ends. This is what lets you see who got the floor, and for how long.</p>
+      <p class="more">Example: <a href="https://betanyc.github.io/hearings-transcripts/hearings/2026-10-16-technology-ai/panels.html">who spoke, panel by panel, October 16</a></p>
+    </li>
+
+    <li class="step people">
+      <h3>Clean it up, carefully</h3>
+      <span class="tag person">AI + sources</span>
+      <p>Take out "um"s, stutters and false starts. Fix spelling. Keep each speaker's grammar as they said it.
+      Never change a time or a name. Keep the unedited version next to the clean one, so anyone can compare.</p>
+      <div class="tip"><b>What we learned:</b> a word that sounds better is not always right. We undid four edits,
+      like "lunch" to "launch," because neither Deepgram nor the Council's captions supported them.
+      An edit that changes meaning needs a second source.</div>
+      <p class="more"><a href="https://github.com/BetaNYC/hearings-transcripts/blob/main/docs/prompts/clean-verbatim.md">Our clean-up prompt</a>
+      · our checker: <code>validate_clean.py</code></p>
+    </li>
+
+    <li class="step people">
+      <h3>Check every name against a public source</h3>
+      <span class="tag person">AI + sources</span>
+      <p>Check each person's name and group against the Council's records, posted testimony, or the group's own website.
+      Write down where you checked. If you can't confirm it, say so on the page.</p>
+      <p>Say who did the checking, too. For October 16, an AI assistant checked names against public sources.
+      Elected officials were checked against the Council's records. Our pages say that other names were not each verified by a person.</p>
+      <div class="tip"><b>What we learned:</b> never publish a guess about a private person. We had guessed one
+      witness's law firm from a garbled word. The guess was right, but it stayed off the page until a public
+      source confirmed it.</div>
+    </li>
+
+    <li class="step">
+      <h3>Count and picture it</h3>
+      <span class="tag free">free</span>
+      <p>Now you can count. Count each speaker's talk time. Draw a timeline of the parts of the hearing.
+      Make word clouds of the phrases each group used more than everyone else.</p>
+      <div class="tip"><b>What we learned:</b> talk time is approximate. Some turns hold more than one voice, like a
+      question and the start of its answer. On October 16, the two longest speakers swap places if you leave those turns out.
+      Mark those turns, and round your numbers. If you remove words from a word cloud by hand, say so and publish the list.</div>
+      <p class="more">Our scripts: <code>build_hearing.py</code>, <code>build_panels.py</code>, <code>build_wordclouds.py</code>
+      · example: <a href="https://betanyc.github.io/hearings-transcripts/hearings/2026-10-16-technology-ai/wordclouds/index.html">October 16 word clouds</a></p>
+    </li>
+
+    <li class="step people">
+      <h3>Get two reviews, then look at every page</h3>
+      <span class="tag person">judgment</span>
+      <p>One reviewer reads the code and the pages as a stranger would, looking for what breaks. Another checks every name,
+      number and claim against its source. Fix, then send it back to both, until both say it is ready.
+      Then open every page in a browser yourself.</p>
+    </li>
+
+    <li class="step">
+      <h3>Publish, save a copy, and take corrections</h3>
+      <span class="tag free">free</span>
+      <p>Put the pages online. GitHub Pages is free. Save the video to the <a href="https://archive.org/upload">Internet Archive</a>
+      (free, with an account) so it outlasts any one website. We put the full-quality audio in a GitHub Release.
+      Check that you may re-host the video; our license covers only what we made.
+      Always link back to the Council's official video, and say plainly that yours is not the Council's official transcript.
+      Give every page a way to report a mistake, and fix the inputs, not the finished page.</p>
+      <div class="tip"><b>What we learned:</b> plan for the slow parts. Written testimony posts days later. The Internet Archive can take
+      hours or days to make a video playable; our October 16 copy was still processing that night. Until it plays, keep the Council's video as the main link.</div>
+    </li>
+
+  </ol>
+</section>
+
+<section>
+  <h2>Five rules we work by</h2>
+  <div class="rules">
+    <div class="rule"><h3>The video is the record</h3><p>A transcript helps you find a moment. Quote from the video, after you check it.</p></div>
+    <div class="rule"><h3>Machines count, sources decide</h3><p>Scripts handle times, counts and checks. A name or an edit that changes meaning needs a source, and the page says who checked it: a person or an AI assistant.</p></div>
+    <div class="rule"><h3>Show your work</h3><p>Publish the unedited transcript next to the clean one, the word list you sent the speech-to-text service, and where your names came from.</p></div>
+    <div class="rule"><h3>Say what you don't know</h3><p>A missing surname or an unconfirmed group gets a note on the page, not a guess.</p></div>
+    <div class="rule"><h3>Respect people who testify</h3><p>Members of the public chose to speak, not to be researched. Publish their name and group as said on the record. Don't look up or add anything else about them, and take a page down when someone asks.</p></div>
+  </div>
+</section>
+
+<div class="cta">
+  <h2>Take it and use it</h2>
+  <p>Full checklist with every command: <a href="https://github.com/BetaNYC/hearings-transcripts/blob/main/docs/PIPELINE.md">docs/PIPELINE.md</a></p>
+  <p>Finished transcripts to learn from: <a href="https://betanyc.github.io/hearings-transcripts/">betanyc.github.io/hearings-transcripts</a></p>
+  <p>The whole process on one page: <a href="hearing-transcripts-pipeline.html">how we turn a hearing into an open transcript</a></p>
+  <p>The code is MIT licensed, and the transcripts and data BetaNYC made are CC BY 4.0. The Council's video and captions are the Council's. Spot a mistake, or decoded a hearing of your own?
+  <a href="https://github.com/BetaNYC/hearings-transcripts/issues/new/choose">Open an issue</a>.</p>
+</div>
+
+<p class="foot">BetaNYC · Prepared 2026-10-19. Two things are not public: the script that sends audio to Deepgram, which lives in
+BetaNYC's private workspace, and our raw working files (the Deepgram output and speaker labels).
+<a href="https://github.com/BetaNYC/hearings-transcripts/blob/main/scripts/README.md">scripts/README.md</a>
+describes the Deepgram request, so you can make it yourself. You can check our transcripts against the Council's video,
+but you can't rerun our hearings from scratch.</p>
+</div>
+</body>
+</html>

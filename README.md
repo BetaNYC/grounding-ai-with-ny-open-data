@@ -24,6 +24,7 @@ Everything here is published at **<https://betanyc.github.io/grounding-ai-with-n
 | CS curriculum designers | [cuny-cs-curriculum](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/educators/cuny-cs-curriculum/) | — |
 | Watchdogs and newsrooms | [reinvent-albany](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/good-government/reinvent-albany/) | ✅ |
 | City government — agency staff and data teams | [city-government](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/city-government/) | ✅ |
+| Peer communities of practice — Data & Society AI Civics, 2026-09-18 | [community-of-practice](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/community-of-practice/README.html) | ✅ |
 
 The decks are self-contained HTML, so GitHub shows you source instead of slides — open them from the site. Arrow keys move between slides, `N` opens presenter notes, `G` is the slide grid, `F` goes full screen.
 
@@ -102,8 +103,9 @@ grounding-ai-with-ny-open-data/
 │   ├── state-legislators/                      ← DRAFT — per-district state demos + TEMPLATE.md
 │   ├── good-government/                        ← DRAFT — watchdog / newsroom demo scripts + FOIL methodology
 │   ├── city-government/                        ← DRAFT — agency-staff demo script: portals in depth + Checkbook
+│   ├── community-of-practice/                  ← DRAFT — decks for peer communities of practice on civic AI
 │   ├── grounding-ai-agents.md                  ← DRAFT — grounding rationale + prompt patterns
-│   └── training-resources.md                  ← DRAFT — classes and programs
+│   └── training-resources.md                  ← classes and programs, with links to each
 └── resources/
     ├── ny-open-data-portals.md                ← DRAFT — county/municipal portal directory
     └── research-plan-ny-open-data-portals.md  ← the scan plan behind the directory

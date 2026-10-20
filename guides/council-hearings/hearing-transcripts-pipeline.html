@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../../favicon.ico">
+<title>From Council hearing to open transcript: how the pipeline works</title>
+<style>
+  :root {
+    --blue: #2359a8; --blue-2: #B8D6FF; --bg-blue: #EEF4FF; --bg-blue-light: #F9FAFF;
+    --text: #414141; --fill: #F1F1F1; --border: #949494; --white: #FFFFFF;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--white); color: var(--text);
+         font: 400 17px/30px Poppins, "Helvetica Neue", Arial, sans-serif; }
+  h1, h2, h3 { font-family: Roboto, "Helvetica Neue", Arial, sans-serif; font-weight: 700; color: var(--blue); margin: 0; }
+  h1 { font-family: Poppins, "Helvetica Neue", Arial, sans-serif; font-size: 40px; line-height: 1.15; }
+  h2 { font-size: 26px; margin-bottom: 14px; }
+  h3 { font-size: 18px; line-height: 1.3; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 36px 32px 48px; }
+  .lede { font-size: 19px; max-width: 900px; margin: 12px 0 0; }
+  section { margin-top: 40px; }
+
+  /* Flow */
+  .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; counter-reset: stage; }
+  .stage { position: relative; border: 1px solid var(--border); border-radius: 0; background: var(--white);
+           padding: 16px 18px 18px; margin: 0 22px 22px 0; }
+  .stage::after { content: "→"; position: absolute; right: -22px; top: 40%; width: 22px; text-align: center;
+                  color: var(--blue); font-weight: 700; font-size: 20px; }
+  .flow .stage:nth-child(3n)::after { content: ""; }
+  .stage .num { display: inline-block; width: 30px; height: 30px; line-height: 30px; text-align: center;
+                background: var(--blue); color: var(--white); font-weight: 700; margin-right: 8px; }
+  .stage header { display: flex; align-items: center; margin-bottom: 8px; }
+  .tag { display: inline-block; font-size: 13px; line-height: 20px; padding: 0 8px; margin: 0 6px 6px 0;
+         border: 1px solid var(--border); }
+  .tag.script { background: var(--bg-blue); }
+  .tag.human { background: var(--fill); }
+  .tag.paid { background: var(--blue-2); }
+  .stage p { margin: 4px 0 0; font-size: 15px; line-height: 24px; }
+  .stage code, td code, li code { font-family: Menlo, Consolas, monospace; font-size: 13px; background: var(--bg-blue-light);
+                padding: 0 3px; }
+  .stage.human-stage { background: var(--bg-blue-light); }
+  .legend { margin: 6px 0 16px; font-size: 15px; }
+
+  /* Numbers */
+  .numbers { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+  .stat { border: 1px solid var(--border); padding: 14px; background: var(--bg-blue); }
+  .stat b { display: block; font-family: Poppins, Arial, sans-serif; font-size: 30px; line-height: 1.1; color: var(--blue); }
+  .stat span { font-size: 14px; line-height: 20px; display: block; margin-top: 6px; }
+
+  /* Lessons */
+  .lessons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .lesson { border: 1px solid var(--border); padding: 14px 18px; }
+  .lesson p { margin: 6px 0 0; font-size: 15px; line-height: 24px; }
+
+  /* Outputs */
+  table { border-collapse: collapse; width: 100%; font-size: 15px; line-height: 22px; }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--bg-blue); color: var(--text); }
+
+  .cta { margin-top: 40px; border: 1px solid var(--border); background: var(--blue); color: var(--white); padding: 22px 26px; }
+  .cta h2 { color: var(--white); margin-bottom: 6px; }
+  .cta a { color: var(--white); font-weight: 700; }
+  .cta p { margin: 4px 0; }
+  .foot { font-size: 13px; line-height: 20px; margin-top: 18px; }
+
+  @media (max-width: 900px) {
+    .flow, .lessons { grid-template-columns: 1fr; }
+    .stage { margin-right: 0; }
+    .stage::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -24px; }
+    .numbers { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>From a Council hearing to an open, speaker-labeled transcript</h1>
+<p class="lede">How BetaNYC turned two NYC Council AI hearings (October 5 and October 16, 2026) into searchable
+transcripts, panel timelines and word clouds. Scripts do the counting, and people check the meaning.</p>
+<p>This is BetaNYC's independent record, not the Council's official transcript.</p>
+
+<section>
+  <h2>The nine stages</h2>
+  <div class="legend">
+    <span class="tag script">scripted</span>
+    <span class="tag human">people + AI assistants</span>
+    <span class="tag paid">paid service</span>
+  </div>
+  <div class="flow">
+    <div class="stage">
+      <header><span class="num">1</span><h3>Get the Council's documents</h3></header>
+      <span class="tag script">scripted</span>
+      <p>Agenda, committee report and attachments from Legistar, the Council's legislation system. <code>fetch_legistar.py</code></p>
+    </div>
+    <div class="stage">
+      <header><span class="num">2</span><h3>Get the video, captions and audio</h3></header>
+      <span class="tag script">scripted</span>
+      <p>The hearing video and the Council's own captions, turned into small audio files. <code>fetch_media.py</code></p>
+    </div>
+    <div class="stage">
+      <header><span class="num">3</span><h3>Machine transcription</h3></header>
+      <span class="tag script">scripted</span><span class="tag paid">paid</span>
+      <p>Deepgram Nova-3 writes the words and groups voices ("speaker 1, speaker 2"). It gets a short list of this hearing's names. <code>lexicon.txt</code></p>
+    </div>
+    <div class="stage human-stage">
+      <header><span class="num">4</span><h3>Put names on the voices</h3></header>
+      <span class="tag human">people + AI</span>
+      <p>Who is "speaker 3"? Self-introductions, the chair calling on people, Zoom name labels, captions. The hearing is split into panels too. <code>panels.json</code></p>
+    </div>
+    <div class="stage human-stage">
+      <header><span class="num">5</span><h3>Clean it up</h3></header>
+      <span class="tag human">people + AI</span><span class="tag script">checked by script</span>
+      <p>Remove "um"s and false starts, fix spelling. Timestamps and names never change. <code>validate_clean.py</code></p>
+    </div>
+    <div class="stage">
+      <header><span class="num">6</span><h3>Build the hearing folder</h3></header>
+      <span class="tag script">scripted</span>
+      <p>Turns, speakers, captions, talk time, panel timeline. <code>build_hearing.py</code>, <code>build_panels.py</code></p>
+    </div>
+    <div class="stage">
+      <header><span class="num">7</span><h3>Word clouds</h3></header>
+      <span class="tag script">scripted</span>
+      <p>The phrases each group used more than everyone else. <code>build_wordclouds.py</code></p>
+    </div>
+    <div class="stage human-stage">
+      <header><span class="num">8</span><h3>Check the record</h3></header>
+      <span class="tag human">people + AI</span>
+      <p>Every name we could source is checked against a public source; the ones we could not confirm are listed in the <a href="https://github.com/BetaNYC/hearings-transcripts/blob/main/hearings/2026-10-16-technology-ai/README.md#known-gaps">hearing's known gaps</a>. Every edit that changes meaning is checked against the captions. <a href="https://github.com/BetaNYC/hearings-transcripts/blob/main/docs/PIPELINE.md">Two reviews</a>, then a person opens every page.</p>
+    </div>
+    <div class="stage">
+      <header><span class="num">9</span><h3>Publish and take corrections</h3></header>
+      <span class="tag script">GitHub Pages</span><span class="tag human">people</span>
+      <p>The site goes live. Every page links to a correction form, and fixes go back into the inputs and rebuild.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>The October 16 hearing, by the numbers</h2>
+  <div class="numbers">
+    <div class="stat"><b>1:57:28</b><span>of video</span></div>
+    <div class="stat"><b>248</b><span>speaker turns</span></div>
+    <div class="stat"><b>17</b><span>speakers, 10 of them witnesses</span></div>
+    <div class="stat"><b>6</b><span>panels and parts</span></div>
+    <div class="stat"><b>14</b><span>keyterms sent to Deepgram</span></div>
+  </div>
+  <p class="foot">56 of the 248 turns hold two voices. Each one is credited to one person and marked <code>mixed</code>.</p>
+</section>
+
+<section>
+  <h2>What we learned: why people stay in the loop</h2>
+  <div class="lessons">
+    <div class="lesson">
+      <h3>A helpful word list can backfire</h3>
+      <p>A general list of BetaNYC names turned a witness's self-introduction into a BetaNYC staff name. So each hearing now gets its own short list, with a source for every term.</p>
+    </div>
+    <div class="lesson">
+      <h3>"Better-sounding" is not "right"</h3>
+      <p>Four cleanup edits were undone ("lunch" to "launch", "dictated" to "abdicated"…). Both the machine and the Council's captions disagreed with them. An edit that changes meaning needs a second source.</p>
+    </div>
+    <div class="lesson">
+      <h3>Never publish a guess about a person</h3>
+      <p>A witness's law firm had been guessed from a garbled word. The guess was right, but it stayed off the page until a public source confirmed it.</p>
+    </div>
+    <div class="lesson">
+      <h3>Read the frame, not the transcription</h3>
+      <p>Zoom name labels were read from video frames, so the spelling on the page matches the screen.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>What you can download for each hearing</h2>
+  <table>
+    <tr><th>File</th><th>What it is</th></tr>
+    <tr><td><code>transcript/transcript-clean.txt</code></td><td>The readable transcript, with timestamps and names</td></tr>
+    <tr><td><code>transcript/turns.csv</code></td><td>One row per turn, for spreadsheets and charts</td></tr>
+    <tr><td><code>transcript/captions.vtt</code></td><td>Captions with speaker names</td></tr>
+    <tr><td><code>speakers.csv</code></td><td>Who spoke, how many turns, how long</td></tr>
+    <tr><td><code>panels.html</code></td><td>"Who spoke, panel by panel" timeline</td></tr>
+    <tr><td><code>wordclouds/</code></td><td>"What each group talked about"</td></tr>
+    <tr><td><code>legistar/</code></td><td>The Council's own documents for the hearing</td></tr>
+  </table>
+</section>
+
+<div class="cta">
+  <h2>Read it, reuse it, fix it</h2>
+  <p>Site: <a href="https://betanyc.github.io/hearings-transcripts/">betanyc.github.io/hearings-transcripts</a></p>
+  <p>Code and step-by-step checklist: <a href="https://github.com/BetaNYC/hearings-transcripts">github.com/BetaNYC/hearings-transcripts</a> (see <code style="background:transparent;color:#fff">docs/PIPELINE.md</code>)</p>
+  <p>Spot a mistake? Every page has a link to open a correction on GitHub.</p>
+</div>
+
+<p class="foot">BetaNYC · Prepared 2026-10-19. Numbers are from the October 16 hearing data on the repository's main branch.</p>
+</div>
+</body>
+</html>

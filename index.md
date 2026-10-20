@@ -107,6 +107,18 @@ the arc, the examples, and what the audience already knows.
   </div>
 </div>
 
+<div class="card">
+  <div class="who">Peer communities of practice</div>
+  <h3>Civic AI educators and organizers</h3>
+  <p>For people deciding what to build and what to teach, some of whom start from "AI is bad." Digital
+  sovereignty is the frame, the tools are one piece of civic capacity, and the ask is to co-author
+  curriculum. First given to Data &amp; Society's AI Civics community of practice, 2026-09-18.</p>
+  <div class="links">
+    <a class="btn" href="{{ '/guides/community-of-practice/ai-civics-cop-deck.html' | relative_url }}">The deck</a>
+    <a class="btn" href="{{ '/guides/community-of-practice/README.html' | relative_url }}">About it</a>
+  </div>
+</div>
+
 </div>
 
 ## Start here if you are setting this up

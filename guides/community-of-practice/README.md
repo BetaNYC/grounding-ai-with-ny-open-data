@@ -10,7 +10,7 @@ Decks and scripts for **peer communities of practice** working on civic AI: peop
 
 | Audience | Date | Deck |
 |---|---|---|
-| Data & Society AI Civics community of practice (8-minute slot; session theme: the values imbued in AI systems) | 2026-09-18 | [`ai-civics-cop-deck.html`](ai-civics-cop-deck.html) |
+| [Data & Society AI Civics](https://datasociety.net/ai-civics/) community of practice (8-minute slot; session theme: the values imbued in AI systems) | 2026-09-18 | [`ai-civics-cop-deck.html`](ai-civics-cop-deck.html) |
 
 ## How this audience differs
 

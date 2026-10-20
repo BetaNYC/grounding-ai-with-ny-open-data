@@ -4,32 +4,63 @@ status: DRAFT
 
 # Training resources
 
-> **DRAFT.** First pass, 2026-07-06. The two core links below need a BetaNYC staff member to fill in the live URL — placeholders are marked clearly. Do not publish this file externally until they're filled in.
+> Every link on this page was opened and checked on 2026-10-19. If one has moved, please [open an issue](https://github.com/BetaNYC/grounding-ai-with-ny-open-data/issues).
 
 Understanding open data doesn't require reading this repo's technical guides first — BetaNYC and partner organizations run recurring public classes that build the same foundational literacy for a general audience.
 
 ## Core classes
 
-### Introduction to NYC Open Data
-BetaNYC's recurring digital literacy class, covering both NYC and NYS open data — what it is, where to find it, and how to start exploring it without a technical background.
+### Introduction to New York Open Data
+BetaNYC's recurring digital literacy class, covering both NYC and NYS open data — what it is, where to find it, and how to start exploring it without a technical background. 90 minutes; bring a laptop. The curriculum was co-created by BetaNYC and the Office of Data Analytics team at the NYC Office of Technology and Innovation (OTI).
 
-**Link:** `[NEEDS LINK — beta.nyc event page or registration URL]`
+- **About the class:** [beta.nyc/open-data-classes](https://www.beta.nyc/open-data-classes/)
+- **Slides:** [Class deck (PDF)](https://drive.google.com/file/d/1cUJIlO0tceIoTiMfoNfDBlm7pFGSY76j/view)
+- **Sign up:** upcoming sessions are listed on [BetaNYC's events page](https://www.beta.nyc/events/)
 
-### Open Data Ambassadors Program
-A program run by the NYC Mayor's Office of Technology and Innovation (OTI), which BetaNYC supports — open-data classes delivered across all 51 City Council Districts, building open-data literacy at the neighborhood level.
+### Open Data Ambassadors
+A collaboration between NYC Open Data at OTI and BetaNYC. Volunteer ambassadors teach free 90-minute virtual classes on NYC Open Data: what it is, how to frame a question, and how to filter and visualize a dataset on the portal. Monthly public classes, plus an annual train-the-trainer program.
 
-**Link:** `[NEEDS LINK — OTI program page]`
+- **About the program:** [beta.nyc/open-data-ambassadors](https://www.beta.nyc/open-data-ambassadors/)
+- **Sign up for a class:** [Attend a Class — NYC Open Data](https://www.nyc.gov/opendata/get-started/attend-a-class)
+- **Request a custom or in-person class:** [request form](https://airtable.com/appE7mrCsz4kp8V7z/pagIOr7eirmG8qzt6/form)
+- **Become an ambassador:** [nyc.gov/teachopendata](https://nyc.gov/teachopendata)
 
-## Suggested additional training material for review
+### AI 101: Empowering New Yorkers in the Age of Artificial Intelligence
+BetaNYC's plain-language class on what AI is, how it works, and how to ask better questions of the systems and providers shaping our communities.
 
-These are candidates worth evaluating for inclusion — not yet vetted or confirmed as current/active. Flagging for a follow-up pass:
+- **About the class and materials:** [beta.nyc/resources/ai-101](https://www.beta.nyc/resources/ai-101/)
+- **Sign up:** [BetaNYC's events page](https://www.beta.nyc/events/)
 
-- **NYC School of Data** — recurring annual conference with multiple past sessions specifically on discovering/exploring NYC Open Data (e.g., "Discovering NYC Open Data: An Introduction"). Worth linking to the current School of Data program page.
-- **NYC Open Data Week** — annual week of sessions, several of which are introductory open-data classes; worth linking to the current year's program.
-- **Data & Society's AI Civics** — referenced as a content partner in BetaNYC's own "Introduction to Artificial Intelligence (AI 101)" curriculum; may have standalone public materials worth citing.
-- **Socrata / Tyler Data & Insights developer docs** (`dev.socrata.com`) — the technical reference for the SoQL query language underlying both NYC and NYS portals; useful for anyone building past the beginner level.
-- **NYC Council's AICE (Artificial Intelligence Community Engagement) Initiative** — another named curriculum partner for BetaNYC's AI 101 class; may have its own public materials.
+### NYC Open Data Journeys
+Virtual sessions that follow one question through NYC Open Data, such as street safety, noise, and housing. Paused for now; past materials are on the page.
+
+- **About the sessions:** [beta.nyc/nyc-opendata-journeys](https://www.beta.nyc/nyc-opendata-journeys/)
+
+## Annual events
+
+### NYC School of Data
+BetaNYC's annual community conference, held each spring during NYC Open Data Week, on open data, civic technology, and service design. Many past sessions are introductions to NYC Open Data.
+
+- **Conference site:** [schoolofdata.nyc](https://schoolofdata.nyc/)
+- **Past talks:** [BetaNYC on YouTube](https://www.youtube.com/betanyc)
+
+### NYC Open Data Week
+An annual festival of community-run events, organized by the Office of Data Strategy at the NYC Office of Technology and Innovation (OTI), BetaNYC, and Data Through Design. Several events each year are introductory open data classes.
+
+- **Festival site:** [opendataweek.nyc](https://opendataweek.nyc/)
+- **Past recordings:** [Open Data Week archive](https://archive.open-data.nyc/)
+
+## Partner programs
+
+### Data & Society: AI Civics
+Data & Society's approach to public education and engagement, which treats AI as a domain of civic life where people have rights and ways to act together. BetaNYC presented to its community of practice on 2026-09-18 ([the deck]({{ '/guides/community-of-practice/ai-civics-cop-deck.html' | relative_url }})).
+
+- **About the program:** [datasociety.net/ai-civics](https://datasociety.net/ai-civics/)
+
+## Going further
+
+- **Socrata developer docs** ([dev.socrata.com](https://dev.socrata.com/)) — the technical reference for SoQL, the query language behind both the NYC and NYS portals. Useful once you are building past the beginner level.
 
 ## A note on scope
 
-This file intentionally stays narrow to *open data* literacy training. BetaNYC's broader digital-literacy class catalog (AI 101, Mapping for Equity data classes, etc.) is out of scope here — see BetaNYC's own program pages for the full catalog.
+This page stays focused on *open data* and AI literacy. For BetaNYC's full class catalog, including Mapping for Equity, see [beta.nyc/open-data-classes](https://www.beta.nyc/open-data-classes/).

@@ -210,7 +210,7 @@ This transfers directly — most agencies have a public-facing site under the sa
 
 **The middle one is the one to defend hardest.** An automated check that silently covers less than it appears to is worse than no check.
 
-> ⚠️ **Do not describe the Slack-to-Discord migration as finished.** It is in flight, with Slack closing later this year.
+> ⚠️ **BetaNYC's Slack closed on 2026-10-16, and Discord is open to the community.** Do not describe the rest of the migration as finished without checking its current state.
 
 If the room asks about applying the gating pattern to their own systems: **the useful part is not Discord.** It is one authoritative record of who someone is, with every platform identity hanging off it, so that removing access is one action instead of seven.
 

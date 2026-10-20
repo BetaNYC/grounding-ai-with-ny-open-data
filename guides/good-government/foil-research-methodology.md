@@ -66,7 +66,7 @@ These put the same public sources behind a grounded agent, so it queries the rec
 |---|---|---|
 | [`@betanyc/nyc-checkbook-mcp`](https://github.com/BetaNYC/nyc-checkbook-mcp) | 1.4.0 | Phase 3 — contracts, spending, vendor lookup |
 | [`@betanyc/nyc-record-mcp`](https://github.com/BetaNYC/nyc-record-mcp) | 1.1.0 | Phase 3 — solicitations, award and hearing notices |
-| [`@betanyc/nyc-budget-mcp`](https://github.com/BetaNYC/New-York-City-Budget) | 1.3.0 | Phase 4 — discretionary awards to the same vendor |
+| [`@betanyc/nyc-budget-mcp`](https://github.com/BetaNYC/New-York-City-Budget) | 2.0.0 | Phase 4 — discretionary awards to the same vendor (`search_disclosure_awards`, by `ein` or `legal_name`) |
 | [`@betanyc/nyc-council-mcp`](https://github.com/BetaNYC/nyc-council-mcp) | 2.5.0 | Phase 4 — Council oversight of the agency or contract |
 | [`@betanyc/nyc-charter-laws-rules`](https://github.com/BetaNYC/nyc-charter-laws-rules) | 0.2.0 | Phases 4–5 — the city's own procurement and records rules. **Not** the FOIL statute, which is state law |
 | [`@betanyc/nys-openlegislation-mcp`](https://github.com/BetaNYC/nys-openlegislation-mcp) | 2.3.0 | Phase 5 — Public Officers Law Article 6, the statute a FOIL request cites, plus any pending bills that would change it |

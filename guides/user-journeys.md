@@ -26,7 +26,7 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 | 1 | **NYC 311** | `nyc-311-mcp` | Service requests, complaints, city-service calendar, status alerts |
 | 2 | **NYC Council** | `nyc-council-mcp` | Bills, hearings, votes, committees, council members (Legistar) |
 | 3 | **NYC Checkbook** | `nyc-checkbook-mcp` | City spending, contracts, budget, payroll, revenue (Comptroller) |
-| 4 | **NYC Council Budget** | `nyc-budget-mcp` | Discretionary funding — Schedule C awards, Terms & Conditions, §254 capital |
+| 4 | **NYC Council Budget** | `nyc-budget-mcp` | Discretionary funding — the Council's funding disclosure (award-level, Cleared/Pending), Council capital designations |
 | 5 | **NYC City Record** | `nyc-record-mcp` | Procurement notices — solicitations, awards, public hearings |
 | 6 | **NYC Charter, Laws & Rules** | `nyc-charter-laws-rules` | Charter, Administrative Code, Rules of the City of New York (legal text) |
 | 7 | **NYS Open Legislation** | `nys-openlegislation-mcp` | State bills, laws, members, committees, calendars, transcripts |
@@ -70,10 +70,10 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 
 **User story:** *As a nonprofit director, I want to know which council members fund organizations like ours, so that we can make a targeted case for discretionary support.*
 
-- "Which organizations received NYC Council discretionary (Schedule C) funding in Council District 1 in the most recent fiscal year, and how much?"
-- "Search Schedule C awards for [organization name] across all available fiscal years."
-- "What are the Terms & Conditions attached to discretionary awards this fiscal year?"
-- "List the fiscal years covered by the discretionary funding data, then show capital (§254) changes for the latest one."
+- "Which organizations received NYC Council discretionary funding from Council Member [SURNAME] in the most recent fiscal year, and how much has cleared?"
+- "Search discretionary awards to [organization name] across all available fiscal years."
+- "Which Council-funded capital projects are in Council District [NN] this fiscal year?"
+- "List the fiscal years covered by the discretionary funding data, then compare the latest Council capital list with OMB's adopted capital budget."
 
 ### 5. NYC City Record — `nyc-record-mcp`
 
@@ -131,7 +131,7 @@ This is the payoff. A single dataset answers a single question; a grounded agent
 
 **User story:** *As a funder or watchdog, I want to trace a discretionary award from the allocation to the sponsoring member to the actual spending, so that I can verify the money did what it was allocated to do.*
 
-> "Find the largest NYC Council discretionary (Schedule C) award in Council District 1 in the most recent fiscal year. Tell me which council member sponsors that district, and then check NYC Checkbook for any city spending or contracts with that same organization. Flag any gaps between the allocation and what shows up in Checkbook."
+> "Find the largest NYC Council discretionary award in Council District 1 in the most recent fiscal year. Tell me which council member sponsors that district, and then check NYC Checkbook for any city spending or contracts with that same organization. Flag any gaps between the allocation and what shows up in Checkbook."
 
 **Why it lands:** discretionary allocation (budget MCP), political accountability (Council member), and actual disbursement (Checkbook) are three separate systems. Chaining them is exactly the "follow the money" move journalists do by hand.
 

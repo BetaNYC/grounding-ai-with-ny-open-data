@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!--
+  Budget figures rebuilt 2026-10-19 on @betanyc/nyc-budget-mcp v2.0.0 (search_disclosure_awards,
+  the Council's discretionary funding disclosure). The 1.x rescission act and the row-cap slide were
+  cut: v2.0.0 retired the transparency-resolution data and reports true totals.
+-->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -551,7 +556,7 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
     Seven open-source data connectors &middot; Free &middot; MIT licensed &middot; Every figure dated and sourced
   </p>
 
-  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Do not explain the domain to this room.</b> They know what Schedule C is and have FOILed for worse. The pitch is never "here is discretionary funding" &mdash; it is "here is discretionary funding, queryable in seconds, by an agent that cites its source and refuses to guess."</p><p>Expect to be interrupted with hard questions about provenance and coverage. <b>That is the good outcome.</b> Every slide has notes written so you can answer them.</p><p>Runs ~26 minutes. If short on time cut Act 5 (slide 7), never Act 6 (slides 10&ndash;12).</p></div>
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Do not explain the domain to this room.</b> They know the Council's discretionary funding documents better than you do and have FOILed for worse. The pitch is never "here is discretionary funding" &mdash; it is "here is discretionary funding, queryable in seconds, by an agent that cites its source and refuses to guess."</p><p>Expect to be interrupted with hard questions about provenance and coverage. <b>That is the good outcome.</b> Every slide has notes written so you can answer them.</p><p>Runs ~21 minutes. If short on time cut Act 4 (slide 8), never Act 5 (slides 9&ndash;11).</p></div>
 </section>
 
 <!-- 2 -->
@@ -594,27 +599,27 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
       <span><span class="typed" id="typed"></span><span class="caret" id="caret"></span></span>
     </div>
 
-    <div class="status" id="status">Querying FY2026 Schedule C discretionary awards<span class="dots"></span></div>
+    <div class="status" id="status">Querying the Council's FY2026 discretionary funding disclosure<span class="dots"></span></div>
 
     <div class="answers">
       <div class="ans bad" id="ansBad">
         <h3><span class="src">By hand</span> How you do this today</h3>
         <ul>
-          <li>Open the Schedule C PDF for FY2026</li>
-          <li>Read it end to end &mdash; the awards are not grouped by vendor</li>
+          <li>Download the Council's FY2026 funding disclosure workbook</li>
+          <li>Filter thousands of rows &mdash; the awards are not grouped by vendor</li>
           <li>Transcribe every row naming this organization</li>
-          <li>Reconcile 41 separate sponsors by hand</li>
+          <li>Reconcile 44 separate sponsors by hand</li>
           <li class="verdict">An afternoon, and you cannot re-run it next year.</li>
         </ul>
       </div>
 
       <div class="ans good" id="ansGood">
-        <h3><span class="src">Schedule C</span> What the query returns</h3>
+        <h3><span class="src">Council disclosure</span> What the query returns</h3>
         <ul>
-          <li><strong>54 awards</strong>, FY2026</li>
-          <li><strong>$6,455,750</strong> to one organization</li>
-          <li>Funded separately by <strong>41 distinct sponsors</strong></li>
-          <li>Nearly all under NYC Cleanup, via DYCD<span class="resolved" id="resolved">&#10003; 54, well under the cap</span></li>
+          <li><strong>71 designations</strong>, FY2026, all Cleared</li>
+          <li><strong>$7,399,527</strong> to one organization</li>
+          <li>From <strong>41 council members</strong>, the Speaker and two borough delegations</li>
+          <li>Mostly NYC Cleanup, nearly all via DYCD<span class="resolved" id="resolved">&#10003; true total over all 71 rows</span></li>
           <li class="verdict">No line item anywhere says this.</li>
         </ul>
       </div>
@@ -624,11 +629,11 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
   </div>
 
   <p class="reveal" style="margin-top:1.1rem;max-width:44em">
-    Individual awards run <strong>$7,750 to $280,000</strong>. 54 rows sits well below the tool's row cap,
-    <strong>which is the only reason this figure survived</strong> &mdash; see the next slide but one.
+    Individual designations run <strong>$5,000 to $280,000</strong>. The tool reports the total over
+    every matching row, whatever the display limit.
   </p>
 
-  <div class="notes"><div class="nlabel">Presenter notes</div><p>Organization is the <b>Association of Community Employment Programs for the Homeless</b>. Re-verified 2026-07-27. Press <b>R</b> to replay.</p><p><b>Precision on "41 sponsors":</b> that is <b>39 council members plus the Brooklyn and Queens delegations</b>, which are sponsors in their own right. Do not say "41 council members" &mdash; verified against the database 2026-07-27.</p><p><b>Left panel is "by hand," not a web search.</b> This room can already find the PDF. What they lack is the assembly, so that is what the comparison has to be about.</p><p>Plant the cap here so slide 6 lands: 54 is safely under it. Act 3's numbers were not.</p></div>
+  <div class="notes"><div class="nlabel">Presenter notes</div><p>Organization is the <b>Association of Community Employment Programs for the Homeless</b> (EIN 13-3846431). Verified 2026-10-19 with <code>search_disclosure_awards(ein="133846431", fiscal_year=2026)</code>: 71 rows, $7,399,527, all Cleared, none Pending. Press <b>R</b> to replay.</p><p><b>Precision on the sponsors:</b> <b>41 named council members</b>, plus the <b>Speaker</b>, the <b>Brooklyn and Queens delegations</b>, and one $153,277 BID Containerization line (via DSNY) with no member printed. Do not say "44 council members."</p><p>This is the Council's discretionary funding disclosure, its own award-level list. It is a later snapshot than the adopted budget's Schedule C, so it includes designations made after adoption, each marked Cleared or Pending. In July this slide read 54 awards and $6,455,750 from the adopted-budget extract; the difference is the snapshot, not an error.</p><p><b>Left panel is "by hand," not a web search.</b> This room can already find the workbook. What they lack is the assembly, so that is what the comparison has to be about.</p></div>
 </section>
 
 <!-- 4 -->
@@ -638,7 +643,7 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
 
   <div class="grid g2 reveal" style="margin-top:.4rem">
     <div class="card" data-demo="cloth">
-      <span class="badge free">Verified 2026-07-30</span>
+      <span class="badge free">Verified 2026-10-19</span>
       <h4>Community League of the Heights, FY2026</h4>
       <p><strong>32 payment records &middot; $1,040,448.79</strong> across DYCD, DOE, SBS, DOT and Small Business Services.</p>
       <p>Three checks under budget code <code>3625 (TAX LEVY ELECTED OFFICIALS)</code>:
@@ -648,10 +653,11 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
     </div>
     <div class="card fill">
       <h3>The number that does not reconcile</h3>
-      <p>The allocation side shows CLOTH receiving <strong>$30,000 from Council Member De La Rosa</strong>.
+      <p>The allocation side shows CLOTH receiving <strong>$40,000 from Council Member De La Rosa</strong>.
       The disbursement side shows <strong>$142,804.16</strong> under Tax Levy Elected Officials.</p>
-      <p><strong>Those do not match, and that is not an error.</strong> Code <code>3625</code> aggregates discretionary
-      spending from <em>every</em> elected official to that vendor. Other members funded CLOTH too.</p>
+      <p><strong>Those do not match, and that is not an error.</strong> The disclosure also lists CLOTH funding from
+      the Speaker, Council Member Abreu and the Manhattan Delegation &mdash; $353,986 in all. Code <code>3625</code>
+      does not say whose allocation a check discharges.</p>
     </div>
   </div>
 
@@ -661,85 +667,12 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
     <strong>Published, current, and still not joinable to the unit governance actually uses.</strong>
   </p>
 
-  <div class="notes"><div class="nlabel">Presenter notes</div><p>🚩 <b>Do not say $107,244.16 is De La Rosa's $30,000 arriving.</b> It is not, and this room will catch it. Say the gap out loud before anyone asks.</p><p>The interesting output of this pattern is the <b>mismatch</b>, not the match &mdash; allocations with no matching spending, or spending exceeding allocation. Just be precise about which mismatches are findings and which are artifacts of a coarse budget code.</p><p>Checkbook figures re-verified live <b>2026-07-30</b> from the office IP. The $30,000 award figure is from 2026-07-21 and has not been re-run.</p></div>
+  <div class="notes"><div class="nlabel">Presenter notes</div><p>🚩 <b>Do not say $107,244.16 is De La Rosa's money arriving.</b> Her FY2026 designations to CLOTH are $30,000 (NYC Cleanup) and $10,000 (Community Safety and Victim Services). It is not, and this room will catch it. Say the gap out loud before anyone asks.</p><p>The interesting output of this pattern is the <b>mismatch</b>, not the match &mdash; allocations with no matching spending, or spending exceeding allocation. Just be precise about which mismatches are findings and which are artifacts of a coarse budget code.</p><p>Checkbook figures re-verified live <b>2026-10-19</b> (<code>search_spending</code>, 32 records, $1,040,448.79, no error). Allocation figures from <code>search_disclosure_awards(legal_name="Community League of the Heights", fiscal_year=2026)</code>, 2026-10-19: 9 rows, $353,986, all Cleared.</p></div>
 </section>
 
 <!-- 5 -->
-<section class="slide top tint" data-title="What got taken back">
-  <div class="kicker reveal">Act 3 &middot; build the meeting around this</div>
-  <h2 class="reveal">Money that was announced, then withdrawn</h2>
-
-  <div class="grid g2 reveal" style="margin-top:.4rem">
-    <div class="card" data-demo="rescind">
-      <span class="badge key">Verified rows &middot; incomplete set</span>
-      <h4>FY2026 transparency resolution rescissions</h4>
-      <p>Adopted budgets get amended all year by transparency resolution. Rescissions carry
-      <strong>negative amounts</strong>.</p>
-      <p>A transfer appears as a rescind <em>and</em> a designate on the same EIN &mdash; so the tool can distinguish
-      <strong>"moved"</strong> from <strong>"taken away."</strong></p>
-      <p class="q">"Show FY2026 Council rescissions &mdash; money de-designated after adoption."</p>
-      <p class="tryit">Run this query</p>
-    </div>
-    <div class="card fill">
-      <h3>The scale, read from the database</h3>
-      <p><strong>1,291 rescissions</strong> in FY2026, totaling <strong>$212,600,875</strong>, across
-      Resolutions 1 through 10.</p>
-      <p><strong>345 of them carry no council member at all</strong> &mdash; <strong>$176,596,955</strong>,
-      or <strong>83%</strong> of the money by value. Including <strong>&minus;$213,000</strong> to DYCD for
-      Adult Literacy Forward, a program whose name tells you who it serves.</p>
-      <p class="pkg">Read from <code>budget.db</code> 2026-07-27, not from the tool. The tool cannot return this.</p>
-    </div>
-  </div>
-
-  <p class="reveal" style="margin-top:1.1rem;max-width:46em">
-    <strong>Ask the room what they would want to know next.</strong> That is the demo doing its job &mdash;
-    not answering the question, but getting you to the question in ten seconds instead of a week.
-  </p>
-
-  <div class="notes"><div class="nlabel">Presenter notes</div><p>🚨 <b>Read these figures off this slide, not off a live query.</b> The tool caps at 500 rows and will report $122,285,988 — $90M low. The next slide is why.</p><p>⚠️ <b>Do not assert the missing attribution is a transparency failure.</b> We have not established whether it is a data-extraction artifact or genuinely absent from the source resolution. Offer to check the source PDF via the Legistar crosswalk. <b>This is 345 rows worth $176.6M, not a handful</b> — the scale makes it a better question and a worse thing to guess about.</p><p><b>Volunteer the coverage caveat before they ask:</b> transparency resolutions cover FY2010&ndash;FY2024 and FY2026. <b>FY2025 is not in this dataset.</b> For FY2010&ndash;FY2013 the org and member text is low-confidence garbled PDF &mdash; join on EIN, not on name.</p></div>
-</section>
-
-<!-- 6 -->
-<section class="slide" data-title="The truncation trap">
-  <div class="kicker reveal">Our own failure, twice, on the record</div>
-  <h2 class="reveal">We broke this slide, then broke it again inside the fix</h2>
-
-  <div class="grid g3 reveal" style="margin-top:.5rem">
-    <div class="card was">
-      <span class="badge key">First break &middot; 07-21</span>
-      <h3>Truncated at 50</h3>
-      <p>The rescission query ran at its <strong>default limit of 50</strong>, truncated part-way through the
-      alphabet, and we wrote up eight rows as though they were the set.</p>
-      <p>Every row verified. <strong>The set did not.</strong></p>
-    </div>
-    <div class="card was">
-      <span class="badge key">The fix &middot; 07-21</span>
-      <h3>"Just pass limit: 500"</h3>
-      <p>The correction told presenters to re-run at an explicit high limit and read the real total off the
-      result.</p>
-      <p><strong style="color:inherit">That remediation is itself the cap.</strong></p>
-    </div>
-    <div class="card is">
-      <span class="badge free">Second break &middot; 07-27</span>
-      <h3>$90,314,887 low</h3>
-      <p><code>cap()</code> clamps <em>any</em> limit to 500, so <code>limit: 5000</code> returns the identical
-      500 rows. The header reads <code>500 row(s):</code> &mdash; exactly what a complete result of 500 prints.</p>
-      <p>Reported <strong>$122,285,988</strong>. Actual <strong>$212,600,875</strong>.</p>
-    </div>
-  </div>
-
-  <p class="reveal" style="margin-top:1.1rem;max-width:48em">
-    <strong>We wrote the rule and then broke it inside the fix for the last time we broke it.</strong>
-    This material already said "treat exactly N returned against a limit of N as truncation until proven
-    otherwise." The <code>limit: 500</code> remediation violates precisely that.
-  </p>
-
-  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>This slide is why they should trust the rest of the deck.</b> Presenting a truncated list as complete, to the organization whose job is catching exactly that, is the one unforced error available in this material. So show them we made it twice and caught it twice.</p><p>The general lesson lands harder than the specific one: <b>the dangerous failure is not an error, it is a plausible answer to a question you did not ask.</b></p><p><b>The same <code>cap()</code> governs four tools</b>, verified in <code>src/db.ts</code> 2026-07-27: <code>search_awards</code>, <code>search_transparency_resolutions</code>, <code>search_capital_projects</code>, <code>get_terms_conditions</code>. <b>Treat any aggregate at or near 500 rows as truncated until checked against the database.</b> Filed as New-York-City-Budget#42.</p><p>Worse detail if they want it: <code>resolution</code> is stored as TEXT, so the sort is "1", "10", "2" — the truncation is not chronological and <b>resolutions 3 through 9 vanish entirely.</b></p></div>
-</section>
-
-<!-- 7 -->
 <section class="slide top tint-light" data-title="The report that isn't there">
-  <div class="kicker reveal">Act 4 &middot; a reproducible method</div>
+  <div class="kicker reveal">Act 3 &middot; a reproducible method</div>
   <h2 class="reveal">Mandated annually. Most recent is 2019&ndash;2020.</h2>
 
   <div class="grid g2 reveal" style="margin-top:.4rem">
@@ -769,35 +702,36 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
   <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Do not skip the right-hand card.</b> "The law says annual, the portal's most recent is 2019&ndash;2020, it is 2026" is the line that lands &mdash; and the bounded negative immediately after is what makes it survive scrutiny.</p><p>Second live example if you want one: NYC's Broadband Adoption by State Senate District dataset (<code>9bjg-n96a</code>) has 26 rows covering SD 10&ndash;34 plus 36, all created 2020-06-19. <b>It does not contain District 59</b> &mdash; the file predates current district lines. A digital-equity dataset that cannot answer for a third of the city's senate districts.</p><p>This is the act to cut if you are short on time, but it is also the most reusable one for their own staff.</p></div>
 </section>
 
-<!-- 8 -->
+<!-- 6 -->
 <section class="slide top" data-title="Coverage gaps are the content">
   <div class="kicker reveal">Know these cold, and volunteer them</div>
   <h2 class="reveal">What the data does not cover</h2>
 
   <div class="grid g2 reveal" style="margin-top:.3rem">
     <div class="card">
-      <h4>Schedule C awards</h4>
-      <p><strong>FY2015&ndash;FY2027</strong> at EIN level. FY2009&ndash;FY2014 is initiatives-only, no
-      per-organization rows and no EINs, deliberately excluded from the award tools.
-      <strong>FY2008 is unparsed</strong> &mdash; blocked source document.</p>
+      <h4>Council discretionary funding disclosure</h4>
+      <p><strong>FY2009 and FY2011&ndash;FY2027</strong>, award by award. <strong>FY2010 is not loaded</strong>: the
+      Council's own workbook for it is incomplete. FY2009 and FY2013 are early snapshots, so their Cleared totals
+      are not headline figures. <strong>Nothing before FY2009.</strong></p>
     </div>
     <div class="card">
-      <h4>Transparency resolutions</h4>
-      <p><strong>FY2010&ndash;FY2024 and FY2026. FY2025 is absent.</strong> For FY2010&ndash;FY2013 the
-      organization and member text is low-confidence garbled PDF; the financial columns are reliable.
-      <strong>Join on EIN, not on name.</strong></p>
+      <h4>Council capital designations</h4>
+      <p><strong>FY2015&ndash;FY2017 and FY2019&ndash;FY2027. FY2018 is missing</strong> from every source found.
+      Exact by budget line only: the Council's project IDs do not link to OMB or Checkbook projects.
+      <strong>Join on budget line, not on project ID.</strong></p>
     </div>
     <div class="card">
       <h4>Two silent traps that survive</h4>
-      <p><code>council_member</code> matches as a <strong>substring and can merge two members</strong> &mdash;
-      "Powers" returns Brooks-Powers and Keith Powers summed. <strong>Fiscal sponsors merge grantees</strong>:
-      EIN 13-2612524 is a passthrough for dozens of unrelated programs.</p>
+      <p><code>council_member</code> matches as a <strong>substring</strong> &mdash; "Powers" returns
+      Brooks-Powers and Keith Powers. The tool now names both and splits the totals; read that note.
+      <strong>One tax ID can cover many programs</strong>: EIN 13-2612524, the Fund for the City of New York,
+      carries dozens of them.</p>
     </div>
     <div class="card">
-      <h4>Council vote positions</h4>
-      <p>The local archive holds <strong>159,666 roll-call attendance entries</strong> (1999&ndash;2026) and
-      <strong>no aye/nay positions at all</strong>. The tool now refuses and explains rather than returning
-      an empty list. Indexing was deferred deliberately so the naming gets decided first.</p>
+      <h4>Council votes</h4>
+      <p><code>get_voting_record</code> returns real positions, but <strong>defaults to the 50 newest rows
+      with no total</strong>, and carries each matter's introduction date, not the vote date. Ask for a large
+      limit, dedupe by file number, and use <code>vote_breakdown</code> for dates.</p>
     </div>
   </div>
 
@@ -805,10 +739,10 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
     Stating a coverage gap before you are asked buys more credibility with this room than any figure could.
   </p>
 
-  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Do not read the grid.</b> Pick the two that match what they asked about.</p><p>The <code>council_member</code> substring merge is the sharpest one: FY2026 "Powers" returns <b>156 awards, $3,405,000</b> across two different members, and <b>a merged total looks entirely reasonable.</b> In FY2027 only Brooks-Powers remains, so the same query is clean. <b>The fiscal year determines whether it bites.</b> Unfixed &mdash; budget repo issue #38.</p><p>The vote-positions card is the honest example of "no data" versus "different data than the name implies." Good answer if they ask why a fix is partial.</p></div>
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Do not read the grid.</b> Pick the two that match what they asked about.</p><p>The <code>council_member</code> substring match used to merge two members silently. Budget MCP 2.0.0 now names every person matched with their own totals; use <code>council_member_id</code> for exactly one. Background: budget repo issue #38.</p><p>The votes card is the live example of a quiet default: 50 rows, newest first, no total. A July script reported "46 matters" for a member who had 459 by October.</p></div>
 </section>
 
-<!-- 9 -->
+<!-- 7 -->
 <section class="slide top" data-title="The reform graveyard">
   <div class="kicker reveal">The act that exists because of your name</div>
   <h2 class="reveal">The reform graveyard, queryable</h2>
@@ -844,9 +778,9 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
   <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Keep this to two minutes. It exists because of their name</b> — Reinvent Albany tracks which reforms die repeatedly, and this is the only act in the deck built for one organization.</p><p>The line to land: <em>"Same bill, same summary, four sessions, three different sponsors, fourteen years. In 2016 someone struck the enacting clause. None of it became law, and no single page anywhere tells you that."</em></p><p>⚠️ <b>Do not say A3140-2025 "died."</b> Linda Rosenthal's FOIL and Open Meetings review bill (<code>A7933-2023</code> → <code>A3140-2025</code>) was <b>re-referred to Governmental Operations on 2026-01-07 and is live this session.</b> The dead lineage is the real-property-tax one. Getting that backwards in front of this room would be bad.</p><p>⚠️ <b>Statuses move.</b> This is bills in committee; one can be reported out between now and the meeting. Re-verify.</p><p>⚠️ <b>Coverage gaps, volunteer them.</b> The local corpus holds <b>231,194 bills and 1,992 members</b> — but floor transcripts and hearing transcripts are both <b>0 rows</b>, and NYS law sections number only <b>137</b>. The transcript tools reach the live API but have no local corpus. <b>Do not demo transcript search.</b> Verified against <code>corpus.db</code> 2026-07-27.</p><p><b>Read the refusal aloud if it comes up.</b> Passing <code>query=</code> instead of <code>term=</code> returns: <em>"Unrecognized parameters are rejected rather than ignored, because silently dropping a filter returns real data that answers a different question."</em> That sentence is the entire thesis of the meeting, written by the tool.</p></div>
 </section>
 
-<!-- 10 -->
-<section class="slide tint" data-title="Act 5 · live procurement">
-  <div class="kicker reveal">Act 5 &middot; optional, 2 minutes</div>
+<!-- 8 -->
+<section class="slide tint" data-title="Act 4 · live procurement">
+  <div class="kicker reveal">Act 4 &middot; optional, 2 minutes</div>
   <h2 class="reveal">The City Record, queryable</h2>
 
   <div class="grid g2 reveal" style="margin-top:.5rem">
@@ -866,12 +800,12 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
     </div>
   </div>
 
-  <div class="notes"><div class="nlabel">Presenter notes</div><p>⏳ <b>The three examples in the July 21 script have expired.</b> FDNY <code>05726B0010</code> closed 2026-07-21 14:00. Do not quote them. Run the prompt fresh and read whatever comes back.</p><p><b>This is the act to cut if you are short on time.</b> Never cut Act 6.</p><p>If it runs long: <code>get_open_solicitations</code> is very verbose &mdash; City Record notices embed raw HTML. Always bound the query.</p></div>
+  <div class="notes"><div class="nlabel">Presenter notes</div><p>⏳ <b>The three examples in the July 21 script have expired.</b> FDNY <code>05726B0010</code> closed 2026-07-21 14:00. Do not quote them. Run the prompt fresh and read whatever comes back.</p><p><b>This is the act to cut if you are short on time.</b> Never cut Act 5.</p><p>If it runs long: <code>get_open_solicitations</code> is very verbose &mdash; City Record notices embed raw HTML. Always bound the query.</p></div>
 </section>
 
-<!-- 10 -->
-<section class="slide top invert" data-title="Act 6 · the round-trip">
-  <div class="kicker reveal">Act 6 &middot; part one of three</div>
+<!-- 9 -->
+<section class="slide top invert" data-title="Act 5 · the round-trip">
+  <div class="kicker reveal">Act 5 &middot; part one of three</div>
   <h2 class="reveal">We asked for access. Then we found out we were the problem.</h2>
 
   <div class="grid g4 reveal" style="margin-top:.6rem">
@@ -907,9 +841,9 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
   <div class="notes"><div class="nlabel">Presenter notes</div><p>🚫 <b>Do not run part one as a live query.</b> The July 21 version of this act demoed the 403. Access was restored 2026-07-28 and re-verified 2026-07-30 &mdash; the query now simply works.</p><p><b>Why this is the right material for this room:</b> they spend their working lives being told a data problem is somebody else's fault. An organization that says "we asked, they fixed it, and the rest was us" establishes that its findings are worth trusting when they <em>do</em> point outward. <b>The correction is the credential.</b></p><p>If the room is technical, tell the near-miss: on 2026-07-27 we nearly reported "your fix did not work" to a CIO who had just done real work for us. The test had egressed through a VPN on a datacenter IP, not the office address they investigated. Chrome from the same address loaded fine, which caught it. <b>One address, two clients, minutes apart: browser 200, command line 403.</b></p></div>
 </section>
 
-<!-- 11 -->
-<section class="slide top" data-title="Act 6 · where we were wrong">
-  <div class="kicker reveal">Act 6 &middot; part two of three</div>
+<!-- 10 -->
+<section class="slide top" data-title="Act 5 · where we were wrong">
+  <div class="kicker reveal">Act 5 &middot; part two of three</div>
   <h2 class="reveal">We published two findings. One of them was wrong.</h2>
 
   <p class="reveal" style="max-width:48em;margin-bottom:.3rem">
@@ -941,9 +875,9 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
   <div class="notes"><div class="nlabel">Presenter notes</div><p><b>Say "the field was there and we missed it" in exactly those words.</b> This is the slide that pays for the whole deck with this audience.</p><p>⚠️ <b>Scope, per the 2026-07-27 decision.</b> This slide reports on <em>our</em> error. It does <b>not</b> critique the Comptroller's dashboard — that critique was deliberately removed and is not reinstated by our now having more information. Do not evaluate another office's product in front of a third party.</p><p>Also confirmed by the office, if asked: the <b>Checkbook 2.0 migration dropped no documented API fields or domains</b>, and external applications can keep using the API without going through the web interface. They also fixed two drifted NYC Open Data catalog entries we had flagged.</p><p>This is the worked example of the rule in our own good-government README: <b>an absence you searched for is weaker evidence than a presence you found.</b> We published an absence and it did not hold.</p></div>
 </section>
 
-<!-- 12 -->
-<section class="slide top tint" data-title="Act 6 · the open finding">
-  <div class="kicker reveal">Act 6 &middot; part three of three</div>
+<!-- 11 -->
+<section class="slide top tint" data-title="Act 5 · the open finding">
+  <div class="kicker reveal">Act 5 &middot; part three of three</div>
   <h2 class="reveal">The limits exist. They are documented nowhere.</h2>
 
   <div class="grid g2 reveal" style="margin-top:.5rem">
@@ -975,7 +909,7 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
   <div class="notes"><div class="nlabel">Presenter notes</div><p>⚠️ <b>This slide carries NO ask, per the 2026-07-27 scope decision.</b> Report the finding and stop. <b>Do not invite the room to co-sign anything</b> and do not suggest their name would carry it further. That framing was removed deliberately and is not coming back. If someone volunteers to weigh in, that is their initiative and a fine outcome — you do not solicit it.</p><p><b>Get the letter's status right.</b> Sent <b>2026-07-22</b>, answered <b>2026-07-24</b>. Do not describe it as pending, unsent, or unanswered. <b>Richard Lundy</b> (Assistant Comptroller, IT Operations/CIO) is the technical route, <b>Matt Rubin</b> (Chief of Staff) is the relationship owner.</p><p>We replied 2026-07-29 confirming access works, owning the rate-limit fault, and asking <b>whether the limit is scoped per IP or per client. That question is outstanding</b> — and it is ours to pursue.</p></div>
 </section>
 
-<!-- 13 -->
+<!-- 12 -->
 <section class="slide top tint-light" data-title="What we could not verify">
   <div class="kicker reveal">Stated at the source, not in a footnote</div>
   <h2 class="reveal">What we could not verify</h2>
@@ -987,28 +921,16 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
       It may have gone to the Council as a PDF.</p>
     </div>
     <div class="card">
-      <h4>Why 345 rescissions carry no member</h4>
-      <p>Extraction artifact or genuinely absent from the source resolution &mdash; <strong>we do not know.</strong>
-      Do not assert it is a transparency failure. We can check the source PDF via the Legistar crosswalk.
-      <strong>$176.6M turns on the answer.</strong></p>
-    </div>
-    <div class="card">
-      <h4>Everything the row cap still touches</h4>
-      <p>The same 500-row clamp governs <strong>four</strong> tools. We corrected Act 3 against the database,
-      but <strong>any other aggregate in this material at or near 500 rows should be assumed truncated</strong>
-      until someone checks it the same way.</p>
-    </div>
-    <div class="card">
       <h4>Whether the rate limit is published somewhere we did not look</h4>
       <p>We checked the landing page, the global parameters table, and every domain page, and the office
       confirmed verbally it is undocumented. <strong>That is our search plus their word</strong>, not proof.</p>
     </div>
   </div>
 
-  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>This slide is not a disclaimer, it is the product demonstrating what it is for.</b> An audience that does oversight for a living will notice the difference between "this dataset is not on the portal" and "the city stopped producing this report" immediately.</p><p>Overstating once costs more than the finding was worth. Say that out loud if it helps.</p><p>The De La Rosa allocation figure on slide 4 is also un-re-verified since 2026-07-21 &mdash; only the Checkbook side was re-run on 07-30.</p></div>
+  <div class="notes"><div class="nlabel">Presenter notes</div><p><b>This slide is not a disclaimer, it is the product demonstrating what it is for.</b> An audience that does oversight for a living will notice the difference between "this dataset is not on the portal" and "the city stopped producing this report" immediately.</p><p>Overstating once costs more than the finding was worth. Say that out loud if it helps.</p></div>
 </section>
 
-<!-- 14 -->
+<!-- 13 -->
 <section class="slide top" data-title="Credits and disclosure">
   <div class="kicker reveal">Credit where it is owed</div>
   <h2 class="reveal">What this is built on, including the parts that are not ours</h2>
@@ -1036,14 +958,14 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
   </div>
 
   <p class="reveal" style="margin-top:1.1rem;max-width:48em">
-    Every bug described in Act 6 is a <strong>public issue with our name on it</strong>, including the one
+    Every bug described in Act 5 is a <strong>public issue with our name on it</strong>, including the one
     where we were the problem.
   </p>
 
   <div class="notes"><div class="nlabel">Presenter notes</div><p><b>The third card is the strongest one in the deck and it costs nothing.</b> A deck that teaches people to query discretionary funding should disclose its own award and invite them to check it.</p><p>If asked about the AI-use position: it matches the statements carried in the public repos. Vagueness here would be self-defeating in a deck about grounding.</p></div>
 </section>
 
-<!-- 15 -->
+<!-- 14 -->
 <section class="slide invert center" data-title="Close">
   <div class="kicker reveal">Where to take it</div>
   <h1 class="reveal" style="max-width:20em;font-size:clamp(2rem,4.6vmin,3.1rem)">Fork it and find what we got wrong</h1>
@@ -1193,30 +1115,15 @@ a.inline{color:var(--bnyc-blue);text-decoration:underline;text-underline-offset:
       source: "Comptroller's Checkbook",
       prompt: 'Check Checkbook for FY2026 spending paid to Community League of the Heights.',
       status: 'Querying Checkbook spending records',
-      prov: ['ok', 'Verified 2026-07-30'],
+      prov: ['ok', 'Verified 2026-10-19'],
       lines: [
         '<b>32</b> payment records, FY2026 &nbsp;&middot;&nbsp; <b>$1,040,448.79</b> total',
         'Across DYCD, DOE, Small Business Services, and DOT',
         'Three checks under <code>3625 (TAX LEVY ELECTED OFFICIALS)</code>',
         '<b>$107,244.16</b>, <b>$33,000.00</b>, <b>$2,560.00</b> &mdash; <b>$142,804.16</b> in all'
       ],
-      note: 'The allocation side shows a $30,000 award from Council Member De La Rosa. These do not reconcile, and that is not an error &mdash; code 3625 aggregates every elected official’s discretionary money to this vendor.',
+      note: 'The allocation side shows $40,000 from Council Member De La Rosa, and $353,986 to CLOTH from all sources in the Council disclosure. These do not reconcile, and that is not an error &mdash; code 3625 does not say whose allocation a check discharges.',
       foot: 'The join is real and it is coarser than it looks. Allocation to check, yes. Allocation to <em>whose</em> check, no &mdash; the budget code does not carry that. <b>Published, current, and still not joinable to the unit governance actually uses.</b>'
-    },
-    rescind: {
-      links: [['https://github.com/BetaNYC/New-York-City-Budget', 'Budget data repo'], ['https://github.com/BetaNYC/nyc-council-mcp', 'Council connector on GitHub']],
-      source: 'NYC Council transparency resolutions',
-      prompt: 'Show FY2026 Council rescissions, money de-designated after adoption.',
-      status: 'Querying transparency resolutions',
-      prov: ['ok', 'Rows verified 2026-07-21 &middot; set incomplete'],
-      lines: [
-        'From FY2026 Resolution 1, adopted <b>2025-08-14</b>',
-        '<b>&minus;$480,000</b> &mdash; Louis &rarr; Dept. of Cultural Affairs (CASA), the largest',
-        '<b>&minus;$213,000</b> &mdash; DYCD, Adult Literacy Forward, <b>no member listed</b>',
-        'At least four other rows carry no member, including two at <b>&minus;$200,000</b>'
-      ],
-      note: 'Run this at limit: 500. Our first pass used the default of 50, truncated mid-alphabet, and produced two claims that were simply false.',
-      foot: 'A transfer appears as a rescind <em>and</em> a designate on the same EIN, so the tool distinguishes <b>"moved"</b> from <b>"taken away"</b> &mdash; precisely the distinction a press release will not make. <b>Coverage: FY2010&ndash;FY2024 and FY2026. FY2025 is absent.</b>'
     },
     cte: {
       links: [['https://data.cityofnewyork.us/d/gyjk-fbss', 'The CTE report dataset'], ['https://data.cityofnewyork.us', 'NYC Open Data']],

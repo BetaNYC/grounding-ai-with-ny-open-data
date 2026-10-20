@@ -4,9 +4,11 @@ status: DRAFT
 
 # Demo script — liberal arts and general education
 
-> **DRAFT.** First pass, 2026-07-29. A run-it-live script for showing grounded AI plus NYC/NYS open data to **faculty who teach writing, critical thinking, and political science** — not computer science. Every query below was dry-run against the live connectors on **2026-07-29**; results are in the presenter notes at the bottom.
+> **DRAFT.** First pass, 2026-07-29; figures re-checked 2026-10-19. A run-it-live script for showing grounded AI plus NYC/NYS open data to **faculty who teach writing, critical thinking, and political science** — not computer science. Every query below was dry-run against the live connectors on **2026-07-29**, and the ones whose results had changed or were wrong were re-run on **2026-10-19**; results are in the presenter notes at the bottom. The deck's demos are recorded replays of those runs, each badged with its date.
 >
 > Companion to [`cuny-cs-curriculum.md`](cuny-cs-curriculum.md), which is the same arc aimed at a computer science curriculum audience. **Read the [folder README](README.md) first** for the act structure and the standing dry-run rule.
+
+**Grounding** means the assistant answers from a named public record and shows you which one, instead of answering from memory.
 
 **The point:** for a CS audience, grounding is a systems property — provenance, API contracts, verification. For a liberal-arts audience it is a **reading and writing** property. The same connector that teaches a CS student about resolvable identifiers teaches a composition student about source evaluation, and teaches a political science student that a stated priority and a budget line are different claims.
 
@@ -40,7 +42,7 @@ Unchanged from the CS script, and it is the load-bearing act for every audience.
 
 ## Act 2 — The catalog is an API, and that is the lesson
 
-Unchanged. Catalog search returns metadata — an ID, a column list, data types — not prose. Then query against the ID the first step produced.
+Unchanged. Catalog search returns a description of each source (programmers say metadata) — an ID, a column list, what kind of value each column holds — not prose. Then query against the ID the first step produced.
 
 **Why it matters outside CS:** the two-step is *find the contract, then query against it*. For a research-writing unit, that is the difference between "I found a website" and "I found a source whose scope I can state."
 
@@ -55,9 +57,9 @@ This is the act that changes. Three worked versions, all dry-run.
 **Prompt:**
 > "Show me Sanitation's registered contracts for FY2026."
 
-**What came back (2026-07-29):** 254 registered contracts. The largest is Veolia ES Technical Solutions, waste removal and processing, contract `MMA182720268802706`, **$18,100,000 committed** against **$478,414.64 spent to date**.
+**What came back (2026-10-19):** 285 registered contracts. The largest is Veolia ES Technical Solutions, waste removal and processing, contract `MMA182720268802706`, **$18,100,000 committed** against **$901,404.56 spent to date**.
 
-**Where to linger:** the two dollar figures. Committed is not spent — 2.6% of it has moved. Both numbers sit in the same record, correctly labelled, and a writer who reads "$18 million contract" as "$18 million spent" has made a claim the source does not support.
+**Where to linger:** the two dollar figures. Committed is not spent — about 5% of it has moved. Both numbers sit in the same record, correctly labeled, and a writer who reads "$18 million contract" as "$18 million spent" has made a claim the source does not support.
 
 > **The assignment this unlocks — "Verify, then rewrite."** Give each student one real agency document. (1) Identify every checkable claim. (2) Check each against a primary source, recording the resolvable identifier. (3) Rewrite for a named audience at a stated reading level. (4) Submit a verification table, the rewrite, **and a note on what could not be verified and why.**
 >
@@ -70,11 +72,11 @@ This is the act that changes. Three worked versions, all dry-run.
 **Prompt:**
 > "Search NYC Open Data for datasets about career and technical education."
 
-**What came back (2026-07-29):** datasets `gyjk-fbss` (Local Law 174 CTE programs) and `8vqd-3345` (companion enrollment counts). In `8vqd-3345`, some enrollment cells contain the literal string `"s"`.
+**What came back (2026-07-29):** datasets `gyjk-fbss` (Local Law 174 CTE programs) and `8vqd-3345` (the 2018–2019 report, enrollment by student group). In `8vqd-3345`, some enrollment cells contain the literal string `"s"`.
 
 **That `"s"` is suppression** — the city masks small cell counts so individual students cannot be re-identified from a demographic cross-tab.
 
-> **Why this is the best single artifact in the repo for a reasoning course.** A student who writes `int(row["n_students_enrolled_in_cte"])` gets a crash, which is a *good* failure: it announces itself. A student who wraps it in a silent `try/except` gets a **wrong average** — an error that produces a plausible number and never announces itself at all.
+> **Why this is the best single artifact in the repo for a reasoning course.** A program that expects a number and finds `"s"` stops with an error, which is a *good* failure: it announces itself. A program told to skip whatever it cannot read keeps going and reports a **wrong average** — an error that produces a plausible number and never announces itself at all.
 >
 > No code is required to teach it. The lesson is that the dangerous error is the one that still returns something.
 >
@@ -85,11 +87,13 @@ This is the act that changes. Three worked versions, all dry-run.
 **Prompt:**
 > "Which organizations did Council Member Restler fund in FY2026?"
 
-**What came back (2026-07-29):** 12 awards, **$836,000** total, Council District 33. Including $300,000 to ExpandED Schools for high-impact tutoring, $40,000 to the Department of Sanitation for rat-resistant basket replacement, and $25,000 to the Fund for the City of New York for **BetaNYC**, under the Digital Inclusion and Literacy Initiative, via DYCD.
+**What came back (2026-10-19):** 163 designations, **$2,203,000** cleared (plus $40,000 pending), Council District 33. Including $150,000 to the Association of Community Employment Programs for the Homeless for sanitation cleanup, $40,000 to the Department of Sanitation for rat-resistant basket replacement, and $25,000 to the Fund for the City of New York for **BetaNYC**, under the Digital Inclusion and Literacy Initiative, via DYCD. The source is the Council's discretionary funding disclosure, its own award-level list (`search_disclosure_awards`, budget connector 2.0.0). It is a later snapshot than the adopted budget's Schedule C, so it includes designations made after adoption, each marked Cleared or Pending. The $300,000 ExpandED Schools tutoring award is a Speaker's Initiative designation with no member attached; do not credit it to Restler.
 
 **Then the cross-connector move, which no single dataset answers.** Query Checkbook for the same agency and three contracts appear whose purpose reads **"CITY COUNCIL FUNDING — BID CONTAINERIZATION PROGRAM"**, award method `BORO NEEDS / DISCRETIONARY FUND`: Hudson Square District Management Association ($168,750), Neighborhood Initiatives Development Corporation ($143,261), NoHo NY District Management Association ($75,000).
 
-Council decides → an agency contracts → a named organization is paid. Three separate public records, two connectors, one money trail.
+Then back to the disclosure: Hudson Square District Management Association has **$45,000** in FY2026 Council "BID Containerization" designations ($30,000 + $15,000, via DSNY). The Checkbook contract is $168,750 over three years. The numbers differ because one is a single year's designation and the other a multi-year contract, and that difference is the question to hand students.
+
+Council designates → an agency contracts → a named organization is paid. Three separate public records, two connectors, one money trail.
 
 > **The assignment — "Your district, on the record."** Each student takes their own Council district: trace one bill, find one discretionary award, identify one 311 pattern, then write a memo assessing whether stated priorities match the record, citing identifiers throughout. Personal stake, primary sources, individually verifiable, and it teaches institutions by using them rather than describing them.
 
@@ -99,7 +103,7 @@ Council decides → an agency contracts → a named organization is paid. Three 
 
 Keep this act in every version. Two options, both verified.
 
-**The oversight gap.** Local Law 174 of 2016 requires an *annual* career and technical education report. The most recent one published to the portal covers **2019–2020**, published September 2021. It is 2026.
+**The oversight gap.** Local Law 174 of 2016 requires an *annual* career and technical education report. The most recent one published to the portal covers **2019–2020**, published September 2021, more than five years before this review.
 
 Then the honest correction, which is the most important thirty seconds: this shows what is *on the portal*, not that no report exists anywhere. Saying precisely what you checked and did not find is a **bounded negative**, and it is harder than finding a source.
 
@@ -130,26 +134,28 @@ Three rows to add to the [folder README](README.md)'s swap table. Acts 1, 2, and
 | Discipline | Act 3 dataset | Act 4 (the honesty act) |
 |---|---|---|
 | First-year writing | One agency document plus the record behind its central claim | What the document asserts that the data does not support |
-| Critical thinking | The suppressed-cell CTE enrollment file (`8vqd-3345`) | The silent `try/except` that yields a wrong average |
+| Critical thinking | The suppressed-cell CTE enrollment file (`8vqd-3345`) | The program that skips unreadable cells and reports a wrong average |
 | Political science | Council discretionary funding for the student's own district | Local Law 174: the law says annual, the record stops at 2019–2020 |
 
 ---
 
-## Presenter notes (verified 2026-07-29)
+## Presenter notes (verified 2026-07-29; re-checked 2026-10-19)
 
 Per the [folder README](README.md)'s standing rule: *a script without verified notes is a draft, not a demo.*
 
 | Connector | Query run | Result |
 |---|---|---|
-| Checkbook (no key) | Sanitation registered contracts, FY2026, `agency_code: 827` | 254 contracts. Veolia ES Technical Solutions, **$18,100,000 committed / $478,414.64 spent**, `MMA182720268802706`, 2025-12-01 to 2030-11-30. |
-| City Record (no key) | Open solicitations, soonest deadline first | 12 live. NYPD "Gun Cleaning Kit" and "Police Officer Eight Point Cap"; SCA kitchen-design RFP up to $500,000; DOF summons printing and mailing. |
-| Discretionary funding (no key) | Council Member Restler, FY2026 | 12 awards, $836,000, District 33 — including $25,000 to Fund for the City of New York for BetaNYC. |
+| Checkbook (no key) | Sanitation registered contracts, FY2026, `agency_code: 827` | 285 contracts (2026-10-19). Veolia ES Technical Solutions, **$18,100,000 committed / $901,404.56 spent**, `MMA182720268802706`, 2025-12-01 to 2030-11-30. |
+| City Record (no key) | Open solicitations, soonest deadline first | 2026-10-19 (`get_open_solicitations`): City Council "Initiative Reporting Application for the Division of Finance" RFP, due 2026-10-20 11:00; Parks LiDAR street tree inventory, due 2026-10-20; NYCHA plumbing supplies; DCAS skimmer vessel for DEP, bid opening 2026-10-21. |
+| Discretionary funding (no key) | Council Member Restler, FY2026 (`search_disclosure_awards`, `council_member_id: 7820`) | 163 designations, $2,203,000 cleared (Council disclosure, 2026-09-14 export), District 33 — including $25,000 to Fund for the City of New York for BetaNYC. 2026-10-19. |
 | Council Legistar (free key) | Broadband access legislation | `Int 1122-2024`, enacted 2025-11-08, resolves at intro.nyc. |
 | Socrata (no key) | CTE datasets | `gyjk-fbss`, `8vqd-3345`; suppression as the literal string `"s"`. |
-| 311 (free key) | Service calendar, 2026-07-30 | ASP **in effect**; collections **on schedule**; schools **not in session** ("Summer 2026"). |
-| NYS OpenLegislation (free key) | Search members, "Kavanagh", Senate | Two rows: 2025 session district 27; 2017 session district 74. Same surname, different chamber. **A name is not an identifier.** |
+| 311 (free key) | Service calendar, 2026-10-20 | `get_calendar(date="2026-10-20")`, run 2026-10-19: ASP **in effect**; collections **on schedule**; public schools **open**. |
+| NYS OpenLegislation (free key) | Search members, "Kavanagh", session year 2017, no chamber filter | Two rows: 2025 session district 27; 2017 session district 74. Same surname, different chamber. **A name is not an identifier.** |
 
-**What we could not verify:** the Checkbook NYC website blocks automated requests, so that link is unconfirmed from a script. Figures on live systems change; a number true on 2026-07-29 may not be true when you run it.
+**What we could not verify:** the Checkbook NYC website has blocked automated requests at times (it returned 200 on 2026-10-19), so the link may not open from a script. Figures on live systems change; a number true on its verification date may not be true when you run it.
+
+**BetaNYC's own Council funding, FY2026** (the deck's closing slide lists all of it): **$190,000, all Cleared**, all via DYCD under the Fund for the City of New York's name, because BetaNYC is a project of the Fund. Seven designations, $140,000: six Digital Inclusion and Literacy Initiative designations, $115,000 (Restler $25,000; Epstein, Powers, Dinowitz and Won $20,000 each; Brewer $10,000), found with `search_disclosure_awards(fiscal_year=2026, program_name="BetaNYC")`; and Council Member Gutiérrez's $25,000 for the Civic Innovation Fellowship (FY26 02121, which the disclosure files under "Speaker"; the Gutiérrez attribution is from our own records). Plus $50,000, our share of the Artificial Intelligence Community Engagement (AICE) initiative: the disclosure shows one $208,000 Fund line with no member named (FY26 11643), and the $50,000 split comes from the Fund's records, not the disclosure. All rows verified 2026-10-19. **Two of these rows never say "BetaNYC"**, which is why a search on our name finds only six; that is a good teaching point for this room.
 
 ---
 

@@ -3,8 +3,8 @@ layout: profile
 title: Council District 4
 who: New York City Council · Council Member Virginia Maloney
 summary: >-
-  The East Side of Manhattan — Midtown East, the Upper East Side south, Murray Hill, and
-  Stuyvesant Town/Peter Cooper Village. About twenty minutes, run live.
+  The East Side of Manhattan, including Midtown East, Murray Hill, parts of the Upper East Side,
+  and Stuyvesant Town/Peter Cooper Village. About twenty minutes, run live.
 script: /guides/council-members/district-04.html
 deck: /guides/council-members/district-04-deck.html
 description: A run-it-live demo of grounded AI and NYC open data, tuned for Council District 4.
@@ -13,22 +13,21 @@ description: A run-it-live demo of grounded AI and NYC open data, tuned for Coun
 ## What the session covers
 
 Every act asks the same question twice: once through an ordinary web search, once through a
-connector reading the City's own records. **The searches are real and reproduced verbatim** — the
-comparison is not staged.
+connector reading the City's own records. **The searches are real, re-run on 2026-10-19 and
+summarized on the slides** — the comparison is not staged.
 
-- **Your district right now.** Service requests, open procurement, and what is on the calendar.
-- **Your own legislation**, retrieved by bill number, with a link that opens.
-- **Your discretionary funding**, from the allocation in the adopted budget through to an actual
-  check the city cut.
-- **An issue you are working on**, sourced from the Charter and Administrative Code rather than
-  summarized from memory.
+- **Who the member is**, the one question a web search handles well.
+- **Your district right now**: the top 311 complaints for the last 30 days.
+- **Your roll call**: every vote this term, each with a file number.
+- **Your discretionary funding**, by organization, from the Council's own disclosure.
+- **A law you can cite**, from the Charter, Administrative Code and Rules rather than a blog.
+- **What is in front of the Council** this week, and which agendas are final.
 
 ## What it is honest about
 
-The material carries its own limits on the slide rather than in a footnote. Council vote *positions*
-are not in the local archive at all — the tool says so and names three working alternatives instead
-of returning an empty list. Where a figure was verified on a particular date, the date is on the
-slide.
+The material carries its own limits on the slide rather than in a footnote. Where a figure was
+verified on a particular date, the date is on the slide, and the presenter notes say which figures to
+re-run the morning of the meeting.
 
 <div class="note" markdown="1">
 **For staff running this:** the deck works with no network. Arrow keys move, `N` opens presenter

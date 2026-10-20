@@ -6,7 +6,7 @@ status: DRAFT
 
 > **TEMPLATE.** Copy this file to `[chamber]-district-[NN].md` and fill every `[BRACKETED]` placeholder. A run-it-live script for showing BetaNYC's grounded AI + NYC/NYS open data MCPs to **[MEMBER NAME]** and staff.
 
-Companion to the general [`../user-journeys.md`](../user-journeys.md) catalog. The spine here is **NYS Open Legislation**, not Legistar. See [`README.md`](README.md) for how this arc differs from the Council one — in particular, **there is no state equivalent of the Schedule C money act; do not approximate it.**
+Companion to the general [`../user-journeys.md`](../user-journeys.md) catalog. The spine here is **NYS Open Legislation**, not Legistar. See [`README.md`](README.md) for how this arc differs from the Council one — in particular, **there is no state equivalent of the Council discretionary-funding money act; do not approximate it.**
 
 ---
 

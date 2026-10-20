@@ -37,7 +37,7 @@ The decks are self-contained HTML, so GitHub shows you source instead of slides 
 
 This repo is one piece of a larger effort to make government data usable — see it alongside our related work:
 
-- **[BetaNYC/New-York-City-Budget](https://github.com/BetaNYC/New-York-City-Budget)** — reconciled, structured NYC Council budget data (Schedule C, Terms & Conditions, Section 254), extracted deterministically from official PDFs.
+- **[BetaNYC/New-York-City-Budget](https://github.com/BetaNYC/New-York-City-Budget)** — structured NYC Council budget data: the Council's discretionary funding disclosure (FY2009 and FY2011–FY2027) and its capital designations, parsed from the Council's own workbooks and published as `@betanyc/nyc-budget-mcp`.
 - **BetaNYC's seven public MCP servers** — [nyc-council-mcp](https://github.com/BetaNYC/nyc-council-mcp), [nyc-record-mcp](https://github.com/BetaNYC/nyc-record-mcp), [nyc-checkbook-mcp](https://github.com/BetaNYC/nyc-checkbook-mcp), [nyc-311-mcp](https://github.com/BetaNYC/nyc-311-mcp), [nyc-charter-laws-rules](https://github.com/BetaNYC/nyc-charter-laws-rules), [nys-openlegislation-mcp](https://github.com/BetaNYC/nys-openlegislation-mcp), and `@betanyc/nyc-budget-mcp` (published from the [New-York-City-Budget](https://github.com/BetaNYC/New-York-City-Budget) repo above) — purpose-built agent tools for specific NYC/NYS government data domains.
 
 **Support open civic data:** [beta.nyc](https://beta.nyc) · [donate](https://beta.nyc/donate) · [newsletter](https://beta.nyc)

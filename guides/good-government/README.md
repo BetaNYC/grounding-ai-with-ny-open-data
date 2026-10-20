@@ -28,12 +28,12 @@ Every other folder in this repo demos to someone who wants to see **their own** 
 | | Constituency scripts | Watchdog scripts |
 |---|---|---|
 | Scope | One district | Citywide, cross-cutting |
-| Best act | "Here's your funding" | "Here's what got taken back" |
+| Best act | "Here's your funding" | "Here's where the money actually went" |
 | Winning move | A clean, fast lookup | An assembly that was previously a week of work |
 | Coverage gaps | A caveat to manage | **Content.** Volunteer them |
 | Their expertise | Less than yours | **More than yours** |
 
-**Do not explain the domain to them.** They know what Schedule C is and have FOILed for worse. The pitch is never "here is discretionary funding" — it is "here is discretionary funding, queryable in seconds, by an agent that cites its source and refuses to guess."
+**Do not explain the domain to them.** They know the Council's discretionary funding documents better than you do and have FOILed for worse. The pitch is never "here is discretionary funding" — it is "here is discretionary funding, queryable in seconds, by an agent that cites its source and refuses to guess."
 
 **Lead with limitations.** Stating a coverage gap before you're asked buys more credibility with this room than any figure. If you don't know whether the data supports a claim, say so and offer to check — they will respect that far more than a confident number they later find is wrong, and they *will* check.
 
@@ -42,7 +42,7 @@ Every other folder in this repo demos to someone who wants to see **their own** 
 Build anything in this folder around these, script or methodology:
 
 1. **Where did the money go?** Allocation → disbursement, across systems. The interesting output is the **mismatch**, not the match.
-2. **What got taken back?** Rescissions and mid-year amendments are the least visible money in the system, and the tooling reaches them directly.
+2. **What got taken back?** Rescissions and mid-year amendments are the least visible money in the system. The current tooling does not reach them: `nyc-budget-mcp` 2.0.0 serves the Council's discretionary funding disclosure, which has no rescission data. Say so before you are asked.
 3. **What was supposed to be published and wasn't?** Any reporting mandate in the Administrative Code can be checked against the open data portal. This is a reproducible method, not a one-off finding — which is what makes it worth showing.
 
 A fourth question sits just underneath these three, and it is often the most productive: **what is published but cannot be joined to anything?** Data can be complete, current, and still unusable for oversight because it carries no key to the unit governance actually uses. [`../user-journeys.md`](../user-journeys.md) Crosswalk F is the worked example — New York's campaign finance disclosures are 18.3 million rows, refreshed daily, and attributable to a legislative district on 0.16% of them.

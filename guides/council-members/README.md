@@ -18,7 +18,7 @@ These are the district-specific companions to the general prompt catalog in [`..
 | 10 | Carmen N. De La Rosa | [`district-10.md`](district-10.md) | [`district-10-deck.html`](district-10-deck.html) |
 | _(template)_ | — | [`TEMPLATE.md`](TEMPLATE.md) | — |
 
-**Demoing to a newly seated member?** [`district-04.md`](district-04.md) is the worked example. The standard Act 2 ("what have you introduced?") returns nothing for a member in their first year, and the script turns that into the strongest moment in the meeting rather than routing around it. Their first discretionary budget is the fiscal year *after* they took office.
+**Demoing to a newly seated member?** [`district-04.md`](district-04.md) is the worked example. It replaces "what have you introduced?" with a roll call (`get_voting_record`, which has real votes since 2026-07-25/26), and builds the money act on the member's first discretionary budget, the fiscal year *after* they took office.
 
 _Add rows as district demos are drafted._
 
@@ -36,7 +36,7 @@ Optional thematic demos (a committee or role rather than one district) use a `th
 
 1. **Copy** [`TEMPLATE.md`](TEMPLATE.md) to `district-[NN].md`.
 2. Fill the placeholders: `[NN]` district number, `[MEMBER NAME]`, `[NEIGHBORHOODS]`, and the overlapping community district(s).
-3. **Tailor Act 3 (their legislation + funding)** — this is the act a Council audience cares about most. Pull the member's actual recent bills and their discretionary awards so the demo is about *them*, not a generic district. **Query Schedule C by sponsoring member surname, not by district number** — there is no district filter, and asking by district silently returns citywide awards. See the parameter table in the template's presenter-notes section.
+3. **Tailor Act 3 (their legislation + funding)** — this is the act a Council audience cares about most. Pull the member's actual recent bills and their discretionary awards so the demo is about *them*, not a generic district. **Query discretionary awards by member (surname, or `council_member_id` for exactly one person), not by district number** — `search_disclosure_awards` has no district filter and rejects `council_district` by name. See the parameter table in the template's presenter-notes section.
 4. **Dry-run every prompt against the live MCPs** and fill in the "Presenter notes (verified YYYY-MM-DD)" section with what actually happened, including the figures you plan to say out loud and how you got each one. This is not optional polish — several of these tools fail silently, returning real-looking data for the wrong question.
 5. Add a row to the "Available demos" table above.
 
@@ -48,7 +48,7 @@ A `district-[NN]-deck.html` is the script in a presentation medium, for meetings
 
 **Structure: every act is a side-by-side.** Left panel is a real web search for the same question, right panel is the connector. This is what answers "how is this better than a search engine" without asserting it. Rules for the left panel:
 
-- **Run the searches and reproduce them verbatim.** Never invent or paraphrase a result. The whole act collapses if one line is made up and someone checks.
+- **Run the searches and summarize only what came back.** Never invent a result, and say "summarized" rather than "verbatim" when the panel is shortened. The whole act collapses if one line is made up and someone checks.
 - **Flag the wrong-target results** — a different person with the same surname, another member's page, an unrelated institution. Those are the strongest single items in the deck and they occur naturally in almost every query.
 - **Don't claim the search lied.** It usually hasn't. It returns portals instead of answers, secondary sources instead of the law, or the right number from a source you can't cite. Say *that* — it's true and it survives someone checking.
 - **Date the search on the slide.** Ranking drifts; re-run before the meeting.

@@ -26,26 +26,26 @@ A collaboration between NYC Open Data at OTI and BetaNYC. Volunteer ambassadors 
 - **Become an ambassador:** [nyc.gov/teachopendata](https://nyc.gov/teachopendata)
 
 ### AI 101: Empowering New Yorkers in the Age of Artificial Intelligence
-BetaNYC's plain-language class on what AI is, how it works, and how to ask better questions of the systems and companies shaping New York.
+BetaNYC's plain-language class on what AI is, how it works, and how to ask better questions of the systems and providers shaping our communities.
 
 - **About the class and materials:** [beta.nyc/resources/ai-101](https://www.beta.nyc/resources/ai-101/)
 - **Sign up:** [BetaNYC's events page](https://www.beta.nyc/events/)
 
 ### NYC Open Data Journeys
-Short recorded walkthroughs that follow one question through NYC Open Data, such as street safety, noise, and housing.
+Virtual sessions that follow one question through NYC Open Data, such as street safety, noise, and housing. Paused for now; past materials are on the page.
 
-- **Watch:** [beta.nyc/nyc-opendata-journeys](https://www.beta.nyc/nyc-opendata-journeys/)
+- **About the sessions:** [beta.nyc/nyc-opendata-journeys](https://www.beta.nyc/nyc-opendata-journeys/)
 
 ## Annual events
 
 ### NYC School of Data
-BetaNYC's annual community conference, held in March, on open data, civic technology, and service design. Many past sessions are introductions to NYC Open Data.
+BetaNYC's annual community conference, held each spring during NYC Open Data Week, on open data, civic technology, and service design. Many past sessions are introductions to NYC Open Data.
 
 - **Conference site:** [schoolofdata.nyc](https://schoolofdata.nyc/)
 - **Past talks:** [BetaNYC on YouTube](https://www.youtube.com/betanyc)
 
 ### NYC Open Data Week
-An annual festival of community-run events, organized by the NYC Open Data team at OTI with BetaNYC and Data Through Design. Several events each year are introductory open data classes.
+An annual festival of community-run events, organized by the Office of Data Strategy at the NYC Office of Technology and Innovation (OTI), BetaNYC, and Data Through Design. Several events each year are introductory open data classes.
 
 - **Festival site:** [opendataweek.nyc](https://opendataweek.nyc/)
 - **Past recordings:** [Open Data Week archive](https://archive.open-data.nyc/)
@@ -53,7 +53,7 @@ An annual festival of community-run events, organized by the NYC Open Data team 
 ## Partner programs
 
 ### Data & Society: AI Civics
-Data & Society's public education program, which treats AI as a part of civic life where people have rights and ways to act together. BetaNYC presented to its community of practice on 2026-09-18 ([the deck]({{ '/guides/community-of-practice/ai-civics-cop-deck.html' | relative_url }})).
+Data & Society's approach to public education and engagement, which treats AI as a domain of civic life where people have rights and ways to act together. BetaNYC presented to its community of practice on 2026-09-18 ([the deck]({{ '/guides/community-of-practice/ai-civics-cop-deck.html' | relative_url }})).
 
 - **About the program:** [datasociety.net/ai-civics](https://datasociety.net/ai-civics/)
 

@@ -22,17 +22,17 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 
 ## The featured sources at a glance
 
-| # | Source | MCP | Domain it answers |
-|---|---|---|---|
-| 1 | **NYC 311** | `nyc-311-mcp` | Service requests, complaints, city-service calendar, status alerts |
-| 2 | **NYC Council** | `nyc-council-mcp` | Bills, hearings, votes, committees, council members (Legistar) |
-| 3 | **NYC Checkbook** | `nyc-checkbook-mcp` | City spending, contracts, budget, payroll, revenue (Comptroller) |
-| 4 | **NYC Council Budget** | `nyc-budget-mcp` | Discretionary funding — the Council's funding disclosure (award-level, Cleared/Pending), Council capital designations |
-| 5 | **NYC City Record** | `nyc-record-mcp` | Procurement notices — solicitations, awards, public hearings |
-| 6 | **NYC Charter, Laws & Rules** | `nyc-charter-laws-rules` | Charter, Administrative Code, Rules of the City of New York (legal text) |
-| 7 | **NYS Open Legislation** | `nys-openlegislation-mcp` | State bills, laws, members, committees, calendars, transcripts |
-| 8 | **NY Open Data (general)** | `socrata` | Everything else the city or state publishes as a dataset |
-| 9 | **MTA subway alerts** *(early alpha)* | `mta-mcp` | Subway service alerts and elevator/escalator outages. Unofficial; installed from GitHub, not npm |
+| # | Group | Source | MCP | Domain it answers |
+|---|---|---|---|---|
+| 1 | Laws and legislation | **NYC Council** | `nyc-council-mcp` | Bills, hearings, votes, committees, council members (Legistar) |
+| 2 | Laws and legislation | **NYC Charter, Laws & Rules** | `nyc-charter-laws-rules` | Charter, Administrative Code, Rules of the City of New York (legal text) |
+| 3 | Laws and legislation | **NYS Open Legislation** | `nys-openlegislation-mcp` | State bills, laws, members, committees, calendars, transcripts |
+| 4 | Government information and service alerts | **NYC 311** | `nyc-311-mcp` | Service requests, complaints, city-service calendar, status alerts |
+| 5 | Government information and service alerts | **MTA subway alerts** *(early alpha)* | `mta-mcp` | Subway service alerts and elevator/escalator outages. Unofficial; installed from GitHub, not npm |
+| 6 | Budget and spending data | **NYC Checkbook** | `nyc-checkbook-mcp` | City spending, contracts, budget, payroll, revenue (Comptroller) |
+| 7 | Budget and spending data | **NYC Council Budget** | `nyc-budget-mcp` | Discretionary funding — the Council's funding disclosure (award-level, Cleared/Pending), Council capital designations |
+| 8 | Budget and spending data | **NYC City Record** | `nyc-record-mcp` | Procurement notices — solicitations, awards, public hearings |
+| 9 | Additional useful tools | **NY Open Data (general)** | `socrata` | Everything else the city or state publishes as a dataset |
 
 > **A note on grounding.** Every prompt below is answerable *because* the agent is connected to a real source. Ask the same questions of an ungrounded chatbot and it will confidently guess — wrong bill numbers, invented dollar figures, stale council members. The whole point of this repo is that these answers come from the public record, not the model's memory. When you demo, it's worth pulling up the underlying source once to show the number is real.
 
@@ -40,17 +40,15 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 
 ## Part 1 — Basic prompts (one MCP each)
 
-### 1. NYC 311 — `nyc-311-mcp`
+<link rel="stylesheet" href="{{ '/assets/css/live-demos.css' | relative_url }}">
 
-**User story:** *As a resident, I want to see what my neighbors are actually complaining about, so that I can bring evidence — not anecdotes — to my community board.*
+> **Real results, Oct 23, 2026.** Under each source is one prompt we ran through that MCP just after midnight on October 23, 2026. Press **Run it** and the box types the question, shows the tool call the agent made, then prints what came back. **Replay** runs it again; **Collapse** closes it. They are a snapshot, not a live feed, so rerun a prompt to see today's answer. The animations play on the [published page](https://betanyc.github.io/grounding-ai-with-ny-open-data/guides/user-journeys.html), not on GitHub.
 
-- "Is alternate-side parking suspended tomorrow? What's on the city-service calendar this week?"
-- "Look up the status of 311 service request number [SR number] and tell me whether it's been closed."
-- "Pull the details for these service request numbers and tell me which are still open." *(bulk lookup)*
+### Laws and legislation
 
-> **Routing note (verified 2026-07-16):** the `nyc-311-mcp` server covers the **city-service calendar, status/emergency alerts, and individual/bulk service-request lookup by SR number** — not aggregate roll-ups. For "top complaint types in a district over the last 30 days" or "all noise complaints grouped by day," the agent should query the **NYC Open Data 311 dataset** (`erm2-nwe9`, "311 Service Requests from 2020 to Present") via the Socrata MCP (source #8 below). Both are "311," but aggregation lives in Open Data.
+City Council bills and hearings, the City Charter and local laws, and State bills.
 
-### 2. NYC Council — `nyc-council-mcp`
+#### 1. NYC Council — `nyc-council-mcp`
 
 **User story:** *As a community board member, I want to track legislation before the Council that affects my district, so that we can weigh in before it passes, not after.*
 
@@ -59,7 +57,63 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 - "Pull the full history and current status of Intro [number] — who sponsored it and where is it in the process?"
 - "What hearings does the Council have coming up, and which committees are holding them?"
 
-### 3. NYC Checkbook — `nyc-checkbook-mcp`
+<div class="live-demo full" data-demo="council"></div>
+
+#### 2. NYC Charter, Laws & Rules — `nyc-charter-laws-rules`
+
+**User story:** *As an advocate, I want to cite the exact law, so that our testimony rests on the actual text of the code, not a paraphrase.*
+
+- "What does the City Charter say about the role and powers of community boards?"
+- "Find the Administrative Code sections about noise control and summarize the core provisions."
+- "Search the Rules of the City of New York for sidewalk café regulations."
+- "Pull the exact text of Charter section [number] so I can quote it in testimony."
+
+<div class="live-demo full" data-demo="charter"></div>
+
+#### 3. NYS Open Legislation — `nys-openlegislation-mcp`
+
+**User story:** *As a policy staffer, I want to see what Albany is doing on an issue, so that I can align city advocacy with state action.*
+
+- "Search NYS bills from the current session about tenant protections."
+- "What's the status and vote history of State bill [S/A number]?"
+- "Who represents State Senate District 59? Then tell me who chairs the Senate Committee on [topic]."
+- "Find the section of NYS law governing [topic] and summarize it."
+
+<div class="live-demo full" data-demo="nys"></div>
+
+### Government information and service alerts
+
+What the city is doing today: services, schedules, and subway alerts.
+
+#### 4. NYC 311 — `nyc-311-mcp`
+
+**User story:** *As a resident, I want to see what my neighbors are actually complaining about, so that I can bring evidence — not anecdotes — to my community board.*
+
+- "Is alternate-side parking suspended tomorrow? What's on the city-service calendar this week?"
+- "Look up the status of 311 service request number [SR number] and tell me whether it's been closed."
+- "Pull the details for these service request numbers and tell me which are still open." *(bulk lookup)*
+
+> **Routing note (verified 2026-07-16):** the `nyc-311-mcp` server covers the **city-service calendar, status/emergency alerts, and individual/bulk service-request lookup by SR number** — not aggregate roll-ups. For "top complaint types in a district over the last 30 days" or "all noise complaints grouped by day," the agent should query the **NYC Open Data 311 dataset** (`erm2-nwe9`, "311 Service Requests from 2020 to Present") via the Socrata MCP (source #9 below). Both are "311," but aggregation lives in Open Data.
+
+<div class="live-demo full" data-demo="311"></div>
+
+#### 5. MTA subway alerts — `mta-mcp` *(early alpha)*
+
+**User story:** *As a rider, I want to know whether my line is disrupted before I leave, so that I can plan around weekend work.*
+
+- "Is the 6 train disrupted this Saturday at 68 St-Hunter College?"
+- "What planned work is on the A line this weekend?"
+- "Which elevators are out right now at Jay St-MetroTech?"
+
+> **Every answer is unofficial and may not be real time; confirm at mta.info.** This server is installed from GitHub only, never npm, because MTA's data terms do not allow the redistributed-fetch shape. No MTA logos, maps or signage in demo materials.
+
+<div class="live-demo full" data-demo="mta"></div>
+
+### Budget and spending data
+
+Where city money goes: spending and contracts, Council discretionary funding, and procurement notices.
+
+#### 6. NYC Checkbook — `nyc-checkbook-mcp`
 
 **User story:** *As a watchdog, I want to see where the city is actually spending money, so that I can hold agencies accountable to their budgets.*
 
@@ -68,7 +122,9 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 - "What did the city spend on street resurfacing contracts in the last two fiscal years?"
 - "Pull the details of contract [contract ID] — vendor, amount, purpose, and term."
 
-### 4. NYC Council Budget (discretionary funding) — `nyc-budget-mcp`
+<div class="live-demo full" data-demo="checkbook"></div>
+
+#### 7. NYC Council Budget (discretionary funding) — `nyc-budget-mcp`
 
 **User story:** *As a nonprofit director, I want to know which council members fund organizations like ours, so that we can make a targeted case for discretionary support.*
 
@@ -79,7 +135,9 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 
 > **Coverage note (checked 2026-10-23):** discretionary awards are searched by Council Member name, organization, EIN, ZIP, agency or program, not by council district. The disclosure covers FY2009 and FY2011–FY2027 (FY2010 is not included), and BetaNYC/New-York-City-Budget issue #59 tracks about 29,000 FY2015–FY2020 Schedule C awards the parser does not yet read, so do not describe the results as complete. Capital projects can be filtered by district only for FY2015–FY2017, FY2026 and FY2027.
 
-### 5. NYC City Record — `nyc-record-mcp`
+<div class="live-demo full" data-demo="budget"></div>
+
+#### 8. NYC City Record — `nyc-record-mcp`
 
 **User story:** *As a small-business owner or bidder, I want to catch city solicitations early, so that we have time to respond before the deadline.*
 
@@ -88,25 +146,13 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 - "Are there any public hearings coming up in the City Record notices?"
 - "Search City Record notices for anything mentioning 'Battery Park' or 'waterfront.'"
 
-### 6. NYC Charter, Laws & Rules — `nyc-charter-laws-rules`
+<div class="live-demo full" data-demo="record"></div>
 
-**User story:** *As an advocate, I want to cite the exact law, so that our testimony rests on the actual text of the code, not a paraphrase.*
+### Additional useful tools
 
-- "What does the City Charter say about the role and powers of community boards?"
-- "Find the Administrative Code sections about noise control and summarize the core provisions."
-- "Search the Rules of the City of New York for sidewalk café regulations."
-- "Pull the exact text of Charter section [number] so I can quote it in testimony."
+Everything else the City and State publish as datasets.
 
-### 7. NYS Open Legislation — `nys-openlegislation-mcp`
-
-**User story:** *As a policy staffer, I want to see what Albany is doing on an issue, so that I can align city advocacy with state action.*
-
-- "Search NYS bills from the current session about tenant protections."
-- "What's the status and vote history of State bill [S/A number]?"
-- "Who represents State Senate District 59? Then tell me who chairs the Senate Committee on [topic]."
-- "Find the section of NYS law governing [topic] and summarize it."
-
-### 8. NY Open Data (general catalog) — `socrata`
+#### 9. NY Open Data (general catalog) — `socrata`
 
 **User story:** *As a curious New Yorker, I want to find whatever dataset exists on a topic, so that I can start from real numbers instead of guessing whether the data is even published.*
 
@@ -115,21 +161,15 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 - "Search NYS Open Data (`domain: data.ny.gov`) for datasets about EV charging stations."
 - "Find the NYC Open Data dataset on street trees and count how many are in Community District 1." *(The street tree census is from 2015; say "as of 2015.")*
 
-### 9. MTA subway alerts — `mta-mcp` *(early alpha)*
-
-**User story:** *As a rider, I want to know whether my line is disrupted before I leave, so that I can plan around weekend work.*
-
-- "Is the 6 train disrupted this Saturday at 68 St-Hunter College?"
-- "What planned work is on the A line this weekend?"
-- "Which elevators are out right now at Jay St-MetroTech?"
-
-> **Every answer is unofficial and may not be real time; confirm at mta.info.** This server is installed from GitHub only, never npm, because MTA's data terms do not allow the redistributed-fetch shape. No MTA logos, maps or signage in demo materials.
+<div class="live-demo full" data-demo="socrata"></div>
 
 ---
 
 ## Part 2 — Crosswalk journeys (chaining MCPs)
 
 This is the payoff. A single dataset answers a single question; a grounded agent that can move *between* sources answers the questions people actually have — the ones that start in one dataset and end in another.
+
+Every crosswalk has a **Run it** box with real results from Oct 23, 2026. Each chains two or three tools.
 
 ### Crosswalk A — "From complaint to policy" 🧵
 **311 → Council → Charter/Laws**
@@ -140,14 +180,18 @@ This is the payoff. A single dataset answers a single question; a grounded agent
 
 **Why it lands:** the agent moves from lived experience (311) → the legislative response (Council) → the legal foundation (code). No single portal does that.
 
+<div class="live-demo full" data-demo="xA"></div>
+
 ### Crosswalk B — "Follow the discretionary dollar" 💵
 **Budget → Council → Checkbook**
 
 **User story:** *As a funder or watchdog, I want to trace a discretionary award from the allocation to the sponsoring member to the actual spending, so that I can verify the money did what it was allocated to do.*
 
-> "Find the largest NYC Council discretionary award from Council Member [name] in the most recent fiscal year. Tell me which district that member represents, and then check NYC Checkbook for any city spending or contracts with that same organization. Flag any gaps between the allocation and what shows up in Checkbook."
+> "Find the largest NYC Council discretionary award from Speaker Julie Menin in the most recent fiscal year. Tell me which district she represents, and then check NYC Checkbook for any city spending or contracts with that same organization. Flag any gaps between the allocation and what shows up in Checkbook."
 
 **Why it lands:** discretionary allocation (budget MCP), political accountability (Council Member), and actual disbursement (Checkbook) are three separate systems. Chaining them is exactly the "follow the money" move journalists do by hand.
+
+<div class="live-demo full" data-demo="xB"></div>
 
 ### Crosswalk C — "The full contract lifecycle" 📄
 **City Record → Checkbook → Council**
@@ -158,6 +202,8 @@ This is the payoff. A single dataset answers a single question; a grounded agent
 
 **Why it lands:** procurement (City Record) → spending (Checkbook) → oversight (Council) is the accountability arc of a single dollar of city money.
 
+<div class="live-demo full" data-demo="xC"></div>
+
 ### Crosswalk D — "City and state on the same issue" 🏛️
 **NYS Open Legislation → Council → Open Data**
 
@@ -167,14 +213,18 @@ This is the payoff. A single dataset answers a single question; a grounded agent
 
 **Why it lands:** most real civic issues are split across state and city jurisdiction. An agent that can query both legislatures *and* the data catalog resolves "whose job is this?" in one pass.
 
+<div class="live-demo full" data-demo="xD"></div>
+
 ### Crosswalk E — "Data-driven testimony" 🎤
 **Open Data → 311 → Budget**
 
 **User story:** *As a resident preparing to testify, I want a tight, sourced case in fifteen minutes, so that I can walk into a hearing with real numbers instead of a hunch.*
 
-> "I'm testifying about street-tree maintenance in Community District 1. Find the NYC Open Data street-tree dataset and count the trees in the district and their health status, pull recent 311 complaints about tree conditions or dead trees there, and check whether the Council Member whose district covers it directed any discretionary funding to parks or greening. Draft three minutes of testimony with every number sourced."
+> "I'm testifying about street-tree maintenance in Brooklyn Community District 1. Find the NYC Open Data street-tree dataset and count the trees in the district and their health status, pull recent 311 complaints about tree conditions or dead trees there, and check whether the Council Member whose district covers it directed any discretionary funding to parks or greening. Draft three minutes of testimony with every number sourced."
 
 **Why it lands:** it turns three disconnected public sources into a single, citable argument — and every figure traces back to an official record, which is the whole grounding thesis.
+
+<div class="live-demo full" data-demo="xE"></div>
 
 ### Crosswalk F — "Who funded this seat?" 🗳️
 **NY Open Data (campaign finance) → NYS Open Legislation → the join that isn't there**
@@ -210,6 +260,27 @@ All three are New York State Board of Elections data, posted daily, with `org_am
 
 > ⚠️ **Do not profile a sitting member with this.** Every figure above is structural and required looking up no individual. If you are demonstrating to a legislator, running their own donor list in their own office reads as a threat display regardless of how neutrally you narrate it — and it converts a credibility demo into something else. If a staffer asks to see their filings, that is their invitation to extend. It is not yours to open.
 
+
+#### The other way in: a former state senator, in city data
+
+State data can't name a donor's employer. New York City's Campaign Finance Board data can. So follow a *former* state senator who later ran for city office.
+
+**NYS Open Legislation → NYC Campaign Finance Board (NYC Open Data) → Checkbook**
+
+> "Eric Adams is a former New York State Senator. Confirm his Senate district. Then use the NYC Campaign Finance Board's doing-business contributions data to list the employers behind donations to his 2025 mayoral campaign, and check NYC Checkbook for city payments to two of those employers. Leave out the individual donors' names."
+
+**Why it lands:** the Campaign Finance Board already flags donors who do business with the city ([`fbkk-n4e3`](https://data.cityofnewyork.us/d/fbkk-n4e3)), so the agent doesn't have to guess at name matches. It still has to bridge spellings: the CFB has "Transel Elevatror Inc," Checkbook has "Transel Elevator & Electric Inc."
+
+> ⚠️ **An overlap is not a finding.** Donations from people who do business with the city are legal, under lower limits. A donor's employer holding city contracts is a lead to check, not evidence of anything. Show employers, never the individual donors.
+
+<div class="live-demo full" data-demo="xF"></div>
+
+**Part 2: state to city.** New York City candidates file with the state Board of Elections too, so the state data can show money moving *between* one person's campaigns. The city data can show the same employers' people giving to other candidates.
+
+**Where the data lives.** City campaign finance is on NYC Open Data, published by the Campaign Finance Board: contributions ([`rjkp-yttg`](https://data.cityofnewyork.us/d/rjkp-yttg)) and doing-business contributions ([`fbkk-n4e3`](https://data.cityofnewyork.us/d/fbkk-n4e3)). The CFB's own search tool is at [nyccfb.info](https://www.nyccfb.info/). State campaign finance is on [data.ny.gov](https://data.ny.gov/d/e9ss-239a), published by the state Board of Elections.
+
+<div class="live-demo full" data-demo="xF2"></div>
+
 ---
 
 ## How to run these
@@ -222,3 +293,5 @@ All three are New York State Board of Elections data, posted daily, with `org_am
 ## Contributing a journey
 
 Have a question your community keeps asking? Add it. Open a PR with a new user story + prompt in the matching section, or a new crosswalk if it chains sources in a way not shown here. Real questions from real board meetings, newsrooms, and nonprofits are exactly what makes this resource useful.
+
+<script src="{{ '/assets/js/live-demos.js' | relative_url }}"></script>

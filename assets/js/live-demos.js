@@ -272,6 +272,31 @@
       ],
       source: 'NYS Open Legislation, the NYC Campaign Finance Board and Checkbook NYC'
     },
+    'xF2': {
+      tool: 'Crosswalk F, part 2 · socrata (data.ny.gov) → socrata (CFB)',
+      q: 'Follow the money between Eric Adams’s state and city campaigns, then see who else the same employers gave to.',
+      takeaway: 'His State Senate committee never sent money to his city campaigns. His old city campaigns did: at least $332,594 moved into the 2021 mayoral race, and the two sides of one transfer don’t match.',
+      call: '1 socrata.get_data(data.ny.gov 4j2b-6a2j: committees\n    WHERE cand_comm_name LIKE "%Eric Adams%")\n' +
+            '2 socrata.get_data(data.ny.gov e9ss-239a: schedule "Transfers"\n    WHERE filer_id IN (11423, 6214, 6267, 14104))\n' +
+            '3 socrata.get_data(fbkk-n4e3: candidates by db_entity_name\n    WHERE db_entity_name LIKE "%GENSLER%" OR "%TRANSEL%")',
+      out: [
+        ['1  NYS Board of Elections: four Adams committees', 's'],
+        ['   Committee To Elect Eric Adams   State Senate · 2006-2014'],
+        ['   Eric Adams 2013 / 2017          Borough President'],
+        ['   Eric Adams 2021                 Mayor'],
+        ['2  Transfers between them', 's'],
+        ['   State Senate committee → none to his city campaigns'],
+        ['   (its largest gift: $205,000 to the Senate Democrats)', 'c'],
+        ['   2013 campaign → 2021 campaign   $66,575 · both sides match'],
+        ['   2017 campaign → 2021 campaign   sent $266,019 · received $298,704'],
+        ['   $32,685 gap between the two reports. A question to ask, not a finding.', 'c'],
+        ['3  Same employers, other candidates (city data)', 's'],
+        ['   Gensler-linked donors   Garodnick, Massey, Van Bramer · 2017-2021'],
+        ['   Transel-linked donors   Adams only'],
+        ['   State data has no employer column: only gifts in a company’s own name', 'c']
+      ],
+      source: 'NYS Board of Elections (data.ny.gov) and the NYC Campaign Finance Board (NYC Open Data)'
+    },
     'mta': {
       tool: 'mta-mcp (early alpha)',
       q: 'Is the 6 train disrupted this Saturday at 68 St-Hunter College?',

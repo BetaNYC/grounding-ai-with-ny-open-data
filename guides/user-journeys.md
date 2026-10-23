@@ -275,6 +275,12 @@ State data can't name a donor's employer. New York City's Campaign Finance Board
 
 <div class="live-demo full" data-demo="xF"></div>
 
+**Part 2: state to city.** New York City candidates file with the state Board of Elections too, so the state data can show money moving *between* one person's campaigns. The city data can show the same employers' people giving to other candidates.
+
+**Where the data lives.** City campaign finance is on NYC Open Data, published by the Campaign Finance Board: contributions ([`rjkp-yttg`](https://data.cityofnewyork.us/d/rjkp-yttg)) and doing-business contributions ([`fbkk-n4e3`](https://data.cityofnewyork.us/d/fbkk-n4e3)). The CFB's own search tool is at [nyccfb.info](https://www.nyccfb.info/). State campaign finance is on [data.ny.gov](https://data.ny.gov/d/e9ss-239a), published by the state Board of Elections.
+
+<div class="live-demo full" data-demo="xF2"></div>
+
 ---
 
 ## How to run these

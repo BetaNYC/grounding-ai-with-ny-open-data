@@ -38,3 +38,18 @@
   vertical-align:-2px;animation:ld-blink 1s steps(2,start) infinite}
 @keyframes ld-blink{to{visibility:hidden}}
 @media(prefers-reduced-motion:reduce){.live-demo .ld-cursor{animation:none}}
+
+/* Page rhythm for user-journeys only (this file loads on no other page):
+   more air under the site header, and headings big enough to tell
+   Part > group > tool apart at a glance on a phone. */
+main{padding-top:3.4rem}
+main > h1{margin-bottom:1.4rem}
+main > h2{font-size:2rem;margin:3.6rem 0 1rem}
+main > h3{font-size:1.5rem;margin:3rem 0 .6rem;padding-top:.9rem;
+  border-top:3px solid var(--bnyc-blue)}
+main > h4{font-size:1.15rem;margin:2rem 0 .5rem}
+@media(max-width:760px){
+  main{padding-top:2.8rem}
+  main > h2{font-size:1.75rem}
+  main > h3{font-size:1.35rem}
+}

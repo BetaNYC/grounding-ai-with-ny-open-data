@@ -204,6 +204,74 @@
       ],
       source: 'NYS Open Legislation, Legistar and NYC Open Data'
     },
+    'xB': {
+      tool: 'Crosswalk B · nyc-budget-mcp → nyc-checkbook-mcp',
+      q: 'Speaker Menin’s largest FY2027 discretionary award, and what Checkbook shows for that group.',
+      takeaway: 'Her largest award is $160,000 for cleanup in District 5. In Checkbook it sits inside one citywide $19.7 million cleanup contract, so her share can’t be seen on its own.',
+      call: '1 search_disclosure_awards(fiscal_year: 2027, council_member: "Menin")\n' +
+            '2 search_spending(payee_name: "ASSOCIATION OF COMMUNITY",\n                  agency_code: "260", fiscal_year: "2026")\n' +
+            '3 search_contracts(contract_id: "CT126020248806022")',
+      out: [
+        ['1  Council disclosure, FY2027: 167 awards from Menin', 's'],
+        ['   $2,082,000 cleared · $81,000 pending'],
+        ['   $160,000  ACE Programs for the Homeless · Cleanup Services, District 5'],
+        ['   (same award in FY2026: $160,000, cleared)', 'c'],
+        ['2  Checkbook, DYCD checks to ACE, FY2026: 6 checks', 's'],
+        ['   $2,028,544  Oct 14, 2025 · cleaning and snow removal'],
+        ['   Checkbook spells it "FOR THEHOMELESS", no space', 'c'],
+        ['3  The contract behind those checks', 's'],
+        ['   $19,734,562 · FY2024-FY2026 · $19,283,135 spent'],
+        ['   award method: Boro Needs / Discretionary Fund'],
+        ['Gap: one contract holds many members’ awards. No per-member line.', 'c']
+      ],
+      source: 'the Council funding disclosure and Checkbook NYC'
+    },
+    'xE': {
+      tool: 'Crosswalk E · socrata → socrata (311) → nyc-budget-mcp',
+      q: 'Street trees in Brooklyn Community District 1: how many, how healthy, the 311 complaints, and Council parks money.',
+      takeaway: '12,066 trees, 80% in good health in the last count. 1,344 tree complaints to 311 so far this year. Two Council Members put $93,000 into local parks for FY2027.',
+      call: '1 socrata.get_data(uvpi-gqnh: health, count(*) WHERE cb_num = 301)\n' +
+            '2 socrata.get_data(erm2-nwe9: complaint_type, count(*)\n    WHERE community_board = "01 BROOKLYN" AND created_date >= 2026-01-01\n    AND complaint_type LIKE "%Tree%")\n' +
+            '3 search_disclosure_awards(fiscal_year: 2027, agency: "DPR",\n    council_member: "Restler" / "Gutierrez")',
+      out: [
+        ['1  Street tree census (2015, the latest full count)', 's'],
+        ['   12,066 trees · Good 9,701 · Fair 1,470 · Poor 371'],
+        ['   524 with no health rating (stumps and dead trees)', 'c'],
+        ['   Council Districts 33 (7,230 trees) and 34 (4,836)'],
+        ['2  311 tree complaints, Jan 1-Oct 23, 2026: 1,344', 's'],
+        ['   Damaged Tree 626 · Overgrown 358 · Dead/Dying 180'],
+        ['   Illegal Tree Damage 152 · New Tree Request 28'],
+        ['3  FY2027 Council parks money (DPR)', 's'],
+        ['   Restler (D33)     $53,000 · Open Space Alliance, McCarren and McGolrick Parks'],
+        ['   Gutiérrez (D34)   $40,000 · 5 awards, incl. Open Space Alliance'],
+        ['District lines in the 2015 data predate the 2023 redistricting.', 'c']
+      ],
+      source: 'NYC Open Data and the Council funding disclosure'
+    },
+    'xF': {
+      tool: 'Crosswalk F · nys-openlegislation-mcp → socrata (CFB) → nyc-checkbook-mcp',
+      q: 'Former State Senator Eric Adams: which donors’ employers do business with the city, and what contracts do they hold?',
+      takeaway: 'His 2025 mayoral campaign took 493 donations ($156,867) that the Campaign Finance Board flags as "doing business" with the city. We checked two of those employers: both got city checks in FY2025. An overlap is not evidence of wrongdoing.',
+      call: '1 search_members(term: "Adams", chamber: "senate", session_year: 2013)\n' +
+            '2 socrata.get_data(fbkk-n4e3: db_entity_name, sum(amnt)\n    WHERE candlast = "Adams" AND election = "2025")\n' +
+            '3 search_spending(payee_name: "GENSLER" / "TRANSEL", fiscal_year: "2025")',
+      out: [
+        ['1  NYS Senate', 's'],
+        ['   Eric Adams · Senate District 20 · 2013 session'],
+        ['2  NYC Campaign Finance Board, 2025 mayoral race', 's'],
+        ['   13,557 contribution records in all'],
+        ['   493 flagged "doing business" with the city · $156,867'],
+        ['   Gensler (architects)     3 donations · $4,400'],
+        ['   Transel Elevator         2 donations · $4,200'],
+        ['   CFB spells it "ELEVATROR"; Checkbook has "& ELECTRIC"', 'c'],
+        ['3  Checkbook, FY2025', 's'],
+        ['   Gensler    63 checks · Health + Hospitals (Bellevue design)'],
+        ['   Transel    91 checks · Dept of Education, School Construction'],
+        ['Donor names left out on purpose. Doing-business gifts are legal,', 'c'],
+        ['with lower limits. This shows a link to check, not a finding.', 'c']
+      ],
+      source: 'NYS Open Legislation, the NYC Campaign Finance Board and Checkbook NYC'
+    },
     'mta': {
       tool: 'mta-mcp (early alpha)',
       q: 'Is the 6 train disrupted this Saturday at 68 St-Hunter College?',

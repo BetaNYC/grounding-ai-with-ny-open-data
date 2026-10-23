@@ -169,7 +169,7 @@ Everything else the City and State publish as datasets.
 
 This is the payoff. A single dataset answers a single question; a grounded agent that can move *between* sources answers the questions people actually have — the ones that start in one dataset and end in another.
 
-Crosswalks A, C and D have a **Run it** box with real results from Oct 23, 2026. Each runs three tools in a row.
+Every crosswalk has a **Run it** box with real results from Oct 23, 2026. Each chains two or three tools.
 
 ### Crosswalk A — "From complaint to policy" 🧵
 **311 → Council → Charter/Laws**
@@ -187,9 +187,11 @@ Crosswalks A, C and D have a **Run it** box with real results from Oct 23, 2026.
 
 **User story:** *As a funder or watchdog, I want to trace a discretionary award from the allocation to the sponsoring member to the actual spending, so that I can verify the money did what it was allocated to do.*
 
-> "Find the largest NYC Council discretionary award from Council Member [name] in the most recent fiscal year. Tell me which district that member represents, and then check NYC Checkbook for any city spending or contracts with that same organization. Flag any gaps between the allocation and what shows up in Checkbook."
+> "Find the largest NYC Council discretionary award from Speaker Julie Menin in the most recent fiscal year. Tell me which district she represents, and then check NYC Checkbook for any city spending or contracts with that same organization. Flag any gaps between the allocation and what shows up in Checkbook."
 
 **Why it lands:** discretionary allocation (budget MCP), political accountability (Council Member), and actual disbursement (Checkbook) are three separate systems. Chaining them is exactly the "follow the money" move journalists do by hand.
+
+<div class="live-demo full" data-demo="xB"></div>
 
 ### Crosswalk C — "The full contract lifecycle" 📄
 **City Record → Checkbook → Council**
@@ -218,9 +220,11 @@ Crosswalks A, C and D have a **Run it** box with real results from Oct 23, 2026.
 
 **User story:** *As a resident preparing to testify, I want a tight, sourced case in fifteen minutes, so that I can walk into a hearing with real numbers instead of a hunch.*
 
-> "I'm testifying about street-tree maintenance in Community District 1. Find the NYC Open Data street-tree dataset and count the trees in the district and their health status, pull recent 311 complaints about tree conditions or dead trees there, and check whether the Council Member whose district covers it directed any discretionary funding to parks or greening. Draft three minutes of testimony with every number sourced."
+> "I'm testifying about street-tree maintenance in Brooklyn Community District 1. Find the NYC Open Data street-tree dataset and count the trees in the district and their health status, pull recent 311 complaints about tree conditions or dead trees there, and check whether the Council Member whose district covers it directed any discretionary funding to parks or greening. Draft three minutes of testimony with every number sourced."
 
 **Why it lands:** it turns three disconnected public sources into a single, citable argument — and every figure traces back to an official record, which is the whole grounding thesis.
+
+<div class="live-demo full" data-demo="xE"></div>
 
 ### Crosswalk F — "Who funded this seat?" 🗳️
 **NY Open Data (campaign finance) → NYS Open Legislation → the join that isn't there**
@@ -255,6 +259,21 @@ All three are New York State Board of Elections data, posted daily, with `org_am
 **End on what's working, not only what isn't.** The public campaign finance program's fields are real and filling in: `r_claim`, `r_in_district`, `r_lobbyist`, `r_vendor`, and `r_is_qualified_expense`. **872,265** rows carry a match-claim flag, concentrated from 2022 onward, and 2026 is already the largest year at **455,513** with half the year still to run. That is new transparency infrastructure doing its job, and a room that only hears about gaps will discount the ones you found.
 
 > ⚠️ **Do not profile a sitting member with this.** Every figure above is structural and required looking up no individual. If you are demonstrating to a legislator, running their own donor list in their own office reads as a threat display regardless of how neutrally you narrate it — and it converts a credibility demo into something else. If a staffer asks to see their filings, that is their invitation to extend. It is not yours to open.
+
+
+#### The other way in: a former state senator, in city data
+
+State data can't name a donor's employer. New York City's Campaign Finance Board data can. So follow a *former* state senator who later ran for city office.
+
+**NYS Open Legislation → NYC Campaign Finance Board (NYC Open Data) → Checkbook**
+
+> "Eric Adams is a former New York State Senator. Confirm his Senate district. Then use the NYC Campaign Finance Board's doing-business contributions data to list the employers behind donations to his 2025 mayoral campaign, and check NYC Checkbook for city payments to two of those employers. Leave out the individual donors' names."
+
+**Why it lands:** the Campaign Finance Board already flags donors who do business with the city ([`fbkk-n4e3`](https://data.cityofnewyork.us/d/fbkk-n4e3)), so the agent doesn't have to guess at name matches. It still has to bridge spellings: the CFB has "Transel Elevatror Inc," Checkbook has "Transel Elevator & Electric Inc."
+
+> ⚠️ **An overlap is not a finding.** Donations from people who do business with the city are legal, under lower limits. A donor's employer holding city contracts is a lead to check, not evidence of anything. Show employers, never the individual donors.
+
+<div class="live-demo full" data-demo="xF"></div>
 
 ---
 

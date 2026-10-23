@@ -1,0 +1,40 @@
+/* Live-result demos on guides/user-journeys.md.
+   One box per MCP: the question on the left, a terminal on the right that types
+   the question, shows the tool call, then plays back the real results. */
+
+.live-demo{
+  max-width:none;margin:1.4rem 0 2.2rem;
+  display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);
+  border:1px solid var(--bnyc-border-gray);border-radius:4px;overflow:hidden;
+}
+@media(max-width:760px){.live-demo{grid-template-columns:1fr}}
+
+.live-demo .ld-side{background:var(--bnyc-bg-blue);padding:1.1rem 1.2rem}
+.live-demo .ld-tool{font-family:var(--font-mono);font-size:.8rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--bnyc-blue);margin:0 0 .5rem}
+.live-demo .ld-q{font-family:var(--font-heading);font-weight:700;font-size:1.05rem;
+  color:var(--bnyc-black);margin:0 0 .8rem;line-height:1.35}
+.live-demo .ld-takeaway{font-size:.95rem;margin:0 0 .8rem}
+.live-demo .ld-meta{font-size:.8rem;margin:0 0 .8rem;opacity:.85}
+.live-demo .ld-buttons{display:flex;gap:.5rem;flex-wrap:wrap}
+.live-demo .ld-btn{font:inherit;font-size:.85rem;font-weight:700;color:var(--bnyc-blue);
+  background:var(--bnyc-white);border:1px solid var(--bnyc-border-gray);border-radius:2px;
+  padding:.45rem .9rem;cursor:pointer}
+.live-demo .ld-run{background:var(--bnyc-blue);color:var(--bnyc-white);border-color:var(--bnyc-blue)}
+.live-demo .ld-btn:hover{filter:brightness(.95)}
+.live-demo .ld-btn:disabled{opacity:.5;cursor:default}
+.live-demo .ld-btn[hidden], .live-demo .ld-term[hidden]{display:none}
+/* Closed: the question card alone, full width. */
+.live-demo.ld-closed{grid-template-columns:1fr}
+
+.live-demo .ld-term{background:#1c2733;color:#e7edf3;padding:1rem 1.1rem;
+  font-family:var(--font-mono);font-size:.8rem;line-height:1.6;
+  white-space:pre-wrap;word-break:break-word}
+.live-demo .ld-term .p{color:#7fd6a6}   /* prompt and question */
+.live-demo .ld-term .k{color:#8fc4ff}   /* tool call */
+.live-demo .ld-term .s{color:#f0c674}   /* highlighted result */
+.live-demo .ld-term .c{color:#93a3b1}   /* notes */
+.live-demo .ld-cursor{display:inline-block;width:.45rem;height:.95rem;background:#7fd6a6;
+  vertical-align:-2px;animation:ld-blink 1s steps(2,start) infinite}
+@keyframes ld-blink{to{visibility:hidden}}
+@media(prefers-reduced-motion:reduce){.live-demo .ld-cursor{animation:none}}

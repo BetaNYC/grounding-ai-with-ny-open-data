@@ -251,7 +251,7 @@
     'xF': {
       tool: 'Crosswalk F · nys-openlegislation-mcp → socrata (CFB) → nyc-checkbook-mcp',
       q: 'Former State Senator Eric Adams: which donors’ employers do business with the city, and what contracts do they hold?',
-      takeaway: 'His 2025 mayoral campaign took 493 donations ($156,867) that the Campaign Finance Board flags as "doing business" with the city. We checked two of those employers: both got city checks in FY2025. An overlap is not evidence of wrongdoing.',
+      takeaway: 'His 2025 mayoral campaign took 493 donations ($156,867) that the Campaign Finance Board flags as "doing business" with the city. We checked two of those employers: together they got $2.1 million in city payments in FY2025. An overlap is not evidence of wrongdoing.',
       call: '1 search_members(term: "Adams", chamber: "senate", session_year: 2013)\n' +
             '2 socrata.get_data(fbkk-n4e3: db_entity_name, sum(amnt)\n    WHERE candlast = "Adams" AND election = "2025")\n' +
             '3 search_spending(payee_name: "GENSLER" / "TRANSEL", fiscal_year: "2025")',
@@ -265,8 +265,8 @@
         ['   Transel Elevator         2 donations · $4,200'],
         ['   CFB spells it "ELEVATROR"; Checkbook has "& ELECTRIC"', 'c'],
         ['3  Checkbook, FY2025', 's'],
-        ['   Gensler    63 checks · Health + Hospitals (Bellevue design)'],
-        ['   Transel    91 checks · Dept of Education, School Construction'],
+        ['   Gensler    $643,709 · 63 checks, 12 contracts · Health + Hospitals'],
+        ['   Transel    $1,459,121 · 91 checks, 63 contracts · mostly Dept of Education'],
         ['Donor names left out on purpose. Doing-business gifts are legal,', 'c'],
         ['with lower limits. This shows a link to check, not a finding.', 'c']
       ],

@@ -1,10 +1,11 @@
 ---
-status: DRAFT
+status: published
+updated: 2026-10-23
 ---
 
 # User journeys and sample prompts
 
-> **DRAFT.** First pass, 2026-07-16. These are illustrative prompts to demonstrate what each BetaNYC MCP (and the general Socrata catalog) can do, plus "crosswalk" journeys that chain several together. Prompts are written for a person talking to an AI agent that has these MCPs connected — they are starting points, not guaranteed exact outputs. Always verify answers against the linked official source.
+> First written 2026-07-16. **Last revised 2026-10-23:** every prompt was checked against the tools each MCP exposes today, and the MTA subway-alerts MCP was added. The prompts were checked against what each tool accepts, not run live. These are illustrative prompts to demonstrate what each BetaNYC MCP (and the general Socrata catalog) can do, plus "crosswalk" journeys that chain several together. Prompts are written for a person talking to an AI agent that has these MCPs connected — they are starting points, not guaranteed exact outputs. Always verify answers against the linked official source.
 
 This is the one place that captures the **broader user journey**: how a New Yorker — a resident, a community board member, a journalist, a nonprofit — moves from a plain-language question to an answer grounded in the actual public record.
 
@@ -31,6 +32,7 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 | 6 | **NYC Charter, Laws & Rules** | `nyc-charter-laws-rules` | Charter, Administrative Code, Rules of the City of New York (legal text) |
 | 7 | **NYS Open Legislation** | `nys-openlegislation-mcp` | State bills, laws, members, committees, calendars, transcripts |
 | 8 | **NY Open Data (general)** | `socrata` | Everything else the city or state publishes as a dataset |
+| 9 | **MTA subway alerts** *(early alpha)* | `mta-mcp` | Subway service alerts and elevator/escalator outages. Unofficial; installed from GitHub, not npm |
 
 > **A note on grounding.** Every prompt below is answerable *because* the agent is connected to a real source. Ask the same questions of an ungrounded chatbot and it will confidently guess — wrong bill numbers, invented dollar figures, stale council members. The whole point of this repo is that these answers come from the public record, not the model's memory. When you demo, it's worth pulling up the underlying source once to show the number is real.
 
@@ -53,7 +55,7 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 **User story:** *As a community board member, I want to track legislation before the Council that affects my district, so that we can weigh in before it passes, not after.*
 
 - "List legislation introduced in the NYC Council in the last 60 days about short-term rentals."
-- "Who represents Council District 1, and which committees do they sit on?"
+- "Look up Council Member [name] and give me their contact details. Then show me who sits on the Committee on [topic]."
 - "Pull the full history and current status of Intro [number] — who sponsored it and where is it in the process?"
 - "What hearings does the Council have coming up, and which committees are holding them?"
 
@@ -74,6 +76,8 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 - "Search discretionary awards to [organization name] across all available fiscal years."
 - "Which Council-funded capital projects are in Council District [NN] this fiscal year?"
 - "List the fiscal years covered by the discretionary funding data, then compare the latest Council capital list with OMB's adopted capital budget."
+
+> **Coverage note (checked 2026-10-23):** discretionary awards are searched by Council Member name, organization, EIN, ZIP, agency or program, not by council district. The disclosure covers FY2009 and FY2011–FY2027 (FY2010 is not included), and BetaNYC/New-York-City-Budget issue #59 tracks about 29,000 FY2015–FY2020 Schedule C awards the parser does not yet read, so do not describe the results as complete. Capital projects can be filtered by district only for FY2015–FY2017, FY2026 and FY2027.
 
 ### 5. NYC City Record — `nyc-record-mcp`
 
@@ -99,7 +103,7 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 
 - "Search NYS bills from the current session about tenant protections."
 - "What's the status and vote history of State bill [S/A number]?"
-- "Who are my State Senate and Assembly members, and what committees do they chair?"
+- "Who represents State Senate District 59? Then tell me who chairs the Senate Committee on [topic]."
 - "Find the section of NYS law governing [topic] and summarize it."
 
 ### 8. NY Open Data (general catalog) — `socrata`
@@ -109,7 +113,17 @@ For which source actually holds which data, see [`when-to-use-which-portal.md`](
 - "Search NYC Open Data for datasets about restaurant inspections and tell me which one is authoritative."
 - "In the NYC Open Data film-permit dataset, how many permits were issued in Manhattan last year?"
 - "Search NYS Open Data (`domain: data.ny.gov`) for datasets about EV charging stations."
-- "Find the NYC Open Data dataset on street trees and count how many are in Community District 1."
+- "Find the NYC Open Data dataset on street trees and count how many are in Community District 1." *(The street tree census is from 2015; say "as of 2015.")*
+
+### 9. MTA subway alerts — `mta-mcp` *(early alpha)*
+
+**User story:** *As a rider, I want to know whether my line is disrupted before I leave, so that I can plan around weekend work.*
+
+- "Is the 6 train disrupted this Saturday at 68 St-Hunter College?"
+- "What planned work is on the A line this weekend?"
+- "Which elevators are out right now at Jay St-MetroTech?"
+
+> **Every answer is unofficial and may not be real time; confirm at mta.info.** This server is installed from GitHub only, never npm, because MTA's data terms do not allow the redistributed-fetch shape. No MTA logos, maps or signage in demo materials.
 
 ---
 
@@ -131,9 +145,9 @@ This is the payoff. A single dataset answers a single question; a grounded agent
 
 **User story:** *As a funder or watchdog, I want to trace a discretionary award from the allocation to the sponsoring member to the actual spending, so that I can verify the money did what it was allocated to do.*
 
-> "Find the largest NYC Council discretionary award in Council District 1 in the most recent fiscal year. Tell me which council member sponsors that district, and then check NYC Checkbook for any city spending or contracts with that same organization. Flag any gaps between the allocation and what shows up in Checkbook."
+> "Find the largest NYC Council discretionary award from Council Member [name] in the most recent fiscal year. Tell me which district that member represents, and then check NYC Checkbook for any city spending or contracts with that same organization. Flag any gaps between the allocation and what shows up in Checkbook."
 
-**Why it lands:** discretionary allocation (budget MCP), political accountability (Council member), and actual disbursement (Checkbook) are three separate systems. Chaining them is exactly the "follow the money" move journalists do by hand.
+**Why it lands:** discretionary allocation (budget MCP), political accountability (Council Member), and actual disbursement (Checkbook) are three separate systems. Chaining them is exactly the "follow the money" move journalists do by hand.
 
 ### Crosswalk C — "The full contract lifecycle" 📄
 **City Record → Checkbook → Council**
@@ -158,7 +172,7 @@ This is the payoff. A single dataset answers a single question; a grounded agent
 
 **User story:** *As a resident preparing to testify, I want a tight, sourced case in fifteen minutes, so that I can walk into a hearing with real numbers instead of a hunch.*
 
-> "I'm testifying about street-tree maintenance in Community District 1. Find the NYC Open Data street-tree dataset and count the trees in the district and their health status, pull recent 311 complaints about tree conditions or dead trees there, and check whether any Council discretionary funding went to parks or greening in that district. Draft three minutes of testimony with every number sourced."
+> "I'm testifying about street-tree maintenance in Community District 1. Find the NYC Open Data street-tree dataset and count the trees in the district and their health status, pull recent 311 complaints about tree conditions or dead trees there, and check whether the Council Member whose district covers it directed any discretionary funding to parks or greening. Draft three minutes of testimony with every number sourced."
 
 **Why it lands:** it turns three disconnected public sources into a single, citable argument — and every figure traces back to an official record, which is the whole grounding thesis.
 

@@ -142,6 +142,68 @@
       ],
       source: 'NYC Open Data'
     },
+    'xA': {
+      tool: 'Crosswalk A · socrata → nyc-council-mcp → nyc-charter-laws-rules',
+      q: 'Top 311 complaints in Manhattan CD1 this quarter, Council action on the top one, and the law behind it.',
+      takeaway: 'Illegal parking leads. The Council last held oversight hearings on it in 2021. The Admin Code covers how tickets are handled.',
+      call: '1 socrata.get_data(erm2-nwe9: complaint_type, count(*)\n    WHERE community_board = "01 MANHATTAN" AND created_date >= 2026-10-01)\n' +
+            '2 search_legislation_live(query: "illegal parking")\n' +
+            '3 search(query: "parking violations", corpus: "admin_code")',
+      out: [
+        ['1  311, Oct 1-22, 2026', 's'],
+        ['   Illegal Parking 464 · Vendor Enforcement 450 · Noise - Residential 189'],
+        ['2  Council, newest first', 's'],
+        ['   T2021-8043  Oversight: Rethinking Vision Zero: Stopping Illegal Parking (2021)'],
+        ['   T2021-7005  Oversight: Illegal Parking and Bike Lanes (2021)'],
+        ['   no newer bill or hearing titled "illegal parking"', 'c'],
+        ['3  Administrative Code', 's'],
+        ['   § 19-201  Parking violations bureau created'],
+        ['   § 19-203  Its powers: hear charges, set penalties'],
+        ['   § 19-211  Extra penalties for not answering a ticket']
+      ],
+      source: 'NYC Open Data 311, Legistar and the Admin Code'
+    },
+    'xC': {
+      tool: 'Crosswalk C · nyc-record-mcp → nyc-checkbook-mcp → nyc-council-mcp',
+      q: 'Follow DOT contracting from City Record notices to Checkbook to Council oversight.',
+      takeaway: 'DOT is buying software help. Checkbook shows two registered software developer contracts in FY2026. The Contracts committee meets Oct 29.',
+      call: '1 get_notices_by_agency(agency_name: "Transportation", limit: 8)\n' +
+            '2 search_contracts(agency_code: "841", fiscal_year: "2026",\n                   purpose: "software")\n' +
+            '3 get_upcoming_hearings(days_ahead: 14)',
+      out: [
+        ['1  City Record, DOT, Oct 15-21', 's'],
+        ['   Award  $999,050  Spruce Technology · Software Technical Lead'],
+        ['   Award  $420,794  K Systems Solutions · M365 cloud backup'],
+        ['   Intent  JCDecaux sole source · real-time info at 1,446 bus shelters'],
+        ['2  Checkbook, DOT FY2026, purpose "software": 2 contracts', 's'],
+        ['   $454,090  InfoPeople Corp · end-to-end software developer'],
+        ['   $405,188  Universal Technologies · full stack software developer'],
+        ['3  Council', 's'],
+        ['   Thu Oct 29 2:00 PM  Committee on Contracts · Int 1064, 1065, 0991 and more']
+      ],
+      source: 'The City Record, Checkbook NYC and Legistar'
+    },
+    'xD': {
+      tool: 'Crosswalk D · nys-openlegislation-mcp → nyc-council-mcp → socrata',
+      q: 'E-bike safety: what Albany and City Hall are each doing, and what the data shows.',
+      takeaway: 'Bills at both levels, all still in committee. 1,940 cyclists injured and 11 killed in NYC crashes reported so far this year.',
+      call: '1 search_bills(term: \'title:"bicycle" AND title:"electric"\', session_year: 2025)\n' +
+            '2 search_legislation_live(query: "bicycle")\n' +
+            '3 socrata.get_data(h9gi-nx95: cyclists injured and killed\n    WHERE crash_date >= 2026-01-01)',
+      out: [
+        ['1  Albany (all in committee)', 's'],
+        ['   A1546   Simon       rules for e-bikes · Assembly Transportation'],
+        ['   A10156 / S9402      e-bike safety course and certificate'],
+        ['   A4083   Cunningham  liability insurance for e-bikes in NYC'],
+        ['2  City Council (all in committee)', 's'],
+        ['   Int 1110-2026  ban class 3 e-bikes (introduced Oct 8)'],
+        ['   Int 1102-2026  sidewalk-riding detection on share e-bikes'],
+        ['   Int 0876-2026  15 mph speed limit for e-bikes'],
+        ['3  NYC crash data since Jan 1, 2026 (as reported so far)', 's'],
+        ['   1,909 crashes · 1,940 cyclists injured · 11 killed']
+      ],
+      source: 'NYS Open Legislation, Legistar and NYC Open Data'
+    },
     'mta': {
       tool: 'mta-mcp (early alpha)',
       q: 'Is the 6 train disrupted this Saturday at 68 St-Hunter College?',

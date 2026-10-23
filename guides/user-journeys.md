@@ -169,6 +169,8 @@ Everything else the City and State publish as datasets.
 
 This is the payoff. A single dataset answers a single question; a grounded agent that can move *between* sources answers the questions people actually have — the ones that start in one dataset and end in another.
 
+Crosswalks A, C and D have a **Run it** box with real results from Oct 23, 2026. Each runs three tools in a row.
+
 ### Crosswalk A — "From complaint to policy" 🧵
 **311 → Council → Charter/Laws**
 
@@ -177,6 +179,8 @@ This is the payoff. A single dataset answers a single question; a grounded agent
 > "Start with the top three 311 complaint types in Manhattan Community District 1 this quarter. For the most common one, find any NYC Council legislation from the last year that addresses it, and pull the section of the Administrative Code the complaint category falls under. Give me a one-page brief tying the three together."
 
 **Why it lands:** the agent moves from lived experience (311) → the legislative response (Council) → the legal foundation (code). No single portal does that.
+
+<div class="live-demo full" data-demo="xA"></div>
 
 ### Crosswalk B — "Follow the discretionary dollar" 💵
 **Budget → Council → Checkbook**
@@ -196,6 +200,8 @@ This is the payoff. A single dataset answers a single question; a grounded agent
 
 **Why it lands:** procurement (City Record) → spending (Checkbook) → oversight (Council) is the accountability arc of a single dollar of city money.
 
+<div class="live-demo full" data-demo="xC"></div>
+
 ### Crosswalk D — "City and state on the same issue" 🏛️
 **NYS Open Legislation → Council → Open Data**
 
@@ -204,6 +210,8 @@ This is the payoff. A single dataset answers a single question; a grounded agent
 > "On the issue of e-bike and delivery-worker safety: search NYS Open Legislation for relevant state bills this session, search the NYC Council for related local legislation, and then find a NYC Open Data dataset (e.g., collisions or 311) that quantifies the problem. Summarize where the state and city each stand and what the data shows."
 
 **Why it lands:** most real civic issues are split across state and city jurisdiction. An agent that can query both legislatures *and* the data catalog resolves "whose job is this?" in one pass.
+
+<div class="live-demo full" data-demo="xD"></div>
 
 ### Crosswalk E — "Data-driven testimony" 🎤
 **Open Data → 311 → Budget**

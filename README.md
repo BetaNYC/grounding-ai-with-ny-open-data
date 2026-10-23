@@ -97,7 +97,7 @@ grounding-ai-with-ny-open-data/
 ├── guides/
 │   ├── when-to-use-which-portal.md            ← DRAFT — dataset coverage + decision guide
 │   ├── query-patterns.md                      ← DRAFT — SoQL examples
-│   ├── user-journeys.md                       ← DRAFT — user stories, sample prompts, crosswalks
+│   ├── user-journeys.md                       ← user stories, sample prompts, crosswalks
 │   ├── community-boards/                       ← DRAFT — per-board demo scripts (manhattan-cb1.md …)
 │   ├── council-members/                        ← DRAFT — per-district demo scripts + TEMPLATE.md
 │   ├── educators/                              ← DRAFT — faculty / curriculum demo scripts

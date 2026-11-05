@@ -1,0 +1,39 @@
+# Keeps the NY data portal registry honest: the generated Markdown, CSV and
+# per-place index must match the JSON source of truth, and the explorer's filter
+# logic must agree with that JSON. Regenerate with: python3 scripts/build_registry.py
+name: Registry check
+
+on:
+  pull_request:
+    paths:
+      - "resources/ny-data-portal-registry.*"
+      - "resources/portals/**"
+      - "scripts/build_registry.py"
+      - "assets/js/registry-explorer.js"
+      - "tests/**"
+      - ".github/workflows/registry-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.9", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Generated files match the JSON
+        run: python scripts/build_registry.py --check
+      - name: Generator tests
+        run: python -m unittest discover -s tests -v
+      - name: Explorer logic against the real JSON
+        run: node --test tests/registry-explorer.test.js

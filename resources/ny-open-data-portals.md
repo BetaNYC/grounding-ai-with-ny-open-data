@@ -6,7 +6,7 @@ status: DRAFT
 
 > **DRAFT.** First research pass completed 2026-07-06 per [`research-plan-ny-open-data-portals.md`](research-plan-ny-open-data-portals.md). Covers all 57 non-NYC counties plus independent cities over ~50,000 population. New York City (its five boroughs are five of the state's 62 counties) was added 2026-11-05. Several entries are flagged **UNCONFIRMED** below — pending a manual browser check before this is cited externally. See [Known gaps and caveats](#known-gaps-and-caveats) before relying on any single row.
 
-> **Superseded for most uses by the [New York data portal registry](ny-data-portal-registry.md)** (2026-11-05), which covers state, NYC agency and institutional sources too, with a page per county and city in [`portals/`](portals/). This page is kept as the record of the first county and city pass.
+> **Superseded for most uses by the [New York data portal registry](ny-data-portal-registry.md)** (2026-11-05), which covers state, NYC agency and institutional sources too, with a page per county and city in [`portals/`](portals/README.md). This page is kept as the record of the first county and city pass.
 
 **Report generated:** 2026-07-06
 **Data current as of:** 2026-07-06

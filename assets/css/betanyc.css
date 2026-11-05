@@ -77,7 +77,10 @@ main > *{max-width:var(--measure)}
 main > .full{max-width:none}
 
 h1,h2,h3,h4{color:var(--bnyc-blue);line-height:1.18;font-weight:800}
-h1{font-size:2.3rem;letter-spacing:-.02em;margin-bottom:.5rem}
+h1{font-size:2.3rem;letter-spacing:-.02em;margin-bottom:1rem}
+main > h1:first-child{margin-top:1rem}
+.btn-soon{opacity:.6;cursor:default;border-style:dashed}
+.toc{font-size:.95rem;margin:1.5rem 0 .5rem}
 h2{font-family:var(--font-heading);font-size:1.5rem;margin:2.4rem 0 .7rem}
 h3{font-family:var(--font-heading);font-size:1.15rem;margin:1.8rem 0 .5rem}
 h4{font-family:var(--font-heading);font-size:1rem;margin:1.4rem 0 .4rem}
@@ -195,5 +198,8 @@ img{max-width:100%;height:auto}
   h2{font-size:1.3rem}
   .lede{font-size:1.1rem}
   .site-header .bar{gap:.6rem}
-  .site-header nav{margin-left:0;width:100%;gap:.85rem}
+  .site-header nav{margin-left:0;width:100%;gap:0 .75rem}
+  /* 44px tap targets; five links wrap to two rows at 360px. */
+  .site-header nav a{display:inline-flex;align-items:center;min-height:44px;letter-spacing:.06em}
+  .site-header{padding:.8rem 0 .3rem}
 }

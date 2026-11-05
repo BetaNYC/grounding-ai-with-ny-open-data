@@ -4,10 +4,10 @@ title: Home
 description: Free, open tools that let an AI assistant answer questions about New York City using the city's actual public records.
 ---
 
-# Ask New York City a question
+# Let's ask a question about New York
 
 <p class="lede">These are free, open tools that let an AI assistant answer questions about New York
-City using the city's <strong>actual public records</strong> — not what a language model remembers.
+using <strong>actual public records</strong> from the city and the state — not what a language model remembers.
 Every answer comes back with an identifier you can open in a browser and check yourself.</p>
 
 <div class="note" markdown="1">
@@ -15,6 +15,10 @@ Every answer comes back with an identifier you can open in a browser and check y
 demo scripts carry the date they were verified. Where something could not be verified, the material
 says so rather than implying it was checked.
 </div>
+
+<nav class="toc" aria-label="On this page" markdown="1">
+**On this page:** [Why this exists](#why-this-exists) · [Find New York data](#find-new-york-data) · [The classes and demos](#the-classes-and-demos) · [Start here if you are setting this up](#start-here-if-you-are-setting-this-up) · [What it costs](#what-it-costs) · [Also here](#also-here)
+</nav>
 
 ## Why this exists
 
@@ -25,6 +29,25 @@ Sometimes it does not exist at all. Nothing in the answer tells you which.
 The tools here close that gap. The assistant queries the City's own systems while you watch, and
 every claim it makes resolves to a record you can open. **When the data cannot answer your question,
 it says so instead of guessing** — which turns out to be the more useful half.
+
+## Find New York data
+
+<div class="cards" markdown="0">
+
+<div class="card">
+  <div class="who">Anyone looking for data</div>
+  <h3>New York data directory</h3>
+  <p>140 public data sources in one place: state agencies, every county and large city, New York
+  City and its agencies, and universities and nonprofits. Search by place or topic, see which
+  sources can be pulled with code, and open a details page for any county or city.</p>
+  <div class="links">
+    <a class="btn" href="{{ '/resources/ny-data-portal-registry.html' | relative_url }}">Search the directory</a>
+    <a class="btn" href="{{ '/resources/portals/README.html' | relative_url }}">Counties and cities</a>
+    <span class="btn btn-soon" aria-disabled="true">AI connector (MCP): coming soon</span>
+  </div>
+</div>
+
+</div>
 
 ## The classes and demos
 
@@ -174,7 +197,8 @@ CC BY-SA 4.0 — fork them, correct them, and use them in your own room.
 
 ## Also here
 
-- [Directory of New York open data portals]({{ '/resources/ny-open-data-portals.html' | relative_url }}) — which counties and municipalities run one, with API notes
+- [Glossary]({{ '/guides/glossary.html' | relative_url }}) — plain-language definitions of the terms used across this site
+- [Give us feedback]({{ '/feedback.html' | relative_url }}) — report a mistake, a missing source, or an idea
 - [How we turn a Council hearing into an open transcript]({{ '/guides/council-hearings/hearing-transcripts-pipeline.html' | relative_url }}) — the pipeline behind [BetaNYC/hearings-transcripts](https://github.com/BetaNYC/hearings-transcripts), on one page
 - [Decode a Council hearing yourself]({{ '/guides/council-hearings/decode-a-council-hearing.html' | relative_url }}) — the eleven steps, what is free and what costs money, and what we learned
 - [Training BetaNYC and partners run]({{ '/guides/training-resources.html' | relative_url }}) — Intro to Open Data, Open Data Ambassadors, and more

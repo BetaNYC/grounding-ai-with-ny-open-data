@@ -52,6 +52,9 @@ This repo is one piece of a larger effort to make government data usable — see
 | [`mcp-configs/socrata-nyc-nys.mcp.json`](mcp-configs/socrata-nyc-nys.mcp.json) | Drop-in MCP config for switching between the NYC and NYS open data portals |
 | [`guides/when-to-use-which-portal.md`](guides/when-to-use-which-portal.md) | What each portal (and each BetaNYC MCP) actually covers — a decision guide |
 | [`guides/query-patterns.md`](guides/query-patterns.md) | Copy-paste SoQL query patterns: catalog search, dataset fetch, cross-portal lookups |
+| [`feedback.md`](feedback.md) | How to report a correction, suggest a missing source, or give feedback (GitHub forms) |
+| [`guides/glossary.md`](guides/glossary.md) | Plain-language glossary of the data, technology and government terms used on this site |
+| [`.github/ISSUE_TEMPLATE/`](.github/ISSUE_TEMPLATE/) | Feedback forms: data directory corrections, and general feedback or questions |
 | [`guides/user-journeys.md`](guides/user-journeys.md) | User stories + sample prompts for each MCP, plus cross-source "crosswalk" journeys |
 | [`guides/community-boards/`](guides/community-boards/README.md) | Run-it-live demo scripts tuned per community board (e.g. Manhattan CB1) |
 | [`guides/council-members/`](guides/council-members/README.md) | Run-it-live demo scripts tuned per Council district, with a copy-me template |
@@ -63,8 +66,9 @@ This repo is one piece of a larger effort to make government data usable — see
 | [`guides/council-hearings/`](guides/council-hearings/README.md) | How BetaNYC turns a NYC Council hearing into an open, speaker-labeled transcript: a one-page visual of the pipeline and a step-by-step guide to decoding a hearing yourself, linking to [BetaNYC/hearings-transcripts](https://github.com/BetaNYC/hearings-transcripts) |
 | [`guides/grounding-ai-agents.md`](guides/grounding-ai-agents.md) | Why grounding matters, and prompt/verification patterns for agent builders |
 | [`guides/training-resources.md`](guides/training-resources.md) | BetaNYC and partner training — Intro to Open Data, Open Data Ambassadors, and more |
-| [`resources/ny-data-portal-registry.md`](resources/ny-data-portal-registry.md) | Registry of New York data sources in four tiers — state portals, state APIs, county and city portals (incl. NYC agencies), academic and institutional — with CSV/JSON copies |
-| [`resources/portals/`](resources/portals/) | One page per county and city: facts table, notes, and a tested example query |
+| [`resources/ny-data-portal-registry.md`](resources/ny-data-portal-registry.md) | Registry of New York data sources in four tiers — state portals, state APIs, county and city portals (incl. NYC agencies), academic and institutional — with CSV/JSON copies and, on the published site, a search-and-filter explorer whose filtered views are shareable links |
+| [`resources/portals/`](resources/portals/README.md) | One page per county and city: facts table, notes, and a tested example query |
+| [`scripts/build_registry.py`](scripts/build_registry.py) | Regenerates the registry page, CSV and per-place index from the JSON (the source of truth); `--check` is run in CI |
 | [`resources/2026-11-05-research-plan-ny-data-portal-registry.md`](resources/2026-11-05-research-plan-ny-data-portal-registry.md) | The plan behind the registry |
 | [`resources/ny-open-data-portals.md`](resources/ny-open-data-portals.md) | Directory of open data portals run by NY counties and municipalities, with API and platform notes |
 | [`resources/research-plan-ny-open-data-portals.md`](resources/research-plan-ny-open-data-portals.md) | The scan plan behind the portal directory (goals, scope, methodology) — kept for transparency |

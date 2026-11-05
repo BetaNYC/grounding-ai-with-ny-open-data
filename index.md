@@ -43,7 +43,7 @@ it says so instead of guessing** — which turns out to be the more useful half.
   <div class="links">
     <a class="btn" href="{{ '/resources/ny-data-portal-registry.html' | relative_url }}">Search the directory</a>
     <a class="btn" href="{{ '/resources/portals/README.html' | relative_url }}">Counties and cities</a>
-    <span class="btn btn-soon" aria-disabled="true">AI connector (MCP): coming soon</span>
+    <a class="btn" href="https://github.com/BetaNYC/ny-data-registry-mcp">AI connector (MCP): in development</a>
   </div>
 </div>
 

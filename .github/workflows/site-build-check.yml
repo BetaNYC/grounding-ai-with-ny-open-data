@@ -51,7 +51,7 @@ jobs:
           }
 
           need _site/index.html            "assets/css/betanyc.css" "front page uses the BetaNYC layout"
-          need _site/index.html            "Ask New York City"      "front page content rendered"
+          need _site/index.html            "ask a question about New York"      "front page content rendered"
           need _site/assets/css/betanyc.css ":root"                 "stylesheet published"
 
           # A page with NO front matter must still get the layout, via
@@ -64,6 +64,12 @@ jobs:
 
           # jekyll-relative-links must still rewrite .md links to .html.
           need _site/guides/educators/cuny-liberal-arts.html ".html" "relative links rewritten"
+
+          # NY data portal registry: explorer wired in, place pages carry their nav.
+          need _site/resources/ny-data-portal-registry.html "registry-explorer.js" "registry page loads the explorer"
+          need _site/resources/ny-data-portal-registry.json "\"rows\""             "registry JSON published for the explorer"
+          need _site/resources/portals/albany-county.html "rx-place-nav"            "place page links back to the explorer"
+          need _site/index.html "ny-data-portal-registry.html"                      "Data directory is in the nav"
 
           echo "--- unrendered Liquid anywhere in the build? ---"
           if grep -rIl --include=*.html -e '{%' -e '{{' _site 2>/dev/null | grep . ; then

@@ -1,0 +1,98 @@
+/* NY data portal registry: resources/ny-data-portal-registry.md and the
+   per-place pages in resources/portals/. This file loads on no other page, so
+   these rules cannot change the guides.
+
+   Goals: no horizontal page scroll at 360px; long URLs and endpoints wrap;
+   wide tables scroll inside their own box; code scrolls inside itself; tap
+   targets of at least 44px. NO EXTERNAL REQUESTS, same as betanyc.css. */
+
+/* Prose and table cells carry long unbroken URLs and endpoints. */
+main p, main li, main blockquote{overflow-wrap:break-word}
+main td, main th{overflow-wrap:break-word}
+main td code, main li code, main p code{overflow-wrap:anywhere;word-break:normal}
+
+/* Tables: let them use the page frame, not the 38rem prose measure, and wrap
+   cells instead of growing to max-content. Still display:block (from
+   betanyc.css), so a table too wide for a phone scrolls inside itself. */
+main > table{width:auto;max-width:100%;-webkit-overflow-scrolling:touch}
+main > table th, main > table td{min-width:6.5rem}
+main > pre{max-width:100%}
+
+/* Per-place pages: the two-column facts table fits the screen outright. */
+main > table:first-of-type:has(th:nth-child(2):last-child){display:table;width:100%}
+main > table:first-of-type:has(th:nth-child(2):last-child) td{overflow-wrap:anywhere}
+main > table:first-of-type:has(th:nth-child(2):last-child) td:first-child{width:9rem;min-width:0}
+
+/* Footer nav on place pages: both links get 44px tap height. */
+p:has(> a.rx-place-nav) a{display:inline-block;padding:.65rem 0}
+.rx-place-nav{font-weight:700}
+
+/* ---------- Explorer ---------- */
+.rx{max-width:none;margin:1.6rem 0 2.6rem;border:1px solid var(--bnyc-border-gray)}
+.rx[hidden]{display:none}
+.rx-head{background:var(--bnyc-bg-blue);padding:1.1rem 1.2rem 1.2rem}
+.rx-head h2{margin:0 0 .3rem;font-size:1.25rem}
+.rx-head p{margin:0 0 .9rem;font-size:.92rem}
+
+.rx-form{display:grid;gap:.75rem}
+.rx-filters{display:grid;gap:.75rem 1rem;grid-template-columns:repeat(auto-fill,minmax(7.5rem,1fr))}
+@media (min-width:641px){.rx-filters{grid-template-columns:repeat(auto-fill,minmax(14rem,1fr))}}
+/* Narrow screens: filters fold behind a toggle. Wide screens: always open. */
+.rx .rx-toggle{justify-self:start;display:none}
+@media (max-width:640px){
+  .rx .rx-toggle{display:inline-flex;align-items:center}
+  .rx .rx-toggle[aria-expanded="true"]{background:var(--bnyc-blue);color:var(--bnyc-white)}
+  .rx-form.rx-collapsed .rx-filters{display:none}
+}
+.rx-field{display:flex;flex-direction:column;gap:.2rem;min-width:0}
+.rx-field.rx-search{grid-column:1 / -1}
+.rx-field label{font-family:var(--font-heading);font-weight:700;font-size:.74rem;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--bnyc-blue)}
+.rx-field input, .rx-field select{
+  font:inherit;font-size:1rem;min-height:44px;width:100%;
+  padding:.45rem .6rem;border:1px solid var(--bnyc-border-gray);border-radius:0;
+  background:var(--bnyc-white);color:var(--bnyc-black)}
+.rx-field input:focus, .rx-field select:focus, .rx button:focus, .rx a:focus, .rx summary:focus{
+  outline:3px solid var(--bnyc-blue);outline-offset:2px}
+
+.rx-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;
+  padding:.8rem 1.2rem;border-top:1px solid var(--bnyc-border-gray)}
+.rx-count{font-weight:700;color:var(--bnyc-blue);margin:0}
+.rx-bar .rx-skip{margin-left:auto;font-size:.88rem;display:inline-block;padding:.7rem 0}
+.rx button{font:inherit;font-family:var(--font-heading);font-weight:700;font-size:.78rem;
+  text-transform:uppercase;letter-spacing:.08em;min-height:44px;padding:.4rem 1rem;cursor:pointer;
+  border:1px solid var(--bnyc-blue);background:var(--bnyc-white);color:var(--bnyc-blue)}
+.rx button:hover{background:var(--bnyc-bg-blue)}
+.rx button[hidden]{display:none}
+
+.rx-results{list-style:none;padding:0 1.2rem 1.2rem;margin:0;
+  display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(19rem,1fr))}
+@media (max-width:640px){.rx-results{grid-template-columns:1fr;padding:0 .8rem 1rem}}
+.rx-card{border:1px solid var(--bnyc-border-gray);padding:.9rem 1rem;margin:0;min-width:0;
+  display:flex;flex-direction:column;background:var(--bnyc-white)}
+.rx-card h3{margin:0 0 .15rem;font-size:1.02rem;overflow-wrap:anywhere}
+.rx-meta{font-size:.8rem;margin:0 0 .6rem;opacity:.85}
+.rx-status{display:inline-block;font-family:var(--font-heading);font-weight:700;font-size:.68rem;
+  text-transform:uppercase;letter-spacing:.08em;padding:.1em .45em;border:1px solid currentColor}
+.rx-status.dead{color:#9b1c1c}
+.rx-status.UNCONFIRMED{color:#7a4d00}
+.rx-facts{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.2rem .7rem;
+  font-size:.88rem;margin:0 0 .6rem}
+.rx-facts dt{font-weight:700;color:var(--bnyc-blue)}
+.rx-facts dd{margin:0;overflow-wrap:anywhere}
+.rx-facts a{display:inline-block;min-height:44px;padding:.65rem 0;margin:-.65rem 0}
+.rx-links{margin-top:auto;display:flex;flex-wrap:wrap;gap:.5rem}
+.rx-links .btn{min-height:44px;display:inline-flex;align-items:center}
+.rx-card details{margin-top:.6rem;font-size:.86rem}
+.rx-card summary{cursor:pointer;min-height:44px;display:flex;align-items:center;
+  font-weight:700;color:var(--bnyc-blue)}
+.rx-card details p{margin:.3rem 0 .5rem;overflow-wrap:anywhere}
+.rx-card pre{margin:0;max-width:100%;font-size:.8rem}
+.rx-more{padding:.9rem 1.2rem 1.2rem}
+.rx-empty{padding:1rem 1.2rem;margin:0}
+.rx-error{padding:1rem 1.2rem;margin:0;color:#9b1c1c}
+/* display:flex drops the native disclosure triangle, so draw one. */
+.rx-card summary{list-style:none}
+.rx-card summary::-webkit-details-marker{display:none}
+.rx-card summary::before{content:"\25B8";margin-right:.45rem}
+.rx-card details[open] summary::before{content:"\25BE"}

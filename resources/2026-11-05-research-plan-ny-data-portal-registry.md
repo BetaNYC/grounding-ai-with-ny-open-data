@@ -9,7 +9,7 @@ tags: [type/research-plan, topic/open-data, area/civic-tech]
 # Research plan: New York data portal registry
 
 **Report generated:** 2026-11-05
-**Status:** completed 2026-11-05. Output: [`ny-data-portal-registry.md`](ny-data-portal-registry.md) and [`portals/`](portals/).
+**Status:** completed 2026-11-05. Output: [`ny-data-portal-registry.md`](ny-data-portal-registry.md) and [`portals/`](portals/README.md).
 **Last revised:** 2026-11-05 — added the two parallel workstreams and applied recommended answers to the open questions.
 **Builds on:** [`ny-open-data-portals.md`](ny-open-data-portals.md) (county and city directory, URL-audited 2026-11-05) and [`research-plan-ny-open-data-portals.md`](research-plan-ny-open-data-portals.md) (the plan behind it).
 

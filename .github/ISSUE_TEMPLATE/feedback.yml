@@ -1,0 +1,19 @@
+name: Feedback or question
+description: Ideas, questions, or anything confusing on this site.
+title: "Feedback: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. Please don't include passwords, API keys or personal information.
+  - type: input
+    id: page
+    attributes:
+      label: Which page?
+      description: Paste the page address, if it's about a specific page.
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Your feedback or question
+    validations:
+      required: true

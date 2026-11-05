@@ -1,0 +1,40 @@
+name: Data directory correction
+description: Report a wrong link, a missing source, or a site that has closed or moved.
+title: "Correction: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping keep the [New York data directory](https://betanyc.github.io/grounding-ai-with-ny-open-data/resources/ny-data-portal-registry.html) accurate. Please don't include passwords, API keys or personal information.
+  - type: input
+    id: place
+    attributes:
+      label: Which source or place?
+      description: The county, city, agency or data site this is about.
+      placeholder: "For example: Monroe County, or NYS Department of Health"
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of change?
+      options:
+        - A link is wrong or broken
+        - The site has moved or closed
+        - A source is missing
+        - Some details are wrong (API, key, dataset count, status)
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: What should it say?
+      description: Tell us what is wrong and what is right.
+    validations:
+      required: true
+  - type: input
+    id: evidence
+    attributes:
+      label: Link that shows it (optional)
+      description: An official page or web address that supports the change.

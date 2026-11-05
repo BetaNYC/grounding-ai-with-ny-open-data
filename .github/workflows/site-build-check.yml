@@ -51,7 +51,7 @@ jobs:
           }
 
           need _site/index.html            "assets/css/betanyc.css" "front page uses the BetaNYC layout"
-          need _site/index.html            "Ask New York City"      "front page content rendered"
+          need _site/index.html            "ask a question about New York"      "front page content rendered"
           need _site/assets/css/betanyc.css ":root"                 "stylesheet published"
 
           # A page with NO front matter must still get the layout, via

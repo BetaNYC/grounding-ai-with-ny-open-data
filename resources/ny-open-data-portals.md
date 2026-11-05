@@ -4,13 +4,15 @@ status: DRAFT
 
 # NY county/municipal open data portal directory
 
-> **DRAFT.** First research pass completed 2026-07-06 per [`research-plan-ny-open-data-portals.md`](research-plan-ny-open-data-portals.md). Covers all 57 non-NYC counties plus independent cities over ~50,000 population. Several entries are flagged **UNCONFIRMED** below — pending a manual browser check before this is cited externally. See [Known gaps and caveats](#known-gaps-and-caveats) before relying on any single row.
+> **DRAFT.** First research pass completed 2026-07-06 per [`research-plan-ny-open-data-portals.md`](research-plan-ny-open-data-portals.md). Covers all 57 non-NYC counties plus independent cities over ~50,000 population. New York City (its five boroughs are five of the state's 62 counties) was added 2026-11-05. Several entries are flagged **UNCONFIRMED** below — pending a manual browser check before this is cited externally. See [Known gaps and caveats](#known-gaps-and-caveats) before relying on any single row.
+
+> **Superseded for most uses by the [New York data portal registry](ny-data-portal-registry.md)** (2026-11-05), which covers state, NYC agency and institutional sources too, with a page per county and city in [`portals/`](portals/). This page is kept as the record of the first county and city pass.
 
 **Report generated:** 2026-07-06
 **Data current as of:** 2026-07-06
-**Last revised:** 2026-11-05 — URL audit: every URL re-checked; 8 out-of-state rows corrected, dead portals fixed. Audit record: BetaNYC workspace `team/research/2026-11-05-ny-portal-directory-url-audit.md`.
+**Last revised:** 2026-11-05 — URL audit: every URL re-checked; 8 out-of-state rows corrected, dead portals fixed.
 
-Directory of open data portals run by New York State counties and independent municipalities. NYC is out of scope here — see [NYC Open Data](https://data.cityofnewyork.us) and BetaNYC's [purpose-built MCPs](../README.md) instead.
+Directory of open data portals run by New York State counties and municipalities, including New York City. For NYC, see also BetaNYC's [purpose-built MCPs](../README.md).
 
 **A note on sorting:** plain Markdown tables have no interactive sort — GitHub doesn't add one either. The table below is sorted alphabetically (A→Z) by place name as a static substitute; a `City of X` entry sorts next to its county (e.g. "City of Albany" sits beside "Albany County") rather than under "City." The **Region** column lets you filter visually if you want one area at a time.
 
@@ -51,18 +53,19 @@ Directory of open data portals run by New York State counties and independent mu
 | Herkimer County | Central NY | No dedicated portal | — | — | N | Property data via Beacon/GIS Cloud viewer only. |
 | Jefferson County | North Country | No portal found | https://www.jeffersoncountyny.gov/gis-maps-property-search | Schneider Beacon (parcel search) | N | County parcel/tax map search only; also on the DANC regional viewer. `www.jeffcountymaps.com` points at a deleted Azure web app; the county page now links Beacon (Audit 2026-11-05). |
 | Lewis County | North Country | No portal found | https://lewiscountyny.gov/departments/real-property/gis-mapping-web-application/ | Schneider Beacon | N | Map application, not a dataset catalog. The former GIS Cloud viewer says "disabled by the owner" (Audit 2026-11-05). |
-| Livingston County | Western NY (Finger Lakes + WNY) | No portal found | — | — | N | ArcGIS Web AppViewer apps only; portal home page returned HTTP 403 on automated check — not confirmed dead, just unverifiable by fetch. |
+| Livingston County | Western NY (Finger Lakes + WNY) | No portal found | — | — | N | ArcGIS Web AppViewer apps only; portal home page returned HTTP 403 on automated check — not confirmed dead, just unverifiable by fetch. **Status changed 2026-11-05:** a live portal was found; see [portals/livingston-county.md](portals/livingston-county.md). |
 | Madison County | Central NY | No dedicated portal | — | — | N | Static PDF maps + paid data-request process only. |
 | Monroe County | Western NY (Finger Lakes + WNY) | MCGIS Hub | https://maps.monroecounty.gov/portal/apps/sites/#/mcgis | ArcGIS Enterprise (self-hosted Sites) | Y | Monroe County NY's own portal (Rochester-area extent, about 77 public feature services incl. parcels). Previously listed `gishub-monroegis.hub.arcgis.com` is Monroe County, **Ohio**; excluded (Audit 2026-11-05). |
 | Montgomery County | Southern Tier | No portal found | https://www.montgomerycountyny.gov/web/sites/departments/realproperty/gis.asp | — | N | Previously listed `opendata-mcgov-gis.hub.arcgis.com` is Montgomery County, **Maryland**; excluded (Audit 2026-11-05). |
 | Mount Vernon (city) | NYC Metro / Long Island | No portal found | — | — | N | A page titled "OpenGov" is **not** the OpenGov Inc. product — confirmed it's a general city-news page, not a data catalog. |
 | Nassau County | NYC Metro / Long Island | Open Nassau (+ Open Payroll/Budget/Checkbook) | https://opendata.nassaucountyny.gov/ | Socrata | Y | Run by the Comptroller's office, not the County Executive. Multiple separate Socrata sub-portals rather than one unified catalog (also opennassau, openpayroll, openbudget, opencheckbook subdomains). |
 | New Rochelle (city) | NYC Metro / Long Island | No portal found | — | — | N | GIS map viewer only (vendor-hosted); relies on Westchester County GeoHub for county-level layers. |
+| New York City | NYC Metro / Long Island | NYC Open Data | https://data.cityofnewyork.us/ | Socrata (now Tyler Technologies) | Y | Run by the NYC Office of Technology and Innovation (OTI). Covers all five boroughs, which are also five counties (Bronx, Kings, New York, Queens, Richmond). 2,412 datasets (3,028 assets, Socrata Discovery API, 2026-11-05). Verified via `X-Socrata-Region` header. City agencies also publish GIS data elsewhere (e.g., NYC Planning); not inventoried here. |
 | Niagara County | Western NY (Finger Lakes + WNY) | No portal found | — | — | N | Only ArcGIS Web AppViewer/Experience map apps found, not a browsable catalog. |
 | Oneida County | Central NY | No dedicated portal | — | — | N | Links to individual map viewers + Beacon property lookup, not a centralized catalog. |
 | Onondaga County | Central NY | No dedicated portal | — | — | N | GIS Division offers a map viewer only; individual datasets exist as scattered items on generic hub.arcgis.com, not a county-branded catalog. |
 | Ontario County | Western NY (Finger Lakes + WNY) | Ontario County GIS Mapping Center | https://ontario-county-gis-mapping-center-ontariocony.hub.arcgis.com/ | ArcGIS Hub | Y | County site confirms data available "via ArcGIS REST API." |
-| Orange County | Hudson Valley | No general catalog found | — | — | N | Previously listed `data-ocpw.opendata.arcgis.com` is OC Public Works, Orange County, **California**, and `data-orangecountygis.hub.arcgis.com` is Orange County, **Virginia**; both excluded (Audit 2026-11-05). Topical NY hubs exist, e.g. https://openspace-ocnygis.hub.arcgis.com/. |
+| Orange County | Hudson Valley | No general catalog found | — | — | N | Previously listed `data-ocpw.opendata.arcgis.com` is OC Public Works, Orange County, **California**, and `data-orangecountygis.hub.arcgis.com` is Orange County, **Virginia**; both excluded (Audit 2026-11-05). Topical NY hubs exist, e.g. https://openspace-ocnygis.hub.arcgis.com/. **Status changed 2026-11-05:** a live portal was found; see [portals/orange-county.md](portals/orange-county.md). |
 | Orleans County | Western NY (Finger Lakes + WNY) | No portal found | — | — | N | Only an interactive map viewer + planning-board referral webmap. |
 | Oswego County | Central NY | Oswego County Data / GIS | https://data-oswegogis.hub.arcgis.com/ | ArcGIS Hub | Y | Confirmed via DCAT-US feed — 26 datasets (streets, orthoimagery, basemaps, directory). |
 | Otsego County | Southern Tier | Otsego County GIS | https://otsego-county-gis-otsegocountyny.hub.arcgis.com/ | ArcGIS Hub | Y | FEMA flood data, Marcellus Shale, school district data, NRI. |
@@ -92,7 +95,7 @@ Directory of open data portals run by New York State counties and independent mu
 | Westchester County | NYC Metro / Long Island | Westchester GeoHub v2 | https://gis.westchestercountyny.gov/ | ArcGIS Hub/Enterprise | Y | GIS-first catalog (parcels, boundaries, infrastructure; about 91 datasets) — no budget/payroll/311-style civic datasets found. `datahub-wcgis.opendata.arcgis.com` is a legacy site of the same county org; GeoHub v2 is canonical (Audit 2026-11-05). |
 | White Plains (city) | NYC Metro / Long Island | No portal found | — | — | N | Relies on Westchester County GeoHub. |
 | Wyoming County | Western NY (Finger Lakes + WNY) | No portal found | https://www.wyomingcountyny.gov/645/Geographic-Information-Systems-GIS | ArcGIS Online (individual apps) | N | County GIS page links only apps on `wyco.maps.arcgis.com`. The previously listed Hub (`www-wyomingcounty-wycopa`) matches the Wyoming County, **Pennsylvania** ArcGIS org and no longer exists (Audit 2026-11-05). |
-| Yates County | Western NY (Finger Lakes + WNY) | No portal found | — | — | N | ArcGIS Web AppViewer only, not a browsable catalog. |
+| Yates County | Western NY (Finger Lakes + WNY) | No portal found | — | — | N | ArcGIS Web AppViewer only, not a browsable catalog. **Status changed 2026-11-05:** a live portal was found; see [portals/yates-county.md](portals/yates-county.md). |
 | Yonkers (city) | NYC Metro / Long Island | No general portal found | — | — | N | Runs Image Mate Online for property/assessment records only, not a general catalog. |
 
 ---

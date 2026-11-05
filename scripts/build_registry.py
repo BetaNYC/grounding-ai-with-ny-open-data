@@ -277,6 +277,7 @@ Sources outside government that publish data about New York.
 ### Updates
 
 - **{today}:** first version. 140 sources checked, a details page for every county and city, and the search and filter tool.
+- **{today}:** rechecked the 11 sources marked "Not yet confirmed" in a browser. 10 now have a confirmed status; one (Baruch's NYC Geodatabase) is still unconfirmed because it only works on campus. Labor, 511NY, NYC 311 and Rockefeller rows point to new addresses.
 - Planned: a monthly check that every link still works.
 
 Spotted a wrong link, a missing source or a closed site? [Give us feedback](../feedback.md).

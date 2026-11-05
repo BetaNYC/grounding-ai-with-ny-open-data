@@ -63,9 +63,9 @@ State bodies that run their own data service or API. Agencies that only publish 
 | NYS Board of Elections | [Voter enrollment statistics (elections.ny.gov)](https://elections.ny.gov/enrollment-county) | Drupal (webny) | Bulk download (XLSX per snapshot); no API | No | — | Live |
 | NYS Commission on Ethics and Lobbying in Government (COELIG) | [Lobbying Public Search Query (PSQ)](https://reports.ethics.ny.gov/publicquery) | ASP.NET web app | web query (no API) + Open NY datasets | No | 14 | Live |
 | NYS Department of Environmental Conservation | [NYSDEC ArcGIS Online organization (nysdec)](https://services6.arcgis.com/DZHaqZm9cxOD4CWM/arcgis/rest/services) | ArcGIS Online | ArcGIS REST (hosted FeatureServer) | No | 842 | Live |
-| NYS Department of Labor | [Labor Statistics (statistics.labor.ny.gov)](https://statistics.labor.ny.gov/) | Custom site | UNCONFIRMED | Not yet confirmed | — | Not yet confirmed |
+| NYS Department of Labor | [Labor Statistics (statistics.labor.ny.gov)](https://dol.ny.gov/labor-data) | Drupal (dol.ny.gov) + embedded Tableau dashboards + file downloads | Bulk download (ZIP/XLS) + Tableau dashboards; no API found | No | — | Live |
 | NYS Department of State | [New York Geographic Information Gateway (opdgig.dos.ny.gov)](https://opdgig.dos.ny.gov/) | ArcGIS Hub (ArcGIS Online org NYSDOS) | ArcGIS Hub / DCAT-US 1.1 feed; ArcGIS REST | No | 1,888 | Live |
-| NYS Department of Transportation | [511NY developer API](https://www.511ny.org/developers/help) | 511NY traveler information platform | REST/JSON (UNCONFIRMED) | Not yet confirmed | — | Not yet confirmed |
+| NYS Department of Transportation | [511NY developer API](https://511ny.org/help/24 (title: "Requesting Access")) | 511NY traveler information platform | Data feeds: traffic events (JSON), camera inventory (XML), winter road conditions (JSON), message signs (JSON) | Yes | 4 | Live |
 | NYS Department of Transportation | [NYSDOT GIS ArcGIS Server (gis.dot.ny.gov/hostingny)](https://gis.dot.ny.gov/hostingny/rest/services) | Esri ArcGIS Server 11.5 | ArcGIS REST (MapServer/FeatureServer) | No | — | Live |
 | NYS Education Department | [NYSED Data Site (data.nysed.gov) downloads](https://data.nysed.gov/downloads.php) | Custom PHP site | Bulk download (ZIP of Access/Excel databases); no API found | No | 101 | Live |
 | NYS Office of Information Technology Services (GIS Program Office) | [NYS ITS GIS ArcGIS Server (gisservices.its.ny.gov), incl. Street and Address Composite geocoder](https://gisservices.its.ny.gov/arcgis/rest/services) | Esri ArcGIS Server | ArcGIS REST (MapServer/FeatureServer/GeocodeServer) | No | — | Live |
@@ -74,8 +74,8 @@ State bodies that run their own data service or API. Agencies that only publish 
 | NYS Unified Court System (Office of Court Administration) | [Division of Technology & Court Research - Court Data and Statistics](https://www.nycourts.gov/division-technology-court-research) | Drupal + dashboards | bulk download (CSV/XLSX) + dashboards | No | 1 | Live |
 | Office of the State Comptroller | [Financial Data for Local Governments](https://wwe1.osc.state.ny.us/localgov/findata/financial-data-for-local-governments.cfm) | ColdFusion web app | bulk download (CSV/ZIP via form POST) | No | — | Live |
 | Office of the State Comptroller | [Open Book New York (state checkbook, contracts, PARIS)](https://www.osc.ny.gov/open-book-new-york) | ColdFusion web apps (wwe2.osc.state.ny.us/transparency/) | web query + export (tab-delimited download) | No | — | Live |
-| Port Authority of New York and New Jersey | [RidePATH real-time arrivals JSON](https://www.panynj.gov/bin/portauthority/ridepath.json) | AEM (panynj.gov) | REST/JSON (undocumented) | No | — | Not yet confirmed |
-| Rochester-Genesee Regional Transportation Authority (RTS) | [RGRTA API (real-time + static)](https://www.myrts.com/RGRTA-API) | custom | REST (real-time) + GTFS static | Not yet confirmed | — | Not yet confirmed |
+| Port Authority of New York and New Jersey | [RidePATH real-time arrivals JSON](https://www.panynj.gov/bin/portauthority/ridepath.json) | AEM (panynj.gov) | REST/JSON (undocumented; no developer docs) | No | — | Live |
+| Rochester-Genesee Regional Transportation Authority (RTS) | [RGRTA API (real-time + static)](https://www.myrts.com/RGRTA-API) | custom | REST (JSON or XML; JSON-P and CORS), static schedule + real-time | Yes | — | Live |
 
 ### Counties and cities
 
@@ -173,8 +173,8 @@ City agencies and offices that run their own data service or API. NYC Open Data 
 | NYC Independent Budget Office | [IBO Data Center (NYC Fiscal History)](https://www.ibo.nyc.gov/content/data-center) | custom JS site | bulk download (XLSX) | No | 29 | Live |
 | NYC Office of Technology and Innovation (OTI) | [NYC API Developers Portal](https://api-portal.nyc.gov/) | Azure API Management | REST (multiple) | Yes | 8 | Live |
 | NYC Office of Technology and Innovation (OTI) / Department of City Planning | [Geoclient v2](https://api-portal.nyc.gov/) | Azure API Management (Geosupport backend) | REST/JSON | Yes | — | Live |
-| NYC Public Schools (DOE) | [InfoHub reports and data](https://infohub.nyced.org/reports) | custom CMS | bulk download (UNCONFIRMED format) | No | — | Not yet confirmed |
-| NYC311 | [NYC 311 Public API](https://api-portal.nyc.gov/) | Azure API Management | REST/JSON | Yes | — | Not yet confirmed |
+| NYC Public Schools (DOE) | [InfoHub reports and data](https://infohub.nyced.org/reports) | custom CMS | Bulk download (XLSX and PDF files); no API | No | — | Live |
+| NYC311 | [NYC 311 Public API](https://api-portal.nyc.gov/api-details#api=nyc-311-public-api) | Azure API Management | REST/JSON (Azure API Management; OpenAPI 3 and 2 definitions downloadable from the portal) | Yes | — | Live |
 | Office of the New York City Comptroller | [Checkbook NYC API](https://www.checkbooknyc.com/data-feeds/api) | Checkbook NYC 2.0 (Drupal) | REST (XML over HTTP POST) | No | — | Live |
 
 ### Universities, libraries and nonprofits
@@ -184,15 +184,15 @@ Sources outside government that publish data about New York.
 | Who runs it | Region | Data site | Built on | How to get the data | Key needed? | Datasets | Status |
 |---|---|---|---|---|---|---|---|
 | Association for Neighborhood and Housing Development (ANHD) | NYC Metro / Long Island | [Displacement Alert Project (DAP) Portal and API](https://portal.displacementalert.org/) | React app + Django REST API | Web portal; data access by account (by request) | Yes | — | Live |
-| Baruch College (CUNY) Newman Library | NYC Metro / Long Island | [NYC Geodatabase (Baruch Geoportal)](https://www.baruch.cuny.edu/confluence/display/geoportal/NYC+Geodatabase) | Confluence | Bulk download (SQLite/SpatiaLite) UNCONFIRMED | Not yet confirmed | — | Not yet confirmed |
-| Central New York Community Foundation | Central NY | [CNY Vitals](https://cnyvitals.org/) | WordPress | UNCONFIRMED | Not yet confirmed | — | Not yet confirmed |
-| Citizens Budget Commission | Statewide | [CBC website (data tools UNCONFIRMED)](https://cbcny.org/) | Unknown | UNCONFIRMED | Not yet confirmed | — | Not yet confirmed |
+| Baruch College (CUNY) Newman Library | NYC Metro / Long Island | [NYC Geodatabase (Baruch Geoportal)](https://www.baruch.cuny.edu/confluence/display/geoportal/NYC+Geodatabase) | Confluence | Bulk download (SpatiaLite and MS Access personal geodatabase ZIPs), per search-indexed copies only | — | — | Not yet confirmed |
+| Central New York Community Foundation | Central NY | [CNY Vitals](https://pro.cnyvitals.org/) | Datawheel (D3plus front end; Tesseract OLAP API) | REST/JSON (Tesseract `data.jsonrecords`; undocumented on the site) + per-chart "Download data" | No | — | Live |
+| Citizens Budget Commission | Statewide | [CBC website (data tools UNCONFIRMED)](https://cbcny.org/) | Drupal site behind Cloudflare; Datawrapper charts | none (reports, Datawrapper-chart dashboards, an AI Q&A over its publications) | — | — | No data site |
 | Citizens' Committee for Children of New York | NYC Metro / Long Island | [Keeping Track Online](https://data.cccnewyork.org/) | Custom web app | Indicator pages with Export (CSV) button; no API found | No | 124 | Live |
 | Columbia University Libraries | Statewide | [Columbia GeoData](https://geodata.library.columbia.edu/) | GeoBlacklight | Blacklight JSON API | No | 104,570 | Live |
 | Cornell University (Northeast Regional Climate Center) | Statewide | [RCC-ACIS web services](https://www.nrcc.cornell.edu/) | ACIS | REST/JSON | No | — | Live |
 | Cornell University (Program on Applied Demographics) | Statewide | [PAD data: county and state projections, Census 2020, school districts](https://pad.human.cornell.edu/) | ColdFusion web app | Interactive GET query form; no documented API | No | — | Live |
 | Cornell University Library | Statewide | [CUGIR (Cornell University Geospatial Information Repository)](https://cugir.library.cornell.edu/) | GeoBlacklight | Blacklight JSON API; bulk download per record | No | 893 | Live |
-| CUNY Graduate Center, Center for Urban Research | Statewide | [Redistricting & You / CUNY Mapping Service](https://redistrictingandyou.org/) | Vue app | UNCONFIRMED | Not yet confirmed | — | Not yet confirmed |
+| CUNY Graduate Center, Center for Urban Research | Statewide | [Redistricting & You / CUNY Mapping Service](https://newyork.redistrictingandyou.org/) | Vue + Mapbox GL web app | none (interactive web map only) | — | — | Live |
 | Empire Center for Public Policy | Statewide | [SeeThroughNY](https://www.seethroughny.net/) | Custom web database | Web search (no public API found) | No | — | Live |
 | intro.nyc (independent project) | NYC Metro / Long Island | [intro.nyc and nyc_legislation data mirror](https://intro.nyc/) | Static site + GitHub data repo | Bulk JSON in GitHub repo | No | — | Live |
 | John Jay College (CUNY) Data Collaborative for Justice | Statewide | [DCJ Analytic Tools](https://datacollaborativeforjustice.org/analytic-tools/) | WordPress + embedded dashboards | Interactive dashboards; download UNCONFIRMED | No | — | Live |
@@ -206,13 +206,13 @@ Sources outside government that publish data about New York.
 | NYU Furman Center | NYC Metro / Long Island | [CoreData.nyc and Data Set Downloads](https://coredata.nyc/) | Custom web map + static file downloads | Bulk download (CSV/XLSX) | No | — | Live |
 | Rauch Foundation (Long Island Index) | NYC Metro / Long Island | [Long Island Index](https://www.longislandindex.org/) | Retired | None | — | — | Offline |
 | Rochester Area Community Foundation | Western NY (Finger Lakes + WNY) | [ACT Rochester](https://www.actrochester.org/) | Squarespace | Per-indicator download buttons; no API found | No | — | Live |
-| Rockefeller Institute of Government (SUNY) | Statewide | [NY Counts Datacenter](https://www.rockinst.org/nycounts/data/) | WordPress | UNCONFIRMED | Not yet confirmed | — | Not yet confirmed |
+| Rockefeller Institute of Government (SUNY) | Statewide | [Rockefeller Institute Data Hub: New York Data Sets (NYS Statistical Yearbook tables)](https://www.rockinst.org/data-hub/new-york-data-sets-001/) | WordPress | Bulk download (XLS files) | No | 558 | Live |
 | Social Science Research Council (Measure of America) | NYC Metro / Long Island | [DATA2GO.NYC](https://www.data2go.nyc/) | Static site + open file directory | Bulk download (CSV directory) | No | — | Live |
 | University at Albany (NYS Mesonet) | Statewide | [NYS Mesonet data](https://www.nysmesonet.org/) | Custom | Data request form; api.nysmesonet.org exists but undocumented | Yes | — | Live |
 
 ## About this directory
 
-**This is a draft.** 140 sources: 89 live, 36 with no data site, 11 not yet confirmed, 4 offline. Rows marked "Not yet confirmed" need a person to check them before you rely on them.
+**This is a draft.** 140 sources: 98 live, 37 with no data site, 1 not yet confirmed, 4 offline. Rows marked "Not yet confirmed" need a person to check them before you rely on them.
 
 **Last checked:** 2026-11-05.
 
@@ -232,6 +232,7 @@ Sources outside government that publish data about New York.
 ### Updates
 
 - **2026-11-05:** first version. 140 sources checked, a details page for every county and city, and the search and filter tool.
+- **2026-11-05:** rechecked the 11 sources marked "Not yet confirmed" in a browser. 10 now have a confirmed status; one (Baruch's NYC Geodatabase) is still unconfirmed because it only works on campus. Labor, 511NY, NYC 311 and Rockefeller rows point to new addresses.
 - Planned: a monthly check that every link still works.
 
 Spotted a wrong link, a missing source or a closed site? [Give us feedback](../feedback.md).

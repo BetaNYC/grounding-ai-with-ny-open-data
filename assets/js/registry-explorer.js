@@ -43,7 +43,7 @@
     if (!t || t === '—') return false;
     if (/^(none|was |web portal|data request|unconfirmed$)/i.test(t)) return false;
     if (/no (public |documented )?api/i.test(t)) return false;
-    return /SODA|REST|ArcGIS|GTFS|SIRI|OData|WMS|OGC|\bAPI\b/i.test(t);
+    return /\bSODA\b|\bREST\b|ArcGIS|GTFS|\bSIRI\b|\bOData\b|\bWMS\b|\bOGC\b|\bAPI\b/i.test(t);
   }
 
   function keyCode(row) { return row.key_required === '—' ? 'none' : str(row.key_required); }

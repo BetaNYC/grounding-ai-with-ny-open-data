@@ -63,6 +63,9 @@ This repo is one piece of a larger effort to make government data usable — see
 | [`guides/council-hearings/`](guides/council-hearings/README.md) | How BetaNYC turns a NYC Council hearing into an open, speaker-labeled transcript: a one-page visual of the pipeline and a step-by-step guide to decoding a hearing yourself, linking to [BetaNYC/hearings-transcripts](https://github.com/BetaNYC/hearings-transcripts) |
 | [`guides/grounding-ai-agents.md`](guides/grounding-ai-agents.md) | Why grounding matters, and prompt/verification patterns for agent builders |
 | [`guides/training-resources.md`](guides/training-resources.md) | BetaNYC and partner training — Intro to Open Data, Open Data Ambassadors, and more |
+| [`resources/ny-data-portal-registry.md`](resources/ny-data-portal-registry.md) | Registry of New York data sources in four tiers — state portals, state APIs, county and city portals (incl. NYC agencies), academic and institutional — with CSV/JSON copies |
+| [`resources/portals/`](resources/portals/) | One page per county and city: facts table, notes, and a tested example query |
+| [`resources/2026-11-05-research-plan-ny-data-portal-registry.md`](resources/2026-11-05-research-plan-ny-data-portal-registry.md) | The plan behind the registry |
 | [`resources/ny-open-data-portals.md`](resources/ny-open-data-portals.md) | Directory of open data portals run by NY counties and municipalities, with API and platform notes |
 | [`resources/research-plan-ny-open-data-portals.md`](resources/research-plan-ny-open-data-portals.md) | The scan plan behind the portal directory (goals, scope, methodology) — kept for transparency |
 

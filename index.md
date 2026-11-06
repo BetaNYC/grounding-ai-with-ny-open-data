@@ -39,10 +39,11 @@ it says so instead of guessing** — which turns out to be the more useful half.
   <h3>New York data directory</h3>
   <p>140 public data sources in one place: state agencies, every county and large city, New York
   City and its agencies, and universities and nonprofits. Search by place or topic, see which
-  sources can be pulled with code, and open a details page for any county or city. Or let your AI
-  assistant search it: the New York Open Data Finder connector tells it which portal covers a place
-  or topic, how to query it, and which datasets and columns exist. Set it up with
-  <code>npx -y @betanyc/ny-data-registry-mcp</code>.</p>
+  sources can be pulled with code, and open a details page for any county or city. Your AI
+  assistant can search it too. The New York Open Data Finder connector
+  (<code>@betanyc/ny-data-registry-mcp</code>) tells it which portal covers a place or topic and
+  how to query it, and, for Socrata and ArcGIS portals, which datasets and columns exist. Setup
+  steps are in its README.</p>
   <div class="links">
     <a class="btn" href="{{ '/resources/ny-data-portal-registry.html' | relative_url }}">Search the directory</a>
     <a class="btn" href="{{ '/resources/portals/README.html' | relative_url }}">Counties and cities</a>

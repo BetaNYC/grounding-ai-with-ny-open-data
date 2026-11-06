@@ -47,6 +47,7 @@ it says so instead of guessing** — which turns out to be the more useful half.
     <a class="btn" href="{{ '/resources/ny-data-portal-registry.html' | relative_url }}">Search the directory</a>
     <a class="btn" href="{{ '/resources/portals/README.html' | relative_url }}">Counties and cities</a>
     <a class="btn" href="https://github.com/BetaNYC/ny-data-registry-mcp#install">Connect it to your AI (MCP)</a>
+    <a class="btn" href="https://github.com/BetaNYC/ny-data-registry-mcp#questions-to-try">Questions to ask it</a>
   </div>
 </div>
 

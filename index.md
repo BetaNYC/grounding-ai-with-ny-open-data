@@ -52,6 +52,22 @@ it says so instead of guessing** — which turns out to be the more useful half.
   </div>
 </div>
 
+<div class="card">
+  <div class="who">Anyone who runs or studies a government website</div>
+  <h3>NY Gov Websites AI audit</h3>
+  <p>We are checking how well AI tools can read New York's government websites: state agencies,
+  authorities, counties, cities, towns, villages and New York City. For each of about 3,300 sites
+  we ask whether AI crawlers are let in, whether the site says what it is in a way a machine can
+  read, and whether the pages work without a full browser. We are writing the report now. The
+  methodology and the list of sites are public today.</p>
+  <p>Want to help with the methodology or the report? Email
+  <a href="mailto:noel@beta.nyc">noel@beta.nyc</a>.</p>
+  <div class="links">
+    <a class="btn" href="https://github.com/BetaNYC/ny-gov-web-registry/blob/main/docs/ai-readability/tests.md">Read the methodology</a>
+    <a class="btn" href="https://github.com/BetaNYC/ny-gov-web-registry/blob/main/data/ai-readability/websites.csv">See the list of sites</a>
+  </div>
+</div>
+
 </div>
 
 ## The classes and demos

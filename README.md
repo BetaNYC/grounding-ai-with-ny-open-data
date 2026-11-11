@@ -52,6 +52,7 @@ This repo is one piece of a larger effort to make government data usable — see
 | [`mcp-configs/socrata-nyc-nys.mcp.json`](mcp-configs/socrata-nyc-nys.mcp.json) | Drop-in MCP config for switching between the NYC and NYS open data portals |
 | [`guides/when-to-use-which-portal.md`](guides/when-to-use-which-portal.md) | What each portal (and each BetaNYC MCP) actually covers — a decision guide |
 | [`guides/query-patterns.md`](guides/query-patterns.md) | Copy-paste SoQL query patterns: catalog search, dataset fetch, cross-portal lookups |
+| [`about.md`](about.md) | The site's About page: why this exists, which guide answers which question, who built it, AI use, licensing, and how to contribute |
 | [`feedback.md`](feedback.md) | How to report a correction, suggest a missing source, or give feedback (GitHub forms) |
 | [`guides/glossary.md`](guides/glossary.md) | Plain-language glossary of the data, technology and government terms used on this site |
 | [`.github/ISSUE_TEMPLATE/`](.github/ISSUE_TEMPLATE/) | Feedback forms: data directory corrections, and general feedback or questions |
@@ -92,13 +93,15 @@ grounding-ai-with-ny-open-data/
 ├── README.md                                  ← you are here
 ├── LICENSE                                    ← CC BY-SA 4.0
 ├── index.md                                   ← the published site's front page
+├── about.md                                   ← the published site's About page
 ├── favicon.ico                                ← BetaNYC beta mark
 ├── _config.yml                                ← Jekyll config (no theme gem — see _layouts)
 ├── _layouts/
-│   ├── default.html                           ← site shell, applied to every page
+│   ├── default.html                           ← site shell (top bar, nav, footer), applied to every page
 │   └── profile.html                           ← audience landing pages, built from front matter
-├── assets/css/
-│   └── betanyc.css                            ← brand tokens, shared with the decks
+├── assets/
+│   ├── css/betanyc.css                        ← brand tokens, shared with the decks
+│   └── js/site-nav.js                         ← the top bar's Menu button on small screens
 ├── mcp-configs/
 │   └── socrata-nyc-nys.mcp.json               ← dual NYC/NYS Socrata MCP aliases
 ├── guides/

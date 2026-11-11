@@ -7,36 +7,80 @@
 {% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
 <link rel="icon" href="{{ '/favicon.ico' | relative_url }}">
 <link rel="stylesheet" href="{{ '/assets/css/betanyc.css' | relative_url }}">
+<script src="{{ '/assets/js/site-nav.js' | relative_url }}" defer></script>
 </head>
 <body>
+{%- comment -%}
+  The top bar and footer follow the budget site's shell (BetaNYC/New-York-City-Budget,
+  viz/site_shell.py). The nav list below is the single list both use: edit it here.
+  Each entry is url|label. "Guides" points at the front page's list of classes and
+  demos, because the guides have no landing page of their own.
+  The menu button stays hidden without JavaScript, and the links wrap instead.
+{%- endcomment -%}
+{%- capture nav_items -%}
+/|Home
+/guides/when-to-use-which-portal.html|Which portal
+/resources/ny-data-portal-registry.html|Data directory
+/guides/query-patterns.html|Query patterns
+/#the-classes-and-demos|Guides
+/about.html|About
+/feedback.html|Give us feedback
+{%- endcapture -%}
+{%- assign nav = nav_items | strip | newline_to_br | split: '<br />' -%}
+{%- assign here = page.url | replace: '/index.html', '/' -%}
+
+<a class="skip-link" href="#main">Skip to content</a>
 
 <header class="site-header">
-  <div class="wrap bar">
-    <a class="mark" href="{{ '/' | relative_url }}">BetaNYC</a>
-    <nav>
-      <a href="{{ '/' | relative_url }}">Home</a>
-      <a href="{{ '/guides/when-to-use-which-portal.html' | relative_url }}">Which portal</a>
-      <a href="{{ '/resources/ny-data-portal-registry.html' | relative_url }}">Data directory</a>
-      <a href="{{ '/guides/query-patterns.html' | relative_url }}">Query patterns</a>
-      <a href="{{ '/feedback.html' | relative_url }}">Give us feedback</a>
-    </nav>
-  </div>
+  <nav class="site-nav" aria-label="Grounding AI with NY Open Data">
+    <div class="wrap bar">
+      <a class="mark" href="{{ '/' | relative_url }}">BetaNYC · {{ site.title }}</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" hidden><svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M2 4h16M2 10h16M2 16h16" stroke="currentColor" stroke-width="2" fill="none"/></svg>Menu</button>
+      <ul id="site-menu">
+        {%- for item in nav %}
+        {%- assign parts = item | strip | split: '|' %}
+        <li><a href="{{ parts[0] | relative_url }}"{% if parts[0] == here %} aria-current="page"{% endif %}>{{ parts[1] }}</a></li>
+        {%- endfor %}
+      </ul>
+    </div>
+  </nav>
 </header>
 
-<main class="wrap">
+<main id="main" class="wrap{% if page.page_class %} {{ page.page_class }}{% endif %}">
 {{ content }}
 </main>
 
 <footer class="site-footer">
   <div class="wrap">
-    <p><strong>{{ site.title }}</strong> — built by <a href="https://beta.nyc">BetaNYC</a>, New York's civic
-    organization for public interest technology, open data, and civic design.</p>
+    <div class="foot-cols">
+      <section aria-labelledby="foot-h-site">
+        <h2 id="foot-h-site">This site</h2>
+        <ul>
+          {%- for item in nav %}
+          {%- assign parts = item | strip | split: '|' %}
+          <li><a href="{{ parts[0] | relative_url }}"{% if parts[0] == here %} aria-current="page"{% endif %}>{{ parts[1] }}</a></li>
+          {%- endfor %}
+        </ul>
+      </section>
+      <section aria-labelledby="foot-h-beta">
+        <h2 id="foot-h-beta">About BetaNYC</h2>
+        <p>New York's civic organization for public interest technology, open data, and civic design.
+        We built and maintain this site.</p>
+        <ul>
+          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">All our AI tools for NYC's democracy</a></li>
+          <li><a href="https://www.beta.nyc/about/ai-policy/">Our AI policy</a></li>
+          <li><a href="https://www.beta.nyc/betabuilders/">Join BetaBuilders</a></li>
+          <li><a href="https://beta.nyc/donate">Support open civic data</a></li>
+        </ul>
+      </section>
+    </div>
+    <p class="foot-line">{% if page.updated %}<strong>Last revised:</strong> {{ page.updated | date: "%B %-d, %Y" }}. {% endif %}Built by
+    <a href="https://beta.nyc">BetaNYC</a> ·
+    <a href="https://github.com/BetaNYC/grounding-ai-with-ny-open-data">Code on GitHub</a> ·
+    <a href="{{ '/feedback.html' | relative_url }}">Report a problem</a>.</p>
     <p class="lic">Guides are CC BY-SA 4.0. The connectors are MIT licensed and public on
     <a href="https://github.com/BetaNYC">GitHub</a>.
-    <a href="https://beta.nyc/donate">Support open civic data</a>.</p>
-    <p class="lic">New to these terms? See the <a href="{{ '/guides/glossary.html' | relative_url }}">glossary</a>.
-    Spotted a mistake or have an idea? <a href="{{ '/feedback.html' | relative_url }}">Give us feedback</a>.
-    The project is on <a href="https://github.com/BetaNYC/grounding-ai-with-ny-open-data">GitHub</a>.</p>
+    New to these terms? See the <a href="{{ '/guides/glossary.html' | relative_url }}">glossary</a>.</p>
   </div>
 </footer>
 

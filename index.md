@@ -17,18 +17,10 @@ says so rather than implying it was checked.
 </div>
 
 <nav class="toc" aria-label="On this page" markdown="1">
-**On this page:** [Why this exists](#why-this-exists) · [Find New York data](#find-new-york-data) · [The classes and demos](#the-classes-and-demos) · [Start here if you are setting this up](#start-here-if-you-are-setting-this-up) · [What it costs](#what-it-costs) · [Also here](#also-here)
+**On this page:** [Find New York data](#find-new-york-data) · [The classes and demos](#the-classes-and-demos) · [Start here if you are setting this up](#start-here-if-you-are-setting-this-up) · [Also here](#also-here)
 </nav>
 
-## Why this exists
-
-Ask an ordinary AI assistant which City Council bill covers broadband access and it will give you a
-confident answer with an official-looking bill number. Often the number is from the wrong session.
-Sometimes it does not exist at all. Nothing in the answer tells you which.
-
-The tools here close that gap. The assistant queries the City's own systems while you watch, and
-every claim it makes resolves to a record you can open. **When the data cannot answer your question,
-it says so instead of guessing** — which turns out to be the more useful half.
+Why this exists, what it costs, who built it, and how we use AI: see [About]({{ '/about.html' | relative_url }}).
 
 ## Find New York data
 
@@ -209,12 +201,6 @@ the arc, the examples, and what the audience already knows.
 </div>
 
 </div>
-
-## What it costs
-
-Nothing. The connectors are open source and MIT licensed, and **five of the eight need no API key
-and no account at all**. Three need a free key; registration is the only friction. The guides are
-CC BY-SA 4.0 — fork them, correct them, and use them in your own room.
 
 ## Also here
 

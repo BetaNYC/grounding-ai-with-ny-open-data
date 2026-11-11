@@ -71,6 +71,15 @@ jobs:
           need _site/resources/portals/albany-county.html "rx-place-nav"            "place page links back to the explorer"
           need _site/index.html "ny-data-portal-registry.html"                      "Data directory is in the nav"
 
+          # Site shell: skip link, Menu button script, current page marked, About page.
+          need _site/index.html 'href="#main"'                                      "skip link present"
+          need _site/index.html 'id="main"'                                         "skip link target present"
+          need _site/index.html "site-nav.js"                                       "Menu button script loaded"
+          need _site/assets/js/site-nav.js "aria-expanded"                          "Menu button script published"
+          need _site/about.html 'aria-current="page">About'                         "current page marked in the nav"
+          need _site/about.html "Which guide answers my question"                   "About page rendered"
+          need _site/guides/query-patterns.html 'aria-current="page">Query patterns' "current page marked on a guide"
+
           echo "--- unrendered Liquid anywhere in the build? ---"
           if grep -rIl --include=*.html -e '{%' -e '{{' _site 2>/dev/null | grep . ; then
             echo "FAIL: unrendered Liquid above"; fail=1

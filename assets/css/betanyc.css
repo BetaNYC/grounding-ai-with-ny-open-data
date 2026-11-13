@@ -50,6 +50,7 @@ body{
   position:absolute;left:-10000px;top:0;z-index:1000;
   background:var(--bnyc-white);color:var(--bnyc-blue);
   border:2px solid var(--bnyc-blue);padding:.5rem .9rem;font-weight:700;
+  display:inline-flex;align-items:center;min-height:44px;box-sizing:border-box;
 }
 .skip-link:focus{left:.5rem;top:.5rem}
 .skip-link:focus-visible{outline:3px solid var(--bnyc-blue);outline-offset:2px}

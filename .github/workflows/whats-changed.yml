@@ -1,0 +1,41 @@
+# Checks WHATS-CHANGED.md and the What's changed page on every pull request
+# (BetaNYC's What's changed standard).
+#
+# scripts/whats_changed.py is a copy of a shared BetaNYC file: never edit it here.
+# `check --base-ref` needs the base branch's history (fetch-depth: 0), because old
+# entries are append-only. `render --check` fails when whats-changed.html no longer
+# matches WHATS-CHANGED.md; rebuild it with the same command without --check.
+# site-build-check.yml then builds the page with Jekyll, as GitHub Pages does.
+# Standard library only, so nothing to install.
+name: What's changed
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  whats-changed:
+    name: What's changed
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check WHATS-CHANGED.md
+        run: python3 scripts/whats_changed.py check WHATS-CHANGED.md --base-ref "origin/${{ github.base_ref }}"
+
+      - name: The What's changed page matches the file
+        run: >-
+          python3 scripts/whats_changed.py render WHATS-CHANGED.md --format jekyll
+          --layout whats-changed --out whats-changed.html
+          --repo-url https://github.com/BetaNYC/grounding-ai-with-ny-open-data --check

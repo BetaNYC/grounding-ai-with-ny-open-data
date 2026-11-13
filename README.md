@@ -12,6 +12,8 @@ AI agents are only as trustworthy as what they're grounded in. This repo documen
 
 Everything here is published at **<https://betanyc.github.io/grounding-ai-with-ny-open-data/>**, styled to match the decks. Every guide renders at the same path with `.html` in place of `.md`.
 
+**What's changed:** every change a reader would notice, newest first, including corrections, is in [`WHATS-CHANGED.md`](WHATS-CHANGED.md) and on the site at <https://betanyc.github.io/grounding-ai-with-ny-open-data/whats-changed.html>, linked from every page's footer. A new guide, deck or fix gets an entry at the top, dated the day it is merged: if that day has moved on since the entry was written, the last commit before merge changes the entry's date to the merge date and rebuilds the page with `python3 scripts/whats_changed.py render WHATS-CHANGED.md --format jekyll --layout whats-changed --out whats-changed.html --repo-url https://github.com/BetaNYC/grounding-ai-with-ny-open-data`. Old entries are never edited; add a dated `- **Update YYYY-MM-DD:**` line instead. `scripts/whats_changed.py` is a copy of a shared BetaNYC file: do not edit it here.
+
 **Start at the site, not this file.** The front page describes each class in plain language, and every audience has a landing page with its script and deck:
 
 | Audience | Landing page | Deck |

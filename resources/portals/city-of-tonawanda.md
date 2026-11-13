@@ -8,25 +8,25 @@ tier: 3
 
 # City of Tonawanda
 
-**Region:** Western NY (Finger Lakes + WNY) · **Type:** City · **Status:** Not yet confirmed
+**Region:** Western NY (Finger Lakes + WNY) · **Type:** City · **Status:** No data site
 
 | Topic | Details |
 |---|---|
-| Data site | Not checked (city site blocks crawlers) |
+| Data site | No portal found |
 | Web address | https://www.tonawandacity.com/ |
-| Built on | — |
+| Built on | Revize city site |
 | How to get the data | none |
 | API address | — |
 | Key needed? | — |
-| Datasets | — (not yet confirmed) |
+| Datasets | — (no catalog) |
 | Last checked | 2026-11-13 |
-| How we checked | The address given by older listings, www.ci.tonawanda.ny.us, does not resolve (DNS failure). Current listings point to www.tonawandacity.com (Revize); its robots.txt (served from cms4files1.revize.com/tonawandany) disallows every crawler except named search engines, so the site was not read. ArcGIS Online and Socrata searches for "Tonawanda" found no City of Tonawanda org or domain. |
+| How we checked | Opened by a person in a browser on 2026-11-13: www.tonawandacity.com loads ("Welcome to City of Tonawanda, NY"). Its menus and quick links list departments (Assessor, Department of Public Works, Engineering, Building Inspector and others) and online tax, sewer and parking payments, with no GIS, map or open data link. Its robots.txt (served from cms4files1.revize.com/tonawandany) disallows every crawler except named search engines, so no script read the site. The address given by older listings, www.ci.tonawanda.ny.us, does not resolve (DNS failure). ArcGIS Online and Socrata searches for "Tonawanda" found no City of Tonawanda org or domain. |
 
 ## Notes
-- **Why UNCONFIRMED:** the city's own site could not be read. Web search shows only a PROS assessment search (cityoftonawanda.prosgar.com) and assessment-roll PDFs.
+- Web search shows a PROS assessment search (cityoftonawanda.prosgar.com) and assessment-roll PDFs.
 - Traps: gis1.tonawanda.ny.us and gis2.tonawanda.ny.us (ArcGIS Enterprise, "Tonawanda GIS Portal") belong to the **Town** of Tonawanda, a separate municipality; North Tonawanda is a different city in Niagara County.
 - County: Erie County has no confirmed catalog.
-- Not yet confirmed: someone needs to open the city's site in a browser and check it by hand.
+- Checked by hand: a person opened the city's site in a browser on 2026-11-13.
 - Found in the 2026-11-13 check of every New York city not yet in this directory.
 
 ## Example request

@@ -8,25 +8,24 @@ tier: 3
 
 # City of Hudson
 
-**Region:** Capital Region · **Type:** City · **Status:** Not yet confirmed
+**Region:** Capital Region · **Type:** City · **Status:** No data site
 
 | Topic | Details |
 |---|---|
-| Data site | UNCONFIRMED: city site not crawlable under its robots.txt |
+| Data site | No portal found (assessment roll page only) |
 | Web address | https://www.hudsonny.gov/ |
-| Built on | — |
-| How to get the data | UNCONFIRMED |
+| Built on | City website |
+| How to get the data | none |
 | API address | — |
 | Key needed? | — |
-| Datasets | — (not yet confirmed) |
+| Datasets | — (no catalog) |
 | Last checked | 2026-11-13 |
-| How we checked | NYCOM lists www.hudsonny.gov for the City of Hudson, Columbia County. Its robots.txt allows only named search and social bots (Googlebot, Bingbot, FacebookBot, LinkedInBot, Twitterbot) and sets 'User-agent: * Disallow: /', so no page on the site other than robots.txt was fetched, by script or browser. Cross-checks: a site-restricted web search for map, GIS, assessment or data pages on hudsonny.gov returned no pages from the domain; ArcGIS Online found no City of Hudson, NY org (Hudson items belong to Columbia County Planning, org F5762GA30C3SyZFy, and to Bard College work); Socrata found only data.ny.gov and NYC rows. |
+| How we checked | Opened by a person in a browser on 2026-11-13: the homepage loads ("Welcome to City of Hudson, New York"). Its menus and quick links show Assessment Information, the Hudson Assessment Roll, Pay Taxes Online, parking rules and the Hudson Hub app, with no GIS, map or open data link. Its robots.txt allows only named search and social bots (Googlebot, Bingbot, FacebookBot, LinkedInBot, Twitterbot), so no script read the site. Cross-checks: a site-restricted web search for map, GIS, assessment or data pages on hudsonny.gov returned no pages from the domain; ArcGIS Online found no City of Hudson, NY org (Hudson items belong to Columbia County Planning, org F5762GA30C3SyZFy, and to Bard College work); Socrata found only data.ny.gov and NYC rows. |
 
 ## Notes
-- Why UNCONFIRMED: the city's own navigation and sitemap could not be read without breaking its robots.txt, so 'no portal' cannot be stated. Ask the operator whether a manual browser look is acceptable.
 - Columbia County's registry row (live Hub, geodata-cc-ny.opendata.arcgis.com) is the likely source of the city's parcels; the county also runs a PROS assessment search (columbiacounty.prosgar.com, seen in search results, not opened).
 - Traps: 'Hudson's DataHub' is Hudson, **Ohio**; 'Hudson Open Data Portal' is Hudson, **Wisconsin**; 'Hudson County GIS' is **New Jersey**; hudsonnh.gov is Hudson, **New Hampshire**.
-- Not yet confirmed: someone needs to open the city's site in a browser and check it by hand.
+- Checked by hand: a person opened the city's site in a browser on 2026-11-13.
 - Found in the 2026-11-13 check of every New York city not yet in this directory.
 
 ## Example request

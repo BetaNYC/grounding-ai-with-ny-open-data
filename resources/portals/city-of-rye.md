@@ -8,25 +8,25 @@ tier: 3
 
 # City of Rye
 
-**Region:** NYC Metro / Long Island · **Type:** City · **Status:** Not yet confirmed
+**Region:** NYC Metro / Long Island · **Type:** City · **Status:** No data site
 
 | Topic | Details |
 |---|---|
-| Data site | Small public ArcGIS Online org; city site blocked |
+| Data site | No catalog (CitySquared map viewer; small public ArcGIS Online org) |
 | Web address | https://www.ryeny.gov/ |
-| Built on | ArcGIS Online feature services |
+| Built on | CitySquared map viewer; ArcGIS Online feature services; Granicus city site |
 | How to get the data | ArcGIS REST (org feature services) |
 | API address | https://services3.arcgis.com/HojejDc2XPJVYphs/arcgis/rest/services |
 | Key needed? | No |
-| Datasets | — (not yet confirmed) |
+| Datasets | — (no catalog) |
 | Last checked | 2026-11-13 |
-| How we checked | www.ryeny.gov returned **HTTP 403 ("Access Denied")** to every request, including robots.txt, so the site was not read. Web search shows a Planning "City Mapping (GIS)" page (/government/planning-department/planning-city-mapping) that lists a "Rye City GIS" and the Westchester County GIS; its platform could not be checked. ArcGIS org `HojejDc2XPJVYphs` (owners jflynn_CityofRyeNY, Kingsbury): 5 public items, 4 feature services (Rye_CityNYTaxMapData, Highland Road storm layers); the tax map layer's extent sits in NY State Plane East (wkid 2260) at Rye's location. |
+| How we checked | Opened in a browser on 2026-11-13: www.ryeny.gov loads ("Rye, NY | Home", "Website design by Granicus"), though scripts still get HTTP 403. Its robots.txt, read in the browser, blocks Baidu and Yandex entirely and only /scripts, /admin and .asmx paths for everyone else. The Services menu's "City Mapping (G.I.S.)" link (/services/g-i-s-geographic-information-system) opens a CitySquared map viewer (citysquared.com/#/app/map/RyeCity) with property lookup and a login option; no downloads and no open data page. ArcGIS org `HojejDc2XPJVYphs` (owners jflynn_CityofRyeNY, Kingsbury): 5 public items, 4 feature services (Rye_CityNYTaxMapData, Highland Road storm layers); the tax map layer's extent sits in NY State Plane East (wkid 2260) at Rye's location. |
 
 ## Notes
-- **Why UNCONFIRMED:** the city's own site could not be read, so what "Rye City GIS" is (viewer, catalog or vendor) is unknown. Opening the page by hand would settle it.
+- The Services menu also links Property Tax Search and a Property Record Online System (/services/prosgar).
 - Look-alike excluded: the **Town of Rye** is a different municipality (org `cPpqIoSwV8Sc4sVg`, "Town of Rye, NY", CAI Technologies AxisGIS). Also Rye, **Colorado** (data.colorado.gov) and Rye Brook.
 - County: Westchester County has a live row (91).
-- Not yet confirmed: someone needs to open the city's site in a browser and check it by hand.
+- Checked by hand: a person opened the city's site in a browser on 2026-11-13.
 - Found in the 2026-11-13 check of every New York city not yet in this directory.
 
 ## Example request

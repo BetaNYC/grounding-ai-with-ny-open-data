@@ -8,26 +8,26 @@ tier: 3
 
 # City of Oneonta
 
-**Region:** Southern Tier · **Type:** City · **Status:** Not yet confirmed
+**Region:** Southern Tier · **Type:** City · **Status:** No data site
 
 | Topic | Details |
 |---|---|
-| Data site | City Engineering ArcGIS Online org (no catalog found); city site not crawled |
-| Web address | https://cooe.maps.arcgis.com/ |
-| Built on | ArcGIS Online feature services |
+| Data site | No catalog (public ArcGIS Online services from the city's Engineering office, not linked from the city site) |
+| Web address | https://www.oneonta.ny.us/ |
+| Built on | ArcGIS Online feature services; Revize city site |
 | How to get the data | ArcGIS REST (org feature services) |
 | API address | https://services3.arcgis.com/c2HlEWSyvNnR6LD3/arcgis/rest/services |
 | Key needed? | No |
-| Datasets | — (not yet confirmed) |
+| Datasets | — (no catalog) |
 | Last checked | 2026-11-13 |
-| How we checked | Org record https://cooe.maps.arcgis.com/sharing/rest/portals/self: id `c2HlEWSyvNnR6LD3`, name "Oneonta_Engineering", region US; 154 public items, 81 feature services, 0 Hub or Sites apps. The REST directory lists 80 services, including CITY_OF_ONEONTA_BOUNDARY, CITY_OF_ONEONTA_WARDS, City_Owned_Property and parcels. A parcel row reads MAIL_STATE NY, ZIP 13820, SWIS 364600, school district "Oneonta City". |
+| How we checked | Opened by a person in a browser on 2026-11-13: the city site (www.oneonta.ny.us, Revize) loads. Its menus have no GIS, map or open data link. The Engineering page's "Maps" section links "City Wards" and a "Map Inventory", which is a 145-page PDF list of the city's paper engineering maps (dated 2025-12-16), not the ArcGIS org. Its robots.txt disallows every crawler except named search engines, so no script read the site. ArcGIS: Org record https://cooe.maps.arcgis.com/sharing/rest/portals/self: id `c2HlEWSyvNnR6LD3`, name "Oneonta_Engineering", region US; 154 public items, 81 feature services, 0 Hub or Sites apps. The REST directory lists 80 services, including CITY_OF_ONEONTA_BOUNDARY, CITY_OF_ONEONTA_WARDS, City_Owned_Property and parcels. A parcel row reads MAIL_STATE NY, ZIP 13820, SWIS 364600, school district "Oneonta City". |
 
 ## Notes
-- **Why UNCONFIRMED:** the city site (www.oneonta.ny.us, Revize) has a robots.txt that disallows every crawler except named search engines, so the site was not read. Whether it links an open data page could not be checked. Web search found no such page.
-- If the site has nothing more, this matches the registry's no-portal pattern (public services, no catalog).
+- The city's Engineering office ArcGIS org (cooe.maps.arcgis.com) is public but has no catalog and is not linked from the city site, the same no-portal pattern as Rome and Niagara Falls.
+- City code: https://ecode360.com/ON1737 (General Code eCode360). Paper map list: https://cms7files1.revize.com/oneonta/departments/engineering%20and%20public%20works/2025.12.16%20Web%20Copy%20of%20Map%20Inv.pdf
 - Socrata: 0 results.
 - County: Otsego County has a live Hub row (64).
-- Not yet confirmed: someone needs to open the city's site in a browser and check it by hand.
+- Checked by hand: a person opened the city's site in a browser on 2026-11-13.
 - Found in the 2026-11-13 check of every New York city not yet in this directory.
 
 ## Example request

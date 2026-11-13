@@ -15,7 +15,7 @@ One page for each county and city in the [New York data directory](../ny-data-po
 - [City of Albany](city-of-albany.md) — Offline, Socrata (retired)
 - [City of Cohoes](city-of-cohoes.md) — No data site, PROS assessment search (vendor) + CivicPlus city site
 - [City of Glens Falls](city-of-glens-falls.md) — No data site, ImageMate (SDG) property locator; ArcGIS Online user in Warren County org (Fg3XpDIUTR3JZZES)
-- [City of Hudson](city-of-hudson.md) — Not yet confirmed, —
+- [City of Hudson](city-of-hudson.md) — No data site, City website
 - [City of Mechanicville](city-of-mechanicville.md) — No data site, —
 - [City of Rensselaer](city-of-rensselaer.md) — No data site, —
 - [City of Saratoga Springs](city-of-saratoga-springs.md) — No data site, SDG property search, Laserfiche WebLink
@@ -79,7 +79,7 @@ One page for each county and city in the [New York data directory](../ny-data-po
 - [City of Mount Vernon](city-of-mount-vernon.md) — No data site, ArcGIS Enterprise 11.3 (self-hosted; no Sites/Hub catalog)
 - [City of New Rochelle](city-of-new-rochelle.md) — No data site, —
 - [City of Peekskill](city-of-peekskill.md) — No data site, —
-- [City of Rye](city-of-rye.md) — Not yet confirmed, ArcGIS Online feature services
+- [City of Rye](city-of-rye.md) — No data site, CitySquared map viewer; ArcGIS Online feature services; Granicus city site
 - [City of White Plains](city-of-white-plains.md) — No data site, —
 - [City of Yonkers](city-of-yonkers.md) — No data site, Image Mate Online (assessment records)
 - [Nassau County](nassau-county.md) — Live, Socrata (Tyler Technologies)
@@ -113,7 +113,7 @@ One page for each county and city in the [New York data directory](../ny-data-po
 - [City of Hornell](city-of-hornell.md) — No data site, Duda (multiscreensite) city site
 - [City of Ithaca](city-of-ithaca.md) — Live, ArcGIS Hub
 - [City of Norwich](city-of-norwich.md) — No data site, —
-- [City of Oneonta](city-of-oneonta.md) — Not yet confirmed, ArcGIS Online feature services
+- [City of Oneonta](city-of-oneonta.md) — No data site, ArcGIS Online feature services; Revize city site
 - [Delaware County](delaware-county.md) — No data site, —
 - [Otsego County](otsego-county.md) — Live, ArcGIS Hub
 - [Schuyler County](schuyler-county.md) — Live, CivicPlus static page + ArcGIS Online web viewer
@@ -139,7 +139,7 @@ One page for each county and city in the [New York data directory](../ny-data-po
 - [City of Olean](city-of-olean.md) — No data site, OpenGov Stories (budget), county Image Mate
 - [City of Rochester](city-of-rochester.md) — Live, ArcGIS Hub
 - [City of Salamanca](city-of-salamanca.md) — No data site, —
-- [City of Tonawanda](city-of-tonawanda.md) — Not yet confirmed, —
+- [City of Tonawanda](city-of-tonawanda.md) — No data site, Revize city site
 - [Erie County](erie-county.md) — No data site, Custom site + ArcGIS Online viewers
 - [Genesee County](genesee-county.md) — Live, ArcGIS Hub
 - [Livingston County](livingston-county.md) — Live, ArcGIS Enterprise (self-hosted Portal, no Sites catalog)

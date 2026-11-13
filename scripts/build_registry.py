@@ -272,14 +272,16 @@ Sources outside government that publish data about New York.
 - **Some county map servers block scripts.** If a test request gets an error 403, have it identify itself as a web browser, for example `curl -A 'Mozilla/5.0' …`.
 - **Some APIs are undocumented.** They are marked "(undocumented)". The owner has not published them, so they may change without notice.
 - **Some sources need an account.** Those are listed as data sites, not as open APIs.
-- **Not included:** federal data (except a link to data.gov), paid property-record services, sites with only PDF reports, and villages and towns under about 50,000 people.
+- **Not included:** federal data (except a link to data.gov), paid property-record services, and villages and towns under about 50,000 people.
+- **Some archives hold papers, not data.** They are listed anyway, so you know where the information is. Their notes start with "Papers, not data", or "Not New York data" for national or global data that is not about New York.
 
 ### Updates
 
 - **2026-11-05:** first version. 140 sources checked, a details page for every county and city, and the search and filter tool.
 - **2026-11-05:** rechecked the 11 sources marked "Not yet confirmed" in a browser. 10 now have a confirmed status; one (Baruch's NYC Geodatabase) is still unconfirmed because it only works on campus. Labor, 511NY, NYC 311 and Rockefeller rows point to new addresses.
 - **2026-11-12:** added 20 sources found in a search for New York portals missing from this directory: five state agency map services, the state's Kids' Well-being Indicators Clearinghouse, NYC's map hub and two more NYC sources, the cities of Ithaca and Watertown, and nine university, library, nonprofit and health-indicator sites, including the first CKAN site (Stony Brook). Buffalo's COVID-19 data site is noted on the Buffalo row.
-- **2026-11-13:** every one of New York's 62 cities now has a row and a details page: 48 cities were added after a check of each city's own website. Only Lockport publishes open data (spending spreadsheets); 43 have no data site, though nine of those share public map layers; four could not be read and are marked "Not yet confirmed". Also added: 15 university, library and research-center archives that hold government or public data, and Columbia's data platform.
+- **2026-11-13:** every one of New York's 62 cities now has a row and a details page: 48 cities were added after a check of each city's own website. Only Lockport publishes open data (spending spreadsheets); 43 have no data site, though nine of those share public map layers; four could not be read and are marked "Not yet confirmed". Also added: 15 university, library and research-center archives, and Columbia's data platform. Each was opened in a browser; seven hold papers or non-New York data and are labeled that way.
+- **2026-11-13:** the four cities marked "Not yet confirmed" (Hudson, Oneonta, Rye and Tonawanda) were opened by hand in a browser: none has a data site. Cornell's CISER archive, now the CCSS Data and Reproduction Repository, is confirmed: hundreds of New York datasets, most of them public.
 - Planned: a monthly check that every link still works.
 
 Spotted a wrong link, a missing source or a closed site? [Give us feedback](../feedback.md).

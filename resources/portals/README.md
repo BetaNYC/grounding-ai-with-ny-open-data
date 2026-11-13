@@ -2,11 +2,12 @@
 title: "County and city data pages"
 status: draft
 created: 2026-11-05
+updated: 2026-11-12
 ---
 
 # County and city data pages
 
-One page for each county and city in the [New York data directory](../ny-data-portal-registry.md). Each page shows where the place publishes data, how to get it, and an example request. 69 places in 8 regions. To search every source, use the [New York data directory](../ny-data-portal-registry.md).
+One page for each county and city in the [New York data directory](../ny-data-portal-registry.md). Each page shows where the place publishes data, how to get it, and an example request. 71 places in 8 regions. To search every source, use the [New York data directory](../ny-data-portal-registry.md).
 
 ## Capital Region
 
@@ -62,6 +63,7 @@ One page for each county and city in the [New York data directory](../ny-data-po
 
 ## North Country
 
+- [City of Watertown](city-of-watertown.md) — Live, ArcGIS Enterprise (self-hosted Portal, no Sites catalog seen)
 - [Clinton County](clinton-county.md) — No data site, ArcGIS Online (Experience Builder app)
 - [Essex County](essex-county.md) — No data site, Esri ArcGIS Server 11.3 (parcel viewer)
 - [Franklin County](franklin-county.md) — No data site, Schneider Beacon
@@ -75,6 +77,7 @@ One page for each county and city in the [New York data directory](../ny-data-po
 - [Broome County](broome-county.md) — Live, Esri ArcGIS Server 10.61 + custom JS viewer page (not Hub)
 - [Chemung County](chemung-county.md) — Live, CivicPlus static page with Document Center downloads
 - [Chenango County](chenango-county.md) — No data site, Schneider Geospatial (paid subscription)
+- [City of Ithaca](city-of-ithaca.md) — Live, ArcGIS Hub
 - [Delaware County](delaware-county.md) — No data site, —
 - [Otsego County](otsego-county.md) — Live, ArcGIS Hub
 - [Schuyler County](schuyler-county.md) — Live, CivicPlus static page + ArcGIS Online web viewer

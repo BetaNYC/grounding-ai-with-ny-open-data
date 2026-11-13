@@ -7,6 +7,12 @@ This page lists the changes to Grounding AI with NY Open Data that a reader woul
 
 To report a mistake or ask for a new feature, use the [feedback page](https://betanyc.github.io/grounding-ai-with-ny-open-data/feedback.html) or [open an issue on GitHub](https://github.com/BetaNYC/grounding-ai-with-ny-open-data/issues).
 
+## 2026-11-12: 20 more sources in the directory of New York's data portals
+
+- **Tags:** Data
+- **What changed:** The directory now lists 160 sources, up from 140. New: five state agency map services, the state's Kids' Well-being Indicators Clearinghouse, NYC's map hub and two more NYC sources, the cities of Ithaca and Watertown, and nine university, library, nonprofit and health-indicator sites, including the first CKAN site in the directory (Stony Brook University). Each was checked on 2026-11-12 and confirmed to be in New York. Buffalo's COVID-19 data site is noted on the Buffalo row.
+- **More detail:** [New York data directory](https://betanyc.github.io/grounding-ai-with-ny-open-data/resources/ny-data-portal-registry.html)
+
 ## 2026-11-12: A What's changed page
 
 - **Tags:** Site

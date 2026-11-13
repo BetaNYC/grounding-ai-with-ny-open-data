@@ -194,7 +194,7 @@ def render_md(d: list[dict], today: str) -> str:
 title: "New York data directory"
 description: "Where to find public data about New York State, its counties and cities, and New York City, and how to get it."
 status: draft
-created: {today}
+created: 2026-11-05
 last_verified: {today}
 ---
 
@@ -263,7 +263,7 @@ Sources outside government that publish data about New York.
 
 ### How we checked
 
-- We visited every web address on {today} without logging in. For each source we recorded who runs it, how to get the data, and how many datasets it lists.
+- We visited every web address on 2026-11-05 without logging in; sources added later were visited on the date in their own row. For each source we recorded who runs it, how to get the data, and how many datasets it lists.
 - We confirmed each source is really in New York by checking who publishes it, not just its web address. An earlier version of the county list included 8 sites from other states with similar names.
 - Where an API needed no key, we ran one small test request.
 
@@ -276,8 +276,9 @@ Sources outside government that publish data about New York.
 
 ### Updates
 
-- **{today}:** first version. 140 sources checked, a details page for every county and city, and the search and filter tool.
-- **{today}:** rechecked the 11 sources marked "Not yet confirmed" in a browser. 10 now have a confirmed status; one (Baruch's NYC Geodatabase) is still unconfirmed because it only works on campus. Labor, 511NY, NYC 311 and Rockefeller rows point to new addresses.
+- **2026-11-05:** first version. 140 sources checked, a details page for every county and city, and the search and filter tool.
+- **2026-11-05:** rechecked the 11 sources marked "Not yet confirmed" in a browser. 10 now have a confirmed status; one (Baruch's NYC Geodatabase) is still unconfirmed because it only works on campus. Labor, 511NY, NYC 311 and Rockefeller rows point to new addresses.
+- **2026-11-12:** added 20 sources found in a search for New York portals missing from this directory: five state agency map services, the state's Kids' Well-being Indicators Clearinghouse, NYC's map hub and two more NYC sources, the cities of Ithaca and Watertown, and nine university, library, nonprofit and health-indicator sites, including the first CKAN site (Stony Brook). Buffalo's COVID-19 data site is noted on the Buffalo row.
 - Planned: a monthly check that every link still works.
 
 Spotted a wrong link, a missing source or a closed site? [Give us feedback](../feedback.md).
@@ -302,7 +303,8 @@ def render_portals_index(d: list[dict], today: str) -> str:
     parts = [f"""---
 title: "County and city data pages"
 status: draft
-created: {today}
+created: 2026-11-05
+updated: {today}
 ---
 
 # County and city data pages

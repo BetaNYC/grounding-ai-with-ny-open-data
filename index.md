@@ -29,7 +29,7 @@ Why this exists, what it costs, who built it, and how we use AI: see [About]({{ 
 <div class="card">
   <div class="who">Anyone looking for data</div>
   <h3>New York data directory</h3>
-  <p>160 public data sources in one place: state agencies, every county and large city, New York
+  <p>224 public data sources in one place: state agencies, every county and city, New York
   City and its agencies, and universities and nonprofits. Search by place or topic, see which
   sources can be pulled with code, and open a details page for any county or city. Your AI
   assistant can search it too. The New York Open Data Finder connector

@@ -12,7 +12,7 @@ const rows = data.rows;
 const S = (o) => Object.assign(X.emptyState(), o);
 
 test('no filters returns every row', () => {
-  assert.equal(rows.length, 160);
+  assert.equal(rows.length, 224);
   assert.equal(X.filterRows(rows, X.emptyState()).length, rows.length);
   assert.equal(X.isFiltered(X.emptyState()), false);
 });

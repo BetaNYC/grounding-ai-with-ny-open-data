@@ -7,6 +7,12 @@ This page lists the changes to Grounding AI with NY Open Data that a reader woul
 
 To report a mistake or ask for a new feature, use the [feedback page](https://betanyc.github.io/grounding-ai-with-ny-open-data/feedback.html) or [open an issue on GitHub](https://github.com/BetaNYC/grounding-ai-with-ny-open-data/issues).
 
+## 2026-11-13: Every New York city, and 16 research archives, in the directory of data portals
+
+- **Tags:** Data
+- **What changed:** The directory now lists 224 sources, up from 160. All 62 cities in New York now have a row and a details page. The 48 that were missing were each checked on their own website on 2026-11-13. Only Lockport publishes open data (spending spreadsheets). 43 have no data site, though nine of them, including Niagara Falls and Rome, share public map layers such as tax parcels. Four sites (Hudson, Oneonta, Rye and Tonawanda) could not be read and are marked "Not yet confirmed". Also new: 15 university, library and research-center archives that hold government or public data, such as NYU's Faculty Digital Archive and Cornell's eCommons, and Columbia's data platform. Each archive row says what data it holds, and its region is the area that data covers.
+- **More detail:** [New York data directory](https://betanyc.github.io/grounding-ai-with-ny-open-data/resources/ny-data-portal-registry.html) · [County and city pages](https://betanyc.github.io/grounding-ai-with-ny-open-data/resources/portals/)
+
 ## 2026-11-12: 20 more sources in the directory of New York's data portals
 
 - **Tags:** Data

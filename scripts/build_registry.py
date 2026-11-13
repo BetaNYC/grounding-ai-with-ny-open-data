@@ -279,6 +279,7 @@ Sources outside government that publish data about New York.
 - **2026-11-05:** first version. 140 sources checked, a details page for every county and city, and the search and filter tool.
 - **2026-11-05:** rechecked the 11 sources marked "Not yet confirmed" in a browser. 10 now have a confirmed status; one (Baruch's NYC Geodatabase) is still unconfirmed because it only works on campus. Labor, 511NY, NYC 311 and Rockefeller rows point to new addresses.
 - **2026-11-12:** added 20 sources found in a search for New York portals missing from this directory: five state agency map services, the state's Kids' Well-being Indicators Clearinghouse, NYC's map hub and two more NYC sources, the cities of Ithaca and Watertown, and nine university, library, nonprofit and health-indicator sites, including the first CKAN site (Stony Brook). Buffalo's COVID-19 data site is noted on the Buffalo row.
+- **2026-11-13:** every one of New York's 62 cities now has a row and a details page: 48 cities were added after a check of each city's own website. Only Lockport publishes open data (spending spreadsheets); 43 have no data site, though nine of those share public map layers; four could not be read and are marked "Not yet confirmed". Also added: 15 university, library and research-center archives that hold government or public data, and Columbia's data platform.
 - Planned: a monthly check that every link still works.
 
 Spotted a wrong link, a missing source or a closed site? [Give us feedback](../feedback.md).

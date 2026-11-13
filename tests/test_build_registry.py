@@ -28,7 +28,7 @@ class BuildRegistryTest(unittest.TestCase):
         with open(br.PORTALS_INDEX, encoding="utf-8") as fh:
             idx = fh.read()
         pages = sorted(f for f in os.listdir(br.PORTALS) if f.endswith(".md") and f != "README.md")
-        self.assertEqual(len(pages), 69)
+        self.assertEqual(len(pages), 119)
         for p in pages:
             self.assertIn(f"]({p})", idx)
 
@@ -57,7 +57,7 @@ class BuildRegistryTest(unittest.TestCase):
         with open(br.MD_PATH, encoding="utf-8") as fh:
             md = fh.read()
         table_rows = [ln for ln in md.splitlines() if re.match(r"^\| (?!Who runs it \|)", ln)]
-        self.assertEqual(len(table_rows), 140)
+        self.assertEqual(len(table_rows), 224)
 
 
 if __name__ == "__main__":

@@ -19,7 +19,8 @@ permissions:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest (26.04) has no Python 3.9, and build_registry.py supports 3.9+.
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         python: ["3.9", "3.13"]

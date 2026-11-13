@@ -3,7 +3,7 @@ title: "New York data directory"
 description: "Where to find public data about New York State, its counties and cities, and New York City, and how to get it."
 status: draft
 created: 2026-11-05
-last_verified: 2026-11-05
+last_verified: 2026-11-13
 ---
 
 # New York data directory
@@ -53,6 +53,7 @@ State bodies that run their own data service or API. Agencies that only publish 
 | Who runs it | Data site | Built on | How to get the data | Key needed? | Datasets | Status |
 |---|---|---|---|---|---|---|
 | Capital District Transportation Authority (CDTA) | [CDTA Developer: Route and Schedule API + GTFS](https://www.cdta.org/developer) | custom | REST + GTFS / GTFS-Realtime | Not yet confirmed | 3 | Live |
+| Kids' Well-being Indicators Clearinghouse (NYS) | [KWIC — Kids' Well-being Indicators Clearinghouse](https://kwic.ny.gov/) | custom web app | none verified (indicator downloads not checked) | No | — | Live |
 | Metropolitan Transportation Authority | [MTA Real-time Data Feeds and static GTFS](https://api.mta.info/) | custom (GTFS / GTFS-Realtime) | GTFS-Realtime (protobuf) + JSON alerts + static GTFS ZIP | No | — | Live |
 | Metropolitan Transportation Authority (NYCT / MTA Bus) | [MTA Bus Time API (SIRI)](https://bustime.mta.info/developers) | OneBusAway / SIRI | REST (SIRI JSON/XML) | Yes | — | Live |
 | New York State Assembly | [Assembly Bill Search and Legislative Information](https://nyassembly.gov/leg/) | custom HTML | none (HTML query only) | No | — | Live |
@@ -62,12 +63,17 @@ State bodies that run their own data service or API. Agencies that only publish 
 | NYS Adirondack Park Agency | [Adirondack Park Agency ArcGIS Online organization and Hub](https://adirondack-park-agency-adirondack.hub.arcgis.com/) | ArcGIS Online / ArcGIS Hub | ArcGIS REST (hosted FeatureServer) | No | 25 | Live |
 | NYS Board of Elections | [Voter enrollment statistics (elections.ny.gov)](https://elections.ny.gov/enrollment-county) | Drupal (webny) | Bulk download (XLSX per snapshot); no API | No | — | Live |
 | NYS Commission on Ethics and Lobbying in Government (COELIG) | [Lobbying Public Search Query (PSQ)](https://reports.ethics.ny.gov/publicquery) | ASP.NET web app | web query (no API) + Open NY datasets | No | 14 | Live |
+| NYS Department of Environmental Conservation | [DEC GIS Services ArcGIS Server (gisservices.dec.ny.gov)](https://gisservices.dec.ny.gov/arcgis/rest/services) | Esri ArcGIS Server 10.91 | ArcGIS REST | No | — | Live |
+| NYS Department of Environmental Conservation | [NYS Environmental Bond Act (Hub site)](https://environmentalbondact.ny.gov/) | ArcGIS Hub (custom domain) | ArcGIS Hub (OGC API Records search) + ArcGIS REST | No | 8 | Live |
 | NYS Department of Environmental Conservation | [NYSDEC ArcGIS Online organization (nysdec)](https://services6.arcgis.com/DZHaqZm9cxOD4CWM/arcgis/rest/services) | ArcGIS Online | ArcGIS REST (hosted FeatureServer) | No | 842 | Live |
 | NYS Department of Labor | [Labor Statistics (statistics.labor.ny.gov)](https://dol.ny.gov/labor-data) | Drupal (dol.ny.gov) + embedded Tableau dashboards + file downloads | Bulk download (ZIP/XLS) + Tableau dashboards; no API found | No | — | Live |
 | NYS Department of State | [New York Geographic Information Gateway (opdgig.dos.ny.gov)](https://opdgig.dos.ny.gov/) | ArcGIS Hub (ArcGIS Online org NYSDOS) | ArcGIS Hub / DCAT-US 1.1 feed; ArcGIS REST | No | 1,888 | Live |
 | NYS Department of Transportation | [511NY developer API](https://511ny.org/help/24 (title: "Requesting Access")) | 511NY traveler information platform | Data feeds: traffic events (JSON), camera inventory (XML), winter road conditions (JSON), message signs (JSON) | Yes | 4 | Live |
 | NYS Department of Transportation | [NYSDOT GIS ArcGIS Server (gis.dot.ny.gov/hostingny)](https://gis.dot.ny.gov/hostingny/rest/services) | Esri ArcGIS Server 11.5 | ArcGIS REST (MapServer/FeatureServer) | No | — | Live |
+| NYS Department of Transportation | [NYSDOT GIS Portal (ArcGIS Enterprise)](https://gisportalny.dot.ny.gov/portalny/home/) | ArcGIS Enterprise (self-hosted Portal) | ArcGIS Portal REST search + ArcGIS REST | No | 41 | Live |
 | NYS Education Department | [NYSED Data Site (data.nysed.gov) downloads](https://data.nysed.gov/downloads.php) | Custom PHP site | Bulk download (ZIP of Access/Excel databases); no API found | No | 101 | Live |
+| NYS Office of Information Technology Services (GIS Program Office) | [NYS Elevation Data ArcGIS Server (elevation.its.ny.gov)](https://elevation.its.ny.gov/arcgis/rest/services) | Esri ArcGIS Server 10.81 | ArcGIS REST (image/elevation services) | No | — | Live |
+| NYS Office of Information Technology Services (GIS Program Office) | [NYS GeoHub ArcGIS Server (nysgeohub.ny.gov)](https://nysgeohub.ny.gov/arcgis/rest/services) | Esri ArcGIS Server 11.5 | ArcGIS REST | No | — | Live |
 | NYS Office of Information Technology Services (GIS Program Office) | [NYS ITS GIS ArcGIS Server (gisservices.its.ny.gov), incl. Street and Address Composite geocoder](https://gisservices.its.ny.gov/arcgis/rest/services) | Esri ArcGIS Server | ArcGIS REST (MapServer/FeatureServer/GeocodeServer) | No | — | Live |
 | NYS Office of Information Technology Services (GIS Program Office) | [NYS Orthoimagery services (orthos.its.ny.gov)](https://orthos.its.ny.gov/arcgis/rest/services) | Esri ArcGIS Server | ArcGIS REST MapServer; WMS | No | — | Live |
 | NYS Office of Parks, Recreation and Historic Preservation | [NYS OPRHP ArcGIS Online organization (nysparks)](https://services.arcgis.com/1xFZPtKn1wKC6POA/arcgis/rest/services) | ArcGIS Online | ArcGIS REST (hosted FeatureServer) | No | 172 | Live |
@@ -92,14 +98,64 @@ State bodies that run their own data service or API. Agencies that only publish 
 | Chemung County | Southern Tier | [GIS Mapping Data page](https://chemungcountyny.gov/1382/GIS-Mapping-Data) | CivicPlus static page with Document Center downloads | none | — | — | Live | [Chemung County details](portals/chemung-county.md) |
 | Chenango County | Southern Tier | [Online GIS Information page (paid subscription)](https://www.chenangocountyny.gov/323/Online-GIS-Information) | Schneider Geospatial (paid subscription) | none | — | — | No data site | [Chenango County details](portals/chenango-county.md) |
 | City of Albany | Capital Region | openAlbany (offline) | Socrata (retired) | None (portal offline) | — | — | Offline | [City of Albany details](portals/city-of-albany.md) |
+| City of Amsterdam | Mohawk Valley | [No catalog (public ArcGIS Online org, no city-site link)](https://www.amsterdamny.gov/) | ArcGIS Online org 'cityofamsterdam' (noD0cpEjsFkxcXuR) + CivicPlus city site | ArcGIS REST (org feature services, no catalog) | No | — | No data site | [City of Amsterdam details](portals/city-of-amsterdam.md) |
+| City of Auburn | Central NY | [No catalog (public ArcGIS Online org 'Auburn GIS Web Services')](https://www.auburnny.gov/957/City-County-Maps) | ArcGIS Online org 'auburnny' (FkeHS98Kus6Rs7rG) + CivicPlus static PDF maps | ArcGIS REST (org feature services, no catalog) | No | — | No data site | [City of Auburn details](portals/city-of-auburn.md) |
+| City of Batavia | Western NY (Finger Lakes + WNY) | [No portal found (PROS assessment search)](https://cityofbatavia.prosgar.com/) | PROS assessment search (vendor) + CivicPlus city site | none | — | — | No data site | [City of Batavia details](portals/city-of-batavia.md) |
+| City of Beacon | Hudson Valley | [No portal found](https://beaconny.gov/) | WordPress city site | none | — | — | No data site | [City of Beacon details](portals/city-of-beacon.md) |
+| City of Binghamton | Southern Tier | [No city portal (links Broome County GIS and ImageMate)](https://www.binghamton-ny.gov/government/departments/assessment-grievance) | City site (Granicus) links county tools; city planning layers live in Broome County's ArcGIS org | none | — | — | No data site | [City of Binghamton details](portals/city-of-binghamton.md) |
 | City of Buffalo | Western NY (Finger Lakes + WNY) | [Open Data Buffalo](https://data.buffalony.gov/) | Socrata | SODA | No | 139 | Live | [City of Buffalo details](portals/city-of-buffalo.md) |
+| City of Canandaigua | Western NY (Finger Lakes + WNY) | [No portal found](https://www.canandaiguanewyork.gov/) | CivicPlus city site, PDF maps | none | — | — | No data site | [City of Canandaigua details](portals/city-of-canandaigua.md) |
+| City of Cohoes | Capital Region | [No portal found (PROS assessment search)](https://cityofcohoes.prosgar.com/) | PROS assessment search (vendor) + CivicPlus city site | none | — | — | No data site | [City of Cohoes details](portals/city-of-cohoes.md) |
+| City of Corning | Southern Tier | [No portal found (links Steuben County Beacon)](https://cityofcorningny.gov/assessor) | Catalis (vertical) city site; Schneider Beacon (county) | none | — | — | No data site | [City of Corning details](portals/city-of-corning.md) |
+| City of Cortland | Central NY | [No portal found](https://www.cortlandny.gov/) | CivicPlus city site, PDF maps | none | — | — | No data site | [City of Cortland details](portals/city-of-cortland.md) |
+| City of Dunkirk | Western NY (Finger Lakes + WNY) | [No portal found](https://www.cityofdunkirkny.gov/) | Revize city site | none | — | — | No data site | [City of Dunkirk details](portals/city-of-dunkirk.md) |
+| City of Elmira | Southern Tier | [No portal found](https://www.cityofelmirany.gov/) | CivicPlus city site; Scribble Maps parks map | none | — | — | No data site | [City of Elmira details](portals/city-of-elmira.md) |
+| City of Fulton | Central NY | [No portal found (ClearGov budget book)](https://cityoffultonny.gov/budget/) | WordPress city site + ClearGov budget book | none | — | — | No data site | [City of Fulton details](portals/city-of-fulton.md) |
+| City of Geneva | Western NY (Finger Lakes + WNY) | [No portal found](https://www.cityofgenevany.gov/333/Maps) | CivicPlus city site, PDF maps | none | — | — | No data site | [City of Geneva details](portals/city-of-geneva.md) |
+| City of Glen Cove | NYC Metro / Long Island | [No portal found (links Nassau County land records viewer)](https://glencoveny.gov/assessment-department) | WordPress city site | none | — | — | No data site | [City of Glen Cove details](portals/city-of-glen-cove.md) |
+| City of Glens Falls | Capital Region | [No city portal (ImageMate locator; city GIS content inside Warren County's ArcGIS org)](https://cityofglensfalls.sdgnys.com/index.aspx) | ImageMate (SDG) property locator; ArcGIS Online user in Warren County org (Fg3XpDIUTR3JZZES) | none | — | — | No data site | [City of Glens Falls details](portals/city-of-glens-falls.md) |
+| City of Gloversville | Mohawk Valley | [No portal found](https://cityofgloversvilleny.gov/) | WordPress city site | none | — | — | No data site | [City of Gloversville details](portals/city-of-gloversville.md) |
+| City of Hornell | Southern Tier | [No portal found (links Steuben County parcel viewer)](https://www.cityofhornell.gov/city-assessors-page) | Duda (multiscreensite) city site | none | — | — | No data site | [City of Hornell details](portals/city-of-hornell.md) |
+| City of Hudson | Capital Region | [UNCONFIRMED: city site not crawlable under its robots.txt](https://www.hudsonny.gov/) | — | UNCONFIRMED | — | — | Not yet confirmed | [City of Hudson details](portals/city-of-hudson.md) |
+| City of Ithaca | Southern Tier | [City of Ithaca Open Data (Hub)](https://data-ithacany.opendata.arcgis.com/) | ArcGIS Hub | ArcGIS Hub (OGC API Records search) + ArcGIS REST | No | 45 | Live | [City of Ithaca details](portals/city-of-ithaca.md) |
+| City of Jamestown | Western NY (Finger Lakes + WNY) | [No catalog (city ArcGIS Online org 'COJNY'; links Chautauqua County GIS)](https://www.jamestownny.gov/assessor/) | WordPress city site; ArcGIS Online org 'City of Jamestown, New York' (CQ6l69A0aVx5okSo) | ArcGIS REST (org feature services, no catalog) | No | — | No data site | [City of Jamestown details](portals/city-of-jamestown.md) |
+| City of Johnstown | Mohawk Valley | [No portal found](https://cityofjohnstown.ny.gov/city-maps.html) | Weebly city site, PDF/JPG maps | none | — | — | No data site | [City of Johnstown details](portals/city-of-johnstown.md) |
+| City of Kingston | Hudson Valley | [No catalog (city ArcGIS Online org 'KingstonNY'; links Ulster County parcel viewer)](https://kingston-ny.gov/Assessor) | City site (QScend-built CMS); ArcGIS Online org 'City Of Kingston' (lURKWeSyTPF2wvVs) | ArcGIS REST (org feature services, no catalog) | No | — | No data site | [City of Kingston details](portals/city-of-kingston.md) |
+| City of Lackawanna | Western NY (Finger Lakes + WNY) | [No portal found (links Erie County property inventory)](https://lackawannany.gov/assessor/) | WordPress city site | none | — | — | No data site | [City of Lackawanna details](portals/city-of-lackawanna.md) |
+| City of Little Falls | Central NY | [No portal found (XLSX project list; links Herkimer County ImageMate)](https://thisislittlefalls.com/services/) | WordPress city site | none | — | — | No data site | [City of Little Falls details](portals/city-of-little-falls.md) |
+| City of Lockport | Western NY (Finger Lakes + WNY) | [Lockport's Open Financial Data Portal](https://lockportny.gov/lockports-open-financial-data-portal/) | City web page (WordPress) with XLSX downloads | bulk download (XLSX) | No | 12 | Live | [City of Lockport details](portals/city-of-lockport.md) |
+| City of Long Beach | NYC Metro / Long Island | [No data portal (ClearGov financial transparency site)](https://www.longbeachny.gov/transparency) | Catalis (vertical) city site + ClearGov | none | — | — | No data site | [City of Long Beach details](portals/city-of-long-beach.md) |
+| City of Mechanicville | Capital Region | [No portal found](https://www.mechanicvilleny.gov/) | — | none | — | — | No data site | [City of Mechanicville details](portals/city-of-mechanicville.md) |
+| City of Middletown | Hudson Valley | [No portal found](https://www.middletownny.gov/) | — | none | — | — | No data site | [City of Middletown details](portals/city-of-middletown.md) |
 | City of Mount Vernon | NYC Metro / Long Island | [No catalog (public ArcGIS Enterprise services + dashboards)](https://gis.cmvny.com/server/rest/services) | ArcGIS Enterprise 11.3 (self-hosted; no Sites/Hub catalog) | ArcGIS REST (Enterprise portal + server) | No | — | No data site | [City of Mount Vernon details](portals/city-of-mount-vernon.md) |
 | City of New Rochelle | NYC Metro / Long Island | No portal found | — | none | — | — | No data site | [City of New Rochelle details](portals/city-of-new-rochelle.md) |
+| City of Newburgh | Hudson Valley | [No portal found (GIS / Mapping page: maps by FOIL request)](https://www.cityofnewburgh-ny.gov/286/GIS-Mapping) | City web page (CivicPlus); PROS property search (prosgar.com) | none | — | — | No data site | [City of Newburgh details](portals/city-of-newburgh.md) |
+| City of Niagara Falls | Western NY (Finger Lakes + WNY) | [No catalog (Falls Viewer map + public ArcGIS Online services)](https://experience.arcgis.com/experience/fcb1971b5fa54e86bac0cf96e6fe6e75) | ArcGIS Experience Builder viewer + ArcGIS Online feature services; PROS property search | ArcGIS REST (org feature services) | No | — | No data site | [City of Niagara Falls details](portals/city-of-niagara-falls.md) |
+| City of North Tonawanda | Western NY (Finger Lakes + WNY) | [No portal found](https://www.northtonawanda.gov/) | — | none | — | — | No data site | [City of North Tonawanda details](portals/city-of-north-tonawanda.md) |
+| City of Norwich | Southern Tier | [No portal found](https://www.norwichnewyork.gov/) | — | none | — | — | No data site | [City of Norwich details](portals/city-of-norwich.md) |
+| City of Ogdensburg | North Country | [No portal found (Digital Tax Map page, PDF)](https://www.ogdensburgny.gov/362/City-of-Ogdensburg-Digital-Tax-Map) | City web page (CivicPlus), PDF maps | none | — | — | No data site | [City of Ogdensburg details](portals/city-of-ogdensburg.md) |
+| City of Olean | Western NY (Finger Lakes + WNY) | [No portal found](https://cityofolean.gov/) | OpenGov Stories (budget), county Image Mate | none | — | — | No data site | [City of Olean details](portals/city-of-olean.md) |
+| City of Oneida | Central NY | [No portal found (zoning lookup on Madison County's ArcGIS)](https://www.oneidacityny.gov/departments/planning_development/maps.php) | City web page; Madison County ArcGIS Online viewer; Schneider Beacon (county) | none | — | — | No data site | [City of Oneida details](portals/city-of-oneida.md) |
+| City of Oneonta | Southern Tier | [City Engineering ArcGIS Online org (no catalog found); city site not crawled](https://cooe.maps.arcgis.com/) | ArcGIS Online feature services | ArcGIS REST (org feature services) | No | — | Not yet confirmed | [City of Oneonta details](portals/city-of-oneonta.md) |
+| City of Oswego | Central NY | [No portal found](https://www.oswegony.gov/) | Documents On-Demand (PDF library) | none | — | — | No data site | [City of Oswego details](portals/city-of-oswego.md) |
+| City of Peekskill | NYC Metro / Long Island | [No portal found](https://www.cityofpeekskillny.gov/) | — | none | — | — | No data site | [City of Peekskill details](portals/city-of-peekskill.md) |
+| City of Plattsburgh | North Country | [No portal found (linked GIS map is not public)](https://www.cityofplattsburgh-ny.gov/) | ArcGIS Online (Clinton County viewer; city org services secured); ClearGov | none | — | — | No data site | [City of Plattsburgh details](portals/city-of-plattsburgh.md) |
+| City of Port Jervis | Hudson Valley | [No portal found](https://www.portjervisny.gov/) | — | none | — | — | No data site | [City of Port Jervis details](portals/city-of-port-jervis.md) |
+| City of Poughkeepsie | Hudson Valley | [No catalog (two small ArcGIS Online orgs; historic-districts web map)](https://experience.arcgis.com/experience/492d9fd72f3f43c48837b4e99a5a4b8a) | ArcGIS Online; ClearGov budget book; Flock transparency page | ArcGIS REST (org feature services) | No | — | No data site | [City of Poughkeepsie details](portals/city-of-poughkeepsie.md) |
+| City of Rensselaer | Capital Region | [No portal found](https://www.rensselaerny.gov/) | — | none | — | — | No data site | [City of Rensselaer details](portals/city-of-rensselaer.md) |
 | City of Rochester | Western NY (Finger Lakes + WNY) | [DataROC](https://data.cityofrochester.gov/) | ArcGIS Hub | ArcGIS Hub/REST | No | 52 | Live | [City of Rochester details](portals/city-of-rochester.md) |
+| City of Rome | Central NY | [No catalog (public ArcGIS Online services; Beacon property search)](https://romeny.gov/) | ArcGIS Online feature services; Schneider Beacon; Image Mate Online | ArcGIS REST (org feature services) | No | — | No data site | [City of Rome details](portals/city-of-rome.md) |
+| City of Rye | NYC Metro / Long Island | [Small public ArcGIS Online org; city site blocked](https://www.ryeny.gov/) | ArcGIS Online feature services | ArcGIS REST (org feature services) | No | — | Not yet confirmed | [City of Rye details](portals/city-of-rye.md) |
+| City of Salamanca | Western NY (Finger Lakes + WNY) | [No portal found](https://www.salamancany.gov/) | — | none | — | — | No data site | [City of Salamanca details](portals/city-of-salamanca.md) |
+| City of Saratoga Springs | Capital Region | [No portal found](https://www.saratogaspringsny.gov/) | SDG property search, Laserfiche WebLink | none | — | — | No data site | [City of Saratoga Springs details](portals/city-of-saratoga-springs.md) |
 | City of Schenectady | Capital Region | ["Open Data Portal" page (PDF reports only)](https://www.cityofschenectady.gov/605/Open-Data-Portal) | City web page (CivicPlus), PDF reports | none | — | — | No data site | [City of Schenectady details](portals/city-of-schenectady.md) |
+| City of Sherrill | Central NY | [No portal found](https://www.sherrillny.gov/) | — | none | — | — | No data site | [City of Sherrill details](portals/city-of-sherrill.md) |
 | City of Syracuse | Central NY | [Open Data Syracuse](https://data.syr.gov/) | ArcGIS Hub | ArcGIS Hub (OGC API Records search, DCAT-US) + ArcGIS REST | No | 136 | Live | [City of Syracuse details](portals/city-of-syracuse.md) |
+| City of Tonawanda | Western NY (Finger Lakes + WNY) | [Not checked (city site blocks crawlers)](https://www.tonawandacity.com/) | — | none | — | — | Not yet confirmed | [City of Tonawanda details](portals/city-of-tonawanda.md) |
 | City of Troy | Capital Region | No portal found | — | none | — | — | No data site | [City of Troy details](portals/city-of-troy.md) |
 | City of Utica | Central NY | [No dedicated portal (GIS Maps page)](https://www.cityofutica.com/maps/gis-maps/index) | ArcGIS Experience Builder viewer + Schneider Beacon | ArcGIS REST (org feature services) | No | — | No data site | [City of Utica details](portals/city-of-utica.md) |
+| City of Watertown | North Country | [City of Watertown GIS Portal](https://maps.watertown-ny.gov/portal/home/) | ArcGIS Enterprise (self-hosted Portal, no Sites catalog seen) | ArcGIS Portal REST search + ArcGIS REST | No | 17 | Live | [City of Watertown details](portals/city-of-watertown.md) |
+| City of Watervliet | Capital Region | [No portal found](https://www.watervliet.com/) | — | none | — | — | No data site | [City of Watervliet details](portals/city-of-watervliet.md) |
 | City of White Plains | NYC Metro / Long Island | No portal found | — | none | — | — | No data site | [City of White Plains details](portals/city-of-white-plains.md) |
 | City of Yonkers | NYC Metro / Long Island | [No general portal found](https://imo.yonkersny.gov/index.aspx) | Image Mate Online (assessment records) | none | — | — | No data site | [City of Yonkers details](portals/city-of-yonkers.md) |
 | Clinton County | North Country | [No portal found (map viewer only)](https://www.clintoncountyny.gov/planning/gis-map) | ArcGIS Online (Experience Builder app) | none | — | — | No data site | [Clinton County details](portals/clinton-county.md) |
@@ -160,11 +216,13 @@ City agencies and offices that run their own data service or API. NYC Open Data 
 | Who runs it | Data site | Built on | How to get the data | Key needed? | Datasets | Status |
 |---|---|---|---|---|---|---|
 | Board of Elections in the City of New York | [Election results (vote.nyc) and Election Night Results](https://vote.nyc/page/election-results-summary) | Drupal + static ENR | bulk download (CSV/PDF) | No | — | Live |
+| City of New York (as harvested by data.gov) | [catalog.data.gov organization: City of New York](https://catalog.data.gov/organization/nyc-ny) | CKAN-derived catalog (data.gov, GSA) | none verified (old CKAN action API at /api/3/action/* returns 404) | No | 2,716 | Live |
 | New York City Council | [Legistar Web API (NYC Council)](https://webapi.legistar.com/v1/nyc/) | Granicus Legistar | REST/JSON (OData-style) | Yes | — | Live |
 | New York City Police Department | [CompStat 2.0](https://compstat.nypdonline.org/) | custom dashboard | web query (no documented API) | No | — | Live |
 | NYC Campaign Finance Board | [Follow the Money - Data Library](https://www.nyccfb.info/follow-the-money/data-library/) | custom (nyccfb.info) | bulk download (CSV) | No | — | Live |
 | NYC Department of Buildings | [Building Information System (BIS)](https://a810-bisweb.nyc.gov/bisweb/bsqpm01.jsp) | Java web app | web query (no API) | No | — | Live |
 | NYC Department of City Planning | [BYTES of the BIG APPLE / DCP Open Data](https://www.nyc.gov/site/planning/data-maps/open-data.page) | nyc.gov CMS | bulk download (shapefile/CSV/FileGDB) | No | — | Live |
+| NYC Department of City Planning | [Equitable Development Data Explorer](https://equitableexplorer.planning.nyc.gov/) | custom web app | none verified | No | — | Live |
 | NYC Department of City Planning | [NYC DCP Mapping Portal (ArcGIS REST)](https://services5.arcgis.com/GfwWNkhOj9bNBqoJ/arcgis/rest/services) | ArcGIS Online | ArcGIS REST (FeatureServer) | No | 530 | Live |
 | NYC Department of Citywide Administrative Services | [The City Record Online (CROL)](https://a856-cityrecord.nyc.gov/) | custom web app | web query (no API) | No | — | Live |
 | NYC Department of Finance | [Rolling Sales Data](https://www.nyc.gov/site/finance/property/property-rolling-sales-data.page) | nyc.gov CMS | bulk download (XLSX) | No | 5 | Live |
@@ -172,6 +230,7 @@ City agencies and offices that run their own data service or API. NYC Open Data 
 | NYC Department of Transportation | [NYCTMC Traffic Cameras API](https://webcams.nyctmc.org/) | custom | REST/JSON | No | — | Live |
 | NYC Independent Budget Office | [IBO Data Center (NYC Fiscal History)](https://www.ibo.nyc.gov/content/data-center) | custom JS site | bulk download (XLSX) | No | 29 | Live |
 | NYC Office of Technology and Innovation (OTI) | [NYC API Developers Portal](https://api-portal.nyc.gov/) | Azure API Management | REST (multiple) | Yes | 8 | Live |
+| NYC Office of Technology and Innovation (OTI) | [NYCMapHub (NYCmaps)](https://nycmaps.nyc.gov/) | ArcGIS Hub (custom domain) | ArcGIS Hub (OGC API Records search) + ArcGIS REST | No | 172 | Live |
 | NYC Office of Technology and Innovation (OTI) / Department of City Planning | [Geoclient v2](https://api-portal.nyc.gov/) | Azure API Management (Geosupport backend) | REST/JSON | Yes | — | Live |
 | NYC Public Schools (DOE) | [InfoHub reports and data](https://infohub.nyced.org/reports) | custom CMS | Bulk download (XLSX and PDF files); no API | No | — | Live |
 | NYC311 | [NYC 311 Public API](https://api-portal.nyc.gov/api-details#api=nyc-311-public-api) | Azure API Management | REST/JSON (Azure API Management; OpenAPI 3 and 2 definitions downloadable from the portal) | Yes | — | Live |
@@ -185,40 +244,65 @@ Sources outside government that publish data about New York.
 |---|---|---|---|---|---|---|---|
 | Association for Neighborhood and Housing Development (ANHD) | NYC Metro / Long Island | [Displacement Alert Project (DAP) Portal and API](https://portal.displacementalert.org/) | React app + Django REST API | Web portal; data access by account (by request) | Yes | — | Live |
 | Baruch College (CUNY) Newman Library | NYC Metro / Long Island | [NYC Geodatabase (Baruch Geoportal)](https://www.baruch.cuny.edu/confluence/display/geoportal/NYC+Geodatabase) | Confluence | Bulk download (SpatiaLite and MS Access personal geodatabase ZIPs), per search-indexed copies only | — | — | Not yet confirmed |
+| Binghamton University Libraries | Southern Tier | [The Open Repository @ Binghamton (The ORB)](https://orb.binghamton.edu/) | Digital Commons (Elsevier bepress) | OAI-PMH (robots.txt disallows /do/ to crawlers) | No | — | Live |
+| Cary Institute of Ecosystem Studies | Hudson Valley | [Cary Institute research repository](https://caryinstitute.figshare.com/) | Figshare for Institutions | Figshare API v2 | No | — | Live |
 | Central New York Community Foundation | Central NY | [CNY Vitals](https://pro.cnyvitals.org/) | Datawheel (D3plus front end; Tesseract OLAP API) | REST/JSON (Tesseract `data.jsonrecords`; undocumented on the site) + per-chart "Download data" | No | — | Live |
 | Citizens Budget Commission | Statewide | [CBC website (data tools UNCONFIRMED)](https://cbcny.org/) | Drupal site behind Cloudflare; Datawrapper charts | none (reports, Datawrapper-chart dashboards, an AI Q&A over its publications) | — | — | No data site |
 | Citizens' Committee for Children of New York | NYC Metro / Long Island | [Keeping Track Online](https://data.cccnewyork.org/) | Custom web app | Indicator pages with Export (CSV) button; no API found | No | 124 | Live |
+| City University of New York (CUNY Libraries) | NYC Metro / Long Island | [CUNY Academic Works](https://academicworks.cuny.edu/) | Digital Commons (Elsevier bepress) | OAI-PMH (robots.txt disallows /do/ to crawlers) | No | — | Live |
+| Columbia University (Center for Climate Systems Research) | Statewide | [CCSR Climate Forecast OPeNDAP](https://forecast.ccsr.columbia.edu/data/) | PyDAP | OPeNDAP | No | — | Live |
+| Columbia University Libraries | NYC Metro / Long Island | [Columbia Academic Commons](https://academiccommons.columbia.edu/) | Samvera Hyrax (per Common Data registry) | REST search API + OAI-PMH (robots.txt disallows /*search*) | No | — | Live |
+| Columbia University Libraries | Statewide | [Columbia Data Platform (Redivis)](https://columbia.redivis.com/) | Redivis | Redivis REST API (key required for API use; not tested) | Yes | — | Live |
 | Columbia University Libraries | Statewide | [Columbia GeoData](https://geodata.library.columbia.edu/) | GeoBlacklight | Blacklight JSON API | No | 104,570 | Live |
+| Cornell Center for Social Sciences (CISER) | Statewide | [CCSS Data & Reproduction Archive (CISER Archive)](https://archive.ciser.cornell.edu/) | Custom | UNCONFIRMED | Not yet confirmed | — | Not yet confirmed |
+| Cornell Tech (Jacobs Urban Tech Hub) | NYC Metro / Long Island | [Bus Observatory](https://api.busobservatory.org/) | custom API | REST (real-time transit archive) | No | — | Live |
 | Cornell University (Northeast Regional Climate Center) | Statewide | [RCC-ACIS web services](https://www.nrcc.cornell.edu/) | ACIS | REST/JSON | No | — | Live |
 | Cornell University (Program on Applied Demographics) | Statewide | [PAD data: county and state projections, Census 2020, school districts](https://pad.human.cornell.edu/) | ColdFusion web app | Interactive GET query form; no documented API | No | — | Live |
+| Cornell University (Roper Center for Public Opinion Research) | Statewide | [Roper Center / Roper iPoll](https://ropercenter.cornell.edu/) | Custom (iPoll is a JS app) | Web search; downloads by institutional membership | Yes | — | Live |
 | Cornell University Library | Statewide | [CUGIR (Cornell University Geospatial Information Repository)](https://cugir.library.cornell.edu/) | GeoBlacklight | Blacklight JSON API; bulk download per record | No | 893 | Live |
+| Cornell University Library | Statewide | [eCommons (Cornell's digital repository)](https://ecommons.cornell.edu/) | DSpace 8.2 | DSpace REST (HAL+JSON) + OAI-PMH | No | 437 | Live |
 | CUNY Graduate Center, Center for Urban Research | Statewide | [Redistricting & You / CUNY Mapping Service](https://newyork.redistrictingandyou.org/) | Vue + Mapbox GL web app | none (interactive web map only) | — | — | Live |
 | Empire Center for Public Policy | Statewide | [SeeThroughNY](https://www.seethroughny.net/) | Custom web database | Web search (no public API found) | No | — | Live |
+| Healthy Capital District Initiative | Capital Region | [Healthy Capital District (indicator site)](https://www.healthycapitaldistrict.org/) | Conduent HCI (Healthy Communities Institute) indicator platform | none verified | No | — | Live |
 | intro.nyc (independent project) | NYC Metro / Long Island | [intro.nyc and nyc_legislation data mirror](https://intro.nyc/) | Static site + GitHub data repo | Bulk JSON in GitHub repo | No | — | Live |
 | John Jay College (CUNY) Data Collaborative for Justice | Statewide | [DCJ Analytic Tools](https://datacollaborativeforjustice.org/analytic-tools/) | WordPress + embedded dashboards | Interactive dashboards; download UNCONFIRMED | No | — | Live |
 | JustFix | NYC Metro / Long Island | [Who Owns What](https://whoownswhat.justfix.org/) | Django API + React front end | REST/JSON (undocumented) | No | — | Live |
 | Lehman College (CUNY) | NYC Metro / Long Island | [Bronx Information Portal (Lehman College Community Connect)](https://bronx.lehman.cuny.edu/) | Socrata | SODA | No | 352 | Live |
+| Mohawk Valley Behavioral Health IPA (Otsego Health Matters) | Mohawk Valley | [Otsego Health Matters (indicator site)](https://www.otsegohealthmatters.org/) | Conduent HCI indicator platform | none verified | No | — | Live |
 | New York Public Library | NYC Metro / Long Island | [NYC Space/Time Directory](https://spacetime.nypl.org/) | Retired | Was bulk data + APIs | — | — | Offline |
 | New York Public Library | NYC Metro / Long Island | [NYPL Digital Collections API](https://api.repo.nypl.org/) | Custom REST | REST/JSON | Yes | — | Live |
 | New York Public Library | NYC Metro / Long Island | [NYPL Map Warper](https://maps.nypl.org/warper/) | Map Warper (retired) | Was WMS/tiles + REST | — | — | Offline |
+| New York State Community Action Association | Statewide | [NYSCAA Engagement Network (SparkMap)](https://nyscaa.engagementnetwork.org/) | SparkMap / Engagement Network (CARES, University of Missouri) | none verified | No | — | Live |
+| New York University Libraries | NYC Metro / Long Island | [NYU Faculty Digital Archive (FDA)](https://archive.nyu.edu/) | DSpace (JSPUI) | DSpace REST + OAI-PMH (robots.txt disallows /rest and /discover to crawlers) | No | — | Live |
 | New York University Libraries | Statewide | [NYU Spatial Data Repository (now in UltraViolet)](https://ultraviolet.library.nyu.edu/communities/sdr/about) | InvenioRDM | InvenioRDM REST API | No | 50 | Live |
 | NYC Crash Mapper | NYC Metro / Long Island | [NYC Crash Mapper](https://crashmapper.org/) | Custom web map | UNCONFIRMED | Not yet confirmed | — | Live |
 | NYU Furman Center | NYC Metro / Long Island | [CoreData.nyc and Data Set Downloads](https://coredata.nyc/) | Custom web map + static file downloads | Bulk download (CSV/XLSX) | No | — | Live |
+| NYU Langone Health (Health Sciences Library) | NYC Metro / Long Island | [NYU Data Catalog](https://datacatalog.med.nyu.edu/) | NYU Data Catalog (open-source, custom) | none verified | No | — | Live |
 | Rauch Foundation (Long Island Index) | NYC Metro / Long Island | [Long Island Index](https://www.longislandindex.org/) | Retired | None | — | — | Offline |
 | Rochester Area Community Foundation | Western NY (Finger Lakes + WNY) | [ACT Rochester](https://www.actrochester.org/) | Squarespace | Per-indicator download buttons; no API found | No | — | Live |
 | Rockefeller Institute of Government (SUNY) | Statewide | [Rockefeller Institute Data Hub: New York Data Sets (NYS Statistical Yearbook tables)](https://www.rockinst.org/data-hub/new-york-data-sets-001/) | WordPress | Bulk download (XLS files) | No | 558 | Live |
 | Social Science Research Council (Measure of America) | NYC Metro / Long Island | [DATA2GO.NYC](https://www.data2go.nyc/) | Static site + open file directory | Bulk download (CSV directory) | No | — | Live |
+| State University of New York | Statewide | [SUNY Open Access Repository (SOAR)](https://soar.suny.edu/) | DSpace 7+ (Angular UI) | DSpace REST (robots.txt disallows /server/api except bitstreams) | No | — | Live |
+| State University of New York (System Administration) | Statewide | [SUNY Digital Repository (SDR)](https://dspace.sunyconnect.suny.edu/) | DSpace 7+ (Angular UI) | DSpace REST (robots.txt crawl-delay 10; search and browse disallowed) | No | — | Live |
+| Stony Brook University (Geospatial Center, SoMAS) | NYC Metro / Long Island | [Geospatial Center Data Hub (CKAN)](https://data.gss.stonybrook.edu/) | CKAN 2.11 | CKAN Action API (path is disallowed by robots.txt for crawlers) | No | 90 | Live |
+| Stony Brook University Libraries | NYC Metro / Long Island | [Stony Brook University Academic Commons](https://commons.library.stonybrook.edu/) | Digital Commons (Elsevier bepress) | OAI-PMH (robots.txt disallows /do/ to crawlers) | No | — | Live |
+| SUNY College of Environmental Science and Forestry | North Country | [Experts at ESF](https://experts.esf.edu/esploro/) | Ex Libris Esploro | Esploro portal (JS); Ex Libris Esploro APIs need an API key (not used) | Yes | — | Live |
+| SUNY Cortland | Central NY | [SUNY Cortland Geo-Spatial Information Hub](https://suny-cortland-geo-spatial-information-hub-suncortlandadmin.hub.arcgis.com/) | ArcGIS Hub | ArcGIS Hub (OGC API Records search) + ArcGIS REST | No | 3 | Live |
+| Syracuse University (Community Geography) | Central NY | [Syracuse University Open Data (Hub)](https://data-syruniv.opendata.arcgis.com/) | ArcGIS Hub | ArcGIS Hub (OGC API Records search) + ArcGIS REST | No | 163 | Live |
+| Syracuse University (Qualitative Data Repository) | Statewide | [Qualitative Data Repository (QDR) data catalog](https://data.qdr.syr.edu/) | Dataverse 6.12.1 (QDR build) | Dataverse Search and Native APIs | No | 240 | Live |
+| University at Albany (Dept. of Atmospheric and Environmental Sciences) | Statewide | [UAlbany DAES THREDDS Data Server](http://thredds.atmos.albany.edu:8080/thredds/catalog.html) | THREDDS Data Server (Unidata) | THREDDS catalog + OPeNDAP / HTTP file server | No | — | Live |
 | University at Albany (NYS Mesonet) | Statewide | [NYS Mesonet data](https://www.nysmesonet.org/) | Custom | Data request form; api.nysmesonet.org exists but undocumented | Yes | — | Live |
+| University of Rochester | Western NY (Finger Lakes + WNY) | [Rochester Area Data (Hub)](https://rochester-area-data-urochester.hub.arcgis.com/) | ArcGIS Hub | ArcGIS Hub (OGC API Records search) + ArcGIS REST | No | 20 | Live |
 
 ## About this directory
 
-**This is a draft.** 140 sources: 98 live, 37 with no data site, 1 not yet confirmed, 4 offline. Rows marked "Not yet confirmed" need a person to check them before you rely on them.
+**This is a draft.** 224 sources: 134 live, 80 with no data site, 6 not yet confirmed, 4 offline. Rows marked "Not yet confirmed" need a person to check them before you rely on them.
 
-**Last checked:** 2026-11-05.
+**Last checked:** 2026-11-13.
 
 ### How we checked
 
-- We visited every web address on 2026-11-05 without logging in. For each source we recorded who runs it, how to get the data, and how many datasets it lists.
+- We visited every web address on 2026-11-05 without logging in; sources added later were visited on the date in their own row. For each source we recorded who runs it, how to get the data, and how many datasets it lists.
 - We confirmed each source is really in New York by checking who publishes it, not just its web address. An earlier version of the county list included 8 sites from other states with similar names.
 - Where an API needed no key, we ran one small test request.
 
@@ -233,6 +317,8 @@ Sources outside government that publish data about New York.
 
 - **2026-11-05:** first version. 140 sources checked, a details page for every county and city, and the search and filter tool.
 - **2026-11-05:** rechecked the 11 sources marked "Not yet confirmed" in a browser. 10 now have a confirmed status; one (Baruch's NYC Geodatabase) is still unconfirmed because it only works on campus. Labor, 511NY, NYC 311 and Rockefeller rows point to new addresses.
+- **2026-11-12:** added 20 sources found in a search for New York portals missing from this directory: five state agency map services, the state's Kids' Well-being Indicators Clearinghouse, NYC's map hub and two more NYC sources, the cities of Ithaca and Watertown, and nine university, library, nonprofit and health-indicator sites, including the first CKAN site (Stony Brook). Buffalo's COVID-19 data site is noted on the Buffalo row.
+- **2026-11-13:** every one of New York's 62 cities now has a row and a details page: 48 cities were added after a check of each city's own website. Only Lockport publishes open data (spending spreadsheets); 43 have no data site, though nine of those share public map layers; four could not be read and are marked "Not yet confirmed". Also added: 15 university, library and research-center archives that hold government or public data, and Columbia's data platform.
 - Planned: a monthly check that every link still works.
 
 Spotted a wrong link, a missing source or a closed site? [Give us feedback](../feedback.md).

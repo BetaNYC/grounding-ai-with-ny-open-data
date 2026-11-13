@@ -15,6 +15,7 @@ on:
       - "_includes/**"
       - "assets/**"
       - "**/*.md"
+      - "whats-changed.html"
       - ".github/workflows/site-build-check.yml"
   workflow_dispatch:
 
@@ -79,6 +80,11 @@ jobs:
           need _site/about.html 'aria-current="page">About'                         "current page marked in the nav"
           need _site/about.html "Which guide answers my question"                   "About page rendered"
           need _site/guides/query-patterns.html 'aria-current="page">Query patterns' "current page marked on a guide"
+
+          # What's changed page: its own layout supplies the h1, every page's footer links it.
+          need _site/whats-changed.html "<h1>What"                                "What's changed page has its h1"
+          need _site/whats-changed.html "data-whats-changed"                      "What's changed list rendered"
+          need _site/index.html "whats-changed.html"                                "footer links What's changed"
 
           echo "--- unrendered Liquid anywhere in the build? ---"
           if grep -rIl --include=*.html -e '{%' -e '{{' _site 2>/dev/null | grep . ; then

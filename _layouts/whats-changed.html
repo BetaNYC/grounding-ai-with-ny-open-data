@@ -1,0 +1,10 @@
+---
+layout: default
+---
+{%- comment -%}
+  The "What's changed" page (BetaNYC's What's changed standard). The default layout does
+  not print page.title, so this one adds the page's only h1. The body is generated from
+  WHATS-CHANGED.md by scripts/whats_changed.py and wrapped in {% raw %} by the renderer.
+{%- endcomment -%}
+<h1>{{ page.title | escape }}</h1>
+{{ content }}

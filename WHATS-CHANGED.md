@@ -7,6 +7,14 @@ This page lists the changes to Grounding AI with NY Open Data that a reader woul
 
 To report a mistake or ask for a new feature, use the [feedback page](https://betanyc.github.io/grounding-ai-with-ny-open-data/feedback.html) or [open an issue on GitHub](https://github.com/BetaNYC/grounding-ai-with-ny-open-data/issues).
 
+## 2026-11-13: Research archives in the data directory now say what they hold
+
+- **Tags:** Data, Correction
+- **What changed:** Earlier today the directory said its 15 new research archives all hold government or public data. A visit to each archive in a web browser found that seven mostly hold papers and PDF reports, or copies of national or global data. They stay listed so you know where the information is, and their notes now start "Papers, not data" (CUNY Academic Works, both SUNY archives, Binghamton's and ESF's) or "Not New York data" (UAlbany's weather server and Columbia's climate forecasts). Columbia's data platform row listed New York examples that the browser visit could not find; it now lists only what was seen, and gives its size, 497 datasets. The Roper Center row now warns that Roper's rules do not allow its survey data in AI tools. NYU's Faculty Digital Archive was down during the visit and is marked for a recheck.
+- **If you used the old numbers:** Do not use Roper Center survey data to ground an AI tool. Do not expect the seven archives above to hold datasets. Do not cite Columbia's data platform for New York jobs, housing-survey or drinking-water data.
+- **Who it affects:** Anyone who used the directory's research archive rows on 2026-11-13.
+- **More detail:** [New York data directory](https://betanyc.github.io/grounding-ai-with-ny-open-data/resources/ny-data-portal-registry.html)
+
 ## 2026-11-13: Every New York city, and 16 research archives, in the directory of data portals
 
 - **Tags:** Data

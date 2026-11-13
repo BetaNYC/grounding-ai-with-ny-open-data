@@ -3677,7 +3677,7 @@
    "status": "live",
    "last_verified": "2026-11-13",
    "evidence": "Homepage HTTP 200 2026-11-13. Search-engine index shows 'Poverty in New York City: Social, Demographic and Spatial Characteristics' (clacls_pubs/110), 'Using NYC Open Data to Improve Accessibility for People with Mobility Impairments in New York City' (ny_pubs/1048), 'Courts of New York: A Visual Atlas of the City's Public Basketball Spaces' (gc_etds/6574).",
-   "notes": "What's in it: mostly reports and theses that analyze NYC and NYS public data; few deposited datasets. Useful for CUNY center reports (e.g. CLACLS census-based poverty reports). Region is the area the data covers.",
+   "notes": "**Papers, not data:** listed so you know where these reports live; most are PDFs, not datasets. What's in it: reports and papers that analyze New York City and State public data, such as CLACLS Latino Data Project reports built from Census data on NYC; few or no deposited datasets. Opened in a browser on 2026-11-13. Region is the area the data covers.",
    "registry_id": null,
    "page": null,
    "example_request": null
@@ -3697,7 +3697,7 @@
    "status": "live",
    "last_verified": "2026-11-13",
    "evidence": "Homepage HTTP 200 2026-11-13. Search-engine index shows 'GRID3 COD - Health Areas v9.0' (doi:10.7916/hv5g-p227), 'GRID3 RWA - Settlement Extents v3.0' (10.7916/fs4k-jr23), 'Prevalence and mapping of hepatitis C infections among men who have sex with men in New York City' (10.7916/D8PK1ZZM).",
-   "notes": "What's in it: public health-area and settlement geodata made with national governments (mostly Africa) plus NYC public-health studies. Mostly scholarship, not data. The API path is robots-disallowed, so not queried. Region is the area the data covers.",
+   "notes": "What's in it: public health-area and settlement geodata made with national governments (mostly Africa) plus NYC public-health studies. Mostly scholarship, not data. The API path is robots-disallowed, so not queried. Its robots.txt bars AI crawlers by name, so a person still needs to review it in a browser. Region is the area the data covers.",
    "registry_id": null,
    "page": null,
    "example_request": null
@@ -3857,7 +3857,7 @@
    "status": "live",
    "last_verified": "2026-11-13",
    "evidence": "Homepage HTTP 200 2026-11-13. Search-engine index shows NYC datasets: 'NYC Geodatabase, 2016' (handle 2451/34636), '2008 New York City Real Estate Sales' (2451/34671), '2015 New York City PATH Stations and Ridership' (2451/34497), LION street file metadata.",
-   "notes": "What's in it: holds NYC government and public data (Baruch NYC Geodatabase, DOF real estate sales, DCP LION, PATH ridership). Predecessor home of the NYU Spatial Data Repository, now on UltraViolet (already in the registry); FDA still serves many of these files. Search pages and /rest are robots-disallowed, so no count was taken. Region is the area the data covers.",
+   "notes": "What's in it: holds NYC government and public data (Baruch NYC Geodatabase, DOF real estate sales, DCP LION, PATH ridership). Predecessor home of the NYU Spatial Data Repository, now on UltraViolet (already in the registry); FDA still serves many of these files. Search pages and /rest are robots-disallowed, so no count was taken. Region is the area the data covers. **Recheck:** on 2026-11-13 the collection list loaded once, then every page, including the homepage, returned HTTP 500 from about 06:25 to 07:28 EST, so no item was read.",
    "registry_id": null,
    "page": null,
    "example_request": null
@@ -4017,7 +4017,7 @@
    "status": "live",
    "last_verified": "2026-11-13",
    "evidence": "Portal shell HTTP 200 2026-11-13 (robots crawl-delay 5). Search-engine index shows datasets 'Ammonia-oxidizer abundance, soil chemistry, stream chemistry, and meteorological data from two Adirondack headwater catchments, 2018-2020' and 'Data associated with paper titled \"Declining trends in canopy disturbance across reserve forest landscapes of the northeastern US\"' (includes a NYS land boundary file).",
-   "notes": "What's in it: environmental field data on New York forests and watersheds (Adirondacks, state reserve lands). Mostly research outputs; datasets often point to EDI or Zenodo. Region is the area the data covers. Key: Y (vendor API).",
+   "notes": "**Papers, not data:** listed so you know where these reports live. What's in it: theses, papers and reports from SUNY ESF, a few on New York topics (an invasive-species study built on iMapInvasives, a National Park Service report on Fort Tilden). Datasets are rare and often point to EDI or Zenodo. Opened in a browser on 2026-11-13. Region is the area the data covers. Key: Y (vendor API).",
    "registry_id": null,
    "page": null,
    "example_request": null
@@ -4037,7 +4037,7 @@
    "status": "live",
    "last_verified": "2026-11-13",
    "evidence": "Homepage HTTP 200 2026-11-13. Search-engine index shows Public Administration faculty items (public_admin_fac) including an incentive-zoning survey of New York towns, counties, villages and cities, and a study of county HR directors in New York.",
-   "notes": "What's in it: reports on New York local government and Broome County; papers rather than datasets. Region is the area the data covers.",
+   "notes": "**Papers, not data:** listed so you know where these papers live. What's in it: faculty papers, including public administration work on New York local government and Broome County, and a 'Datasets' collection of theses, campus and psychology study files. No New York government or public datasets were found. Opened in a browser on 2026-11-13. Region is the area the data covers.",
    "registry_id": null,
    "page": null,
    "example_request": null
@@ -4077,7 +4077,7 @@
    "status": "live",
    "last_verified": "2026-11-13",
    "evidence": "HTTP 200 2026-11-13: 'Datasets' obs/ (UCSB-CHC) and NMME/ (NASA-GMAO, ECCC, COLA-RSMAS, NOAA-NCEP, NOAA-GFDL).",
-   "notes": "What's in it: mirrors seasonal climate forecasts from the North American Multi-Model Ensemble (NOAA, NASA and partners) and CHIRPS observations. Government model output, but global, not New York-specific. Region is the area the data covers.",
+   "notes": "**Not New York data:** global forecasts, listed so you know where they are. What's in it: two folders, 'obs' and 'NMME': seasonal climate forecasts from the North American Multi-Model Ensemble (NOAA, NASA and partners) and CHIRPS observations. Nothing specific to New York. Opened in a browser on 2026-11-13. Region is the area the data covers.",
    "registry_id": null,
    "page": null,
    "example_request": null
@@ -4093,11 +4093,11 @@
    "api_type": "Redivis REST API (key required for API use; not tested)",
    "api_endpoint": null,
    "key_required": "Y",
-   "dataset_count": null,
+   "dataset_count": 497,
    "status": "live",
    "last_verified": "2026-11-13",
    "evidence": "HTTP 200, title 'Columbia Data Platform'. No NY string on the landing page; tied to Columbia University by subdomain and Common Data portals registry. 2026-11-13: search-engine index shows public dataset listings 'LODES – New York', 'New York City Housing and Vacancy Survey, 1984' and 'NYS SDWIS with Census Water Data'.",
-   "notes": "What's in it: New York jobs (LODES), NYC housing and vacancy surveys and state drinking-water data, among other licensed research data. The catalog is public; most data needs a Columbia sign-in. key_required=Y is an assumption from Redivis's API model. Region is the area the data covers.",
+   "notes": "What's in it: 497 research datasets from 63 Columbia groups, most licensed and needing approval. New York items seen include New York HCUP hospital data and HEALing Communities Study data from the NYS Department of Health. The 497 counts every dataset, not only New York ones. The catalog is public; data needs a Columbia sign-in and approval. Opened in a browser on 2026-11-13. key_required=Y is an assumption from Redivis's API model. Region is the area the data covers.",
    "registry_id": null,
    "page": null,
    "example_request": null
@@ -4197,7 +4197,7 @@
    "status": "live",
    "last_verified": "2026-11-13",
    "evidence": "Homepage HTTP 200 2026-11-13; JSON-LD address '136 Hoy Road, Rhodes Hall', Ithaca, NY 14853, parent Cornell University. re3data lists it (r3d100010331, r3d100010333 'Elections and Presidents'). iPoll page HTTP 200 (JS only).",
-   "notes": "What's in it: public opinion polls and election data, including New York polls (UNCONFIRMED from listing only). Found outside the Common Data list (via re3data). Most data are members-only; no key-gated access was tried. Region is the area the data covers. Key: Y (institutional membership for most downloads).",
+   "notes": "**Warning: Roper's AI policy (adopted 2025-11-14) tells users not to put Roper survey data into generative AI tools**, to disclose any AI use, and sometimes to get approval first: https://ropercenter.cornell.edu/policies/roper-center-artificial-intelligence-ai-policy. Do not use its data to ground an AI tool. What's in it: public opinion polls and election exit polls, including a New York State 2018 Election Day exit poll. Downloads need an iPoll account, mostly through a member institution. Opened in a browser on 2026-11-13. Found outside the Common Data list (via re3data). Region is the area the data covers. Key: Y (institutional membership for most downloads).",
    "registry_id": null,
    "page": null,
    "example_request": null
@@ -4377,7 +4377,7 @@
    "status": "live",
    "last_verified": "2026-11-13",
    "evidence": "Homepage HTTP 200 2026-11-13 (robots crawl-delay 10). Search-engine index shows 'New York's Local Governments: Population Size Distribution' (handle 20.500.12648/16283, Brockport Public Management) and a Little Sodus Bay, Cayuga County water-quality synopsis (2003-2009 sampling).",
-   "notes": "What's in it: open-access SUNY scholarship with some local-government and water-quality reports; little raw data. Region is the area the data covers.",
+   "notes": "**Papers, not data:** listed so you know where these reports live; they are PDFs, not datasets. What's in it: SUNY scholarship, including the Brockport Public Management 'Local Government Projects' collection of 26 PDF reports on New York local governments (e.g. the population size of New York's local governments, a Rhinebeck highway study). Opened in a browser on 2026-11-13. Region is the area the data covers.",
    "registry_id": null,
    "page": null,
    "example_request": null
@@ -4397,7 +4397,7 @@
    "status": "live",
    "last_verified": "2026-11-13",
    "evidence": "Homepage HTTP 200 2026-11-13 (robots crawl-delay 10). Homepage describes historical and special collections from SUNY campuses and SUNY System Administration, OER, and IITG grant reports.",
-   "notes": "What's in it: SUNY is a state system, so System Administration records and grant reports are public-institution material, but no data titles were confirmed (search is robots-disallowed and not indexed well). Region is the area the data covers.",
+   "notes": "**Papers, not data:** listed so you know where these records live. What's in it: campus collections; the SUNY System Administration community holds library services, professional development, SUNY Learning Network, open-access policy and oral-history material. No government or public datasets were found. Opened in a browser on 2026-11-13. Search is robots-disallowed, so no count was taken. Region is the area the data covers.",
    "registry_id": null,
    "page": null,
    "example_request": null
@@ -4417,7 +4417,7 @@
    "status": "live",
    "last_verified": "2026-11-13",
    "evidence": "/api/info/version 6.12.1-qdr; /api/search?q=*&type=dataset total_count 240 (2026-11-13). Examples: 'Data for: Child Support Adjudication: New York, California and Florida, 2015-2019' (doi:10.5064/F6AQGERV); 'Covenants without the sword? Comparing prison self-governance globally' (F6AGINR7); 'Presidential Campaign Advertising in Chile, Brazil, and Peru' (F62Z13FQ).",
-   "notes": "What's in it: qualitative social-science data on courts, policing, elections and governance; mostly outside New York (26 hits for \"New York\"). Homepage is behind an AWS WAF check; the API is not. Region is the area the data covers. Key: N (search); some data need a free account and terms.",
+   "notes": "What's in it: qualitative social-science data on courts, policing, elections and governance; mostly outside New York (26 hits for \"New York\"). In a browser on 2026-11-13 every page, even robots.txt, showed a 'confirm you are human' check, so a person still needs to review it; the 240 count and the New York hits come from the API. Region is the area the data covers. Key: N (search); some data need a free account and terms.",
    "registry_id": null,
    "page": null,
    "example_request": "https://data.qdr.syr.edu/api/search?q=%22New+York%22&type=dataset"
@@ -4437,7 +4437,7 @@
    "status": "live",
    "last_verified": "2026-11-13",
    "evidence": "Catalog HTTP 200 2026-11-13: folders 'METAR', 'METARArchive', 'SAOArchive', 'Metar Station Data', 'CESM Archive'. METAR folder has daily files updated through 2026-11-11 (e.g. 261110.sf, 32.75 MB).",
-   "notes": "What's in it: re-hosts current and archived METAR airport weather observations (federal NWS/FAA reports) in GEMPAK format for teaching and research. Plain HTTP only. Separate from NYS Mesonet (already in the registry). Region is the area the data covers.",
+   "notes": "**Not New York data:** copies of national weather data, listed so you know where they are. What's in it: current and archived METAR airport weather observations (federal NWS/FAA reports) in GEMPAK format, station data and climate-model archives (CESM, Climlab), for teaching and research. Plain HTTP only. For New York weather, use NYS Mesonet (already in the registry). Opened in a browser on 2026-11-13. Region is the area the data covers.",
    "registry_id": null,
    "page": null,
    "example_request": null

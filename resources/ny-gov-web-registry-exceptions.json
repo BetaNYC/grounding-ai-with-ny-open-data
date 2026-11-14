@@ -1,0 +1,28 @@
+{
+ "about": "Known exceptions for the registry_id tests (tests/test_registry_ids.py). Every entry needs a reason. registry_id is the id of the government body in BetaNYC/ny-gov-web-registry data/registry.json; the ids this repo accepts are in ny-gov-web-registry-ids.json.",
+ "places_not_linked_to_a_locality": [
+  {
+   "page": "portals/new-york-city.md",
+   "entity": "New York City",
+   "reason": "The City of New York is not an entity in ny-gov-web-registry, by design: its docs/sources.md says the borough presidents and the existing NYC entities stand for it. This row is NYC Open Data, so it points to oti, the Office of Technology and Innovation, which runs it."
+  }
+ ],
+ "shared_ids": [
+  {
+   "id": "oti",
+   "reason": "The New York City row (NYC Open Data) and the OTI rows (the NYC API portal and NYC's map hub) all point to oti, the office that runs those sites."
+  }
+ ],
+ "held_for_review": [
+  {
+   "url": "https://health.data.ny.gov/",
+   "entity": "NYS Department of Health",
+   "reason": "The row names the Department of Health, but ny-gov-web-registry lists health.data.ny.gov under the Office of Information Technology Services (new-york-state-office-of-information-technology-services). A person should decide which body the row links to."
+  },
+  {
+   "url": "https://environmentalbondact.ny.gov/",
+   "entity": "NYS Department of Environmental Conservation",
+   "reason": "The row names the Department of Environmental Conservation, but ny-gov-web-registry lists environmentalbondact.ny.gov under the Department of State (new-york-state-department-of-state). A person should decide which body the row links to."
+  }
+ ]
+}

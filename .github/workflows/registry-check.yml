@@ -1,12 +1,15 @@
 # Keeps the NY data portal registry honest: the generated Markdown, CSV and
-# per-place index must match the JSON source of truth, and the explorer's filter
-# logic must agree with that JSON. Regenerate with: python3 scripts/build_registry.py
+# per-place index must match the JSON source of truth, every registry_id must be
+# an id in the vendored ny-gov-web-registry list, and the explorer's filter logic
+# must agree with that JSON. Regenerate with: python3 scripts/build_registry.py
 name: Registry check
 
 on:
   pull_request:
     paths:
       - "resources/ny-data-portal-registry.*"
+      - "resources/ny-gov-web-registry-*.json"
+      - "scripts/vendor_registry_ids.py"
       - "resources/portals/**"
       - "scripts/build_registry.py"
       - "assets/js/registry-explorer.js"

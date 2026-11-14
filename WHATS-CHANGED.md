@@ -7,6 +7,12 @@ This page lists the changes to Grounding AI with NY Open Data that a reader woul
 
 To report a mistake or ask for a new feature, use the [feedback page](https://betanyc.github.io/grounding-ai-with-ny-open-data/feedback.html) or [open an issue on GitHub](https://github.com/BetaNYC/grounding-ai-with-ny-open-data/issues).
 
+## 2026-11-13: Each data source now names the government body that runs it
+
+- **Tags:** Data
+- **What changed:** 167 of the directory's 224 sources now have a `registry_id`, up from 22. It is the id of the government body that runs the source in ny-gov-web-registry, BetaNYC's list of New York government bodies and their websites, so a program can join the two lists. Every county and city is linked, as are most state agencies, the public authorities and the NYC agencies. New York City's row points to the Office of Technology and Innovation, which runs NYC Open Data, because the list does not hold the City of New York as one body. The New York Public Library and CUNY Libraries rows are linked because those bodies are already in the list. Not linked: the State Legislature, the courts, the State Comptroller and the Kids' Well-being Indicators Clearinghouse, which are not in the list yet; the state Health Department's data site and the Environmental Bond Act site, where the two lists disagree about who runs the site; and universities, research centers and nonprofits. The ids come from a version of the list, still under review, that adds every county, city, town and village in the state. They are in the `registry_id` column of the CSV and JSON downloads.
+- **More detail:** [The directory as JSON](https://betanyc.github.io/grounding-ai-with-ny-open-data/resources/ny-data-portal-registry.json) · [ny-gov-web-registry](https://github.com/BetaNYC/ny-gov-web-registry)
+
 ## 2026-11-13: Research archives in the data directory now say what they hold
 
 - **Tags:** Data, Correction

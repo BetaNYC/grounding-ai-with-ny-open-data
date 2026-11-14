@@ -15,6 +15,9 @@ Usage (from anywhere; paths resolve from this file's location):
 
     python3 scripts/build_registry.py            # regenerate everything
     python3 scripts/build_registry.py --check    # exit 1 if anything would change
+        # (both modes exit 2 on a PROBLEM, including a registry_id that is not
+        # in resources/ny-gov-web-registry-ids.json; refresh that list with
+        # scripts/vendor_registry_ids.py)
     python3 scripts/build_registry.py --date 2026-12-01
         # dates stamped into the page; defaults to the JSON's "generated" value
 
@@ -46,6 +49,9 @@ CSV_PATH = os.path.join(RES, "ny-data-portal-registry.csv")
 MD_PATH = os.path.join(RES, "ny-data-portal-registry.md")
 PORTALS = os.path.join(RES, "portals")
 PORTALS_INDEX = os.path.join(PORTALS, "README.md")
+# Ids of ny-gov-web-registry entities, pinned to one commit; written by
+# scripts/vendor_registry_ids.py. A row's registry_id must be one of them.
+REGISTRY_IDS_PATH = os.path.join(RES, "ny-gov-web-registry-ids.json")
 
 KEYS = ["tier", "entity", "entity_type", "region", "portal_name", "url", "platform", "api_type",
         "api_endpoint", "key_required", "dataset_count", "status", "last_verified", "evidence",
@@ -82,6 +88,26 @@ def normalize(rows: list[dict]) -> list[dict]:
     rows.sort(key=lambda r: (int(r["tier"]), str(r["region"] or ""), str(r["entity"]).lower(),
                              str(r["portal_name"] or "")))
     return [{k: r.get(k) for k in KEYS} for r in rows]
+
+
+def load_registry_ids(path: str = REGISTRY_IDS_PATH) -> tuple[set[str], str]:
+    """The vendored ny-gov-web-registry ids and the commit they were read at."""
+    if not os.path.exists(path):
+        sys.exit(f"build_registry: vendored id list not found: {path} "
+                 "(write it with scripts/vendor_registry_ids.py)")
+    with open(path, encoding="utf-8") as fh:
+        doc = json.load(fh)
+    ids = {x["id"] for x in doc["ids"]}
+    if len(ids) != doc["count"]:
+        sys.exit(f"build_registry: {path}: count {doc['count']} but {len(ids)} distinct ids")
+    return ids, doc["commit"]
+
+
+def unknown_registry_ids(rows: list[dict], ids: set[str]) -> list[str]:
+    """One problem per row whose non-empty registry_id is not a vendored id."""
+    return [f"unknown registry_id {r['registry_id']!r} for {r['entity']} ({r['url']}); "
+            "not in resources/ny-gov-web-registry-ids.json"
+            for r in rows if r["registry_id"] not in (None, "") and r["registry_id"] not in ids]
 
 
 def problems_in(rows: list[dict]) -> list[str]:
@@ -396,6 +422,8 @@ def main(argv=None) -> int:
         generated = a.date or src["generated"]
     rows = normalize(raw)
     problems += problems_in(rows)
+    registry_ids, registry_commit = load_registry_ids()
+    problems += unknown_registry_ids(rows, registry_ids)
     today = a.date or generated
 
     changed: list[str] = []
@@ -412,7 +440,9 @@ def main(argv=None) -> int:
         with open(path, encoding="utf-8") as fh:
             write_or_check(path, sync_portal_page(fh.read(), r["region"]), a.check, changed)
 
-    print(f"build_registry: {len(rows)} rows, {sum(1 for r in rows if r['page'])} place pages")
+    print(f"build_registry: {len(rows)} rows, {sum(1 for r in rows if r['page'])} place pages, "
+          f"{sum(1 for r in rows if r['registry_id'])} linked to ny-gov-web-registry "
+          f"(ids pinned at {registry_commit[:7]})")
     for p in problems:
         print(f"build_registry: PROBLEM {p}", file=sys.stderr)
     verb = "would change" if a.check else "wrote"

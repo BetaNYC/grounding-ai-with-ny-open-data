@@ -38,7 +38,7 @@
    "last_verified": "2026-11-05",
    "evidence": "HTTP 200; Discovery API only=dataset with search_context=health.data.ny.gov resultSetSize=324; SODA query on sp9t-e36z returned a row; metadata attribution 'New York State Department of Health'",
    "notes": "DOH's own catalog, separate Socrata domain from data.ny.gov. DOH statistics pages (health.ny.gov/statistics) are mostly reports and dashboards; SPARCS microdata is by application only (not verified this pass, no row). Key: N (app token optional).",
-   "registry_id": null,
+   "registry_id": "new-york-state-department-of-health",
    "page": null,
    "example_request": "curl 'https://health.data.ny.gov/resource/sp9t-e36z.json?$limit=1'"
   },

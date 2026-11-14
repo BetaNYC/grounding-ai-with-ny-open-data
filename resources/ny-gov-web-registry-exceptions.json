@@ -23,14 +23,9 @@
  ],
  "held_for_review": [
   {
-   "url": "https://health.data.ny.gov/",
-   "entity": "NYS Department of Health",
-   "reason": "The row names the Department of Health, but ny-gov-web-registry lists health.data.ny.gov under the Office of Information Technology Services (new-york-state-office-of-information-technology-services). A person should decide which body the row links to."
-  },
-  {
    "url": "https://environmentalbondact.ny.gov/",
    "entity": "NYS Department of Environmental Conservation",
-   "reason": "The row names the Department of Environmental Conservation, but ny-gov-web-registry lists environmentalbondact.ny.gov under the Department of State (new-york-state-department-of-state). A person should decide which body the row links to."
+   "reason": "Not linked, per Noel's 2026-11-13 decision: the site is run by multi-agency State working groups and names no single agency (checked in a browser on 2026-11-13). ny-gov-web-registry lists the host under the Department of State; the row names the Department of Environmental Conservation. Link only if a page names the agency that runs it."
   }
  ],
  "private_not_linked": {

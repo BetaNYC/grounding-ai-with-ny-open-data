@@ -1,8 +1,8 @@
 {
  "source": "BetaNYC/ny-gov-web-registry data/registry.json",
- "commit": "c75ec0ba371f2cd7a918fb18de27533058aacf65",
+ "commit": "2a0ea1932636bc51551a4c6d7b53afde985f15ba",
  "generated": "2026-11-13",
- "count": 2150,
+ "count": 2151,
  "ids": [
   {"id": "adirondack-park-agency", "name": "Adirondack Park Agency", "government_level": "nys"},
   {"id": "administration-for-children-s-services", "name": "Administration for Children's Services", "government_level": "nyc"},
@@ -630,6 +630,7 @@
   {"id": "suffolk-county-judicial-facilities-agency", "name": "Suffolk County Judicial Facilities Agency", "government_level": "authority"},
   {"id": "suffolk-county-water-authority", "name": "Suffolk County Water Authority", "government_level": "authority"},
   {"id": "sullivan-county", "name": "Sullivan County", "government_level": "county"},
+  {"id": "suny", "name": "State University of New York", "government_level": "authority"},
   {"id": "syracuse-regional-airport-authority", "name": "Syracuse Regional Airport Authority", "government_level": "authority"},
   {"id": "syracuse-urban-renewal-agency", "name": "Syracuse Urban Renewal Agency", "government_level": "authority"},
   {"id": "taskforce-on-racial-inclusion-and-equity", "name": "Taskforce on Racial Inclusion and Equity", "government_level": "nyc"},

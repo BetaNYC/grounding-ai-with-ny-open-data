@@ -11,6 +11,14 @@
   {
    "id": "oti",
    "reason": "The New York City row (NYC Open Data) and the OTI rows (the NYC API portal and NYC's map hub) all point to oti, the office that runs those sites."
+  },
+  {
+   "id": "cuny",
+   "reason": "Rows from different CUNY colleges, libraries and centers (Baruch, Lehman, John Jay, the Graduate Center, CUNY Libraries) all point to cuny: per Noel's 2026-11-13 decision on BetaNYC/ny-gov-web-registry#58, public universities link at the system level."
+  },
+  {
+   "id": "suny",
+   "reason": "Rows from different SUNY campuses, libraries and centers (System Administration, Albany, Binghamton, Stony Brook, ESF, Cortland, the Rockefeller Institute) all point to suny: per Noel's 2026-11-13 decision on BetaNYC/ny-gov-web-registry#58, public universities link at the system level."
   }
  ],
  "held_for_review": [
@@ -24,5 +32,142 @@
    "entity": "NYS Department of Environmental Conservation",
    "reason": "The row names the Department of Environmental Conservation, but ny-gov-web-registry lists environmentalbondact.ny.gov under the Department of State (new-york-state-department-of-state). A person should decide which body the row links to."
   }
- ]
+ ],
+ "private_not_linked": {
+  "reason": "Private universities, libraries, research centers and nonprofits are not linked. Per Noel's 2026-11-13 decision on BetaNYC/ny-gov-web-registry#58, public universities and public libraries link to ny-gov-web-registry and private ones do not.",
+  "rows": [
+   {
+    "url": "https://www.healthycapitaldistrict.org/",
+    "entity": "Healthy Capital District Initiative"
+   },
+   {
+    "url": "https://pro.cnyvitals.org/",
+    "entity": "Central New York Community Foundation"
+   },
+   {
+    "url": "https://data-syruniv.opendata.arcgis.com/",
+    "entity": "Syracuse University (Community Geography)"
+   },
+   {
+    "url": "https://caryinstitute.figshare.com/",
+    "entity": "Cary Institute of Ecosystem Studies"
+   },
+   {
+    "url": "https://www.otsegohealthmatters.org/",
+    "entity": "Mohawk Valley Behavioral Health IPA (Otsego Health Matters)"
+   },
+   {
+    "url": "https://portal.displacementalert.org/",
+    "entity": "Association for Neighborhood and Housing Development (ANHD)"
+   },
+   {
+    "url": "https://data.cccnewyork.org/",
+    "entity": "Citizens' Committee for Children of New York"
+   },
+   {
+    "url": "https://academiccommons.columbia.edu/",
+    "entity": "Columbia University Libraries"
+   },
+   {
+    "url": "https://api.busobservatory.org/",
+    "entity": "Cornell Tech (Jacobs Urban Tech Hub)"
+   },
+   {
+    "url": "https://intro.nyc/",
+    "entity": "intro.nyc (independent project)"
+   },
+   {
+    "url": "https://whoownswhat.justfix.org/",
+    "entity": "JustFix"
+   },
+   {
+    "url": "https://archive.nyu.edu/",
+    "entity": "New York University Libraries"
+   },
+   {
+    "url": "https://crashmapper.org/",
+    "entity": "NYC Crash Mapper"
+   },
+   {
+    "url": "https://coredata.nyc/",
+    "entity": "NYU Furman Center"
+   },
+   {
+    "url": "https://datacatalog.med.nyu.edu/",
+    "entity": "NYU Langone Health (Health Sciences Library)"
+   },
+   {
+    "url": "https://www.longislandindex.org/",
+    "entity": "Rauch Foundation (Long Island Index)"
+   },
+   {
+    "url": "https://www.data2go.nyc/",
+    "entity": "Social Science Research Council (Measure of America)"
+   },
+   {
+    "url": "https://cbcny.org/",
+    "entity": "Citizens Budget Commission"
+   },
+   {
+    "url": "https://forecast.ccsr.columbia.edu/data/",
+    "entity": "Columbia University (Center for Climate Systems Research)"
+   },
+   {
+    "url": "https://columbia.redivis.com/",
+    "entity": "Columbia University Libraries"
+   },
+   {
+    "url": "https://geodata.library.columbia.edu/",
+    "entity": "Columbia University Libraries"
+   },
+   {
+    "url": "https://data.socialsciences.cornell.edu/",
+    "entity": "Cornell Center for Social Sciences (CISER)"
+   },
+   {
+    "url": "https://www.nrcc.cornell.edu/",
+    "entity": "Cornell University (Northeast Regional Climate Center)"
+   },
+   {
+    "url": "https://pad.human.cornell.edu/",
+    "entity": "Cornell University (Program on Applied Demographics)"
+   },
+   {
+    "url": "https://ropercenter.cornell.edu/",
+    "entity": "Cornell University (Roper Center for Public Opinion Research)"
+   },
+   {
+    "url": "https://cugir.library.cornell.edu/",
+    "entity": "Cornell University Library"
+   },
+   {
+    "url": "https://ecommons.cornell.edu/",
+    "entity": "Cornell University Library"
+   },
+   {
+    "url": "https://www.seethroughny.net/",
+    "entity": "Empire Center for Public Policy"
+   },
+   {
+    "url": "https://nyscaa.engagementnetwork.org/",
+    "entity": "New York State Community Action Association"
+   },
+   {
+    "url": "https://ultraviolet.library.nyu.edu/communities/sdr/about",
+    "entity": "New York University Libraries"
+   },
+   {
+    "url": "https://data.qdr.syr.edu/",
+    "entity": "Syracuse University (Qualitative Data Repository)"
+   },
+   {
+    "url": "https://www.actrochester.org/",
+    "entity": "Rochester Area Community Foundation"
+   },
+   {
+    "url": "https://rochester-area-data-urochester.hub.arcgis.com/",
+    "entity": "University of Rochester"
+   }
+  ]
+ }
 }

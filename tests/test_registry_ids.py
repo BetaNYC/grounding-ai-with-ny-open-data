@@ -9,6 +9,7 @@ import importlib.util
 import io
 import json
 import os
+import re
 import tempfile
 import unittest
 from collections import defaultdict
@@ -124,6 +125,53 @@ class RegistryIdTest(unittest.TestCase):
             self.assertIn(e["url"], by_url, f"stale hold {e['url']}")
             self.assertEqual(by_url[e["url"]]["entity"], e["entity"])
             self.assertIsNone(by_url[e["url"]]["registry_id"], e["url"])
+
+
+# Noel's 2026-11-13 decision on BetaNYC/ny-gov-web-registry#58: public universities and public
+# libraries link to the master list, private ones do not. Public parents are told apart here by
+# name, independently of the ids in the data.
+INSTITUTION_TYPES = {"university", "research-center", "library"}
+CUNY_NAME = re.compile(r"\bCUNY\b|City University of New York")
+SUNY_NAME = re.compile(r"\bSUNY\b|State University of New York|University at Albany|"
+                       r"Stony Brook University|Binghamton University")
+PUBLIC_LIBRARIES = {"New York Public Library": "new-york-public-library"}
+
+
+def _public_parent(entity):
+    if CUNY_NAME.search(entity):
+        return "cuny"
+    if SUNY_NAME.search(entity):
+        return "suny"
+    return PUBLIC_LIBRARIES.get(entity)
+
+
+class PublicPrivateInstitutionTest(unittest.TestCase):
+    def test_public_institutions_link_to_their_system(self):
+        for r in ROWS:
+            parent = _public_parent(r["entity"])
+            if r["entity_type"] in INSTITUTION_TYPES and parent:
+                self.assertEqual(r["registry_id"], parent, f"{r['entity']} {r['url']}")
+
+    def test_private_institutions_and_nonprofits_stay_unlinked_and_listed(self):
+        listed = {e["url"]: e for e in EXC["private_not_linked"]["rows"]}
+        self.assertIn("2026-11-13", EXC["private_not_linked"]["reason"])
+        self.assertIn("#58", EXC["private_not_linked"]["reason"])
+        expected = {r["url"] for r in ROWS
+                    if r["entity_type"] == "nonprofit"
+                    or (r["entity_type"] in INSTITUTION_TYPES and not _public_parent(r["entity"]))}
+        self.assertEqual(set(listed), expected)
+        by_url = {r["url"]: r for r in ROWS}
+        for url, e in listed.items():
+            self.assertEqual(by_url[url]["entity"], e["entity"])
+            self.assertIsNone(by_url[url]["registry_id"], e["entity"])
+
+    def test_name_rule_sorts_known_cases(self):
+        self.assertEqual(_public_parent("Baruch College (CUNY) Newman Library"), "cuny")
+        self.assertEqual(_public_parent("Rockefeller Institute of Government (SUNY)"), "suny")
+        self.assertEqual(_public_parent("University at Albany (NYS Mesonet)"), "suny")
+        self.assertIsNone(_public_parent("Syracuse University (Qualitative Data Repository)"))
+        self.assertIsNone(_public_parent("New York University Libraries"))
+        self.assertIsNone(_public_parent("Cornell University Library"))
 
 
 class CheckFailsOnBogusIdTest(unittest.TestCase):

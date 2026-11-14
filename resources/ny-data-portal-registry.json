@@ -3538,7 +3538,7 @@
    "last_verified": "2026-11-12",
    "evidence": "HTTP 200, title 'SUNY Cortland Geo-Spatial Information Hub'; Hub search numberMatched=3; sample 'BikeRacks', owner Adaml@cortland.edu.",
    "notes": "Campus data only (3 datasets). Low value; include only if campus portals are wanted.",
-   "registry_id": null,
+   "registry_id": "suny",
    "page": null,
    "example_request": null
   },
@@ -3638,7 +3638,7 @@
    "last_verified": "2026-11-05",
    "evidence": "Rechecked live on 2026-11-05 in a browser and over HTTP; details in notes.",
    "notes": "The entire Baruch Confluence (every path tried) returns 403 with \"You are accessing an application remotely (outside of the Baruch Campus network). While you are off the Baruch Campus Network please access this application through the Baruch College VPN.\" Search-indexed copies describe nyc_gdb (SpatiaLite and Access, CC BY-NC-SA 4.0). The latest version named in those copies is `nyc_gdb_jan2015`, and one indexed page says the GIS Lab \"is currently closed\" and the Geospatial Data Librarian post is vacant. **I could not see the dates on those indexed pages, so treat them as unverified.** Recommend `dead` (not publicly reachable) unless someone with Baruch access confirms otherwise. Key: not a key; the network is restricted.",
-   "registry_id": null,
+   "registry_id": "cuny",
    "page": null,
    "example_request": null
   },
@@ -3778,7 +3778,7 @@
    "last_verified": "2026-11-05",
    "evidence": "HTTP 200; page title 'Lehman College Community Connect: Bronx Information Portal'; Socrata Discovery API domains=bronx.lehman.cuny.edu resultSetSize=472; SODA query returned Bronx 311 rows",
    "notes": "472 is the Discovery API count for the domain (all asset types). The domain's own /api/catalog/v1 returned 10000 (likely federated/capped), so do not use that. Many assets are Bronx-filtered copies of NYC Open Data (e.g. fbbh-77rh Bronx 311 Dirty Sidewalk). 352 datasets (472 assets), Socrata Discovery API.",
-   "registry_id": null,
+   "registry_id": "cuny",
    "page": null,
    "example_request": "curl -s 'https://bronx.lehman.cuny.edu/resource/fbbh-77rh.json?$limit=1'"
   },
@@ -3978,7 +3978,7 @@
    "last_verified": "2026-11-12",
    "evidence": "HTTP 200; /dataset page shows '90 datasets found'; status_show site_description 'Geospatial Center, SoMAS, Data Hub, Stony Brook University', ckan_version 2.11.0; organizations 'PEP's Central Data Hub' (90) and 'Research and Instructional GIS Data' (0); datasets are Peconic Estuary Partnership (Long Island) material.",
    "notes": "The only CKAN portal found in New York by these sources. robots.txt disallows /api/ for crawlers; the API reads used here were made before robots.txt was read (3 calls), then stopped. Use the HTML pages for automated checks.",
-   "registry_id": null,
+   "registry_id": "suny",
    "page": null,
    "example_request": null
   },
@@ -3998,7 +3998,7 @@
    "last_verified": "2026-11-13",
    "evidence": "Homepage HTTP 200 2026-11-13. Search-engine index shows collections 'Government Documents Regional Digital Research Collection' (e.g. 'Population for Long Island Towns and Cities', U.S. Census Bureau), 'Long Island Black and White Aerial Photographs Collection' (Suffolk County Regional Planning Board, USDA), 'SoMAS Research Data' ('South Shore of Long Island Reef GIS Data').",
    "notes": "What's in it: Long Island government documents, county and federal aerial photography 1930-1970, and marine GIS data. No count: Digital Commons has no public count and OAI is robots-disallowed. Region is the area the data covers.",
-   "registry_id": null,
+   "registry_id": "suny",
    "page": null,
    "example_request": null
   },
@@ -4018,7 +4018,7 @@
    "last_verified": "2026-11-13",
    "evidence": "Portal shell HTTP 200 2026-11-13 (robots crawl-delay 5). Search-engine index shows datasets 'Ammonia-oxidizer abundance, soil chemistry, stream chemistry, and meteorological data from two Adirondack headwater catchments, 2018-2020' and 'Data associated with paper titled \"Declining trends in canopy disturbance across reserve forest landscapes of the northeastern US\"' (includes a NYS land boundary file).",
    "notes": "**Papers, not data:** listed so you know where these reports live. What's in it: theses, papers and reports from SUNY ESF, a few on New York topics (an invasive-species study built on iMapInvasives, a National Park Service report on Fort Tilden). Datasets are rare and often point to EDI or Zenodo. Opened in a browser on 2026-11-13. Region is the area the data covers. Key: Y (vendor API).",
-   "registry_id": null,
+   "registry_id": "suny",
    "page": null,
    "example_request": null
   },
@@ -4038,7 +4038,7 @@
    "last_verified": "2026-11-13",
    "evidence": "Homepage HTTP 200 2026-11-13. Search-engine index shows Public Administration faculty items (public_admin_fac) including an incentive-zoning survey of New York towns, counties, villages and cities, and a study of county HR directors in New York.",
    "notes": "**Papers, not data:** listed so you know where these papers live. What's in it: faculty papers, including public administration work on New York local government and Broome County, and a 'Datasets' collection of theses, campus and psychology study files. No New York government or public datasets were found. Opened in a browser on 2026-11-13. Region is the area the data covers.",
-   "registry_id": null,
+   "registry_id": "suny",
    "page": null,
    "example_request": null
   },
@@ -4258,7 +4258,7 @@
    "last_verified": "2026-11-05",
    "evidence": "Rechecked live on 2026-11-05 in a browser and over HTTP; details in notes.",
    "notes": "The root redistrictingandyou.org now says it reflects districts \"in effect before the 2021-2022 redistricting cycle\" and points to the NY and US versions. The NY version compares plans, e.g. \"Congress (2022-2024)\" against \"Congress (2024 Enacted; 2025-2032)\", for Congress, Assembly and State Senate. Its page text and HTML contain no download, shapefile, GeoJSON or ZIP links. Its Resources section links out to Census PL 94-171, TIGER, the Redistricting Data Hub and others. The layers are Mapbox tilesets under the `cunycur` account, which is not a public data API. Contact: cunymapping@gc.cuny.edu.",
-   "registry_id": null,
+   "registry_id": "cuny",
    "page": null,
    "example_request": null
   },
@@ -4298,7 +4298,7 @@
    "last_verified": "2026-11-05",
    "evidence": "HTTP 200 'Analytic Tools - Data Collaborative for Justice'; lists NYC Criminal Summons Dashboard, NYC Jail Population Tracker, NYS conviction disparities",
    "notes": "Dashboard platform and downloadability not confirmed.",
-   "registry_id": null,
+   "registry_id": "cuny",
    "page": null,
    "example_request": null
   },
@@ -4358,7 +4358,7 @@
    "last_verified": "2026-11-05",
    "evidence": "Rechecked live on 2026-11-05 in a browser and over HTTP; details in notes.",
    "notes": "In a real browser, the NY Counts page (https://www.rockinst.org/nycounts/data/) still shows the raw shortcode `[iheu_ultimate_oxi id=\"31\"]` where the interactive should be, so the plugin is broken. It is not just a curl artifact. Its \"index.html\" link loops back to the same page. The Data Hub's New York Data Sets page lists 558 unique `.xls/.xlsx/.csv/.zip` links, with upload folders dated 2018, 2020 and 2022. Sampled tables run to 2016 to 2019 data, so the data is historical. The \"New York State Directory\" and \"Data Visualizations\" pages were not opened. API: example: https://www.rockinst.org/wp-content/uploads/2018/01/N-1.xls. Datasets: XLS links on the page.",
-   "registry_id": null,
+   "registry_id": "suny",
    "page": null,
    "example_request": null
   },
@@ -4378,7 +4378,7 @@
    "last_verified": "2026-11-13",
    "evidence": "Homepage HTTP 200 2026-11-13 (robots crawl-delay 10). Search-engine index shows 'New York's Local Governments: Population Size Distribution' (handle 20.500.12648/16283, Brockport Public Management) and a Little Sodus Bay, Cayuga County water-quality synopsis (2003-2009 sampling).",
    "notes": "**Papers, not data:** listed so you know where these reports live; they are PDFs, not datasets. What's in it: SUNY scholarship, including the Brockport Public Management 'Local Government Projects' collection of 26 PDF reports on New York local governments (e.g. the population size of New York's local governments, a Rhinebeck highway study). Opened in a browser on 2026-11-13. Region is the area the data covers.",
-   "registry_id": null,
+   "registry_id": "suny",
    "page": null,
    "example_request": null
   },
@@ -4398,7 +4398,7 @@
    "last_verified": "2026-11-13",
    "evidence": "Homepage HTTP 200 2026-11-13 (robots crawl-delay 10). Homepage describes historical and special collections from SUNY campuses and SUNY System Administration, OER, and IITG grant reports.",
    "notes": "**Papers, not data:** listed so you know where these records live. What's in it: campus collections; the SUNY System Administration community holds library services, professional development, SUNY Learning Network, open-access policy and oral-history material. No government or public datasets were found. Opened in a browser on 2026-11-13. Search is robots-disallowed, so no count was taken. Region is the area the data covers.",
-   "registry_id": null,
+   "registry_id": "suny",
    "page": null,
    "example_request": null
   },
@@ -4438,7 +4438,7 @@
    "last_verified": "2026-11-13",
    "evidence": "Catalog HTTP 200 2026-11-13: folders 'METAR', 'METARArchive', 'SAOArchive', 'Metar Station Data', 'CESM Archive'. METAR folder has daily files updated through 2026-11-11 (e.g. 261110.sf, 32.75 MB).",
    "notes": "**Not New York data:** copies of national weather data, listed so you know where they are. What's in it: current and archived METAR airport weather observations (federal NWS/FAA reports) in GEMPAK format, station data and climate-model archives (CESM, Climlab), for teaching and research. Plain HTTP only. For New York weather, use NYS Mesonet (already in the registry). Opened in a browser on 2026-11-13. Region is the area the data covers.",
-   "registry_id": null,
+   "registry_id": "suny",
    "page": null,
    "example_request": null
   },
@@ -4458,7 +4458,7 @@
    "last_verified": "2026-11-05",
    "evidence": "nysmesonet.org HTTP 200; Request Data page: free for personal use, licensing for other entities, cost-recovery fee possible, agreement checkbox; api.nysmesonet.org returns only a host name",
    "notes": "State weather network operated by UAlbany. Not open data in the usual sense: terms apply. Did not submit the form. Access is by data request / license.",
-   "registry_id": null,
+   "registry_id": "suny",
    "page": null,
    "example_request": null
   },

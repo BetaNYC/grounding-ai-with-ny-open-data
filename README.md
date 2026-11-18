@@ -71,6 +71,7 @@ This repo is one piece of a larger effort to make government data usable — see
 | [`guides/training-resources.md`](guides/training-resources.md) | BetaNYC and partner training — Intro to Open Data, Open Data Ambassadors, and more |
 | [`resources/ny-data-portal-registry.md`](resources/ny-data-portal-registry.md) | Registry of New York data sources in four tiers — state portals, state APIs, county and city portals (incl. NYC agencies), academic and institutional — with CSV/JSON copies and, on the published site, a search-and-filter explorer whose filtered views are shareable links |
 | [`resources/portals/`](resources/portals/README.md) | One page per county and city: facts table, notes, and a tested example query |
+| [`resources/updating-the-data-directory.md`](resources/updating-the-data-directory.md) | How to add, fix or remove a source in the directory, check it against ny-gov-web-registry's list of addresses that are no longer the government's, refresh the pinned ids, and open the pull request |
 | [`scripts/build_registry.py`](scripts/build_registry.py) | Regenerates the registry page, CSV and per-place index from the JSON (the source of truth); `--check` is run in CI, and also fails on a `registry_id` that is not in the vendored id list |
 | [`scripts/vendor_registry_ids.py`](scripts/vendor_registry_ids.py) | Writes [`resources/ny-gov-web-registry-ids.json`](resources/ny-gov-web-registry-ids.json), the ids of [BetaNYC/ny-gov-web-registry](https://github.com/BetaNYC/ny-gov-web-registry) pinned to one commit, which each row's `registry_id` must match; known exceptions and their reasons are in [`resources/ny-gov-web-registry-exceptions.json`](resources/ny-gov-web-registry-exceptions.json) |
 | [`resources/2026-11-05-research-plan-ny-data-portal-registry.md`](resources/2026-11-05-research-plan-ny-data-portal-registry.md) | The plan behind the registry |
@@ -145,7 +146,7 @@ If you use or adapt this material, please attribute **BetaNYC** and link back to
 
 ## Contributing
 
-This is a working draft. Issues and pull requests are welcome, especially corrections to the portal directory — if a listed portal is wrong, dead, or missing, please flag it.
+This is a working draft. Issues and pull requests are welcome, especially corrections to the portal directory — if a listed portal is wrong, dead, or missing, please flag it. To make the change yourself, follow [Updating the data directory](resources/updating-the-data-directory.md).
 
 ## Support our work
 

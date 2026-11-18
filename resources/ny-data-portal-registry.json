@@ -218,7 +218,7 @@
    "last_verified": "2026-11-05",
    "evidence": "HTTP 200, title 'Bill Search and Legislative Information'; no API or bulk links found on page. curl.",
    "notes": "Edge case: queryable by a person but no machine API found. For structured Assembly bill data use the Senate Open Legislation API (covers both houses). public.leginfo.state.ny.us (LRS) did not respond (connection failed) - LRS is a subscription service, not counted.",
-   "registry_id": null,
+   "registry_id": "new-york-state-assembly",
    "page": null,
    "example_request": null
   },
@@ -258,7 +258,7 @@
    "last_verified": "2026-11-05",
    "evidence": "HTTP 200 on homepage and docs (static/docs/html/index.html); unauthenticated GET /api/3/bills/2025/S1 returned 'A valid API key is needed' (errorCode 701). Docs: free key from homepage; 10 req/s, 4 concurrent per key. curl.",
    "notes": "Covers bills, laws, agendas, calendars, floor/hearing transcripts, members for both houses. BetaNYC's nys-openlegislation-mcp wraps it. Key not requested per rules.",
-   "registry_id": null,
+   "registry_id": "new-york-state-senate",
    "page": null,
    "example_request": null
   },
@@ -618,7 +618,7 @@
    "last_verified": "2026-11-05",
    "evidence": "curl gets 403 (bot block); a browser loaded page; /court-research redirects here. Pretrial Release Data page lists CSVs 2020-2025 (e.g. legacypdfs/court-research/Pretrial-Release-Data/NYS%20for%20Web%202025.csv) + data dictionaries. Direct CSV via curl 403, not downloaded.",
    "notes": "Topics: caseload trends (daily), pretrial release, detained pretrial, OCA-STAT, discovery reform, evictions (weekly), landlord-tenant, ERPO, family court, orders of protection. dataset_count=1 is datasets attributed to Office of Court Administration on data.ny.gov, not the site total. eCourts/WebCivil are case lookups (403 to curl), not counted.",
-   "registry_id": null,
+   "registry_id": "new-york-state-unified-court-system",
    "page": null,
    "example_request": null
   },
@@ -638,7 +638,7 @@
    "last_verified": "2026-11-05",
    "evidence": "HTTP 200. Page text: 'Revenue, expenditure, balance sheet and debt data are available for bulk download ... zipped or standalone .csv files'; years 1996-2024; form action detailedzip.cfm. curl.",
    "notes": "Covers cities, counties, towns, villages, fire districts, schools, IDAs, LDCs. NYC data stops at 2010 (page points to Checkbook NYC). Download is form-POST, not a stable GET URL. Hub page: https://www.osc.ny.gov/local-government/data.",
-   "registry_id": null,
+   "registry_id": "office-of-the-new-york-state-comptroller",
    "page": null,
    "example_request": null
   },
@@ -658,7 +658,7 @@
    "last_verified": "2026-11-05",
    "evidence": "openbooknewyork.com 301 -> osc.ny.gov/open-book-new-york (200). Apps chkbkMain.cfm, contractsearch.cfm, parisMain.cfm, LocalGovIntro.cfm all 200. Checkbook page text: 'Export Data Options ... download tab-delimited files of payment data'. curl.",
    "notes": "No REST API found. Old wwe1 contract-search URL is 404; current host is wwe2. OSC has no datasets attributed to it on data.ny.gov (catalog check). PARIS = public authority reporting data.",
-   "registry_id": null,
+   "registry_id": "office-of-the-new-york-state-comptroller",
    "page": null,
    "example_request": null
   },

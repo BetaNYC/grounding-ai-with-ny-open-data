@@ -7,6 +7,12 @@ This page lists the changes to Grounding AI with NY Open Data that a reader woul
 
 To report a mistake or ask for a new feature, use the [feedback page](https://betanyc.github.io/grounding-ai-with-ny-open-data/feedback.html) or [open an issue on GitHub](https://github.com/BetaNYC/grounding-ai-with-ny-open-data/issues).
 
+## 2026-11-18: The State Legislature, the courts and the State Comptroller are now linked
+
+- **Tags:** Data
+- **What changed:** Five more sources now have a `registry_id`, so 187 of the directory's 224 sources name the government body that runs them in ny-gov-web-registry. The Assembly's bill search points to the New York State Assembly, and the Open Legislation API to the New York State Senate. The courts' data and statistics page points to the New York State Unified Court System. The Comptroller's financial data for local governments and Open Book New York point to the Office of the New York State Comptroller. ny-gov-web-registry added these bodies on 2026-11-16. The Kids' Well-being Indicators Clearinghouse stays unlinked until we confirm which agency runs it. We also wrote down how we update the directory, so anyone can do it.
+- **More detail:** [Updating the data directory](https://betanyc.github.io/grounding-ai-with-ny-open-data/resources/updating-the-data-directory.html) · [The directory as JSON](https://betanyc.github.io/grounding-ai-with-ny-open-data/resources/ny-data-portal-registry.json)
+
 ## 2026-11-13: Each data source now names the government body that runs it
 
 - **Tags:** Data

@@ -117,6 +117,12 @@ The first command rebuilds the CSV and the pages. The second must report that no
 
 If a reader would notice the change, add an entry at the top of [`WHATS-CHANGED.md`](../WHATS-CHANGED.md), in the same form as the entries below it.
 
+Then rebuild the page made from it. A check on the pull request fails if you skip this.
+
+```
+python3 scripts/whats_changed.py render WHATS-CHANGED.md --format jekyll --layout whats-changed --out whats-changed.html --repo-url https://github.com/BetaNYC/grounding-ai-with-ny-open-data
+```
+
 ### 8. Open a pull request
 
 Push the branch and open a pull request. In the description, say which sources changed and how you checked them, and link the correction issue if there is one. GitHub runs the same build check and tests.
